@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:doctor_project/utils/ColorsUtil.dart';
 import 'package:doctor_project/utils/common_utils.dart';
 import 'package:flutter/material.dart';
@@ -205,23 +207,20 @@ class HomeState extends State<Home> {
       child: Row(
         children: [
           Expanded(
-              child:Row(
-              children: [
-              Image.asset('static/home/images/notice.png', fit: BoxFit.cover),
-              Container(
-                margin: const EdgeInsets.only(left: 6.0),
-                child: Text(
-                  '北京市区委领导来我区考察、交流…',
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: ColorsUtil.hexStringColor('#333333'),
-                    fontWeight: FontWeight.w400,
-                  ),
+              child: Row(children: [
+            Image.asset('static/images/home/notice.png', fit: BoxFit.cover),
+            Container(
+              margin: const EdgeInsets.only(left: 6.0),
+              child: Text(
+                '北京市区委领导来我区考察、交流…',
+                style: TextStyle(
+                  fontSize: 14,
+                  color: ColorsUtil.hexStringColor('#333333'),
+                  fontWeight: FontWeight.w400,
                 ),
               ),
-            ],
-          )
-          ),
+            ),
+          ])),
           Text(
             '今天',
             style: TextStyle(
@@ -234,6 +233,57 @@ class HomeState extends State<Home> {
         ],
       ),
     );
+    Widget buildTextRow(String label,String value,double fontSize,String labelColor,String valueColor){
+      return Container(
+        margin: const EdgeInsets.only(top: 5.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(label,style: TextStyle(
+              fontSize: fontSize,
+              fontWeight: FontWeight.w400,
+              fontFamily: 'PingFangSC-Regular, PingFang SC',
+              color: ColorsUtil.hexStringColor(labelColor),
+            ),),
+            Text(value,style: TextStyle(
+              fontSize: fontSize,
+              fontWeight: FontWeight.w400,
+              fontFamily: 'PingFangSC-Regular, PingFang SC',
+              color: ColorsUtil.hexStringColor(valueColor),
+            ),)
+          ],
+        ),
+      );
+    }
+    _submitVerify(){
+      print('提交资质认证');
+    }
+    Widget inPassSection = Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+          Container(
+            margin: const EdgeInsets.only(top:0,right:0,bottom:13.0,left:0),
+            child:const Image(image: AssetImage('static/images/home/avatar.png'),fit: BoxFit.cover,width: 60,height: 60,),
+          ),
+          buildTextRow('您的资质申请', '未通过', 14.0, '#666666', '#FF0020'),
+          buildTextRow('驳回原因：', '执业医师证书无效', 12.0, '#999999', '#FF3131'),
+          Container(
+            width: 214.0,
+            height: 44.0,
+            margin:const EdgeInsets.only(top:63.0),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(25.0),
+              color: ColorsUtil.hexStringColor('#06B48D'),
+            ),
+            child:TextButton(onPressed: _submitVerify, child: const Text('重新提交资质认证',style: TextStyle(
+                fontSize: 16.0,
+                fontFamily: 'PingFangSC-Regular, PingFang SC',
+                fontWeight: FontWeight.w400,
+                color: Colors.white,
+            ),)),
+          )
+      ],
+    );
     return Scaffold(
       backgroundColor: ColorsUtil.hexStringColor('#f9f9f9'),
       body: Column(
@@ -241,6 +291,10 @@ class HomeState extends State<Home> {
           buildBg,
           buttonSection,
           noticeSection,
+          Expanded(
+            child: inPassSection,
+
+          )
         ],
       ),
     );

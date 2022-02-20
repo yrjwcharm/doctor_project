@@ -9,5 +9,6 @@ gradle-wrapper.jar
 key.properties
 **/*.keystore
 **/*.jks
+app/build
 /build
 GeneratedPluginRegistrant
