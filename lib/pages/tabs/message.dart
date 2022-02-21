@@ -1,4 +1,4 @@
-import 'package:doctor_project/utils/app_bar_utils.dart';
+import 'package:doctor_project/widget/custom_app_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -14,8 +14,8 @@ class MessageState extends State<Message> {
   Widget build(BuildContext context) {
     return  Scaffold(
       body: Column(
-        children: [
-          AppBarUtil.customAppBar(context, '消息')
+        children: const [
+          CustomAppBar('消息')
         ],
       )
     );

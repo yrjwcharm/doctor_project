@@ -1,7 +1,6 @@
 import 'package:doctor_project/common/style/gsy_style.dart';
-import 'package:doctor_project/utils/app_bar_utils.dart';
 import 'package:doctor_project/utils/colors_utils.dart';
-import 'package:doctor_project/utils/status_bar_utils.dart';
+import 'package:doctor_project/widget/custom_app_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -153,7 +152,7 @@ class MyState extends State<My> {
       backgroundColor: ColorsUtil.hexStringColor('#f9f9f9'),
       body:Column(
         children: [
-          AppBarUtil.customAppBar(context, '我的'),
+          const CustomAppBar('我的'),
           headerSection,
           captionSection,
           Column(

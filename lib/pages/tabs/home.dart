@@ -1,5 +1,6 @@
 import 'dart:ffi';
 
+import 'package:doctor_project/pages/open_service.dart';
 import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:doctor_project/utils/common_utils.dart';
 import 'package:doctor_project/utils/platform_utils.dart';
@@ -256,6 +257,9 @@ class HomeState extends State<Home> {
     }
     _submitVerify(){
       print('提交资质认证');
+      Navigator.push(context, MaterialPageRoute(
+          builder: (context) => const OpenService()
+      ));
     }
     Widget inPassSection = Column(
       mainAxisAlignment: MainAxisAlignment.center,
