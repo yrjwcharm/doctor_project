@@ -22,13 +22,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.0.2"
-  animations:
-    dependency: "direct main"
-    description:
-      name: animations
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "2.0.2"
   args:
     dependency: transitive
     description:
@@ -107,7 +100,7 @@ packages:
     source: hosted
     version: "5.1.1"
   built_value:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: built_value
       url: "https://pub.flutter-io.cn"
@@ -286,6 +279,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_easyrefresh:
+    dependency: "direct main"
+    description:
+      name: flutter_easyrefresh
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "2.2.1"
   flutter_lints:
     dependency: "direct dev"
     description:
@@ -298,13 +298,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_markdown:
-    dependency: "direct main"
-    description:
-      name: flutter_markdown
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "0.6.8"
   flutter_redux:
     dependency: "direct main"
     description:
@@ -332,7 +325,7 @@ packages:
       name: flutter_svg
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.0.0"
+    version: "1.0.3"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -511,13 +504,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.0.2"
-  markdown:
-    dependency: transitive
-    description:
-      name: markdown
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "4.0.1"
   matcher:
     dependency: transitive
     description:
@@ -701,7 +687,7 @@ packages:
     source: hosted
     version: "6.0.1"
   pub_semver:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: pub_semver
       url: "https://pub.flutter-io.cn"
@@ -812,13 +798,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.0.1"
-  simple_animations:
-    dependency: "direct main"
-    description:
-      name: simple_animations
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "4.0.1"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -887,20 +866,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.1.0"
-  supercharged:
-    dependency: "direct main"
-    description:
-      name: supercharged
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "2.1.1"
-  supercharged_dart:
-    dependency: transitive
-    description:
-      name: supercharged_dart
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "2.1.1"
   synchronized:
     dependency: transitive
     description:

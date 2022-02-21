@@ -1,3 +1,4 @@
+import 'package:doctor_project/utils/app_bar_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -11,10 +12,12 @@ class Message extends StatefulWidget {
 class MessageState extends State<Message> {
   @override
   Widget build(BuildContext context) {
-    return  const Scaffold(
-      body: Center(
-        child: Text('message'),
-      ),
+    return  Scaffold(
+      body: Column(
+        children: [
+          AppBarUtil.customAppBar(context, '消息')
+        ],
+      )
     );
   }
 }

@@ -42,12 +42,6 @@ class CommonUtils {
     }
     return date.toString().substring(0, 10);
   }
-  static bool isIPhoneX(BuildContext context) {
-    if (Platform.isIOS) {
-      return MediaQuery.of(context).padding.bottom > 0;
-    }
-    return false;
-  }
   ///日期格式转换
   static String getNewsTimeStr(DateTime date) {
     int subTimes =

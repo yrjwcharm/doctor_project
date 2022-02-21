@@ -2,9 +2,8 @@ import 'dart:ffi';
 
 import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:doctor_project/utils/common_utils.dart';
+import 'package:doctor_project/utils/platform_utils.dart';
 import 'package:flutter/material.dart';
-import 'package:simple_animations/simple_animations.dart';
-
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
 
@@ -77,7 +76,7 @@ class HomeState extends State<Home> {
         height: 126.0,
         padding: const EdgeInsets.all(16.0),
         margin: EdgeInsets.only(
-            top: CommonUtils.isIPhoneX(context) ? 66 : 42,
+            top: PlatformUtils.isIPhoneX(context) ? 66 : 42,
             right: 16.0,
             bottom: 0,
             left: 16.0),
@@ -191,7 +190,7 @@ class HomeState extends State<Home> {
       child: Row(
         children: [
           buildButtonColumn('static/images/home/consult.png', '患者咨询'),
-          buildButtonColumn('static/images/home/pictures.png', '图文问诊'),
+          buildButtonColumn('static/images/home/picture.png', '图文问诊'),
           buildButtonColumn('static/images/home/video.png', '视频问诊'),
         ],
       ),

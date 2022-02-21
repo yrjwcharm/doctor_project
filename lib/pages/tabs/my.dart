@@ -1,6 +1,7 @@
 import 'package:doctor_project/common/style/gsy_style.dart';
 import 'package:doctor_project/utils/app_bar_utils.dart';
 import 'package:doctor_project/utils/colors_utils.dart';
+import 'package:doctor_project/utils/status_bar_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -119,7 +120,13 @@ class MyState extends State<My> {
               ),),
             ],
           )),
-         const Image(width:1.0,height:16.0,image: AssetImage('static/images/my/line.png'),fit:BoxFit.cover),
+         Container(
+           height: 16,
+           decoration: BoxDecoration(
+             border: Border.all(width: 1,color: ColorsUtil.hexStringColor('#cccccc'))
+           ),
+         ),
+         // const Image(width:1.0,height:16.0,image: AssetImage('static/images/my/line.png'),fit:BoxFit.cover),
          Expanded(child:Row(
            mainAxisAlignment: MainAxisAlignment.center,
            children: [
@@ -141,11 +148,12 @@ class MyState extends State<My> {
         ],
       ),
     );
+
     return Scaffold(
-      appBar: AppBarUtil.buildAppBar(context, '我的'),
       backgroundColor: ColorsUtil.hexStringColor('#f9f9f9'),
       body:Column(
         children: [
+          AppBarUtil.customAppBar(context, '我的'),
           headerSection,
           captionSection,
           Column(
