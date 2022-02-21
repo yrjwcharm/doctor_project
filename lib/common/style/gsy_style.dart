@@ -1,3 +1,4 @@
+import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:flutter/material.dart';
 
 ///颜色
@@ -57,156 +58,14 @@ class GSYConstant {
   static const smallTextSize = 14.0;
   static const minTextSize = 12.0;
 
-  static const minText = TextStyle(
-    color: GSYColors.subLightTextColor,
-    fontSize: minTextSize,
-  );
-
-  static const smallTextWhite = TextStyle(
-    color: GSYColors.textColorWhite,
-    fontSize: smallTextSize,
-  );
-
-  static const smallText = TextStyle(
-    color: GSYColors.mainTextColor,
-    fontSize: smallTextSize,
-  );
-
-  static const smallTextBold = TextStyle(
-    color: GSYColors.mainTextColor,
-    fontSize: smallTextSize,
-    fontWeight: FontWeight.bold,
-  );
-
-  static const smallSubLightText = TextStyle(
-    color: GSYColors.subLightTextColor,
-    fontSize: smallTextSize,
-  );
-
-  static const smallActionLightText = TextStyle(
-    color: GSYColors.actionBlue,
-    fontSize: smallTextSize,
-  );
-
-  static const smallMiLightText = TextStyle(
-    color: GSYColors.miWhite,
-    fontSize: smallTextSize,
-  );
-
-  static const smallSubText = TextStyle(
-    color: GSYColors.subTextColor,
-    fontSize: smallTextSize,
-  );
-
-  static const middleText = TextStyle(
-    color: GSYColors.mainTextColor,
-    fontSize: middleTextWhiteSize,
-  );
-
-  static const middleTextWhite = TextStyle(
-    color: GSYColors.textColorWhite,
-    fontSize: middleTextWhiteSize,
-  );
-
-  static const middleSubText = TextStyle(
-    color: GSYColors.subTextColor,
-    fontSize: middleTextWhiteSize,
-  );
-
-  static const middleSubLightText = TextStyle(
-    color: GSYColors.subLightTextColor,
-    fontSize: middleTextWhiteSize,
-  );
-
-  static const middleTextBold = TextStyle(
-    color: GSYColors.mainTextColor,
-    fontSize: middleTextWhiteSize,
-    fontWeight: FontWeight.bold,
-  );
-
-  static const middleTextWhiteBold = TextStyle(
-    color: GSYColors.textColorWhite,
-    fontSize: middleTextWhiteSize,
-    fontWeight: FontWeight.bold,
-  );
-
-  static const middleSubTextBold = TextStyle(
-    color: GSYColors.subTextColor,
-    fontSize: middleTextWhiteSize,
-    fontWeight: FontWeight.bold,
-  );
-
-  static const normalText = TextStyle(
-    color: GSYColors.mainTextColor,
-    fontSize: normalTextSize,
-  );
-
-  static const normalTextBold = TextStyle(
-    color: GSYColors.mainTextColor,
-    fontSize: normalTextSize,
-    fontWeight: FontWeight.bold,
-  );
-
-  static const normalSubText = TextStyle(
-    color: GSYColors.subTextColor,
-    fontSize: normalTextSize,
-  );
-
-  static const normalTextWhite = TextStyle(
-    color: GSYColors.textColorWhite,
-    fontSize: normalTextSize,
-  );
-
-  static const normalTextMitWhiteBold = TextStyle(
-    color: GSYColors.miWhite,
-    fontSize: normalTextSize,
-    fontWeight: FontWeight.bold,
-  );
-
-  static const normalTextActionWhiteBold = TextStyle(
-    color: GSYColors.actionBlue,
-    fontSize: normalTextSize,
-    fontWeight: FontWeight.bold,
-  );
-
-  static const normalTextLight = TextStyle(
-    color: GSYColors.primaryLightValue,
-    fontSize: normalTextSize,
-  );
-
-  static const largeText = TextStyle(
-    color: GSYColors.mainTextColor,
-    fontSize: bigTextSize,
-  );
-
-  static const largeTextBold = TextStyle(
-    color: GSYColors.mainTextColor,
-    fontSize: bigTextSize,
-    fontWeight: FontWeight.bold,
-  );
-
-  static const largeTextWhite = TextStyle(
-    color: GSYColors.textColorWhite,
-    fontSize: bigTextSize,
-  );
-
-  static const largeTextWhiteBold = TextStyle(
-    color: GSYColors.textColorWhite,
-    fontSize: bigTextSize,
-    fontWeight: FontWeight.bold,
-  );
-
-  static const largeLargeTextWhite = TextStyle(
-    color: GSYColors.textColorWhite,
-    fontSize: lagerTextSize,
-    fontWeight: FontWeight.bold,
-  );
-
-  static const largeLargeText = TextStyle(
-    color: GSYColors.primaryValue,
-    fontSize: lagerTextSize,
-    fontWeight: FontWeight.bold,
-  );
+  static  textStyle({double fontSize=14.0,String color='#ffffff',String fontFamily='PingFangSC-Regular, PingFang SC',FontWeight fontWeight=FontWeight.w400}) {
+    return  TextStyle(
+      color: ColorsUtil.hexStringColor(color),
+      fontSize: fontSize,
+      fontFamily: fontFamily,
+      fontWeight: fontWeight
+    );
+  }
 }
 
 class GSYICons {

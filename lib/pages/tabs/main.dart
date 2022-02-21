@@ -2,7 +2,7 @@ import 'package:doctor_project/pages/tabs/home.dart';
 import 'package:doctor_project/pages/tabs/message.dart';
 import 'package:doctor_project/pages/tabs/my.dart';
 import 'package:doctor_project/pages/tabs/patient.dart';
-import 'package:doctor_project/utils/ColorsUtil.dart';
+import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:flutter/material.dart';
 
 class Main extends StatefulWidget {

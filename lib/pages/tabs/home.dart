@@ -1,6 +1,6 @@
 import 'dart:ffi';
 
-import 'package:doctor_project/utils/ColorsUtil.dart';
+import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:doctor_project/utils/common_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:simple_animations/simple_animations.dart';
