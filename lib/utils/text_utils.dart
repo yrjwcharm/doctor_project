@@ -3,7 +3,7 @@ class TextUtils {
 
   /// 判断文本内容是否为空
   static bool isEmpty(String text) {
-    return text == null || text.isEmpty;
+    return text.isEmpty;
   }
 
   /// 判断文本内容是否不为空
@@ -13,25 +13,24 @@ class TextUtils {
 
   /// 判断字符串是以xx开头
   static bool startsWith(String str, Pattern prefix, [int index = 0]) {
-    return str != null && str.startsWith(prefix, index);
+    return str.startsWith(prefix, index);
   }
 
   /// 判断一个字符串以任何给定的前缀开始
   static bool startsWithAny(String str, List<Pattern> prefixes, [
         int index = 0,]) {
-    return str != null && prefixes.any((prefix) => str.startsWith(prefix, index));
+    return prefixes.any((prefix) => str.startsWith(prefix, index));
   }
 
   /// 判断字符串中是否包含xx
   static bool contains(String str, Pattern searchPattern, [int startIndex = 0]){
-    return str != null && str.contains(searchPattern, startIndex);
+    return str.contains(searchPattern, startIndex);
   }
 
   /// 判断一个字符串是否包含任何给定的搜索模式
   static bool containsAny(String str, List<Pattern> searchPatterns, [
         int startIndex = 0,]) {
-    return str != null &&
-        searchPatterns.any((prefix) => str.contains(prefix, startIndex));
+    return searchPatterns.any((prefix) => str.contains(prefix, startIndex));
   }
 
   /// 使用点缩写字符串
@@ -53,7 +52,7 @@ class TextUtils {
     if (str1 == str2) {
       return 0;
     }
-    if (str1 == null || str2 == null) {
+    if (str1 == null) {
       return str1 == null ? -1 : 1;
     }
     return str1.compareTo(str2);
@@ -62,7 +61,7 @@ class TextUtils {
   /// 比较两个长度一样的字符串有几个字符不同
   static int hammingDistance(String str1, String str2) {
     if (str1.length != str2.length) {
-      throw FormatException('Strings must have the same length');
+      throw const FormatException('Strings must have the same length');
     }
     var l1 = str1.runes.toList();
     var l2 = str2.runes.toList();

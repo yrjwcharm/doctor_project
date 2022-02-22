@@ -1,5 +1,8 @@
 import 'package:doctor_project/common/style/gsy_style.dart';
 import 'package:doctor_project/modal/ServiceSettingsBean.dart';
+import 'package:doctor_project/pages/home/health_consult_service.dart';
+import 'package:doctor_project/pages/home/picture_service.dart';
+import 'package:doctor_project/pages/home/video_service.dart';
 import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:doctor_project/widget/custom_app_bar.dart';
 import 'package:flutter/cupertino.dart';
@@ -22,12 +25,13 @@ class _ServiceSettingsState extends State<ServiceSettings> {
     list.add(ServiceSettingsBean('static/images/home/avatar.png','视频问诊-复诊开药','患者预约后进行视频问诊服务','未开通',0));
 
   }
-  Widget buildListTile(String icon,String title,String subTitle,String detailTitle,int status){
+  Widget buildListTile(String icon,String title,String subTitle,String detailTitle,int status,{ required VoidCallback? callback}){
     return ListTile(
       leading:   CircleAvatar(
         backgroundImage:AssetImage(icon),
         backgroundColor: Colors.transparent,
       ),
+      onTap: callback,
       title:  Text(title,style: GSYConstant.textStyle(fontSize: 15.0,color:'#333333'),),
       subtitle: Text(subTitle,style: GSYConstant.textStyle(fontSize: 13.0,color:'#999999'),),
       tileColor: Colors.white,
@@ -54,7 +58,20 @@ class _ServiceSettingsState extends State<ServiceSettings> {
            },),
           Column(
             children:ListTile.divideTiles(
-                tiles:list.map((item) =>buildListTile(item.icon, item.title, item.subTitle, item.detailTitle, item.status)),color: ColorsUtil.hexStringColor('#cccccc',alpha: 0.3)
+                tiles:list.asMap().keys.map((index) =>buildListTile(list[index].icon, list[index].title, list[index].subTitle, list[index].detailTitle, list[index].status, callback: () {
+                  switch(index){
+                    case 0:
+                      Navigator.push(context,MaterialPageRoute(builder: (context)=>const HealthConsultService()));
+                      break;
+                    case 1:
+                      Navigator.push(context,MaterialPageRoute(builder: (context)=>const PictureService()));
+                      break;
+                    case 2:
+                      Navigator.push(context,MaterialPageRoute(builder: (context)=>const VideoService()));
+                      break;
+                  }
+                },
+                )),color: ColorsUtil.hexStringColor('#cccccc',alpha: 0.3)
             ).toList(),
           )
         ],
