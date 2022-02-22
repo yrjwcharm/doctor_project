@@ -171,7 +171,7 @@ class PatientState extends State<Patient> {
     return Scaffold(
       body: Column(
         children: [
-          const CustomAppBar('我的患者'),
+          CustomAppBar('我的患者'),
           Expanded(
             child: RefreshIndicator(
               onRefresh: _onRefresh,

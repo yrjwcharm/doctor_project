@@ -19,8 +19,10 @@ class _OpenServiceState extends State<OpenService> {
       ),
       home: Scaffold(
         body: Column(
-          children: const [
-            CustomAppBar('开通服务',isBack: true)
+          children:  [
+            CustomAppBar('开通服务',isBack: true,onBackPressed: (){
+               Navigator.pop(context);
+            },)
           ],
         )
       ),

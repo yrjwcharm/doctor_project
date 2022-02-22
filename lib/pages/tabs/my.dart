@@ -152,7 +152,7 @@ class MyState extends State<My> {
       backgroundColor: ColorsUtil.hexStringColor('#f9f9f9'),
       body:Column(
         children: [
-          const CustomAppBar('我的'),
+          CustomAppBar('我的'),
           headerSection,
           captionSection,
           Column(

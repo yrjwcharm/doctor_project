@@ -14,8 +14,8 @@ class MessageState extends State<Message> {
   Widget build(BuildContext context) {
     return  Scaffold(
       body: Column(
-        children: const [
-          CustomAppBar('消息')
+        children: [
+           CustomAppBar('消息')
         ],
       )
     );
