@@ -1,22 +1,27 @@
 import 'package:doctor_project/common/style/gsy_style.dart';
+import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:doctor_project/utils/status_bar_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CustomAppBar extends StatelessWidget {
    CustomAppBar(this.title, {Key? key,this.onBackPressed,this.onForwardPressed,
-    this.isBack=false, this.isForward=false,this.icon='',}) : super(key: key);
+    this.isBack=false, this.isForward=false,this.icon='', this.borderBottomWidth=1.0}) : super(key: key);
   final bool isBack;
   final String title;
   final bool isForward;
   final String icon;
   VoidCallback? onBackPressed;
   VoidCallback? onForwardPressed;
+  final double borderBottomWidth;
   @override
   Widget build(BuildContext context) {
 
     return Container(
-      color: Colors.white,
+      decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border(bottom:BorderSide(width: borderBottomWidth,color:ColorsUtil.hexStringColor('#cccccc',alpha: 0.3)) )
+      ),
       padding: EdgeInsets.only(top: StatusBarUtil.get(context)),
       child: SizedBox(
         height: 44,

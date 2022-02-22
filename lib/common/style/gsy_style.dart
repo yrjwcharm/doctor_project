@@ -48,22 +48,13 @@ class GSYColors {
 
 ///文本样式
 class GSYConstant {
-  static const String app_default_share_url =
-      "https://github.com/CarGuo/gsy_github_app_flutter";
-
-  static const lagerTextSize = 30.0;
-  static const bigTextSize = 23.0;
-  static const normalTextSize = 18.0;
-  static const middleTextWhiteSize = 16.0;
-  static const smallTextSize = 14.0;
-  static const minTextSize = 12.0;
-
-  static  textStyle({double fontSize=14.0,String color='#ffffff',String fontFamily='PingFangSC-Regular, PingFang SC',FontWeight fontWeight=FontWeight.w400}) {
+  static  textStyle({double fontSize=14.0,double? lineHeight,String color='#ffffff',String fontFamily='PingFangSC-Regular, PingFang SC',FontWeight fontWeight=FontWeight.w400}) {
     return  TextStyle(
       color: ColorsUtil.hexStringColor(color),
       fontSize: fontSize,
       fontFamily: fontFamily,
-      fontWeight: fontWeight
+      fontWeight: fontWeight,
+      height: lineHeight
     );
   }
 }
