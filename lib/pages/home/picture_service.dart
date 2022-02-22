@@ -4,6 +4,7 @@ import 'package:doctor_project/common/style/gsy_style.dart';
 import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:doctor_project/utils/text_utils.dart';
 import 'package:doctor_project/widget/custom_app_bar.dart';
+import 'package:doctor_project/widget/safe_area_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -60,7 +61,16 @@ class _HealthConsultServiceState extends State<PictureService> {
                ),
                tileColor: Colors.white,
              )),color: ColorsUtil.hexStringColor('#cccccc',alpha: 0.3)).toList(),
-           )
+           ),
+            Expanded(
+                child:Container(
+                  alignment: Alignment.bottomLeft,
+                  child:  SafeAreaButton(
+                    text: '提交审核', onPressed: () {  },
+                  ),
+                )
+
+            )
           ],
         ),
     );
