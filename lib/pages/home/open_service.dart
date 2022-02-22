@@ -1,4 +1,5 @@
 import 'package:doctor_project/common/style/gsy_style.dart';
+import 'package:doctor_project/pages/home/service_settings.dart';
 import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:doctor_project/widget/custom_app_bar.dart';
 import 'package:flutter/cupertino.dart';
@@ -17,7 +18,11 @@ class _OpenServiceState extends State<OpenService> {
     super.initState();
   }
 
-  applyOpen() {}
+  applyOpen() {
+    Navigator.push(context, MaterialPageRoute(
+        builder: (context) => const ServiceSettings()
+    ));
+  }
 
   @override
   Widget build(BuildContext context) {

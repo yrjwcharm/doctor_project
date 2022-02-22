@@ -1,6 +1,6 @@
 import 'dart:ffi';
 
-import 'package:doctor_project/pages/open_service.dart';
+import 'package:doctor_project/pages/home/open_service.dart';
 import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:doctor_project/utils/common_utils.dart';
 import 'package:doctor_project/utils/platform_utils.dart';
