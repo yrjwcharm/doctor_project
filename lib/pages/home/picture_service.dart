@@ -56,7 +56,7 @@ class _HealthConsultServiceState extends State<PictureService> {
                  children: [
                    Text(list[index]['detail'].toString(),style: GSYConstant.textStyle(color: '#333333'),),
                    const SizedBox(width:9.0),
-                   Image.asset('static/images/my/more.png',width: 8.0,height: 14.0,)
+                   Image.asset('assets/images/my/more.png',width: 8.0,height: 14.0,)
                  ],
                ),
                tileColor: Colors.white,

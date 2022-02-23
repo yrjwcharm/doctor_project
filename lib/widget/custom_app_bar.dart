@@ -31,7 +31,7 @@ class CustomAppBar extends StatelessWidget {
             Expanded(
               child:Row(
                 children: [
-                  isBack?IconButton(onPressed: onBackPressed, icon:Image.asset('static/images/back.png')):const Text(''),
+                  isBack?IconButton(onPressed: onBackPressed, icon:Image.asset('assets/images/back.png')):const Text(''),
                 ],
               )),
             Text(

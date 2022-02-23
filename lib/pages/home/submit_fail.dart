@@ -26,7 +26,7 @@ class SubmitSuccess extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.asset(
-                'static/images/home/failure.png',
+                'assets/images/home/failure.png',
                 width: 54,
                 height: 54,
               ),

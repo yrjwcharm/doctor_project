@@ -20,9 +20,9 @@ class _ServiceSettingsState extends State<ServiceSettings> {
   @override
   void initState() {
     super.initState();
-    list.add(ServiceSettingsBean('static/images/home/consult.png','健康咨询','开通图文方式的咨询服务，无需处方','已开通',1));
-    list.add(ServiceSettingsBean('static/images/home/picture.png','图文问诊-复诊开药','图文方式的问诊服务','审核中',0));
-    list.add(ServiceSettingsBean('static/images/home/video.png','视频问诊-复诊开药','患者预约后进行视频问诊服务','未开通',0));
+    list.add(ServiceSettingsBean('assets/images/home/consult.png','健康咨询','开通图文方式的咨询服务，无需处方','已开通',1));
+    list.add(ServiceSettingsBean('assets/images/home/picture.png','图文问诊-复诊开药','图文方式的问诊服务','审核中',0));
+    list.add(ServiceSettingsBean('assets/images/home/video.png','视频问诊-复诊开药','患者预约后进行视频问诊服务','未开通',0));
 
   }
   Widget buildListTile(String icon,String title,String subTitle,String detailTitle,int status,{ required VoidCallback? callback}){
@@ -42,7 +42,7 @@ class _ServiceSettingsState extends State<ServiceSettings> {
             margin:const EdgeInsets.only(right:8.0),
             child: Text(detailTitle,style: GSYConstant.textStyle(color:status==1?'#06B48D':'FF3131'),),
           ),
-          const Image(image: AssetImage('static/images/my/more.png'),width: 8.0,height: 14.0,)
+          const Image(image: AssetImage('assets/images/my/more.png'),width: 8.0,height: 14.0,)
         ],
       ),
     );

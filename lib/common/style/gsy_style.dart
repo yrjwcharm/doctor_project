@@ -48,13 +48,14 @@ class GSYColors {
 
 ///文本样式
 class GSYConstant {
-  static  textStyle({double fontSize=14.0,double? lineHeight,String color='#ffffff',String fontFamily='PingFangSC-Regular, PingFang SC',FontWeight fontWeight=FontWeight.w400}) {
+  static const  fontFamily = 'Regular';
+  static  textStyle({double fontSize=14.0,double? lineHeight,String color='#ffffff',String fontFamily=GSYConstant.fontFamily,FontWeight fontWeight=FontWeight.w400}) {
     return  TextStyle(
       color: ColorsUtil.hexStringColor(color),
       fontSize: fontSize,
       fontFamily: fontFamily,
       fontWeight: fontWeight,
-      height: lineHeight
+      height: lineHeight,
     );
   }
 }
@@ -62,8 +63,8 @@ class GSYConstant {
 class GSYICons {
   static const String FONT_FAMILY = 'wxcIconFont';
 
-  static const String DEFAULT_USER_ICON = 'static/images/logo.png';
-  static const String DEFAULT_IMAGE = 'static/images/default_img.png';
+  static const String DEFAULT_USER_ICON = 'assets/images/logo.png';
+  static const String DEFAULT_IMAGE = 'assets/images/default_img.png';
   static const String DEFAULT_REMOTE_PIC =
       'http://img.cdn.guoshuyu.cn/gsy_github_app_logo.png';
 

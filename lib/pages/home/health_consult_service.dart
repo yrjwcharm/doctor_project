@@ -1,6 +1,7 @@
 import 'dart:collection';
 
 import 'package:doctor_project/common/style/gsy_style.dart';
+import 'package:doctor_project/pages/home/clinical_reception_person_set.dart';
 import 'package:doctor_project/pages/home/submit_success.dart';
 import 'package:doctor_project/pages/home/topic_price_set.dart';
 import 'package:doctor_project/utils/colors_utils.dart';
@@ -43,6 +44,9 @@ class _HealthConsultServiceState extends State<HealthConsultService> {
                    case 1:
                      Navigator.push(context, MaterialPageRoute(builder: (context)=>const TopicPriceSet()));
                      break;
+                   case 2:
+                     Navigator.push(context, MaterialPageRoute(builder: (context)=>const ClinicReceptionPersonSet()));
+                     break;
                  }
                },
                leading: Row(
@@ -56,7 +60,7 @@ class _HealthConsultServiceState extends State<HealthConsultService> {
                  children: [
                    Text(list[index]['detail'].toString(),style: GSYConstant.textStyle(color: '#333333'),),
                    const SizedBox(width:9.0),
-                   Image.asset('static/images/my/more.png',width: 8.0,height: 14.0,)
+                   Image.asset('assets/images/my/more.png',width: 8.0,height: 14.0,)
                  ],
                ),
                tileColor: Colors.white,

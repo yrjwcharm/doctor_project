@@ -92,10 +92,10 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - static/images/
-    - static/images/home/
-    - static/images/my/
-    - static/images/svg/
+    - assets/images/
+    - assets/images/home/
+    - assets/images/my/
+    - assets/images/svg/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 
@@ -119,5 +119,12 @@ flutter:
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
   #
+  fonts:
+    - family: Regular
+      fonts:
+        - asset: assets/fonts/PingFang-SC-Regular.ttf
+    - family: Medium
+      fonts:
+        - asset: assets/fonts/PingFang-SC-Medium.ttf
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

@@ -64,12 +64,12 @@ class PatientState extends State<Patient> {
               leading: const CircleAvatar(
                 backgroundColor: Colors.transparent,
                 backgroundImage: AssetImage(
-                  'static/images/home/avatar.png',
+                  'assets/images/home/avatar.png',
                 ),
               ),
               contentPadding: const EdgeInsets.only(left: 16.0, right: 16.0),
               trailing: const Image(
-                image: AssetImage('static/images/my/more.png'),
+                image: AssetImage('assets/images/my/more.png'),
                 width: 8.0,
                 height: 14.0,
               ),
@@ -82,7 +82,7 @@ class PatientState extends State<Patient> {
                 children: [
                   Text('张灿灿',
                       style: GSYConstant.textStyle(
-                          fontFamily: 'PingFangSC-Medium PingFang SC',
+                          fontFamily: 'Medium',
                           color: '#333333')),
                   const SizedBox(
                     width: 16.0,

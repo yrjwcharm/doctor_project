@@ -25,22 +25,22 @@ class _MainState extends State<Main> {
   final List<BottomNavigationBarItem> bottomTabs = [
     BottomNavigationBarItem(
         label: '首页',
-        icon: Image.asset('static/images/home.png'),
-        activeIcon: Image.asset('static/images/home-active.png')),
+        icon: Image.asset('assets/images/home.png'),
+        activeIcon: Image.asset('assets/images/home-active.png')),
     BottomNavigationBarItem(
       label: '我的患者',
-      icon: Image.asset('static/images/patient.png'),
-      activeIcon: Image.asset('static/images/patient_active.png'),
+      icon: Image.asset('assets/images/patient.png'),
+      activeIcon: Image.asset('assets/images/patient_active.png'),
     ),
     BottomNavigationBarItem(
       label: '消息',
-      icon: Image.asset('static/images/news.png'),
-      activeIcon: Image.asset('static/images/news-active.png'),
+      icon: Image.asset('assets/images/news.png'),
+      activeIcon: Image.asset('assets/images/news-active.png'),
     ),
     BottomNavigationBarItem(
       label: '我的',
-      icon: Image.asset('static/images/my.png'),
-      activeIcon: Image.asset('static/images/my-active.png'),
+      icon: Image.asset('assets/images/my.png'),
+      activeIcon: Image.asset('assets/images/my-active.png'),
     )
   ];
 

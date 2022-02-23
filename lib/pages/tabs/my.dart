@@ -17,17 +17,17 @@ class MyState extends State<My> {
     initState(){
         super.initState();
         items = [
-          _buildListTile(id:0,icon: 'static/images/my/qualifications.png', title: '医生资质上传', onTap: (){
+          _buildListTile(id:0,icon: 'assets/images/my/qualifications.png', title: '医生资质上传', onTap: (){
           }),
-          _buildListTile(id:1,icon: 'static/images/my/information.png', title: '基本信息', onTap: (){
+          _buildListTile(id:1,icon: 'assets/images/my/information.png', title: '基本信息', onTap: (){
           }),
-          _buildListTile(id:2,icon: 'static/images/my/consultation_information.png', title: '维护问诊信息', onTap: (){
+          _buildListTile(id:2,icon: 'assets/images/my/consultation_information.png', title: '维护问诊信息', onTap: (){
           }),
-          _buildListTile(id:3,icon: 'static/images/my/consultation_record.png', title: '问诊记录', onTap: (){
+          _buildListTile(id:3,icon: 'assets/images/my/consultation_record.png', title: '问诊记录', onTap: (){
           }),
-          _buildListTile(id:4,icon: 'static/images/my/my_income.png', title: '我的收入', onTap: (){
+          _buildListTile(id:4,icon: 'assets/images/my/my_income.png', title: '我的收入', onTap: (){
           }),
-          _buildListTile(id:5,icon: 'static/images/my/template_creation.png', title: '模版创建', onTap: (){
+          _buildListTile(id:5,icon: 'assets/images/my/template_creation.png', title: '模版创建', onTap: (){
           }),
         ];
      }
@@ -50,7 +50,7 @@ class MyState extends State<My> {
                    Text(title,style:GSYConstant.textStyle(color: '#333333'))
                  ],
                ),
-               trailing:const Image(image: AssetImage('static/images/my/more.png'),fit: BoxFit.cover,width: 8.0,height: 14.0,),
+               trailing:const Image(image: AssetImage('assets/images/my/more.png'),fit: BoxFit.cover,width: 8.0,height: 14.0,),
              ),
              (id==0||id==2||id==3||id==4)?  Divider(height:1,color: ColorsUtil.hexStringColor('#cccccc',alpha: 0.4)):const Divider(height: 0,)
            ],
@@ -69,10 +69,10 @@ class MyState extends State<My> {
         children: [
           Container(
               alignment: Alignment.topRight,
-              child:const Image(image: AssetImage('static/images/my/setup.png'),fit: BoxFit.cover,width: 18.0,height: 18.0,),),
+              child:const Image(image: AssetImage('assets/images/my/setup.png'),fit: BoxFit.cover,width: 18.0,height: 18.0,),),
           Row(
             children: [
-              const Image(image: AssetImage('static/images/home/avatar.png'),fit: BoxFit.cover,width: 55.0,height: 55.0,),
+              const Image(image: AssetImage('assets/images/home/avatar.png'),fit: BoxFit.cover,width: 55.0,height: 55.0,),
               const SizedBox(width: 15.0,),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -80,7 +80,7 @@ class MyState extends State<My> {
                   Text('刘玉春',style: TextStyle(
                       fontSize:20.0,
                       fontWeight: FontWeight.w500,
-                      fontFamily: 'PingFangSC-Medium, PingFang SC',
+                      fontFamily: 'Medium',
                       color: Colors.white,
                   ),),
                   Text('18311410379',style: TextStyle(
@@ -113,7 +113,7 @@ class MyState extends State<My> {
               const SizedBox(width: 9.0,),
               Text('4.8',style: TextStyle(
                   fontSize:18.0,
-                  fontFamily: 'PingFangSC-Medium, PingFang SC',
+                  fontFamily: 'Medium',
                   fontWeight: FontWeight.w500,
                   color: ColorsUtil.hexStringColor('#FF9C00')
               ),),
@@ -125,7 +125,7 @@ class MyState extends State<My> {
              border: Border.all(width: 1,color: ColorsUtil.hexStringColor('#cccccc'))
            ),
          ),
-         // const Image(width:1.0,height:16.0,image: AssetImage('static/images/my/line.png'),fit:BoxFit.cover),
+         // const Image(width:1.0,height:16.0,image: AssetImage('assets/images/my/line.png'),fit:BoxFit.cover),
          Expanded(child:Row(
            mainAxisAlignment: MainAxisAlignment.center,
            children: [
@@ -139,7 +139,7 @@ class MyState extends State<My> {
              Text('1064',style: TextStyle(
                  fontSize: 18.0,
                  fontWeight: FontWeight.w500,
-                 fontFamily: 'PingFangSC-Medium, PingFang SC',
+                 fontFamily: 'Medium',
                  color: ColorsUtil.hexStringColor('#06B48D')
              ),)
            ],
