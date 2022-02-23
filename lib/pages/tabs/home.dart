@@ -155,10 +155,8 @@ class HomeState extends State<Home> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Image.asset(
-                        'assets/images/home/avatar.png',
+                        'assets/images/home/photograph.png',
                         fit: BoxFit.cover,
-                        width: 14,
-                        height: 12,
                       ),
                       const SizedBox(
                         width: 4,
