@@ -190,9 +190,9 @@ class HomeState extends State<Home> {
           color: Colors.white, borderRadius: BorderRadius.circular(5.0)),
       child: Row(
         children: [
-          buildButtonColumn('static/images/home/consult.png', '患者咨询'),
-          buildButtonColumn('static/images/home/picture.png', '图文问诊'),
-          buildButtonColumn('static/images/home/video.png', '视频问诊'),
+          buildButtonColumn('static/images/home/consult1.png', '患者咨询'),
+          buildButtonColumn('static/images/home/picture1.png', '图文问诊'),
+          buildButtonColumn('static/images/home/video1.png', '视频问诊'),
         ],
       ),
     );

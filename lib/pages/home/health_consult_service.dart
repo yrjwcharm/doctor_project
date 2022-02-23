@@ -2,6 +2,7 @@ import 'dart:collection';
 
 import 'package:doctor_project/common/style/gsy_style.dart';
 import 'package:doctor_project/pages/home/submit_success.dart';
+import 'package:doctor_project/pages/home/topic_price_set.dart';
 import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:doctor_project/widget/custom_app_bar.dart';
 import 'package:doctor_project/widget/gsy_flex_button.dart';
@@ -37,6 +38,13 @@ class _HealthConsultServiceState extends State<HealthConsultService> {
             },isBack: true,),
            Column(
              children:ListTile.divideTiles(tiles: list.asMap().keys.map((index) => ListTile(
+               onTap: (){
+                 switch(index){
+                   case 1:
+                     Navigator.push(context, MaterialPageRoute(builder: (context)=>const TopicPriceSet()));
+                     break;
+                 }
+               },
                leading: Row(
                  mainAxisSize: MainAxisSize.min,
                  children: [

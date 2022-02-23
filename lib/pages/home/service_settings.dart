@@ -20,9 +20,9 @@ class _ServiceSettingsState extends State<ServiceSettings> {
   @override
   void initState() {
     super.initState();
-    list.add(ServiceSettingsBean('static/images/home/avatar.png','健康咨询','开通图文方式的咨询服务，无需处方','已开通',1));
-    list.add(ServiceSettingsBean('static/images/home/avatar.png','图文问诊-复诊开药','图文方式的问诊服务','审核中',0));
-    list.add(ServiceSettingsBean('static/images/home/avatar.png','视频问诊-复诊开药','患者预约后进行视频问诊服务','未开通',0));
+    list.add(ServiceSettingsBean('static/images/home/consult.png','健康咨询','开通图文方式的咨询服务，无需处方','已开通',1));
+    list.add(ServiceSettingsBean('static/images/home/picture.png','图文问诊-复诊开药','图文方式的问诊服务','审核中',0));
+    list.add(ServiceSettingsBean('static/images/home/video.png','视频问诊-复诊开药','患者预约后进行视频问诊服务','未开通',0));
 
   }
   Widget buildListTile(String icon,String title,String subTitle,String detailTitle,int status,{ required VoidCallback? callback}){
