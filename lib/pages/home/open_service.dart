@@ -2,6 +2,7 @@ import 'package:doctor_project/common/style/gsy_style.dart';
 import 'package:doctor_project/pages/home/service_settings.dart';
 import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:doctor_project/widget/custom_app_bar.dart';
+import 'package:doctor_project/widget/safe_area_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -176,24 +177,12 @@ class _OpenServiceState extends State<OpenService> {
               ),
               Expanded(
                   child: Container(
-                      alignment: Alignment.bottomLeft,
-                      child: SafeArea(
-                          child: TextButton(
-                              onPressed: applyOpen,
-                              child: Container(
-                                margin: const EdgeInsets.symmetric(
-                                    horizontal: 16.0),
-                                alignment: Alignment.center,
-                                height: 40,
-                                decoration: BoxDecoration(
-                                  color: ColorsUtil.hexStringColor('#06B48D'),
-                                  borderRadius: BorderRadius.circular(25),
-                                ),
-                                child: Text(
-                                  '申请开通',
-                                  style: GSYConstant.textStyle(fontSize: 16.0),
-                                ),
-                              )))))
+                      alignment: Alignment.bottomCenter,
+                      child: SafeAreaButton(onPressed: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>const ServiceSettings()));
+                      }, text: '申请开通',)
+                  ),
+              ),
             ],
           )),
     );

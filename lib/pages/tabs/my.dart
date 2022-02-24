@@ -1,4 +1,5 @@
 import 'package:doctor_project/common/style/gsy_style.dart';
+import 'package:doctor_project/pages/my/my_income.dart';
 import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:doctor_project/widget/custom_app_bar.dart';
 import 'package:flutter/cupertino.dart';
@@ -26,6 +27,7 @@ class MyState extends State<My> {
           _buildListTile(id:3,icon: 'assets/images/my/consultation_record.png', title: '问诊记录', onTap: (){
           }),
           _buildListTile(id:4,icon: 'assets/images/my/my_income.png', title: '我的收入', onTap: (){
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>const MyIncome()));
           }),
           _buildListTile(id:5,icon: 'assets/images/my/template_creation.png', title: '模版创建', onTap: (){
           }),
@@ -152,7 +154,7 @@ class MyState extends State<My> {
       backgroundColor: ColorsUtil.hexStringColor('#f9f9f9'),
       body:Column(
         children: [
-          CustomAppBar('我的'),
+          CustomAppBar('我的',isBack: false,),
           headerSection,
           captionSection,
           Column(

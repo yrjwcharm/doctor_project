@@ -66,7 +66,7 @@ class _HealthConsultServiceState extends State<VideoService> {
            ),
             Expanded(
                 child:Container(
-                  alignment: Alignment.bottomLeft,
+                  alignment: Alignment.bottomCenter,
                   child: SafeAreaButton(
                     text: '提交审核', onPressed: () {  },
                   ),

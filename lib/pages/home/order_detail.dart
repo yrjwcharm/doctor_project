@@ -282,13 +282,14 @@ class _OrderDetailState extends State<OrderDetail> {
                                           Navigator.pop(context);
                                         },height: 48,textStyle: GSYConstant.textStyle(fontSize: 15.0,),bottomLeft: 4.0,)),
                                         Expanded(child: CustomOutlineButton(title: '取消', onPressed: () {
+                                          Navigator.pop(context);
 
                                         },primary:'#ffffff', height: 48,textStyle: GSYConstant.textStyle(fontSize: 15.0,color: '#666666'),bottomRight: 4.0,))
                                       ],
                                     ),
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
+                                    // onPressed: () {
+                                    //   Navigator.of(context).pop();
+                                    // },
                                   ),
                                 ],
                               );

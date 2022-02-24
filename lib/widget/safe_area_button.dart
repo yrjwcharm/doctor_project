@@ -9,9 +9,10 @@ class SafeAreaButton extends StatelessWidget {
       required this.text,
       this.height = 40.0,
       this.backgroundColor = '#06B48D',
-      required this.onPressed, this.width=343.0})
+      required this.onPressed, this.width=343.0, this.textColor='#ffffff'})
       : super(key: key);
   final String text;
+  final String textColor;
   final String backgroundColor;
   final double height;
   final double width;
@@ -32,10 +33,9 @@ class SafeAreaButton extends StatelessWidget {
     //     child:Text(text,style:GSYConstant.textStyle(fontSize: 16.0),),
     //   ),
     // );
-    return Container(
+    return SizedBox(
         height: height,
         width:  width,
-        margin: const EdgeInsets.symmetric(horizontal: 16.0),
         child: ElevatedButton(
             onPressed: onPressed,
             style: ElevatedButton.styleFrom(
@@ -43,6 +43,6 @@ class SafeAreaButton extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(25.0),
                 )),
-            child: null));
+            child:  Text(text,style: GSYConstant.textStyle(fontSize: 16.0,color: textColor),)));
   }
 }

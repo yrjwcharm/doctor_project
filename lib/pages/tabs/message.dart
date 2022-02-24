@@ -15,7 +15,7 @@ class MessageState extends State<Message> {
     return  Scaffold(
       body: Column(
         children: [
-           CustomAppBar('消息')
+           CustomAppBar('消息', onBackPressed: () {  },)
         ],
       )
     );

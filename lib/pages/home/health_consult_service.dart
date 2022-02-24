@@ -68,7 +68,7 @@ class _HealthConsultServiceState extends State<HealthConsultService> {
            ),
             Expanded(
                 child:Container(
-                  alignment: Alignment.bottomLeft,
+                  alignment: Alignment.bottomCenter,
                   child:  SafeAreaButton(
                     text: '提交审核', onPressed: () { 
                       Navigator.push(context, MaterialPageRoute(builder: (context)=>const SubmitSuccess()));

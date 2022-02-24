@@ -6,11 +6,14 @@ import 'package:flutter/material.dart';
 
 class CustomAppBar extends StatelessWidget {
    CustomAppBar(this.title, {Key? key,this.onBackPressed,this.onForwardPressed,
-    this.isBack=false, this.isForward=false,this.icon='', this.borderBottomWidth=1.0}) : super(key: key);
+    this.isBack=true, this.isForward=false,this.rightIcon='', this.borderBottomWidth=1.0, this.color=Colors.white, this.leftIcon='assets/images/back.png', this.titleColor='#333333'}) : super(key: key);
   final bool isBack;
+  final Color color;
   final String title;
+  final String titleColor;
   final bool isForward;
-  final String icon;
+  final String leftIcon;
+  final String rightIcon;
   VoidCallback? onBackPressed;
   VoidCallback? onForwardPressed;
   final double borderBottomWidth;
@@ -19,7 +22,13 @@ class CustomAppBar extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-          color: Colors.white,
+          color: color,
+          gradient: const LinearGradient(
+            colors: [
+              Colors.white,
+              Colors.white
+            ]
+          ),
           border: Border(bottom:BorderSide(width: borderBottomWidth,color:ColorsUtil.hexStringColor('#cccccc',alpha: 0.3)) )
       ),
       padding: EdgeInsets.only(top: StatusBarUtil.get(context)),
@@ -31,15 +40,15 @@ class CustomAppBar extends StatelessWidget {
             Expanded(
               child:Row(
                 children: [
-                  isBack?IconButton(onPressed: onBackPressed, icon:Image.asset('assets/images/back.png')):const Text(''),
+                  isBack?IconButton(onPressed: onBackPressed, icon:Image.asset(leftIcon)):const Text(''),
                 ],
               )),
             Text(
                 title,
-                style: GSYConstant.textStyle(fontSize: 16.0, color: '#333333'),
+                style: GSYConstant.textStyle(fontSize: 16.0, color: titleColor),
               ) ,
             Expanded(child:
-            isForward?TextButton(onPressed: onForwardPressed, child:Image.asset(icon)):const Text('')
+            isForward?TextButton(onPressed: onForwardPressed, child:Image.asset(rightIcon)):const Text('')
             )
           ],
         ),

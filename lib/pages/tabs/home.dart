@@ -580,7 +580,7 @@ class HomeState extends State<Home> {
       ],
     );
     return Scaffold(
-      backgroundColor: ColorsUtil.hexStringColor('#f9f9f9'),
+      backgroundColor: ColorsUtil.bgColor,
       body: Column(
         children: [
           buildBg,
@@ -651,22 +651,22 @@ class HomeState extends State<Home> {
               ],
             ),
           ),
-          Expanded(
-            child: RefreshIndicator(
-              onRefresh: _onRefresh,
-              child: ListView.builder(
-                itemBuilder: _renderRow,
-                itemCount: list.length,
-                controller: _scrollController,
-              ),
-            ),
-          )
+          // Expanded(
+          //   child: RefreshIndicator(
+          //     onRefresh: _onRefresh,
+          //     child: ListView.builder(
+          //       itemBuilder: _renderRow,
+          //       itemCount: list.length,
+          //       controller: _scrollController,
+          //     ),
+          //   ),
+          // )
           // Expanded(
           //   child: inPassSection,
           // ),
-          // Expanded(
-          //     child:inOpenSection
-          // ),
+          Expanded(
+              child:inOpenSection
+          ),
           // Expanded(child: adultSection)
         ],
       ),
