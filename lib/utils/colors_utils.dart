@@ -6,6 +6,7 @@ class ColorsUtil {
   /// alpha，透明度[0.0, 1.0]
   static Color primaryColor =hexStringColor('#06B48D');
   static Color shallowColor =hexStringColor('#09BB8F');
+  static Color bgColor = hexStringColor('#f9f9f9');
   static Color hexColor(int hex, {double alpha = 1}) {
     if (alpha < 0) {
       alpha = 0;

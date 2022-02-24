@@ -2,6 +2,7 @@ import 'dart:ffi';
 
 import 'package:doctor_project/common/style/gsy_style.dart';
 import 'package:doctor_project/pages/home/open_service.dart';
+import 'package:doctor_project/pages/home/order_detail.dart';
 import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:doctor_project/utils/common_utils.dart';
 import 'package:doctor_project/utils/platform_utils.dart';
@@ -115,6 +116,9 @@ class HomeState extends State<Home> {
           child: Column(
             children: [
               ListTile(
+                onTap: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>const OrderDetail()));
+                },
                 contentPadding: const EdgeInsets.symmetric(horizontal: 8.0),
                 subtitle: Text(
                   '健康咨询',
