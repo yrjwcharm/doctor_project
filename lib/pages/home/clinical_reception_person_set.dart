@@ -192,7 +192,7 @@ class _ClinicReceptionPersonSetState extends State<ClinicReceptionPersonSet> {
           ),
           Expanded(
               child: Container(
-            alignment: Alignment.bottomLeft,
+            alignment: Alignment.bottomCenter,
             child: SafeAreaButton(
               onPressed: () {},
               text: '确定',

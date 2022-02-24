@@ -99,24 +99,10 @@ class _TopicPriceSetState extends State<TopicPriceSet> {
                     width: 8.0,
                   ),
                   Expanded(
-                      child: SizedBox(
-                          height: 50,
-                          child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                primary: ColorsUtil.hexStringColor('#f9f9f9'),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(25.0),
-                                ),
-                              ),
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-
-                              child: Text(
-                                '确定',
-                                style: GSYConstant.textStyle(
-                                    fontSize: 16.0, color: '#666660'),
-                              ))))
+                      child: Container(
+                        alignment: Alignment.bottomCenter,
+                        child:SafeAreaButton(height: 50, onPressed: () {  }, text: '确定',) ,
+                      ))
                 ],
               ))
         ],
@@ -192,7 +178,7 @@ class _TopicPriceSetState extends State<TopicPriceSet> {
           ),
           Expanded(
               child: Container(
-            alignment: Alignment.bottomLeft,
+            alignment: Alignment.bottomCenter,
             child: SafeAreaButton(
               onPressed: () {},
               text: '确定',
