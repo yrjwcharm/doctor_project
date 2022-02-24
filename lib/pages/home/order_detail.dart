@@ -2,6 +2,10 @@ import 'package:doctor_project/common/style/gsy_style.dart';
 import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:doctor_project/utils/desensitization_utils.dart';
 import 'package:doctor_project/widget/custom_app_bar.dart';
+import 'package:doctor_project/widget/custom_app_bar.dart';
+import 'package:doctor_project/widget/custom_elevated_button.dart';
+import 'package:doctor_project/widget/custom_input_widget.dart';
+import 'package:doctor_project/widget/custom_outline_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -245,7 +249,54 @@ class _OrderDetailState extends State<OrderDetail> {
                             primary: Colors.white,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(0))),
-                        onPressed: () {},
+                        onPressed: () {
+                          showDialog<void>(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return  SimpleDialog(
+                                contentPadding: const EdgeInsets.all(0),
+                                titlePadding: const EdgeInsets.only(top: 14.0,left: 16.0,right: 16.0,bottom: 13.0),
+                                title:  Text('拒诊原因',style: GSYConstant.textStyle(fontSize: 15.0,color: '#333333'),),
+                                children: <Widget>[
+                                  SimpleDialogOption(
+                                    padding:const EdgeInsets.symmetric(horizontal: 16.0),
+                                    child:Container(
+                                        decoration: BoxDecoration(
+                                            borderRadius:BorderRadius.circular(5.0),
+                                            border:Border.all(width: 1,color: ColorsUtil.hexStringColor('#cccccc'))
+                                        ),
+                                        height:88,
+                                        child:CustomInputWidget(onChanged: (String value) {
+
+                                        },)
+                                    ) ,
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
+                                  SimpleDialogOption(
+                                    padding:const EdgeInsets.only(top:31.0,left: 0),
+                                    child:  Row(
+                                      children: [
+                                        Expanded(child: CustomElevatedButton(title: '确认', onPressed: () {
+                                          Navigator.pop(context);
+                                        },height: 48,textStyle: GSYConstant.textStyle(fontSize: 15.0,),bottomLeft: 4.0,)),
+                                        Expanded(child: CustomOutlineButton(title: '取消', onPressed: () {
+
+                                        },primary:'#ffffff', height: 48,textStyle: GSYConstant.textStyle(fontSize: 15.0,color: '#666666'),bottomRight: 4.0,))
+                                      ],
+                                    ),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
+                                ],
+                              );
+                            },
+                          ).then((val) {
+
+                          });
+                        },
                         child: Text(
                           '拒诊',
                           style: GSYConstant.textStyle(shadows: [
@@ -266,7 +317,9 @@ class _OrderDetailState extends State<OrderDetail> {
                                 primary: ColorsUtil.primaryColor,
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(0))),
-                            onPressed: () {},
+                            onPressed: () {
+
+                            },
                             child: Text(
                               '接诊',
                               style: GSYConstant.textStyle(shadows: [
