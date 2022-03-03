@@ -1,5 +1,6 @@
 import 'package:doctor_project/common/style/gsy_style.dart';
 import 'package:doctor_project/pages/my/my_income.dart';
+import 'package:doctor_project/pages/my/template_create.dart';
 import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:doctor_project/widget/custom_app_bar.dart';
 import 'package:flutter/cupertino.dart';
@@ -30,6 +31,7 @@ class MyState extends State<My> {
             Navigator.push(context, MaterialPageRoute(builder: (context)=>const MyIncome()));
           }),
           _buildListTile(id:5,icon: 'assets/images/my/template_creation.png', title: '模版创建', onTap: (){
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>const TemplateCreate()));
           }),
         ];
      }

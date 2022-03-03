@@ -9,7 +9,7 @@ class SafeAreaButton extends StatelessWidget {
       required this.text,
       this.height = 40.0,
       this.backgroundColor = '#06B48D',
-      required this.onPressed, this.width=343.0, this.textColor='#ffffff'})
+      required this.onPressed, this.width=343.0, this.textColor='#ffffff', this.radius=25.0})
       : super(key: key);
   final String text;
   final String textColor;
@@ -17,7 +17,7 @@ class SafeAreaButton extends StatelessWidget {
   final double height;
   final double width;
   final VoidCallback onPressed;
-
+  final double radius;
   @override
   Widget build(BuildContext context) {
     // return TextButton(
@@ -41,7 +41,7 @@ class SafeAreaButton extends StatelessWidget {
             style: ElevatedButton.styleFrom(
                 primary: ColorsUtil.hexStringColor(backgroundColor),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(25.0),
+                  borderRadius: BorderRadius.circular(radius),
                 )),
             child:  Text(text,style: GSYConstant.textStyle(fontSize: 16.0,color: textColor),)));
   }

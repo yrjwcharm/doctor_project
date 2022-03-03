@@ -66,7 +66,7 @@ class _ClinicReceptionPersonSetState extends State<ClinicReceptionPersonSet> {
               ),
               child: CustomInputWidget(
                 hintText: '请输入自定义人数，1～100',
-                onChanged: (String value) {},
+                onChanged: (String value) {}, textStyle: TextStyle(fontSize: 16.0, color: ColorsUtil.hexStringColor('#666666')),
               )),
           const SizedBox(
             height: 24.0,

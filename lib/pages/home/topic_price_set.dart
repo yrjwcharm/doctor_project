@@ -66,7 +66,7 @@ class _TopicPriceSetState extends State<TopicPriceSet> {
               ),
               child: CustomInputWidget(
                 hintText: '请输入自定义金额，1～200',
-                onChanged: (String value) {},
+                onChanged: (String value) {}, textStyle: GSYConstant.textStyle(fontSize: 16.0,color: ''),
               )),
           const SizedBox(
             height: 24.0,

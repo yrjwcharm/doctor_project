@@ -1,6 +1,7 @@
 import 'dart:collection';
 
 import 'package:doctor_project/common/style/gsy_style.dart';
+import 'package:doctor_project/pages/home/choice_clinical_reception_time_person.dart';
 import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:doctor_project/utils/text_utils.dart';
 import 'package:doctor_project/widget/custom_app_bar.dart';
@@ -39,7 +40,9 @@ class _HealthConsultServiceState extends State<VideoService> {
            Column(
              children:ListTile.divideTiles(tiles: list.asMap().keys.map((index) => ListTile(
                onTap: (){
-
+                  if(index==2){
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>const ChoiceClinicReceptTimePerson()));
+                  }
                },
                leading:TextUtils.isEmpty(list[index]['subTitle'].toString())?Row(
                    mainAxisSize: MainAxisSize.min,

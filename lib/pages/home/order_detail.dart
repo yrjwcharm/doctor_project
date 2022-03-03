@@ -268,7 +268,7 @@ class _OrderDetailState extends State<OrderDetail> {
                                         height:88,
                                         child:CustomInputWidget(onChanged: (String value) {
 
-                                        },)
+                                        }, hintText: '', textStyle: TextStyle(fontSize: 16.0, color: ColorsUtil.hexStringColor('#666666')),)
                                     ) ,
                                     onPressed: () {
                                       Navigator.of(context).pop();
