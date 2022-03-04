@@ -1,8 +1,10 @@
 import 'dart:ffi';
 
 import 'package:doctor_project/common/style/gsy_style.dart';
+import 'package:doctor_project/pages/home/make_prescription.dart';
 import 'package:doctor_project/pages/home/open_service.dart';
 import 'package:doctor_project/pages/home/order_detail.dart';
+import 'package:doctor_project/pages/home/patient-consult.dart';
 import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:doctor_project/utils/common_utils.dart';
 import 'package:doctor_project/utils/platform_utils.dart';
@@ -116,8 +118,11 @@ class HomeState extends State<Home> {
           child: Column(
             children: [
               ListTile(
-                onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>const OrderDetail()));
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const OrderDetail()));
                 },
                 contentPadding: const EdgeInsets.symmetric(horizontal: 8.0),
                 subtitle: Text(
@@ -178,27 +183,27 @@ class HomeState extends State<Home> {
                 ),
               ),
               Container(
-                margin:const EdgeInsets.symmetric(horizontal: 7.0),
-                child:RichText(
-                  // textScaleFactor: 5,
-                  // overflow: TextOverflow.fade,
-                  textDirection: TextDirection.ltr,
-                  textAlign: TextAlign.left,
-                  text:   TextSpan(
-                    children: [
+                  margin: const EdgeInsets.symmetric(horizontal: 7.0),
+                  child: RichText(
+                    // textScaleFactor: 5,
+                    // overflow: TextOverflow.fade,
+                    textDirection: TextDirection.ltr,
+                    textAlign: TextAlign.left,
+                    text: TextSpan(children: [
                       TextSpan(
                         text: '病情描述：',
-                        style: GSYConstant.textStyle(fontFamily:'Medium',fontSize: 13.0,color:'#333333'),
+                        style: GSYConstant.textStyle(
+                            fontFamily: 'Medium',
+                            fontSize: 13.0,
+                            color: '#333333'),
                       ),
                       TextSpan(
                         text: '最近一个月总是头晕、头痛、疲劳、心悸等，有时还会出现注意力不集中，记忆力减退等现象。',
-                        style: GSYConstant.textStyle(fontSize: 13.0,color:'#666666'),
+                        style: GSYConstant.textStyle(
+                            fontSize: 13.0, color: '#666666'),
                       )
-                    ]
-                  ),
-
-                )
-              ),
+                    ]),
+                  )),
               const SizedBox(
                 height: 9.0,
               ),
@@ -208,21 +213,27 @@ class HomeState extends State<Home> {
               ),
               Container(
                 height: 47,
-                margin:const EdgeInsets.symmetric(horizontal: 8.0),
+                margin: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('2分钟前',style: GSYConstant.textStyle(color: '#888888'),),
+                    Text(
+                      '2分钟前',
+                      style: GSYConstant.textStyle(color: '#888888'),
+                    ),
                     Container(
                       // width: 77,
                       height: 28,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          primary: ColorsUtil.shallowColor,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14.0))
-                        ), onPressed: () { 
-                          
-                      }, child: Text('继续交流',style: GSYConstant.textStyle(fontSize: 13.0),),
+                            primary: ColorsUtil.shallowColor,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(14.0))),
+                        onPressed: () {},
+                        child: Text(
+                          '继续交流',
+                          style: GSYConstant.textStyle(fontSize: 13.0),
+                        ),
                       ),
                     )
                   ],
@@ -258,32 +269,33 @@ class HomeState extends State<Home> {
       );
     }
 
-    Widget buildButtonColumn(String assetName, String label) {
+    Widget buildButtonColumn(String assetName, String label,GestureTapCallback? onTap) {
       Color color = ColorsUtil.hexStringColor('#333333');
 
       return Expanded(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image(
-              image: AssetImage(assetName),
-              fit: BoxFit.cover,
-            ),
-            Container(
-              margin: const EdgeInsets.only(top: 7.0),
-              child: Text(
-                label,
-                style: TextStyle(
-                  fontSize: 14,
-                  fontFamily: 'PingFangSC-Regular, PingFang SC',
-                  fontWeight: FontWeight.w400,
-                  color: color,
+          child: GestureDetector(onTap: onTap, child:Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image(
+                image: AssetImage(assetName),
+                fit: BoxFit.cover,
+              ),
+              Container(
+                margin: const EdgeInsets.only(top: 7.0),
+                child: Text(
+                  label,
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontFamily: 'PingFangSC-Regular, PingFang SC',
+                    fontWeight: FontWeight.w400,
+                    color: color,
+                  ),
                 ),
               ),
-            ),
-          ],
-        ),
+            ],
+          ),)
+
       );
     }
 
@@ -327,8 +339,7 @@ class HomeState extends State<Home> {
                           children: <Widget>[
                             Text('王建国',
                                 style: TextStyle(
-                                    fontFamily:
-                                        'Medium',
+                                    fontFamily: 'Medium',
                                     fontSize: 18,
                                     fontWeight: FontWeight.w500,
                                     color:
@@ -411,9 +422,16 @@ class HomeState extends State<Home> {
           color: Colors.white, borderRadius: BorderRadius.circular(5.0)),
       child: Row(
         children: [
-          buildButtonColumn('assets/images/home/consult1.png', '患者咨询'),
-          buildButtonColumn('assets/images/home/picture1.png', '图文问诊'),
-          buildButtonColumn('assets/images/home/video1.png', '视频问诊'),
+          buildButtonColumn('assets/images/home/consult1.png', '患者咨询',(){
+            // Navigator.push(context, MaterialPageRoute(builder: (context)=> const PatientConsult(type: '1',)));
+            Navigator.push(context, MaterialPageRoute(builder: (context)=> const MakePrescription()));
+          }),
+          buildButtonColumn('assets/images/home/picture1.png', '图文问诊',(){
+            Navigator.push(context, MaterialPageRoute(builder: (context)=> const PatientConsult(type: '2',)));
+          }),
+          buildButtonColumn('assets/images/home/video1.png', '视频问诊',(){
+            Navigator.push(context, MaterialPageRoute(builder: (context)=> const PatientConsult(type: '3',)));
+          }),
         ],
       ),
     );
@@ -581,7 +599,8 @@ class HomeState extends State<Home> {
     );
     return Scaffold(
       backgroundColor: ColorsUtil.bgColor,
-      body: Column(
+      body:SingleChildScrollView(
+        child:IntrinsicHeight(child: Column(
         children: [
           buildBg,
           buttonSection,
@@ -664,12 +683,10 @@ class HomeState extends State<Home> {
           // Expanded(
           //   child: inPassSection,
           // ),
-          Expanded(
-              child:inOpenSection
-          ),
+          Expanded(child: inOpenSection),
           // Expanded(child: adultSection)
         ],
-      ),
+      ),))
     );
   }
 }
