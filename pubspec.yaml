@@ -8,7 +8,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
 # followed by an optional build number separated by a +.
-# Both the version and the builder number may be overridden in flutter
+# Both the version and the builder number may be overrtidden in flutter
 # build by specifying --build-name and --build-number, respectively.
 # In Android, build-name is used as versionName while build-number used as versionCode.
 # Read more about Android versioning at https://developer.android.com/studio/publish/versioning
@@ -34,11 +34,16 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
+  dio: ^1.0.9
+  fluttertoast: ^8.0.8
+  json_annotation: ^4.4.0
+  build_runner: ^2.1.5
+  shared_preferences: ^2.0.8
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
+  json_serializable: ^6.1.1
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your
@@ -56,6 +61,39 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+  assets:
+  - images/2.0x/userIcon@2x.png
+  - images/2.0x/pasIcon@2x.png
+  - images/2.0x/LoginbackGrond@2x.png
+  - images/2.0x/check box@2x.png
+  - images/2.0x/check box-select@2x.png
+  - images/2.0x/back.png
+  - images/2.0x/more@2x.png
+  - images/2.0x/success@2x.png
+  - images/2.0x/abnormal-not sel.png
+  - images/2.0x/home page-not sel.png
+  - images/2.0x/my-not sel.png
+  - images/2.0x/abnormal-sel.png
+  - images/2.0x/home page-sel.png
+  - images/2.0x/my-sel.png
+  - images/2.0x/hidePas@2x.png
+  - images/2.0x/showPsa@2x.png
+  - images/back.png
+  - images/abnormal-not sel.png
+  - images/home page-not sel.png
+  - images/my-not sel.png
+  - images/abnormal-sel.png
+  - images/home page-sel.png
+  - images/my-sel.png
+  - images/background.png
+  - images/pulldown.png
+  - images/new.png
+  - images/search.png
+  - images/backgroundFrist.png
+  - images/notice.png
+  - images/hidePas.png
+  - images/showPsa.png
+
 
   # To add assets to your application, add an assets section, like this:
   # assets:

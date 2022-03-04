@@ -27,14 +27,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     _bigView=[[UIView alloc]init];
-    
     _bigView.frame=CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
     [self.view addSubview:_bigView];
     
     _smallView=[[WMDragView alloc]init];
     CGFloat withX=240*9/16;
     _smallView.frame=CGRectMake([UIScreen mainScreen].bounds.size.width-withX, 80,withX, 240);
-    
     [self.view addSubview:_smallView];
     
     UIButton*backBtn=[[UIButton alloc]init];
@@ -43,14 +41,12 @@
     [backBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
 
     [backBtn addTarget:self action:@selector(backBtnClick) forControlEvents:UIControlEventTouchUpInside];
-    
     [self.view  addSubview:backBtn];
-    
     self.view.backgroundColor=[UIColor yellowColor];
     self.roomID=@"0001";
     self.userID=@"123";
     self.publishStreamID=@"345";
-//    self.smallView.hidden=YES;
+    self.smallView.hidden=YES;
     [self createEngineAndLogin];
     
         
@@ -138,11 +134,11 @@
     // on the UI of the App.
     self.playerState = state;
 //    [self appendLog:[NSString stringWithFormat:@"🚩 Player State Update State: %lu", state]];
-//    if (state == ZegoPlayerStatePlaying) {
-//        self.smallView.hidden = NO;
-//    } else {
-//        self.smallView.hidden = YES;
-//    }
+    if (state == ZegoPlayerStatePlaying) {
+        self.smallView.hidden = NO;
+    } else {
+        self.smallView.hidden = YES;
+    }
 }
 #pragma mark - Exit
 

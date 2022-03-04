@@ -10,6 +10,7 @@
 #import "VideoChatSingleVC.h"
 
 
+
 @implementation FlutterNativePlugin
 +(void)registerWithRegistrar:(NSObject<FlutterPluginRegistrar> *)registrar{
     FlutterMethodChannel* channel =
@@ -28,7 +29,13 @@
           [rootNav pushViewController:vc animated:YES];
         });
         
-    } else {
+    }else if ([@"jumpToCallVideo" isEqualToString:call.method])
+    {
+        
+        
+        
+    }
+    else {
         result(FlutterMethodNotImplemented);
     }
 }

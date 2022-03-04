@@ -1,16 +1,61 @@
 PODS:
-  - ZegoExpressEngine/Video (2.16.0)
+  - FLAnimatedImage (1.0.16)
+  - Flutter (1.0.0)
+  - fluttertoast (0.0.2):
+    - Flutter
+    - Toast
+  - M80AttributedLabel (1.9.9)
+  - SDWebImage (5.12.2):
+    - SDWebImage/Core (= 5.12.2)
+  - SDWebImage/Core (5.12.2)
+  - shared_preferences_ios (0.0.1):
+    - Flutter
+  - SVProgressHUD (2.2.5)
+  - Toast (4.0.0)
+  - TZImagePickerController (3.7.2)
+  - ZegoExpressEngine/Video (2.16.1)
 
 DEPENDENCIES:
+  - FLAnimatedImage (~> 1.0.16)
+  - Flutter (from `Flutter`)
+  - fluttertoast (from `.symlinks/plugins/fluttertoast/ios`)
+  - M80AttributedLabel (~> 1.9.9)
+  - SDWebImage (~> 5.12.2)
+  - shared_preferences_ios (from `.symlinks/plugins/shared_preferences_ios/ios`)
+  - SVProgressHUD (~> 2.2.5)
+  - TZImagePickerController (~> 3.7.2)
   - ZegoExpressEngine/Video
 
 SPEC REPOS:
   trunk:
+    - FLAnimatedImage
+    - M80AttributedLabel
+    - SDWebImage
+    - SVProgressHUD
+    - Toast
+    - TZImagePickerController
     - ZegoExpressEngine
 
-SPEC CHECKSUMS:
-  ZegoExpressEngine: 2d368dbe3a213c84f8f2e2ce0816d8218a6d30f0
+EXTERNAL SOURCES:
+  Flutter:
+    :path: Flutter
+  fluttertoast:
+    :path: ".symlinks/plugins/fluttertoast/ios"
+  shared_preferences_ios:
+    :path: ".symlinks/plugins/shared_preferences_ios/ios"
 
-PODFILE CHECKSUM: 9fdfe03d607bc029b76eb0f171d768b7c8b1c205
+SPEC CHECKSUMS:
+  FLAnimatedImage: 8f3e854ebf9680b71f0b6e700939687fc4d82b4b
+  Flutter: 50d75fe2f02b26cc09d224853bb45737f8b3214a
+  fluttertoast: 16fbe6039d06a763f3533670197d01fc73459037
+  M80AttributedLabel: 77fedfe63804c989a6de0fa4d400ea8cad3ab441
+  SDWebImage: 240e5c12b592fb1268c1d03b8c90d90e8c2ffe82
+  shared_preferences_ios: aef470a42dc4675a1cdd50e3158b42e3d1232b32
+  SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
+  Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
+  TZImagePickerController: 0f926234c46362d3c4ed128832b6da59b2d9917e
+  ZegoExpressEngine: 66423eb23badc4d97c3313f7a6e95ccbae2d32c9
+
+PODFILE CHECKSUM: f7ea5fbf5f20124afbedb16d58ed315823e81729
 
 COCOAPODS: 1.11.2
