@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:doctor_project/utils/regex_util.dart';
+import 'package:doctor_project/utils/toast_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/cupertino.dart';
@@ -44,6 +46,10 @@ class RegisterContentStates extends State<RegisterContent>
     //   "code": code,
     // });
     var dio = new Dio();
+    if(!RegexUtil.isPwd(loginPas)){
+       ToastUtil.showToast(msg: '密码必须包含字母和数字和特殊字符,6-20');
+       return;
+    }
     var response = await dio.post('https://interhos.youjiankang.net/doctor/dr-service/ba-doctor-user/register',data:{
       "phone":iphoneStr,
       "password": loginPas,

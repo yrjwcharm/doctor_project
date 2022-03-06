@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:doctor_project/login_and_regrist/login.dart';
 import 'routes/Routes.dart';
 
@@ -13,6 +13,14 @@ class MyApp extends StatelessWidget{
   Widget build(BuildContext context) {
 
     return MaterialApp(
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+        supportedLocales: const [
+          Locale('zh', 'CN'),//设置语言为中文
+        ],
       debugShowCheckedModeBanner: false, // 设置这一属性即可
       home: HomeContent(),
       routes:routes,
