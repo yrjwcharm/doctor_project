@@ -20,8 +20,7 @@ class CustomInputWidget extends StatefulWidget {
       required this.hintText,
       this.iconData,
       this.radius=5.0,
-      required this.onChanged,
-      required this.textStyle,
+      required this.onChanged, this.textStyle,
       this.controller,
       this.obscureText = false, this.maxLines, this.hintStyle, this.left=16.0})
       : super(key: key);
