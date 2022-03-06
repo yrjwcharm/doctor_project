@@ -375,14 +375,19 @@ class sendIphoneCodeStates extends State<sendIphoneCode>
   late Timer _timer;
   int _timeCount = 60;
   String _autoCodeText='发送验证码';
+  String PostStr='';
+
   @override
+
+
   void postNet_3() async {
+    PostStr="https://interhos.youjiankang.net/doctor/dr-service/verificationCode/get?phone="+widget.str1+'&type=reset';
     // FormData formData = new FormData.from({
     //   "username":'15038342183',
     //   "type": "register",
     // });
     var dio = new Dio();
-    var response = await dio.get('https://interhos.youjiankang.net/doctor/dr-service/verificationCode/get?phone=15038342183&type=reset');
+    var response = await dio.get(PostStr);
     // _content = response.data.toString();
     print(widget.str1);
     print(response.data.toString()+""+widget.str1);

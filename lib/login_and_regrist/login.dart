@@ -5,6 +5,8 @@ import '../../routes/Routes.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:doctor_project/pages/tabs/main.dart';
+
 // import 'package:garbagecan/passwordCheck/setPassword.dart';
 
 class HomeContent extends StatefulWidget
@@ -46,7 +48,7 @@ class RegisterContentStates extends State<HomeContent>
          SharedPreferences perfer= await SharedPreferences.getInstance();
        bool isSuccess= await  perfer.setString('tokenValue', response.data['data']['tokenValue']);
        print('SharedPreferences$isSuccess'+response.data['data']['tokenValue']);
-         Navigator.pushNamed(context, '/registerSuccess');
+         Navigator.pushNamed(context, '/TabHome');
        }
 
     // _content = response.data.toString();

@@ -33,7 +33,7 @@ class RegisterContentStates extends State<RegisterContent>
   @override
 
   bool isPasTure(String str) {
-    return new RegExp('^(?:(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])).{6,12}\$').hasMatch(str);
+    return new RegExp('^(?![A-Za-z0-9]+\$)(?![a-z0-9\\W]+\$)(?![A-Za-z\\W]+\$)(?![A-Z0-9\\W]+\$)[a-zA-Z0-9\\W]{6,20}\$').hasMatch(str);
   }
 
   void postNet_register() async {
@@ -335,10 +335,10 @@ class RegisterContentStates extends State<RegisterContent>
 
                                   textColor: Colors.white,
                                   onPressed: () {
-                                    if(isPasTure(loginPas)){
-                                      Fluttertoast.showToast(msg: '密码格式需包含数字，字母以及字符大小写',gravity: ToastGravity.CENTER);
-                                      return;
-                                    }
+                                    // if(isPasTure(loginPas)){
+                                    //   Fluttertoast.showToast(msg: '密码格式需包含数字，字母以及字符大小写',gravity: ToastGravity.CENTER);
+                                    //   return;
+                                    // }
                                     if(isChooseTX==false)
                                     {
                                       Fluttertoast.showToast(msg: '请勾选服务',gravity: ToastGravity.CENTER);
@@ -485,14 +485,18 @@ class sendIphoneCodeStates extends State<sendIphoneCode>
   late Timer _timer;
   int _timeCount = 60;
   String _autoCodeText='发送验证码';
+  String PostStr='';
   @override
   void postNet_3() async {
+    PostStr="https://interhos.youjiankang.net/doctor/dr-service/verificationCode/get?phone="+widget.str1+'&type=register';
+
     // FormData formData = new FormData.from({
     //   "username":'15038342183',
     //   "type": "register",
     // });
     var dio = new Dio();
-    var response = await dio.get('https://interhos.youjiankang.net/doctor/dr-service/verificationCode/get?phone=15038342183&type=register');
+
+    var response = await dio.get(PostStr);
     // _content = response.data.toString();
     print(widget.str1);
     print(response.data.toString()+""+widget.str1);
