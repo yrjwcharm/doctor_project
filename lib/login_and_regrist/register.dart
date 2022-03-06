@@ -492,8 +492,12 @@ class sendIphoneCodeStates extends State<sendIphoneCode>
   int _timeCount = 60;
   String _autoCodeText='发送验证码';
   String PostStr='';
+  bool buttonDisabled = false;
   @override
   void postNet_3() async {
+    setState(() {
+      buttonDisabled = true;
+    });
     PostStr="https://interhos.youjiankang.net/doctor/dr-service/verificationCode/get?phone="+widget.str1+'&type=register';
 
     // FormData formData = new FormData.from({
@@ -504,17 +508,21 @@ class sendIphoneCodeStates extends State<sendIphoneCode>
 
     var response = await dio.get(PostStr);
     // _content = response.data.toString();
+    _startTimer();
     print(widget.str1);
     print(response.data.toString()+""+widget.str1);
 
   }
   void _startTimer() {
-    _timer = Timer.periodic(Duration(seconds: 1), (Timer timer) => {
+    _timer = Timer.periodic(const Duration(seconds: 1), (Timer timer) => {
       setState(() {
         if(_timeCount <= 0){
           _autoCodeText = '重新获取';
           _timer.cancel();
           _timeCount = 60;
+          setState(() {
+            buttonDisabled = false;
+          });
         }else {
           _timeCount -= 1;
           _autoCodeText = "$_timeCount" + 's';
@@ -539,7 +547,7 @@ class sendIphoneCodeStates extends State<sendIphoneCode>
           ),
 
           textColor: Color.fromARGB(255, 84, 184, 146),
-          onPressed: () {
+          onPressed:!buttonDisabled ? () {
             if(isChinaPhoneLegal(widget.str1)==true)
               {
 
@@ -552,8 +560,7 @@ class sendIphoneCodeStates extends State<sendIphoneCode>
 
             print("widget.str1="+widget.str1);
             postNet_3();
-        _startTimer();
-          },
+          }:null,
         ),
         width: 100,
         height: 30,
