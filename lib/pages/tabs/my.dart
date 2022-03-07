@@ -154,15 +154,17 @@ class MyState extends State<My> {
 
     return Scaffold(
       backgroundColor: ColorsUtil.hexStringColor('#f9f9f9'),
-      body:Column(
-        children: [
-          CustomAppBar('我的',isBack: false,),
-          headerSection,
-          captionSection,
-          Column(
-            children: items,
-          )
-        ],
+      body:SingleChildScrollView(
+        child: Column(
+          children: [
+            CustomAppBar('我的',isBack: false,),
+            headerSection,
+            captionSection,
+            Column(
+              children: items,
+            )
+          ],
+        ),
       )
     );
   }
