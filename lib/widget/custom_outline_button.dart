@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 
 class CustomOutlineButton extends StatelessWidget {
   CustomOutlineButton({
-    Key? key,
+    Key key,
     this.height = 40.0,
-    required this.title,
+    @required this.title,
     this.textStyle,
-    required this.onPressed,
+    @required this.onPressed,
     this.primary = '#06B48D',
     this.topLeft = 0,
     this.topRight = 0,
@@ -18,8 +18,8 @@ class CustomOutlineButton extends StatelessWidget {
   final String primary;
   final double height;
   final String title;
-  final TextStyle? textStyle;
-  final VoidCallback? onPressed;
+  final TextStyle textStyle;
+  final VoidCallback onPressed;
   final double topLeft;
   final double topRight;
   final double bottomLeft;

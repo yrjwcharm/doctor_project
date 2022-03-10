@@ -6,21 +6,21 @@ class CustomInputWidget extends StatefulWidget {
   final bool obscureText;
   final double radius;
   final double left;
-  final String? hintText;
-  final TextStyle? hintStyle;
-  final IconData? iconData;
+  final String hintText;
+  final TextStyle hintStyle;
+  final IconData iconData;
 
-  final ValueChanged<String>? onChanged;
+  final ValueChanged<String> onChanged;
 
-  final TextStyle? textStyle;
-  final int? maxLines;
-  final TextEditingController? controller;
+  final TextStyle textStyle;
+  final int maxLines;
+  final TextEditingController controller;
   CustomInputWidget(
-      {Key? key,
-      required this.hintText,
+      {Key key,
+      @required this.hintText,
       this.iconData,
       this.radius=5.0,
-      required this.onChanged, this.textStyle,
+      @required this.onChanged, this.textStyle,
       this.controller,
       this.obscureText = false, this.maxLines, this.hintStyle, this.left=16.0})
       : super(key: key);

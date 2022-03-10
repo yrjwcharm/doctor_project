@@ -27,7 +27,7 @@ class changePasStates extends State<changePas>
   String code="";
   String pas='';
   String pasCof='';
-  Checkcode? data;
+  Checkcode data;
 
 
   setIphone(String val) {
@@ -80,7 +80,7 @@ class changePasStates extends State<changePas>
   }
   void postChange_Pas(BuildContext context) async {
     SharedPreferences perfer= await SharedPreferences.getInstance();
-    String? tokenValueStr=  perfer.getString('tokenValue');
+    String tokenValueStr=  perfer.getString('tokenValue');
 
     var dio = new Dio();
     // Options options = Options(headers: {HttpHeaders.:"accept: application/json"});
@@ -297,7 +297,7 @@ class EnterAccountCodeNumber extends StatefulWidget
   @override
   final String str1;
   Function(String val) setCode;
-  EnterAccountCodeNumber(this.setCode,{ Key? key,required this.str1}) : super(key: key);
+  EnterAccountCodeNumber(this.setCode,{ Key key, this.str1}) : super(key: key);
   State<StatefulWidget> createState() =>EnterAccountCodeNumberStates();
 
 }
@@ -362,7 +362,7 @@ class sendIphoneCode extends StatefulWidget
 {
   final String str1;
 
-  sendIphoneCode({ Key? key,required this.str1}) : super(key: key);
+  sendIphoneCode({ Key key, this.str1}) : super(key: key);
   @override
 
   State<StatefulWidget> createState() => sendIphoneCodeStates();
@@ -372,7 +372,7 @@ class sendIphoneCode extends StatefulWidget
 class sendIphoneCodeStates extends State<sendIphoneCode>
 {
 
-  late Timer _timer;
+   Timer _timer;
   int _timeCount = 60;
   String _autoCodeText='发送验证码';
   String PostStr='';

@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CustomAppBar extends StatelessWidget {
-   CustomAppBar(this.title, {Key? key,this.onBackPressed,this.onForwardPressed,
+   CustomAppBar(this.title, {Key key,this.onBackPressed,this.onForwardPressed,
     this.isBack=true, this.isForward=false,this.rightIcon='', this.borderBottomWidth=1.0, this.color=Colors.white, this.leftIcon='assets/images/back.png', this.titleColor='#333333'}) : super(key: key);
   final bool isBack;
   final Color color;
@@ -14,8 +14,8 @@ class CustomAppBar extends StatelessWidget {
   final bool isForward;
   final String leftIcon;
   final String rightIcon;
-  VoidCallback? onBackPressed;
-  VoidCallback? onForwardPressed;
+  VoidCallback onBackPressed;
+  VoidCallback onForwardPressed;
   final double borderBottomWidth;
   @override
   Widget build(BuildContext context) {

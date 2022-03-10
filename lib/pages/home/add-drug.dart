@@ -10,7 +10,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 class AddDrug extends StatefulWidget {
-  const AddDrug({Key? key}) : super(key: key);
+  const AddDrug({Key key}) : super(key: key);
 
   @override
   _AddDrugState createState() => _AddDrugState();
@@ -96,7 +96,7 @@ class _AddDrugState extends State<AddDrug> {
             ),
           ),
           Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: Colors.white
             ),
             padding: const EdgeInsets.symmetric(vertical: 16.0),
@@ -275,9 +275,9 @@ class _AddDrugState extends State<AddDrug> {
 }
 class SlideAction extends StatelessWidget {
   const SlideAction({
-    Key? key,
-    required this.color,
-    required this.icon,
+    Key key,
+    @required this.color,
+    @required this.icon,
     this.flex = 1,
   }) : super(key: key);
 

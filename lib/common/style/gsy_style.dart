@@ -49,7 +49,7 @@ class GSYColors {
 ///文本样式
 class GSYConstant {
   static const  fontFamily = 'Regular';
-  static  textStyle({double fontSize=14.0,List<Shadow>? shadows, double? lineHeight,String color='#ffffff',String fontFamily=GSYConstant.fontFamily,FontWeight fontWeight=FontWeight.w400}) {
+  static  textStyle({double fontSize=14.0,List<Shadow> shadows, double lineHeight,String color='#ffffff',String fontFamily=GSYConstant.fontFamily,FontWeight fontWeight=FontWeight.w400}) {
     return  TextStyle(
       color: ColorsUtil.hexStringColor(color),
       fontSize: fontSize,

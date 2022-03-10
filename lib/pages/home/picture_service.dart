@@ -9,7 +9,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class PictureService extends StatefulWidget {
-  const PictureService({Key? key}) : super(key: key);
+  const PictureService({Key key}) : super(key: key);
 
   @override
   _HealthConsultServiceState createState() => _HealthConsultServiceState();

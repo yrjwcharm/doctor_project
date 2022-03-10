@@ -8,7 +8,7 @@ class settingContent extends StatelessWidget
 {
   void postNet_doExit(BuildContext context) async {
     SharedPreferences perfer= await SharedPreferences.getInstance();
-    String? tokenValueStr=  perfer.getString('tokenValue');
+    String tokenValueStr=  perfer.getString('tokenValue');
 
     var dio = new Dio();
     dio.options.headers = {

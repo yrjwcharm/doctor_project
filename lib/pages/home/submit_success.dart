@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class SubmitSuccess extends StatelessWidget {
-  const SubmitSuccess({Key? key}) : super(key: key);
+  const SubmitSuccess({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

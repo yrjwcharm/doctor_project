@@ -1,5 +1,7 @@
 
 
+import 'package:flutter/cupertino.dart';
+
 /// 这个使用flutter日志打印
 class LogUtils {
 
@@ -20,33 +22,33 @@ class LogUtils {
   }
 
   ///打印debug日志
-  static void d(Object object, {required String tag}) {
+  static void d(Object object, {@required String tag}) {
     if (_debugMode) {
       _printLog(tag,' d ', object);
     }
   }
 
   ///打印error日志
-  static void e(Object object, {required String tag}) {
+  static void e(Object object, {@required String tag}) {
     _printLog(tag, ' e ', object);
   }
 
   ///打印v日志
-  static void v(Object object, {required String tag}) {
+  static void v(Object object, {@required String tag}) {
     if (_debugMode) {
       _printLog(tag, ' v ', object);
     }
   }
 
   ///打印info日志
-  static void i(Object object, {required String tag}) {
+  static void i(Object object, {@required String tag}) {
     if (_debugMode) {
       _printLog(tag, ' i ', object);
     }
   }
 
   ///打印ware警告日志
-  static void w(Object object, {required String tag}) {
+  static void w(Object object, {@required String tag}) {
     if (_debugMode) {
       _printLog(tag, ' w ', object);
     }

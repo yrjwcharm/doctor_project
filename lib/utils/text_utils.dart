@@ -34,7 +34,7 @@ class TextUtils {
   }
 
   /// 使用点缩写字符串
-  static String? abbreviate(String str, int maxWidth, {int offset = 0}) {
+  static String abbreviate(String str, int maxWidth, {int offset = 0}) {
     if (str == null) {
       return null;
     } else if (str.length <= maxWidth) {
