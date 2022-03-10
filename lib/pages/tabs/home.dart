@@ -14,7 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class Home extends StatefulWidget {
-  const Home({Key? key}) : super(key: key);
+  const Home({Key key}) : super(key: key);
 
   @override
   HomeState createState() => HomeState();
@@ -270,7 +270,7 @@ class HomeState extends State<Home> {
       );
     }
 
-    Widget buildButtonColumn(String assetName, String label,GestureTapCallback? onTap) {
+    Widget buildButtonColumn(String assetName, String label,GestureTapCallback onTap) {
       Color color = ColorsUtil.hexStringColor('#333333');
 
       return Expanded(

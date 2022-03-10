@@ -9,7 +9,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ServiceSettings extends StatefulWidget {
-  const ServiceSettings({Key? key}) : super(key: key);
+  const ServiceSettings({Key key}) : super(key: key);
   @override
   _ServiceSettingsState createState() => _ServiceSettingsState();
 }
@@ -25,7 +25,7 @@ class _ServiceSettingsState extends State<ServiceSettings> {
     list.add(ServiceSettingsBean('assets/images/home/video.png','视频问诊-复诊开药','患者预约后进行视频问诊服务','未开通',0));
 
   }
-  Widget buildListTile(String icon,String title,String subTitle,String detailTitle,int status,{ required VoidCallback? callback}){
+  Widget buildListTile(String icon,String title,String subTitle,String detailTitle,int status,{ @required VoidCallback callback}){
     return ListTile(
       leading:   CircleAvatar(
         backgroundImage:AssetImage(icon),

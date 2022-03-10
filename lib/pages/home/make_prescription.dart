@@ -5,7 +5,7 @@ import 'package:doctor_project/widget/custom_app_bar.dart';
 
 import 'chinese_diagnosis.dart';
 class MakePrescription extends StatefulWidget {
-  const MakePrescription({Key? key}) : super(key: key);
+  const MakePrescription({Key key}) : super(key: key);
 
   @override
   _MakePrescriptionState createState() => _MakePrescriptionState();

@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'order_detail.dart';
 
 class PatientConsult extends StatefulWidget {
-   const PatientConsult({Key? key, required this.type}) : super(key: key);
+   const PatientConsult({Key key, @required this.type}) : super(key: key);
    final String type;
   @override
   _PatientConsultState createState() => _PatientConsultState(type);

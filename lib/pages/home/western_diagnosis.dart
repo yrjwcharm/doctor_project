@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class WesternDiagnosis extends StatefulWidget {
-  const WesternDiagnosis({Key? key}) : super(key: key);
+  const WesternDiagnosis({Key key}) : super(key: key);
 
   @override
   _DiagnosisState createState() => _DiagnosisState();

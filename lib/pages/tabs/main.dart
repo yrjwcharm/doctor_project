@@ -6,7 +6,7 @@ import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:flutter/material.dart';
 
 class Main extends StatefulWidget {
-  const Main({Key? key}) : super(key: key);
+  const Main({Key key}) : super(key: key);
 
   @override
   _MainState createState() => _MainState();

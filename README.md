@@ -1,4 +1,4 @@
-# doctor_project
+# wechat_flutter
 
 A new Flutter project.
 

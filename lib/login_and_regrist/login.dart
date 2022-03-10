@@ -80,7 +80,7 @@ class RegisterContentStates extends State<HomeContent>
                   Container(
                     width: 200,
                     height: 30,
-                    margin: EdgeInsets.fromLTRB(20, 45+40, 0, 0),
+                    margin: EdgeInsets.fromLTRB(20, 85.0, 0, 0),
                     alignment: Alignment.topLeft,
                     decoration: new BoxDecoration(
                     ),
@@ -420,7 +420,7 @@ class singChooseBtn extends StatefulWidget
 }
 class singChooseBtnStates extends State<singChooseBtn>
 {
-  late int  isSelect=0;
+   int  isSelect=0;
 
   Widget build(BuildContext context) {
     // TODO: implement build

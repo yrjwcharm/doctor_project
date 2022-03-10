@@ -10,7 +10,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class OrderDetail extends StatefulWidget {
-  const OrderDetail({Key? key}) : super(key: key);
+  const OrderDetail({Key key}) : super(key: key);
 
   @override
   _OrderDetailState createState() => _OrderDetailState();

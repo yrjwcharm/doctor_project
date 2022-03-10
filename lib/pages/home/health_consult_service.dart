@@ -12,7 +12,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class HealthConsultService extends StatefulWidget {
-  const HealthConsultService({Key? key}) : super(key: key);
+  const HealthConsultService({Key key}) : super(key: key);
 
   @override
   _HealthConsultServiceState createState() => _HealthConsultServiceState();

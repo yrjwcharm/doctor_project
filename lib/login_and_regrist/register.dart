@@ -478,7 +478,7 @@ class sendIphoneCode extends StatefulWidget
 {
   final String str1;
 
-sendIphoneCode({ Key? key,required this.str1}) : super(key: key);
+sendIphoneCode({ Key key, this.str1}) : super(key: key);
   @override
 
   State<StatefulWidget> createState() => sendIphoneCodeStates();
@@ -488,7 +488,7 @@ sendIphoneCode({ Key? key,required this.str1}) : super(key: key);
 class sendIphoneCodeStates extends State<sendIphoneCode>
 {
 
-  late Timer _timer;
+   Timer _timer;
   int _timeCount = 60;
   String _autoCodeText='发送验证码';
   String PostStr='';
@@ -585,7 +585,7 @@ class singChooseBtn extends StatefulWidget
 }
 class singChooseBtnStates extends State<singChooseBtn>
 {
-  late int  isSelect=0;
+   int  isSelect=0;
 
   Widget build(BuildContext context) {
     // TODO: implement build

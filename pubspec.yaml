@@ -1,4 +1,4 @@
-name: doctor_project
+name: wechat_flutter
 description: A new Flutter project.
 
 # The following line prevents the package from being accidentally published to
@@ -18,7 +18,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.15.0 <3.0.0"
+  sdk: ">=2.10.0 <3.0.0"
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -52,7 +52,91 @@ dependencies:
   auto_size_text: 3.0.0
   flutter_localizations:
     sdk: flutter
-  photo_view: 0.13.0
+  expandable: ^5.0.1
+  gradient_ui_widgets: ^1.0.2-nullsafety
+  modal_bottom_sheet: ^2.0.0
+  # tencent_im_sdk_plugin: 3.5.6
+  flutter_syntax_view: ^4.0.0
+  loading_indicator: ^2.0.1
+  crypto: ^3.0.1
+  flutter_easyloading: ^3.0.0
+  archive: ^3.1.6
+  # The following adds the Cupertino Icons font to your application.
+  # Use with the CupertinoIcons class for iOS style icons.
+  pretty_json: ^2.0.0
+  adaptive_action_sheet: ^2.0.0
+  image_picker: ^0.8.4
+  video_thumbnail: ^0.4.3
+  record: ^2.1.1
+  geolocator: ^7.0.3
+  # tpns_flutter_plugin:
+  #   path: /Users/xingchenhe/Documents/work/TPNS-Flutter-Plugin
+  localstorage: ^4.0.0+1
+  adaptive_dialog: ^0.10.0+5
+  mime_type: ^1.0.0
+  file_picker: ^4.2.1
+  #  provider: ^5.0.0 #Flutter2用这个
+  #  cached_network_image: 1.1.1 # 1.9版本flutter
+  #  cached_network_image: 2.0.0 #1.22.5版本Flutter用这个
+  cached_network_image: ^3.2.0
+  #toast提示框
+  toast: 0.1.5
+  #文本扩展显示
+  #  extended_text: 1.0.1  #1.17版本Flutter用这个
+  #  extended_text: 4.0.0 #1.20版本Flutter用这个
+  #  extended_text: 4.0.1 #1.22.5版本Flutter用这个
+  #  extended_text: ^6.0.5 #Flutter2用这个,,其他可注释
+  extended_text: ^9.0.0
+  #文字表情混入
+  #  extended_text_field: 1.0.1  #1.17版本Flutter用这个
+  #  extended_text_field: 4.0.0  #1.20版本Flutter用这个
+  #  extended_text_field: 5.0.1 #1.22.5版本Flutter用这个
+  #  extended_text_field: ^7.0.1 #Flutter2用这个,,其他可注释
+  extended_text_field: ^10.0.0
+  #  extended_text_library: 4.0.2 #1.22.5版本Flutter用这个,,其他可注释
+  #  extended_text_library: ^6.0.0 #Flutter2用这个,,其他可注释
+  extended_text_library: ^9.0.0
+  #打开系统浏览器
+  #网络连接
+  #图片显示
+  photo_view: ^0.13.0
+  #  dio: 2.2.2  #低于Flutter-1.17使用此版本
+  #  dio: 3.0.9  #1.22.5版本Flutter用这个
+  #打开文件
+  #权限处理
+  #音频处理
+  #  audioplayers: 0.13.3 #1.22.5版本Flutter用这个
+  #调用相机
+
+  #即时通讯【腾讯云】
+  dim:
+    path: plugin/wechat_flutter_plugin
+  #持久化存储
+  #打开文件
+  open_file: ^3.2.1
+  #获取包信息
+  #音频处理
+  flutter_sound: ^9.1.3
+  #权限处理
+  #音频处理
+  #  audioplayers: 0.13.3 #1.22.5版本Flutter用这个
+  audioplayers: ^0.20.1
+  #调用相机
+  camera: # 0.5.7+1
+    path: plugin/camera
+  #视频播放
+  #  video_player: 0.10.11+2 #1.22.5版本Flutter用这个
+  video_player: ^2.2.19
+  #图片压缩
+  flutter_image_compress: ^1.1.0
+  #拼音
+  lpinyin: ^2.0.3
+  #特殊列表滑动
+  azlistview: ^2.0.0
+  #微信图库
+  #  wechat_assets_picker: ^4.2.1 #1.22.5版本Flutter用这个
+  #  wechat_assets_picker: ^5.4.0 #Flutter2用这个
+  wechat_assets_picker: ^7.0.1
 
 dev_dependencies:
   flutter_test:
@@ -70,47 +154,140 @@ dev_dependencies:
 
 # The following section is specific to Flutter.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
   assets:
-  - images/2.0x/userIcon@2x.png
-  - images/2.0x/pasIcon@2x.png
-  - images/2.0x/LoginbackGrond@2x.png
-  - images/2.0x/check box@2x.png
-  - images/2.0x/check box-select@2x.png
-  - images/2.0x/back.png
-  - images/2.0x/more@2x.png
-  - images/2.0x/success@2x.png
-  - images/2.0x/abnormal-not sel.png
-  - images/2.0x/home page-not sel.png
-  - images/2.0x/my-not sel.png
-  - images/2.0x/abnormal-sel.png
-  - images/2.0x/home page-sel.png
-  - images/2.0x/my-sel.png
-  - images/2.0x/hidePas@2x.png
-  - images/2.0x/showPsa@2x.png
-  - images/back.png
-  - images/abnormal-not sel.png
-  - images/home page-not sel.png
-  - images/my-not sel.png
-  - images/abnormal-sel.png
-  - images/home page-sel.png
-  - images/my-sel.png
-  - images/background.png
-  - images/pulldown.png
-  - images/new.png
-  - images/search.png
-  - images/backgroundFrist.png
-  - images/notice.png
-  - images/hidePas.png
-  - images/showPsa.png
-  - assets/images/
-  - assets/images/home/
-  - assets/images/my/
-  - assets/images/svg/
+    - images/2.0x/userIcon@2x.png
+    - images/2.0x/pasIcon@2x.png
+    - images/2.0x/LoginbackGrond@2x.png
+    - images/2.0x/check box@2x.png
+    - images/2.0x/check box-select@2x.png
+    - images/2.0x/back.png
+    - images/2.0x/more@2x.png
+    - images/2.0x/success@2x.png
+    - images/2.0x/abnormal-not sel.png
+    - images/2.0x/home page-not sel.png
+    - images/2.0x/my-not sel.png
+    - images/2.0x/abnormal-sel.png
+    - images/2.0x/home page-sel.png
+    - images/2.0x/my-sel.png
+    - images/2.0x/hidePas@2x.png
+    - images/2.0x/showPsa@2x.png
+    - images/back.png
+    - images/abnormal-not sel.png
+    - images/home page-not sel.png
+    - images/my-not sel.png
+    - images/abnormal-sel.png
+    - images/home page-sel.png
+    - images/my-sel.png
+    - images/background.png
+    - images/pulldown.png
+    - images/new.png
+    - images/search.png
+    - images/backgroundFrist.png
+    - images/notice.png
+    - images/hidePas.png
+    - images/showPsa.png
+    - assets/images/
+    - assets/images/home/
+    - assets/images/my/
+    - assets/images/svg/
+    - assets/images/bsc.webp
+    - assets/images/bar_close.png
+    - assets/images/tabbar_contacts_c.webp
+    - assets/images/tabbar_contacts_s.webp
+    - assets/images/tabbar_discover_c.webp
+    - assets/images/tabbar_discover_s.webp
+    - assets/images/tabbar_chat_c.webp
+    - assets/images/tabbar_chat_s.webp
+    - assets/images/tabbar_me_c.webp
+    - assets/images/tabbar_me_s.webp
+    - assets/images/def_avatar.png
+    - assets/images/search_black.webp
+    - assets/images/search_white.png
+    - assets/images/Contact_Female.webp
+    - assets/images/Contact_Male.webp
+    - assets/images/right_more.png
+    - assets/images/favorite.webp
+    - assets/images/contacts_add_newmessage.png
+    - assets/images/add_addressicon.png
+    - assets/images/ic_delete.webp
+    - assets/images/ic_right_arrow_black.webp
+    - assets/images/ic_right_arrow_grey.webp
+    - assets/images/ic_add_friend.webp
+    - assets/images/ic_no_data.webp
+    - assets/images/login/select_avatar.webp
+    - assets/images/login/ic_select_have.webp
+    - assets/images/login/ic_select_have_grey.webp
+    - assets/images/login/ic_select_no.png
+    - assets/images/chat/ic_Emotion.webp
+    - assets/images/chat/ic_Keyboard.webp
+    - assets/images/chat/ic_details_add.png
+    - assets/images/chat/ic_voice.webp
+    - assets/images/chat/ic_chat_more.webp
+    - assets/images/chat/ic_chat_voice.webp
+    - assets/images/chat/ic_details_camera.webp
+    - assets/images/chat/ic_details_card.webp
+    - assets/images/chat/ic_details_favorite.webp
+    - assets/images/chat/ic_details_file.webp
+    - assets/images/chat/ic_details_localtion.webp
+    - assets/images/chat/ic_details_media.webp
+    - assets/images/chat/ic_details_photo.webp
+    - assets/images/chat/ic_details_red.webp
+    - assets/images/chat/ic_details_transfer.webp
+    - assets/images/chat/ic_details_video.webp
+    - assets/images/chat/voice_volume_1.webp
+    - assets/images/chat/voice_volume_2.webp
+    - assets/images/chat/voice_volume_3.webp
+    - assets/images/chat/voice_volume_4.webp
+    - assets/images/chat/voice_volume_5.webp
+    - assets/images/chat/voice_volume_6.webp
+    - assets/images/chat/voice_volume_7.webp
+    - assets/images/chat/sound_left_0.webp
+    - assets/images/chat/sound_left_1.webp
+    - assets/images/chat/sound_left_2.webp
+    - assets/images/chat/sound_left_3.webp
+    - assets/images/chat/sound_right_0.png
+    - assets/images/chat/sound_right_1.webp
+    - assets/images/chat/sound_right_2.webp
+    - assets/images/chat/sound_right_3.png
+    - assets/images/chat/icon_sight_close.png
+    - assets/images/chat/flip_camera_icon_nor.webp
+    - assets/images/mine/ic_small_code.png
+    - assets/images/mine/ic_wallet.webp
+    - assets/images/mine/ic_card_package.png
+    - assets/images/mine/ic_emoji.png
+    - assets/images/mine/ic_pay.png
+    - assets/images/mine/ic_setting.png
+    - assets/images/contact/ic_contacts_details.png
+    - assets/images/contact/ic_no_public.webp
+    - assets/images/contact/ic_tag.webp
+    - assets/images/contact/ic_group.webp
+    - assets/images/contact/ic_new_friend.webp
+    - assets/images/contact/ic_video.png
+    - assets/images/contact/ic_voice.png
+    - assets/images/contact/ic_offical.webp
+    - assets/images/contact/ic_reda.webp
+    - assets/images/contact/ic_scanqr.webp
+    - assets/images/contact/ic_search_wework.webp
+    - assets/images/contact/ic_contact_add.webp
+    - assets/images/discover/ff_Icon_album.webp
+    - assets/images/discover/ff_Icon_shake.webp
+    - assets/images/discover/ff_Icon_bottle.webp
+    - assets/images/discover/ff_Icon_browse.webp
+    - assets/images/discover/ff_Icon_nearby.webp
+    - assets/images/discover/ff_Icon_qr_code.webp
+    - assets/images/discover/ff_Icon_search.webp
+    - assets/images/discover/game_center_h5.webp
+    - assets/images/discover/mini_program.webp
+    - assets/images/emoji/
+    - assets/images/group/
+    - assets/images/wechat/
+    - assets/data/contacts.json
+    - assets/data/friends.json
+
 
   # To add assets to your application, add an assets section, like this:
   # An image asset can refer to one or more resolution-specific "variants", see

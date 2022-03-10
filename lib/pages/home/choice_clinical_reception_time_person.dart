@@ -10,7 +10,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class ChoiceClinicReceptTimePerson extends StatefulWidget {
-  const ChoiceClinicReceptTimePerson({Key? key}) : super(key: key);
+  const ChoiceClinicReceptTimePerson({Key key}) : super(key: key);
 
   @override
   _ChoiceClinicReceptTimePersonState createState() =>
