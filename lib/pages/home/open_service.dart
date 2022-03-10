@@ -20,9 +20,8 @@ class _OpenServiceState extends State<OpenService> {
   }
 
   applyOpen() {
-    Navigator.push(context, MaterialPageRoute(
-        builder: (context) => const ServiceSettings()
-    ));
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => const ServiceSettings()));
   }
 
   @override
@@ -64,16 +63,18 @@ class _OpenServiceState extends State<OpenService> {
     return MaterialApp(
       title: '开通服务',
       home: Scaffold(
+          appBar:  CustomAppBar(
+            '开通服务',
+            isBack: true,
+            onBackPressed: () {
+              Navigator.pop(context);
+            },
+          ),
           backgroundColor: Colors.white,
-          body: Column(
+          body: SingleChildScrollView(
+              child: IntrinsicHeight(
+                  child: Column(
             children: [
-              CustomAppBar(
-                '开通服务',
-                isBack: true,
-                onBackPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
               Container(
                 margin: const EdgeInsets.only(top: 10.0),
                 alignment: Alignment.center,
@@ -176,15 +177,20 @@ class _OpenServiceState extends State<OpenService> {
                 ],
               ),
               Expanded(
-                  child: Container(
-                      alignment: Alignment.bottomCenter,
-                      child: SafeAreaButton(onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>const ServiceSettings()));
-                      }, text: '申请开通',)
-                  ),
+                child: Container(
+                    alignment: Alignment.bottomCenter,
+                    child: SafeAreaButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const ServiceSettings()));
+                      },
+                      text: '申请开通',
+                    )),
               ),
             ],
-          )),
+          )))),
     );
   }
 }

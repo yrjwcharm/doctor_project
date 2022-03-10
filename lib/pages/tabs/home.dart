@@ -424,9 +424,9 @@ class HomeState extends State<Home> {
       child: Row(
         children: [
           buildButtonColumn('assets/images/home/consult1.png', '患者咨询',(){
-            // Navigator.push(context, MaterialPageRoute(builder: (context)=> const PatientConsult(type: '1',)));
+            Navigator.push(context, MaterialPageRoute(builder: (context)=> const PatientConsult(type: '1',)));
             // Navigator.push(context, MaterialPageRoute(builder: (context)=> const MakePrescription()));
-            Navigator.push(context, MaterialPageRoute(builder: (context)=> const AddDrug()));
+            // Navigator.push(context, MaterialPageRoute(builder: (context)=> const AddDrug()));
           }),
           buildButtonColumn('assets/images/home/picture1.png', '图文问诊',(){
             Navigator.push(context, MaterialPageRoute(builder: (context)=> const PatientConsult(type: '2',)));

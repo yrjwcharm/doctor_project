@@ -1,4 +1,5 @@
 import 'package:dim/commom/route.dart';
+import 'package:doctor_project/pages/tabs/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final model = Provider.of<GlobalModel>(context)..setContext(context);
 
-    return new MaterialApp(
+    return  MaterialApp(
       navigatorKey: navGK,
       title: model.appName,
       theme: ThemeData(
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
         canvasColor: Colors.transparent,
       ),
       debugShowCheckedModeBanner: false,
-      localizationsDelegates: [
+      localizationsDelegates: const [
         S.delegate,
         GlobalCupertinoLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
@@ -34,7 +35,8 @@ class MyApp extends StatelessWidget {
       locale: model.currentLocale,
       routes: {
         '/': (context) {
-          return model.goToLogin ? new LoginBeginPage() : new RootPage();
+          // return model.goToLogin ? new LoginBeginPage() : new RootPage();
+           return Main();
         }
       },
     );

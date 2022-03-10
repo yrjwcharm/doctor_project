@@ -1,10 +1,13 @@
 import 'package:doctor_project/common/style/gsy_style.dart';
 import 'package:doctor_project/pages/my/my_income.dart';
+import 'package:doctor_project/pages/my/settings.dart';
 import 'package:doctor_project/pages/my/template_create.dart';
 import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:doctor_project/widget/custom_app_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import '../my/basic_info.dart';
 
 class My extends StatefulWidget {
   const My({Key key}) : super(key: key);
@@ -22,6 +25,7 @@ class MyState extends State<My> {
           _buildListTile(id:0,icon: 'assets/images/my/qualifications.png', title: '医生资质上传', onTap: (){
           }),
           _buildListTile(id:1,icon: 'assets/images/my/information.png', title: '基本信息', onTap: (){
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>const BasicInfo()));
           }),
           _buildListTile(id:2,icon: 'assets/images/my/consultation_information.png', title: '维护问诊信息', onTap: (){
           }),
@@ -71,9 +75,12 @@ class MyState extends State<My> {
       ),
       child:Column(
         children: [
-          Container(
-              alignment: Alignment.topRight,
-              child:const Image(image: AssetImage('assets/images/my/setup.png'),fit: BoxFit.cover,width: 18.0,height: 18.0,),),
+          GestureDetector(onTap: (){
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>const Settings()));
+          }, child:Container(
+            alignment: Alignment.topRight,
+            child:const Image(image: AssetImage('assets/images/my/setup.png'),fit: BoxFit.cover,width: 18.0,height: 18.0,),),
+          ),
           Row(
             children: [
               const Image(image: AssetImage('assets/images/home/avatar.png'),fit: BoxFit.cover,width: 55.0,height: 55.0,),
@@ -154,10 +161,10 @@ class MyState extends State<My> {
 
     return Scaffold(
       backgroundColor: ColorsUtil.hexStringColor('#f9f9f9'),
+      appBar: CustomAppBar('我的',isBack: false,) ,
       body:SingleChildScrollView(
         child: Column(
           children: [
-            CustomAppBar('我的',isBack: false,),
             headerSection,
             captionSection,
             Column(

@@ -4,7 +4,7 @@ import 'package:doctor_project/utils/status_bar_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class CustomAppBar extends StatelessWidget {
+class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
    CustomAppBar(this.title, {Key key,this.onBackPressed,this.onForwardPressed,
     this.isBack=true, this.isForward=false,this.rightIcon='', this.borderBottomWidth=1.0, this.color=Colors.white, this.leftIcon='assets/images/back.png', this.titleColor='#333333'}) : super(key: key);
   final bool isBack;
@@ -55,6 +55,11 @@ class CustomAppBar extends StatelessWidget {
       ),
     );
   }
+
+  @override
+  // TODO: implement preferredSize
+  @override
+  Size get preferredSize => const Size(100, 50);
 }
 
 
