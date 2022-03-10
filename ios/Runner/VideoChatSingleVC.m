@@ -14,11 +14,9 @@
 @property(nonatomic,strong)WMDragView*smallView;
 @property(nonatomic,strong)UIView*bigView;
 @property (nonatomic, copy) NSString *playStreamID;
-
 @property (nonatomic) ZegoRoomState roomState;
 @property (nonatomic) ZegoPublisherState publisherState;
 @property (nonatomic) ZegoPlayerState playerState;
-
 @end
 
 
@@ -29,12 +27,10 @@
     _bigView=[[UIView alloc]init];
     _bigView.frame=CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
     [self.view addSubview:_bigView];
-    
     _smallView=[[WMDragView alloc]init];
     CGFloat withX=240*9/16;
     _smallView.frame=CGRectMake([UIScreen mainScreen].bounds.size.width-withX, 80,withX, 240);
     [self.view addSubview:_smallView];
-    
     UIButton*backBtn=[[UIButton alloc]init];
     backBtn.frame=CGRectMake([UIScreen mainScreen].bounds.size.width-10-60, 40, 60, 30);
     [backBtn setTitle:@"返回" forState:UIControlStateNormal];
@@ -49,8 +45,8 @@
     self.smallView.hidden=YES;
     [self createEngineAndLogin];
     
-        
 }
+
 -(void)backBtnClick
 {
     [self.navigationController popViewControllerAnimated:YES];
@@ -76,9 +72,7 @@
 
     [[ZegoExpressEngine sharedEngine] loginRoom:self.roomID user:[ZegoUser userWithUserID:self.userID]];
 }
-
 #pragma mark - ZegoEventHandler
-
 #pragma mark - Room
 - (void)onRoomStateUpdate:(ZegoRoomState)state errorCode:(int)errorCode extendedData:(NSDictionary *)extendedData roomID:(NSString *)roomID {
     self.roomState = state;
@@ -120,11 +114,10 @@
 #pragma mark - Publish
 // The callback triggered when the state of stream publishing changes.
 - (void)onPublisherStateUpdate:(ZegoPublisherState)state errorCode:(int)errorCode extendedData:(NSDictionary *)extendedData streamID:(NSString *)streamID {
-    // If the state is PUBLISHER_STATE_NO_PUBLISH and the errcode is not 0, it means that stream publishing has failed
-    // and no more retry will be attempted by the engine. At this point, the failure of stream publishing can be indicated
-    // on the UI of the App.
+  
     self.publisherState = state;
 //    [self appendLog:[NSString stringWithFormat:@"🚩 Publisher State Update State: %lu", state]];
+    
 }
 #pragma mark - Play
 // The callback triggered when the state of stream playing changes.

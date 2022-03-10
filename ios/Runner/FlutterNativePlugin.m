@@ -20,6 +20,7 @@
     [registrar addMethodCallDelegate:instance channel:channel];
 }
 
+
 - (void)handleMethodCall:(FlutterMethodCall*)call result:(FlutterResult)result {
     if ([@"jumpToCallVideo" isEqualToString:call.method]) {
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -33,10 +34,11 @@
     {
         
         
-        
     }
-    else {
+    else
+    {
         result(FlutterMethodNotImplemented);
+        
     }
 }
 @end
