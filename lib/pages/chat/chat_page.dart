@@ -5,6 +5,7 @@ import 'package:doctor_project/ui/chat/chat_details_body.dart';
 import 'package:doctor_project/ui/chat/chat_details_row.dart';
 import 'package:doctor_project/ui/item/chat_more_icon.dart';
 import 'package:doctor_project/ui/view/indicator_page_view.dart';
+import 'package:doctor_project/widget/custom_app_bar.dart';
 
 import 'package:extended_text_field/extended_text_field.dart';
 import 'package:flutter/material.dart';
@@ -233,8 +234,9 @@ class _ChatPageState extends State<ChatPage> {
     ];
 
     return Scaffold(
-      appBar: new ComMomBar(
-          title: newGroupName ?? widget.title, rightDMActions: rWidget),
+      appBar:CustomAppBar('聊天',onBackPressed: (){
+        Navigator.pop(context);
+      },),
       body: new MainInputBody(
         onTap: () => setState(
           () {
