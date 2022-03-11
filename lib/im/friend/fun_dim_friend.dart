@@ -1,4 +1,4 @@
-import 'package:doctor_project/tools/wechat_flutter.dart';
+import '/tools/wechat_flutter.dart';
 
 Dim dim = new Dim();
 

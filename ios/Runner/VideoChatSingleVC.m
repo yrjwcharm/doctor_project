@@ -19,11 +19,11 @@
 @property (nonatomic) ZegoPlayerState playerState;
 @end
 
-
 @implementation VideoChatSingleVC
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     _bigView=[[UIView alloc]init];
     _bigView.frame=CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
     [self.view addSubview:_bigView];
