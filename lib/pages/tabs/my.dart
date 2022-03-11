@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:doctor_project/common/style/gsy_style.dart';
 import 'package:doctor_project/pages/my/my_income.dart';
 import 'package:doctor_project/pages/my/settings.dart';
@@ -6,6 +8,7 @@ import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:doctor_project/widget/custom_app_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../my/basic_info.dart';
 
@@ -16,7 +19,7 @@ class My extends StatefulWidget {
 }
 
 class MyState extends State<My> {
-
+  File _image;
    List<Widget> items = [];
    @override
     initState(){
@@ -65,6 +68,63 @@ class MyState extends State<My> {
          )
      );
    }
+   /*拍照*/
+   _takePhoto() async {
+     var image = await ImagePicker()
+         .getImage(source: ImageSource.camera, maxWidth: 150, maxHeight: 150);
+     // this._uploadImage(File(image.path));
+     // print(image.path);
+
+     _image = File(image.path);
+     // print(_image);
+
+     setState(() {
+       this._image = File(image.path);
+     });
+   }
+
+   /*相册*/
+   _openGallery() async {
+     var image = await ImagePicker().getImage(source: ImageSource.gallery, maxWidth: 150, maxHeight: 150);
+     _image = File(image.path);
+     setState(() {
+       this._image = File(image.path);
+     });
+   }
+   Future<void> _handleClickMe(BuildContext context) async {
+     return showCupertinoModalPopup<void>(
+       context: context,
+       builder: (BuildContext context) {
+         return CupertinoActionSheet(
+           title: Text('上传图片'),
+           message: Text('请选择上传方式'),
+           actions: <Widget>[
+             CupertinoActionSheetAction(
+               child: Text('拍照上传'),
+               onPressed: () {
+                 _takePhoto();
+                 Navigator.pop(context);
+               },
+             ),
+             CupertinoActionSheetAction(
+               child: Text('相册'),
+               onPressed: () {
+                 _openGallery();
+                 Navigator.pop(context);
+               },
+             ),
+           ],
+           cancelButton: CupertinoActionSheetAction(
+             isDefaultAction: true,
+             child: Text('取消'),
+             onPressed: () {
+               Navigator.pop(context);
+             },
+           ),
+         );
+       },
+     );
+   }
   @override
   Widget build(BuildContext context) {
     Widget headerSection =Container(
@@ -83,7 +143,13 @@ class MyState extends State<My> {
           ),
           Row(
             children: [
-              const Image(image: AssetImage('assets/images/home/avatar.png'),fit: BoxFit.cover,width: 55.0,height: 55.0,),
+              GestureDetector(
+                onTap:(){
+                  _handleClickMe(context);
+                },
+                child:const Image(image: AssetImage('assets/images/home/avatar.png'),fit: BoxFit.cover,width: 55.0,height: 55.0,),
+
+              ),
               const SizedBox(width: 15.0,),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
