@@ -124,6 +124,10 @@ class RegexUtil {
   static bool isURL(String input) {
     return matches(regexUrl, input);
   }
+  static bool isEmpty(String str){
+    if (str == null) return false;
+    return str.isEmpty;
+  }
 
   /// Return whether input matches regex of Chinese character.
   static bool isZh(String input) {

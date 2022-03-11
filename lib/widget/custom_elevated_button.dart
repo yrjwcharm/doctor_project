@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CustomElevatedButton extends StatelessWidget {
-  CustomElevatedButton({Key key,this.height=40.0,  this.title, this.textStyle,  this.onPressed, this.primary='#06B48D', this.topLeft=0, this.topRight=0, this.bottomLeft=0, this.bottomRight=0,}) : super(key: key);
+  CustomElevatedButton({Key key,this.height=40.0,  @required this.title, this.textStyle,  @required this.onPressed, this.primary='#06B48D', this.topLeft=0, this.topRight=0, this.bottomLeft=0, this.bottomRight=0,}) : super(key: key);
   final String primary;
   final double height;
   final String title;

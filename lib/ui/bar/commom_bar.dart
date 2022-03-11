@@ -64,8 +64,8 @@ class ComMomBar extends StatelessWidget implements PreferredSizeWidget {
                       title,
                       style: new TextStyle(
                           color: mainColor,
-                          fontSize: 17.0,
-                          fontWeight: FontWeight.w600),
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.w400),
                     )
                   : titleW,
               backgroundColor: mainColor,
@@ -83,8 +83,8 @@ class ComMomBar extends StatelessWidget implements PreferredSizeWidget {
                     title,
                     style: new TextStyle(
                         color: mainColor,
-                        fontSize: 17.0,
-                        fontWeight: FontWeight.w600),
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.w400),
                   )
                 : titleW,
             backgroundColor: backgroundColor,

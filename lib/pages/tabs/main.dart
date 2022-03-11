@@ -53,10 +53,10 @@ class _MainState extends State<Main> {
             onTap: (int index) {//点击事件
              setState(() {
                current = index;
-               print('test,$current');
              });
 
             },
+            elevation: 0,
             currentIndex: current,
             selectedLabelStyle: const TextStyle(
                 fontWeight: FontWeight.w400,

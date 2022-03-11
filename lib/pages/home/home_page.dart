@@ -45,7 +45,7 @@ class _HomePageState extends State<HomePage>
         context: context,
         position: position,
         items: <MyPopupMenuItem<String>>[
-          new MyPopupMenuItem(child: Text('标为已读'), value: '标为已读'),
+          new MyPopupMenuItem(child: const Text('标为已读'), value: '标为已读'),
           new MyPopupMenuItem(child: Text('置顶聊天'), value: '置顶聊天'),
           new MyPopupMenuItem(child: Text('删除该聊天'), value: '删除该聊天'),
           // ignore: missing_return
