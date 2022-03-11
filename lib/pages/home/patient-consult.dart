@@ -1,4 +1,5 @@
 import 'package:doctor_project/common/style/gsy_style.dart';
+import 'package:doctor_project/pages/chat/chat_page.dart';
 import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:doctor_project/widget/custom_app_bar.dart';
 import 'package:flutter/cupertino.dart';
@@ -104,15 +105,7 @@ class _PatientConsultState extends State<PatientConsult> {
     super.dispose();
     _scrollController.dispose();
   }
-  void _goToHealthHutModular() async {
-    const platform = const MethodChannel("flutterPrimordialBrige");
-    bool result = false;
-    try {
-      result = await platform.invokeMethod("jumpToCallVideo"); //分析2
-    } on PlatformException catch (e) {
-      print(e.toString());
-    }
-  }
+
   Widget _renderRow(BuildContext context, int index) {
     if (index < list.length) {
       return Container(
@@ -227,7 +220,7 @@ class _PatientConsultState extends State<PatientConsult> {
                             primary: ColorsUtil.shallowColor,
                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14.0))
                         ), onPressed: () {
-                        _goToHealthHutModular();
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=> ChatPage()));
                       }, child: Text('继续交流',style: GSYConstant.textStyle(fontSize: 13.0),),
                       ),
                     )
