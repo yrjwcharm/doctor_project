@@ -1,4 +1,5 @@
 import 'package:dim/commom/route.dart';
+import 'package:doctor_project/pages/chat/chat_page.dart';
 import 'package:doctor_project/pages/tabs/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -36,7 +37,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) {
           // return model.goToLogin ? new LoginBeginPage() : new RootPage();
-           return Main();
+           return ChatPage();
         }
       },
     );

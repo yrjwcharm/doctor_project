@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:doctor_project/config/provider_config.dart';
 import 'package:doctor_project/app.dart';
 import 'package:doctor_project/tools/data/data.dart';
-
 import 'config/storage_manager.dart';
 
 void main() async {
