@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) {
           // return model.goToLogin ? new LoginBeginPage() : new RootPage();
-           return ChatPage();
+           return Main();
         }
       },
     );

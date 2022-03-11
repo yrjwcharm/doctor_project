@@ -230,31 +230,93 @@ class _PrescriptDetailState extends State<PrescriptDetail> {
                   ],
                 ),
               ),
-              Container(
-                margin: const EdgeInsets.only(top: 10.0),
-                decoration: const BoxDecoration(color: Colors.white),
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: Column(
+              Column(
+                children: <Widget>[
+                  Space(height: 8.0,),
+                  Container(
+                    padding: const EdgeInsets.only(left: 16.0),
+                    alignment: Alignment.centerLeft,
+                    height: 40.0,
+                    width: double.infinity,
+                    decoration: const BoxDecoration(
+                      color: Colors.white
+                    ),
+                    child: Text('Rp',style: GSYConstant.textStyle(color: '#333333'),),
+                  ),
+                  Divider(height: 0,color: ColorsUtil.hexStringColor('#cccccc',alpha: 0.2),)
+                ],
+              ),
+              Column(
                   children: ListTile.divideTiles(
                       color: ColorsUtil.hexStringColor('#cccccc', alpha: 0.3),
-                      tiles: list.map((item) =>
+                      tiles: list.asMap().keys.map((index) =>
                           Column(
                           children: <Widget>[
-                            ListTile(
-                              contentPadding: EdgeInsets.zero,
-                              title: Text(
-                                item['label'],
-                                style: GSYConstant.textStyle(color: '#333333'),
-                              ),
-                              tileColor: Colors.white,
-                              trailing: Text(
-                                item['label'],
-                                style: GSYConstant.textStyle(color: '#666666'),
-                              ),
-                            )
+                            Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                              decoration: const BoxDecoration(color: Colors.white),
+                              child:ListTile(
+                                contentPadding: EdgeInsets.zero,
+                                title: Text(
+                                  list[index]['label'],
+                                  style: GSYConstant.textStyle(color: '#333333'),
+                                ),
+                                tileColor: Colors.white,
+                                trailing: Text(
+                                  list[index]['detail'],
+                                  style: GSYConstant.textStyle(color: '#666666'),
+                                ),
+                              ) ,
+                            ),
+                            index==3?Space(height: 8.0,):Container()
                           ]
                         ),
                       )).toList(),
+                ),
+              Container(
+                margin: const EdgeInsets.only(top: 8.0),
+                decoration: const BoxDecoration(
+                  color: Colors.white
+                ),
+                padding: const EdgeInsets.symmetric(horizontal: 16.0,vertical: 13.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Column(
+                      children: <Widget>[
+                        Row(
+                          children: <Widget>[
+                            Text('处方医师',style: GSYConstant.textStyle(color: '#333333'),),
+                            Space(width: 15.0,),
+                            Text('张望国',style: GSYConstant.textStyle(fontSize:18.0,color: '#666666',fontFamily: 'ShouShuti'),)
+                          ],
+                        ),
+                        Space(height: 25.0,),
+                        Row(
+                          children: <Widget>[
+                            Text('审方医师',style: GSYConstant.textStyle(color: '#333333'),),
+                            Space(width: 15.0,),
+                            Text('苏山寒',style: GSYConstant.textStyle(fontSize:18.0,color: '#666666',fontFamily: 'ShouShuti'),)
+                          ],
+                        )
+                      ],
+                    ),
+                    Image.asset('assets/images/chapter.png')
+                  ],
+                ),
+              ),
+              Container(
+                alignment: Alignment.centerLeft,
+                margin: const EdgeInsets.only(top: 13.0,bottom: 27.0),
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text('备注：',style: GSYConstant.textStyle(fontSize: 13.0,color: '#666666'),),
+                    Space(height: 7.0,),
+                    Text('1、处方有效期为7天。',style: GSYConstant.textStyle(fontSize: 13.0,color: '#666666')),
+                    Text('2、该处方不支持线下药房购药。',style: GSYConstant.textStyle(fontSize: 13.0,color: '#666666')),
+                  ],
                 ),
               )
             ],
