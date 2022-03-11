@@ -3,8 +3,8 @@ import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:doctor_project/widget/custom_app_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import 'order_detail.dart';
+import 'package:flutter/services.dart';
 
 class PatientConsult extends StatefulWidget {
    const PatientConsult({Key key, @required this.type}) : super(key: key);
@@ -103,6 +103,15 @@ class _PatientConsultState extends State<PatientConsult> {
     // TODO: implement dispose
     super.dispose();
     _scrollController.dispose();
+  }
+  void _goToHealthHutModular() async {
+    const platform = const MethodChannel("flutterPrimordialBrige");
+    bool result = false;
+    try {
+      result = await platform.invokeMethod("jumpToCallVideo"); //分析2
+    } on PlatformException catch (e) {
+      print(e.toString());
+    }
   }
   Widget _renderRow(BuildContext context, int index) {
     if (index < list.length) {
@@ -218,7 +227,7 @@ class _PatientConsultState extends State<PatientConsult> {
                             primary: ColorsUtil.shallowColor,
                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14.0))
                         ), onPressed: () {
-
+                        _goToHealthHutModular();
                       }, child: Text('继续交流',style: GSYConstant.textStyle(fontSize: 13.0),),
                       ),
                     )
