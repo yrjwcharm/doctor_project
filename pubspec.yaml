@@ -320,5 +320,8 @@ flutter:
     - family: Medium
       fonts:
         - asset: assets/fonts/PingFang-SC-Medium.ttf
+    - family: ShouShuti
+      fonts:
+        - asset: assets/fonts/ShouShuti_Regular.ttf
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
