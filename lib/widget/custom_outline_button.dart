@@ -3,43 +3,37 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CustomOutlineButton extends StatelessWidget {
-  CustomOutlineButton({
+   CustomOutlineButton({
     Key key,
     this.height = 40.0,
     @required this.title,
     this.textStyle,
     @required this.onPressed,
     this.primary = '#06B48D',
-    this.topLeft = 0,
-    this.topRight = 0,
-    this.bottomLeft = 0,
-    this.bottomRight = 0,
+    @required this.borderRadius,
+    @required this.borderColor, this.padding, this.width,
   }) : super(key: key);
   final String primary;
   final double height;
+  final double width;
   final String title;
   final TextStyle textStyle;
   final VoidCallback onPressed;
-  final double topLeft;
-  final double topRight;
-  final double bottomLeft;
-  final double bottomRight;
-
-  @override
+  final BorderRadiusGeometry borderRadius;
+  final Color borderColor;
+  final EdgeInsetsGeometry padding;
+   @override
   Widget build(BuildContext context) {
     return SizedBox(
+        width: width,
         height: height,
         child: OutlinedButton(
           style: OutlinedButton.styleFrom(
+             padding:EdgeInsets.zero,
               side: BorderSide(
-                  width: 1, color: ColorsUtil.hexStringColor('#cccccc')),
+                  width: 1, color: borderColor),
               primary: ColorsUtil.hexStringColor(primary),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(topLeft),
-                      topRight: Radius.circular(topRight),
-                      bottomLeft: Radius.circular(bottomLeft),
-                      bottomRight: Radius.circular(bottomRight)))),
+              shape: RoundedRectangleBorder(borderRadius: borderRadius)),
           onPressed: onPressed,
           child: Text(
             title,

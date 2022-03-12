@@ -284,7 +284,7 @@ class _OrderDetailState extends State<OrderDetail> {
                                         Expanded(child: CustomOutlineButton(title: '取消', onPressed: () {
                                           Navigator.pop(context);
 
-                                        },primary:'#ffffff', height: 48,textStyle: GSYConstant.textStyle(fontSize: 15.0,color: '#666666'),bottomRight: 4.0,))
+                                        },primary:'#ffffff',textStyle: GSYConstant.textStyle(fontSize: 15.0,color: '#666666'),borderRadius:BorderRadius.only(bottomRight:Radius.circular(4.0)), borderColor: ColorsUtil.hexStringColor('#cccccc'),))
                                       ],
                                     ),
                                     // onPressed: () {
