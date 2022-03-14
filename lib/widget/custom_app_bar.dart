@@ -6,14 +6,15 @@ import 'package:flutter/material.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
    CustomAppBar(this.title, {Key key,this.onBackPressed,this.onForwardPressed,
-    this.isBack=true, this.isForward=false,this.rightIcon='', this.borderBottomWidth=1.0, this.color=Colors.white, this.leftIcon='assets/images/back.png', this.titleColor='#333333'}) : super(key: key);
+    this.isBack=true, this.isForward=false,this.rightIcon='', this.borderBottomWidth=1.0, this.leftIcon='assets/images/back.png', this.titleColor='#333333', this.startColor=Colors.white, this.endColor=Colors.white}) : super(key: key);
   final bool isBack;
-  final Color color;
   final String title;
   final String titleColor;
   final bool isForward;
   final String leftIcon;
   final String rightIcon;
+  final Color startColor;
+  final Color endColor;
   VoidCallback onBackPressed;
   VoidCallback onForwardPressed;
   final double borderBottomWidth;
@@ -22,11 +23,12 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
     return Container(
       decoration: BoxDecoration(
-          color: color,
-          gradient: const LinearGradient(
+          gradient:  LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.topRight,
             colors: [
-              Colors.white,
-              Colors.white
+              startColor,
+              endColor
             ]
           ),
           border: Border(bottom:BorderSide(width: borderBottomWidth,color:ColorsUtil.hexStringColor('#cccccc',alpha: 0.3)) )

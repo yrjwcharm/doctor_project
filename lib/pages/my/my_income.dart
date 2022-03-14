@@ -1,4 +1,5 @@
 import 'package:doctor_project/common/style/gsy_style.dart';
+import 'package:doctor_project/pages/my/income_statistics.dart';
 import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:doctor_project/widget/custom_app_bar.dart';
 import 'package:flutter/cupertino.dart';
@@ -92,8 +93,10 @@ class _MyIncomeState extends State<MyIncome> {
                   ),
                   child: DropdownButtonHideUnderline(
                     child: DropdownButton(
+                      dropdownColor: Colors.white,
                       alignment: Alignment.center,
                       value: selectedValue,
+                      elevation: 0,
                       items:dropList.map((item) => DropdownMenuItem(
                         // alignment: Alignment.center,
                         value:item['name'],child: Text(item['name'], style: GSYConstant.textStyle(fontSize: 16.0,color:'#333333'),),
@@ -103,14 +106,20 @@ class _MyIncomeState extends State<MyIncome> {
                         });
                     } ,),),
                 ),
-                Row(
-                  children: <Widget>[
-                    Text('统计',style: GSYConstant.textStyle(fontSize: 13.0,color:'#999999'),),
-                    const SizedBox(width: 8.0,),
-                    // Icon(Icons.keyboard_arrow_right,color: ColorsUtil.hexStringColor('#999999'),)
-                    Image.asset('assets/images/my/more.png',fit: BoxFit.cover,)
-                  ],
-                ),
+                GestureDetector(
+                  onTap: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>const IncomeStatistic()));
+                  },
+                  child:Row(
+                    children: <Widget>[
+                      Text('统计',style: GSYConstant.textStyle(fontSize: 13.0,color:'#999999'),),
+                      const SizedBox(width: 8.0,),
+                      // Icon(Icons.keyboard_arrow_right,color: ColorsUtil.hexStringColor('#999999'),)
+                      Image.asset('assets/images/my/more.png',fit: BoxFit.cover,)
+                    ],
+                  ) ,
+                )
+
               ],
             )
           ),
