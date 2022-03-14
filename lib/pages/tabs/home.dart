@@ -3,6 +3,7 @@ import 'dart:ffi';
 import 'package:doctor_project/common/style/gsy_style.dart';
 import 'package:doctor_project/pages/home/add-drug.dart';
 import 'package:doctor_project/pages/home/make_prescription.dart';
+import 'package:doctor_project/pages/home/notice_detail.dart';
 import 'package:doctor_project/pages/home/open_service.dart';
 import 'package:doctor_project/pages/home/order_detail.dart';
 import 'package:doctor_project/pages/home/patient-consult.dart';
@@ -608,7 +609,12 @@ class HomeState extends State<Home> {
         children: [
           buildBg,
           buttonSection,
-          noticeSection,
+          GestureDetector(
+            onTap: (){
+              Navigator.push(context,MaterialPageRoute(builder: (context)=>const NoticeDetail()));
+            },
+            child:noticeSection,
+          ),
           Container(
             margin: const EdgeInsets.only(top: 10.0),
             child: Row(

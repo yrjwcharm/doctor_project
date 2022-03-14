@@ -2,6 +2,8 @@ import 'package:doctor_project/common/style/gsy_style.dart';
 import 'package:doctor_project/tools/wechat_flutter.dart';
 import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:doctor_project/widget/custom_app_bar.dart';
+import 'package:doctor_project/widget/custom_elevated_button.dart';
+import 'package:doctor_project/widget/custom_outline_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -47,42 +49,78 @@ class _PrescriptDetailState extends State<PrescriptDetail> {
                       decoration: BoxDecoration(
                           color: ColorsUtil.hexStringColor('#06B48D')),
                       child: Text(
-                        '待患者支付',
+                        '未通过',
                         style: GSYConstant.textStyle(
                             fontSize: 16.0, color: '#ffffff'),
                       ),
                     ),
-                    Space(
-                      height: 18.0,
+                    ListTile(
+                      subtitle:Text('列表中的克拉霉素胶囊对患者病情有刺激性。',style: GSYConstant.textStyle(color: '#F39E2B'),) ,
+                      title: Text('审核不通过的处方原因如下：',style: GSYConstant.textStyle(fontSize: 15.0,fontFamily: 'Medium',fontWeight: FontWeight.w500,color: '#333333'),),
                     ),
-                    Row(
-                      children: <Widget>[
-                        Expanded(
-                          flex: 1,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
+                    Divider(height: 0,color: ColorsUtil.hexStringColor('#cccccc',alpha: 0.3),),
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      height: 40,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Row(
                             children: <Widget>[
-                              Text(
-                                '通海县人民医院电子处方',
-                                style: GSYConstant.textStyle(
-                                    fontSize: 18.0,
-                                    fontWeight: FontWeight.w500,
-                                    color: '#333333'),
-                              ),
-                              Text(
-                                '医疗机构编码：346987654321123H',
-                                style: GSYConstant.textStyle(
-                                    fontSize: 12.0, color: '#888888'),
-                              )
+                                Text('审核药师：',style: GSYConstant.textStyle(fontSize: 13.0,color: '#333333'),),
+                                Text('张兰',style: GSYConstant.textStyle(fontSize: 13.0,color: '#06B48D'),)
                             ],
                           ),
-                        ),
-                        Container(
-                          margin:
-                              const EdgeInsets.only(left: 23.0, right: 19.0),
-                          child: Image.asset('assets/images/audit_pass.png'),
-                        )
-                      ],
+                          Row(
+                            children: <Widget>[
+                              Text('审核时间：2022-02-22 13:00:56',style: GSYConstant.textStyle(fontSize: 13.0,color: '#333333'),)
+
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    // Space(
+                    //
+                    //   height: 18.0,
+                    // ),
+                    Container(
+                      height: 7.0,
+                      decoration: BoxDecoration(
+                        color: ColorsUtil.bgColor
+                      ),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(top: 10.0),
+                      child:Row(
+                        children: <Widget>[
+                          Expanded(
+                            flex: 1,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: <Widget>[
+                                Text(
+                                  '通海县人民医院电子处方',
+                                  style: GSYConstant.textStyle(
+                                      fontSize: 18.0,
+                                      fontWeight: FontWeight.w500,
+                                      color: '#333333'),
+                                ),
+                                Text(
+                                  '医疗机构编码：346987654321123H',
+                                  style: GSYConstant.textStyle(
+                                      fontSize: 12.0, color: '#888888'),
+                                )
+                              ],
+                            ),
+                          ),
+                          Container(
+                            margin:
+                            const EdgeInsets.only(left: 23.0, right: 19.0),
+                            child: Image.asset('assets/images/audit_pass.png'),
+                          )
+                        ],
+                      ),
                     ),
                     Space(
                       height: 18.0,
@@ -314,10 +352,32 @@ class _PrescriptDetailState extends State<PrescriptDetail> {
                   children: <Widget>[
                     Text('备注：',style: GSYConstant.textStyle(fontSize: 13.0,color: '#666666'),),
                     Space(height: 7.0,),
-                    Text('1、处方有效期为7天。',style: GSYConstant.textStyle(fontSize: 13.0,color: '#666666')),
-                    Text('2、该处方不支持线下药房购药。',style: GSYConstant.textStyle(fontSize: 13.0,color: '#666666')),
+                    Text('该处方有效期为7天。',style: GSYConstant.textStyle(fontSize: 13.0,color: '#666666')),
+
+                    // Text('1、该处方有效期为7天。',style: GSYConstant.textStyle(fontSize: 13.0,color: '#666666')),
+                    // Text('2、该处方不支持线下药房购药。',style: GSYConstant.textStyle(fontSize: 13.0,color: '#666666')),
                   ],
                 ),
+              ),
+              SafeArea(
+                child:Padding(padding: const EdgeInsets.symmetric(horizontal: 16.0),child: Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: CustomOutlineButton(
+                          height: 40.0,
+                          title: '在此提交', onPressed: (){
+
+                      }, borderRadius: BorderRadius.circular(5.0), borderColor:ColorsUtil.primaryColor) ,
+                    ),
+                    const SizedBox(width: 8.0,),
+                    Expanded(
+                      child: CustomElevatedButton(
+                        height: 40.0,
+                        title: '重新开方', onPressed: (){}, borderRadius: BorderRadius.circular(5.0),primary: '#06B48D',) ,
+                    )
+
+                  ],
+                ),) ,
               )
             ],
           ),

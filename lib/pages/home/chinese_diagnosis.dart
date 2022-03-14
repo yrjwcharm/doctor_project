@@ -180,15 +180,15 @@ class _DiagnosisState extends State<ChineseDiagnosis> {
             spacing: 8.0,
             children: [
               CustomElevatedButton(title: '风寒感冒', onPressed: (){
-              },height: 29.0,primary: '#F7F7F7',textStyle: GSYConstant.textStyle(color: '#666666'), topLeft: 15.0,topRight: 15.0,bottomRight: 15.0,bottomLeft: 15.0,),
+              },height: 29.0,primary: '#F7F7F7',textStyle: GSYConstant.textStyle(color: '#666666'), borderRadius: BorderRadius.circular(15.0),),
               CustomElevatedButton(title: '糖尿病', onPressed: (){
-              },height: 29.0,primary: '#F7F7F7',textStyle: GSYConstant.textStyle(color: '#666666'), topLeft: 15.0,topRight: 15.0,bottomRight: 15.0,bottomLeft: 15.0,),
+              },height: 29.0,primary: '#F7F7F7',textStyle: GSYConstant.textStyle(color: '#666666'), borderRadius: BorderRadius.circular(15.0),),
               CustomElevatedButton(title: '腰肌劳损', onPressed: (){
-              },height: 29.0,primary: '#F7F7F7',textStyle: GSYConstant.textStyle(color: '#666666'), topLeft: 15.0,topRight: 15.0,bottomRight: 15.0,bottomLeft: 15.0,),
+              },height: 29.0,primary: '#F7F7F7',textStyle: GSYConstant.textStyle(color: '#666666'), borderRadius: BorderRadius.circular(15.0),),
               CustomElevatedButton(title: '高血压', onPressed: (){
-              },height: 29.0,primary: '#F7F7F7',textStyle: GSYConstant.textStyle(color: '#666666'), topLeft: 15.0,topRight: 15.0,bottomRight: 15.0,bottomLeft: 15.0,),
+              },height: 29.0,primary: '#F7F7F7',textStyle: GSYConstant.textStyle(color: '#666666'), borderRadius: BorderRadius.circular(15.0),),
               CustomElevatedButton(title: '风寒感冒', onPressed: (){
-              },height: 29.0,primary: '#F7F7F7',textStyle: GSYConstant.textStyle(color: '#666666'), topLeft: 15.0,topRight: 15.0,bottomRight: 15.0,bottomLeft: 15.0,),
+              },height: 29.0,primary: '#F7F7F7',textStyle: GSYConstant.textStyle(color: '#666666'), borderRadius: BorderRadius.circular(15.0),),
 
             ],
           ),

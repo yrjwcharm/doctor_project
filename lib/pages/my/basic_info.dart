@@ -31,14 +31,14 @@ class _BasicInfoState extends State<BasicInfo> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorsUtil.bgColor,
+      appBar: CustomAppBar(
+        '基本信息',
+        onBackPressed: () {
+          Navigator.pop(context);
+        },
+      ),
       body: Column(
         children: <Widget>[
-          CustomAppBar(
-            '基本信息',
-            onBackPressed: () {
-              Navigator.pop(context);
-            },
-          ),
           Container(
             height: 32.0,
             padding: const EdgeInsets.symmetric(horizontal: 16.0),

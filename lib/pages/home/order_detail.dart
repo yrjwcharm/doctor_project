@@ -280,11 +280,11 @@ class _OrderDetailState extends State<OrderDetail> {
                                       children: [
                                         Expanded(child: CustomElevatedButton(title: '确认', onPressed: () {
                                           Navigator.pop(context);
-                                        },height: 48,textStyle: GSYConstant.textStyle(fontSize: 15.0,),bottomLeft: 4.0,)),
+                                        },height: 48,textStyle: GSYConstant.textStyle(fontSize: 15.0,),borderRadius:const BorderRadius.only(bottomLeft:Radius.circular(4.0)),)),
                                         Expanded(child: CustomOutlineButton(title: '取消', onPressed: () {
                                           Navigator.pop(context);
 
-                                        },primary:'#ffffff',textStyle: GSYConstant.textStyle(fontSize: 15.0,color: '#666666'),borderRadius:BorderRadius.only(bottomRight:Radius.circular(4.0)), borderColor: ColorsUtil.hexStringColor('#cccccc'),))
+                                        },primary:'#ffffff',textStyle: GSYConstant.textStyle(fontSize: 15.0,color: '#666666'),borderRadius:BorderRadius.only(bottomRight:const Radius.circular(4.0)), borderColor: ColorsUtil.hexStringColor('#cccccc'),))
                                       ],
                                     ),
                                     // onPressed: () {
