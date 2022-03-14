@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget{
 
     return MaterialApp(
         debugShowCheckedModeBanner: false, // 设置这一属性即可
-        home: HomeContent(),
+        home:Main(),
         routes:routes,
 
       //   void main()  {

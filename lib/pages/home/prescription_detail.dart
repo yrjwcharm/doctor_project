@@ -7,6 +7,8 @@ import 'package:doctor_project/widget/custom_outline_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../widget/custom_input_widget.dart';
+
 class PrescriptDetail extends StatefulWidget {
   const PrescriptDetail({Key key}) : super(key: key);
 
@@ -366,6 +368,70 @@ class _PrescriptDetailState extends State<PrescriptDetail> {
                       child: CustomOutlineButton(
                           height: 40.0,
                           title: '在此提交', onPressed: (){
+
+                        showDialog<void>(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return  SimpleDialog(
+                              contentPadding: const EdgeInsets.all(16.0),
+                              titlePadding: const EdgeInsets.only(top:29.0,left: 15.0,right: 13.0),
+                              title:  Text('您可对原有处方进行再次确认提交，或进行补充说明后再次提交。',style: GSYConstant.textStyle(fontSize: 16.0,color: '#333333'),),
+                              children: <Widget>[
+                                SimpleDialogOption(
+                                  padding:EdgeInsets.zero,
+                                  child:Container(
+                                    constraints: const BoxConstraints(maxHeight: 104.0,minHeight: 104.0),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(5.0),
+                                      border:Border.all(width: 1.0,color: ColorsUtil.hexStringColor('#cccccc',alpha: 0.3))
+                                    ),
+                                    child:TextField(
+                                      cursorColor: ColorsUtil.hexStringColor('#666666'),
+                                      style: GSYConstant.textStyle(fontSize: 14.0,color: '#666666'),
+                                      decoration: InputDecoration(
+                                        hintText: '',
+                                        contentPadding: const EdgeInsets.only(left: 16.0,top: 16.0),
+                                        border: InputBorder.none,
+                                        isCollapsed: true,//重点，相当于高度包裹的意思，必须设置为true，不然有默认奇妙的最小高度
+                                        fillColor: Colors.transparent,
+                                        filled: true,
+                                        hintStyle: GSYConstant.textStyle(fontSize: 14.0,color: '#999999'),
+                                        // enabledBorder:OutlineInputBorder(
+                                        //     borderRadius: BorderRadius.circular(5.0),
+                                        //     borderSide:  BorderSide(color: ColorsUtil.hexStringColor('#cccccc'), width: 0.5, style: BorderStyle.solid)),
+                                        // focusedBorder:OutlineInputBorder(
+                                        //     borderRadius: BorderRadius.circular(5.0),
+                                        //     borderSide:  BorderSide(color:ColorsUtil.hexStringColor('#cccccc'), width: 0.5, style: BorderStyle.solid)),
+                                      ),
+                                    ),
+                                  )
+                                ),
+                                SimpleDialogOption(
+                                  padding:const EdgeInsets.only(top: 24.0),
+                                  child:  Row(
+                                    children: [
+                                      Expanded(child: CustomOutlineButton(title: '取消', onPressed: () {
+                                        Navigator.pop(context);
+                                      },height: 40.0,textStyle: GSYConstant.textStyle(color: '#06B48D',),borderRadius: BorderRadius.circular(5.0), borderColor: ColorsUtil.primaryColor,)),
+                                      const SizedBox(width: 8.0,),
+                                      Expanded(
+                                          child: CustomElevatedButton(title: '确定', onPressed: () {
+                                        Navigator.pop(context);
+
+                                      },height: 40.0, primary:'#06B48D',borderRadius:BorderRadius.circular(5.0),))
+                                    ],
+                                  ),
+                                  // onPressed: () {
+                                  //   Navigator.of(context).pop();
+                                  // },
+                                ),
+                              ],
+                            );
+                          },
+                        ).then((val) {
+
+                        });
+
 
                       }, borderRadius: BorderRadius.circular(5.0), borderColor:ColorsUtil.primaryColor) ,
                     ),
