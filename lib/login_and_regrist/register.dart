@@ -123,7 +123,7 @@ class RegisterContentStates extends State<RegisterContent>
                     child:Text('欢迎注册',textDirection: TextDirection.ltr,
                       textAlign:TextAlign.left ,
                       style:TextStyle(
-                        fontSize: 18,
+                        fontSize: 20,
                         color: Colors.white,
                       ) ,
                     ),
@@ -184,7 +184,7 @@ class RegisterContentStates extends State<RegisterContent>
                                   hintText: '请输入手机号',
                                   hintStyle: TextStyle(
                                     color: Color.fromARGB(255, 183, 183, 183),
-                                    fontSize: 12,
+                                    fontSize: 14,
                                   ),
                                 ),
                                 onChanged:(value){
@@ -226,7 +226,7 @@ class RegisterContentStates extends State<RegisterContent>
                                   border: InputBorder.none,
                                   hintText: '请输入短信验证码',
                                   hintStyle: TextStyle(
-                                    fontSize: 12,
+                                    fontSize: 14,
                                     color: Color.fromARGB(255, 183, 183, 183),
                                   ),
                                 ),
@@ -276,7 +276,7 @@ class RegisterContentStates extends State<RegisterContent>
                                   border: InputBorder.none,
                                   hintText: '请输入登录密码（6-16位数字字母组合密码）',
                                   hintStyle: TextStyle(
-                                    fontSize: 12,
+                                    fontSize: 14,
                                     color: Color.fromARGB(255, 183, 183, 183),
                                   ),
                                 ),
@@ -335,7 +335,7 @@ class RegisterContentStates extends State<RegisterContent>
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                       color: Colors.white,
-                                      fontSize: 13,
+                                      fontSize: 16,
                                     ),
                                   ),
 
@@ -390,14 +390,14 @@ class RegisterContentStates extends State<RegisterContent>
                                     TextSpan(
                                       text: '我已阅读并同意',
                                       style: TextStyle(
-                                        fontSize: 10,
+                                        fontSize: 12,
                                         color: Colors.grey,
                                       ),
                                     ),
                                     TextSpan(
                                       text: '《用户协议》',
                                       style: TextStyle(
-                                        fontSize: 10,
+                                        fontSize: 12,
                                         color: Color.fromARGB(255, 84, 184, 146),                                    ),
                                       recognizer: TapGestureRecognizer()
                                         ..onTap = () =>{
@@ -407,14 +407,14 @@ class RegisterContentStates extends State<RegisterContent>
                                     TextSpan(
                                       text: '、',
                                       style: TextStyle(
-                                        fontSize: 10,
+                                        fontSize: 12,
                                         color: Colors.grey,
                                       ),
                                     ),
                                     TextSpan(
                                       text: '《隐私政策》',
                                       style: TextStyle(
-                                        fontSize: 10,
+                                        fontSize: 12,
                                         color: Color.fromARGB(255, 84, 184, 146),                                    ),
                                       recognizer: TapGestureRecognizer()
                                         ..onTap = () =>
@@ -426,7 +426,7 @@ class RegisterContentStates extends State<RegisterContent>
                                       text:
                                       '并授权使用该账号信息（如昵称、头像）进行统一管理',
                                       style: TextStyle(
-                                        fontSize: 10,
+                                        fontSize: 12,
                                         color: Colors.grey,
                                       ),
                                     ),

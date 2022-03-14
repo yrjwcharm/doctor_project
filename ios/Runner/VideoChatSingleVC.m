@@ -17,6 +17,7 @@
 @property (nonatomic) ZegoRoomState roomState;
 @property (nonatomic) ZegoPublisherState publisherState;
 @property (nonatomic) ZegoPlayerState playerState;
+
 @end
 
 @implementation VideoChatSingleVC
@@ -44,7 +45,6 @@
     self.publishStreamID=@"345";
     self.smallView.hidden=YES;
     [self createEngineAndLogin];
-    
 }
 
 -(void)backBtnClick
