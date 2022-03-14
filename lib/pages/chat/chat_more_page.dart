@@ -37,6 +37,15 @@ class _ChatMorePageState extends State<ChatMorePage> {
     {"name": "名片", "icon": "assets/images/chat/ic_details_card.webp"},
     {"name": "文件", "icon": "assets/images/chat/ic_details_file.webp"},
   ];
+  void _goToHealthHutModular() async {
+    const platform = const MethodChannel("flutterPrimordialBrige");
+    bool result = false;
+    try {
+      result = await platform.invokeMethod("jumpToCallVideo"); //分析2
+    } on PlatformException catch (e) {
+      print(e.toString());
+    }
+  }
 
   List<AssetEntity> assets = <AssetEntity>[];
 
@@ -80,7 +89,10 @@ class _ChatMorePageState extends State<ChatMorePage> {
     } else if (name == '红包') {
       showToast(context, '测试发送红包消息');
       await sendTextMsg('${widget?.id}', widget.type, "测试发送红包消息");
-    } else {
+    } else  if (name == '视频通话'){
+      _goToHealthHutModular();
+
+    }else{
       showToast(context, '敬请期待$name');
     }
   }

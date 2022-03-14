@@ -15,6 +15,8 @@ import 'package:doctor_project/utils/text_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
+import '../../tools/wechat_flutter.dart';
+
 class Home extends StatefulWidget {
   const Home({Key key}) : super(key: key);
 
@@ -417,6 +419,15 @@ class HomeState extends State<Home> {
         ),
       ),
     );
+    void _goToHealthHutModular() async {
+      const platform = const MethodChannel("flutterPrimordialBrige");
+      bool result = false;
+      try {
+        result = await platform.invokeMethod("jumpToCallVideo"); //分析2
+      } on PlatformException catch (e) {
+        print(e.toString());
+      }
+    }
     Widget buttonSection = Container(
       margin: const EdgeInsets.only(
           left: 16.0, right: 16.0, bottom: 8.0, top: 17.0),
@@ -435,7 +446,8 @@ class HomeState extends State<Home> {
             Navigator.push(context, MaterialPageRoute(builder: (context)=> const PatientConsult(type: '2',)));
           }),
           buildButtonColumn('assets/images/home/video1.png', '视频问诊',(){
-            Navigator.push(context, MaterialPageRoute(builder: (context)=> const PatientConsult(type: '3',)));
+            _goToHealthHutModular();
+            // Navigator.push(context, MaterialPageRoute(builder: (context)=> const PatientConsult(type: '3',)));
           }),
         ],
       ),

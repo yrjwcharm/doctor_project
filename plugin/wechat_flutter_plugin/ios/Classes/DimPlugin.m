@@ -100,7 +100,7 @@
         int count = [call.arguments[@"count"] intValue];
         int ctype = [call.arguments[@"ctype"] intValue];
         //TIMMessage *lastMsg = call.arguments[@"lastMsg"];
-        TIMConversation *con = [[TIMManager sharedInstance] getConversation: ctype==2 ? TIM_GROUP:TIM_C2C receiver:identifier];
+        TIMConversation *con = [[TIMManager sharedInstance] getConversation: ctype==2 ? TIM_GROUP:TIM_C2C receiver:@"4"];
         [con getMessage:count last:NULL succ:^(NSArray *msgs) {
             if(msgs != nil && msgs.count > 0){
                 NSMutableArray *dictArray = [[NSMutableArray alloc]init];

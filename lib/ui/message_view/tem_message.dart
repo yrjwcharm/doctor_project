@@ -1,11 +1,11 @@
 //import 'package:flutter/cupertino.dart';
 //import 'package:flutter/material.dart';
-//import 'package:doctor_project/ui/massage/img_item_container.dart';
-//import 'package:doctor_project/ui/massage/vertical_container.dart';
+//import 'package:wechat_flutter/ui/massage/img_item_container.dart';
+//import 'package:wechat_flutter/ui/massage/vertical_container.dart';
 //
-//import 'package:doctor_project/tools/wechat_flutter.dart';
-//import 'package:doctor_project/ui/message_view/text_item_container.dart';
-//import 'package:doctor_project/ui/message_view/wai2.dart';
+//import 'package:wechat_flutter/tools/wechat_flutter.dart';
+//import 'package:wechat_flutter/ui/message_view/text_item_container.dart';
+//import 'package:wechat_flutter/ui/message_view/wai2.dart';
 //
 //class TemMessage extends StatefulWidget {
 //  final dynamic data;

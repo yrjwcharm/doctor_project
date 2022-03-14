@@ -8,6 +8,7 @@
 
 #import "WMDragView.h"
 
+
 @interface WMDragView ()<UIGestureRecognizerDelegate>
 @property (nonatomic,strong) UIView *contentViewForDrag;
 
