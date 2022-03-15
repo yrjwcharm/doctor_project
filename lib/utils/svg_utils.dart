@@ -2,7 +2,7 @@
 import 'package:flutter_svg/svg.dart';
 class SvgUtil {
   static String svgPath(String svgName) {
-    return "assets/svg/$svgName";
+    return "assets/images/svg/$svgName";
   }
 
   static SvgPicture svg(String svgName, {double width, double height}) {

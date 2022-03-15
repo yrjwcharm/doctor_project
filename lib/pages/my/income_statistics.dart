@@ -6,8 +6,6 @@ import 'package:doctor_project/widget/custom_outline_button.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
-
 class IncomeStatistic extends StatefulWidget {
   const IncomeStatistic({Key key}) : super(key: key);
 
