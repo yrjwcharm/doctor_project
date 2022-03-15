@@ -196,12 +196,7 @@ class MyState extends State<My> {
               ),),
             ],
           )),
-         Container(
-           height: 16,
-           decoration: BoxDecoration(
-             border: Border.all(width: 1,color: ColorsUtil.hexStringColor('#cccccc'))
-           ),
-         ),
+          Image.asset('assets/images/my/line.png'),
          // const Image(width:1.0,height:16.0,image: AssetImage('assets/images/my/line.png'),fit:BoxFit.cover),
          Expanded(child:Row(
            mainAxisAlignment: MainAxisAlignment.center,
