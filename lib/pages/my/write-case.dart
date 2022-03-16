@@ -42,7 +42,7 @@ class _WriteCaseState extends State<WriteCase> {
       }, isForward:true,child: Text('引入病例模板',style: GSYConstant.textStyle(color: '#06B48D'),),onForwardPressed: (){
         Navigator.push(context, MaterialPageRoute(builder: (context)=> const CaseTemplate()));
       },),
-      body: Column(
+      body:SingleChildScrollView(child: Column(
         children: <Widget>[
             ListView(
               shrinkWrap: true,
@@ -90,9 +90,39 @@ class _WriteCaseState extends State<WriteCase> {
                     ],
                   ),
               ).toList(),
-            )
+            ),
+           Container(
+             margin: const EdgeInsets.only(top: 117.0),
+             width: double.infinity,
+             padding: const EdgeInsets.symmetric(horizontal: 16.0),
+             height: 40.0,
+             child: ElevatedButton(
+               style:ElevatedButton.styleFrom(
+                 primary: ColorsUtil.primaryColor,
+                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25.0))
+               ),
+               onPressed: () {
+
+               },
+             child: Text('保存',style: GSYConstant.textStyle(fontSize: 16.0),),),
+           ),
+          Container(
+              margin: const EdgeInsets.only(top: 8.0),
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            height: 40.0,
+            child: OutlinedButton(
+              style:ElevatedButton.styleFrom(
+                  side: BorderSide(width: 1.0,color: ColorsUtil.primaryColor),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25.0))
+              ),
+              onPressed: () {
+
+              },
+              child: Text('另存成模板',style: GSYConstant.textStyle(fontSize: 16.0,color:'#06B48D'),),)
+          )
         ],
-      ),
+      ),)
     );
   }
 }
