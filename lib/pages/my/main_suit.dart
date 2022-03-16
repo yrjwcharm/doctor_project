@@ -1,6 +1,8 @@
 import 'package:doctor_project/common/style/gsy_style.dart';
+import 'package:doctor_project/pages/my/create_template.dart';
 import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:doctor_project/widget/custom_app_bar.dart';
+import 'package:doctor_project/widget/safe_area_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -50,6 +52,12 @@ class _MainSuitState extends State<MainSuit> {
               ],
             ),
           ),
+          Expanded(child:Container(
+            alignment: Alignment.bottomCenter,
+            child: SafeAreaButton(text: '保存',onPressed: (){
+               Navigator.push(context, MaterialPageRoute(builder: (context)=>const CreateTemplate()));
+            },),
+          ))
         ],
       ),
     );

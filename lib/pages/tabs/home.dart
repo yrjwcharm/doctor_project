@@ -9,6 +9,7 @@ import 'package:doctor_project/pages/home/order_detail.dart';
 import 'package:doctor_project/pages/home/patient-consult.dart';
 import 'package:doctor_project/pages/home/prescription_detail.dart';
 import 'package:doctor_project/pages/my/case_template.dart';
+import 'package:doctor_project/pages/my/write-case.dart';
 import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:doctor_project/utils/common_utils.dart';
 import 'package:doctor_project/utils/platform_utils.dart';
@@ -438,7 +439,7 @@ class HomeState extends State<Home> {
       child: Row(
         children: [
           buildButtonColumn('assets/images/home/consult1.png', '患者咨询',(){
-            Navigator.push(context, MaterialPageRoute(builder: (context)=> const CaseTemplate()));
+            Navigator.push(context, MaterialPageRoute(builder: (context)=> const WriteCase()));
           }),
           buildButtonColumn('assets/images/home/picture1.png', '图文问诊',(){
             Navigator.push(context, MaterialPageRoute(builder: (context)=> const PatientConsult(type: '2',)));

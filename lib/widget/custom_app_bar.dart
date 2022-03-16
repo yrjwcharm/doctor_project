@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
    CustomAppBar(this.title, {Key key,this.onBackPressed,this.onForwardPressed,
-    this.isBack=true, this.isForward=false,this.rightIcon='', this.borderBottomWidth=1.0, this.leftIcon='assets/images/back.png', this.titleColor='#333333', this.startColor=Colors.white, this.endColor=Colors.white}) : super(key: key);
+    this.isBack=true, this.isForward=false,this.rightIcon='', this.borderBottomWidth=1.0, this.leftIcon='assets/images/back.png', this.titleColor='#333333', this.startColor=Colors.white, this.endColor=Colors.white, this.child}) : super(key: key);
   final bool isBack;
   final String title;
   final String titleColor;
@@ -18,6 +18,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   VoidCallback onBackPressed;
   VoidCallback onForwardPressed;
   final double borderBottomWidth;
+  final Widget child;
   @override
   Widget build(BuildContext context) {
 
@@ -37,12 +38,17 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       child: SizedBox(
         height: 44,
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
+          // mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Expanded(
               child:Row(
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  isBack?IconButton(onPressed: onBackPressed, icon:Image.asset(leftIcon)):const Text(''),
+                  isBack?IconButton(
+                      padding:EdgeInsets.zero,
+                      onPressed: onBackPressed,
+                      icon:Image.asset(leftIcon)
+                  ):const Text(''),
                 ],
               )),
             Text(
@@ -50,7 +56,15 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 style: GSYConstant.textStyle(fontSize: 16.0, color: titleColor),
               ) ,
             Expanded(child:
-            isForward?TextButton(onPressed: onForwardPressed, child:Image.asset(rightIcon)):const Text('')
+            isForward?Container(
+                alignment: Alignment.centerRight,
+                padding: const EdgeInsets.only(right: 16.0),
+                child:TextButton(
+                    style: TextButton.styleFrom(
+                      padding: EdgeInsets.zero,
+                    ),
+                    onPressed: onForwardPressed, child:child)
+            ):Container(child:const Text(''))
             )
           ],
         ),
