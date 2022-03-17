@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:doctor_project/utils/customerField/CustomerFieldDialog.dart';
 
+import 'CustomerFieldDialog.dart';
 typedef CallbackAction = void Function(Map<String, String>);
 
 class CustomerField extends StatefulWidget {
