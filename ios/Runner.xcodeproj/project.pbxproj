@@ -36,6 +36,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		041C22E527E20F7F004A4185 /* 医生端.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "医生端.entitlements"; sourceTree = "<group>"; };
 		04993F342795491E00B7F9ED /* FlutterNativePlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlutterNativePlugin.h; sourceTree = "<group>"; };
 		04993F352795491F00B7F9ED /* FlutterNativePlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FlutterNativePlugin.m; sourceTree = "<group>"; };
 		04993F372795493E00B7F9ED /* VideoChatSingleVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoChatSingleVC.m; sourceTree = "<group>"; };
@@ -120,6 +121,7 @@
 		97C146F01CF9000F007C117D /* Runner */ = {
 			isa = PBXGroup;
 			children = (
+				041C22E527E20F7F004A4185 /* 医生端.entitlements */,
 				04993F68279566F500B7F9ED /* WMDragView.h */,
 				04993F67279566F500B7F9ED /* WMDragView.m */,
 				04993F652795587E00B7F9ED /* KeyCenter.h */,
@@ -393,10 +395,11 @@
 			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "Runner/医生端.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 9749GQ82G7;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -617,6 +620,7 @@
 			baseConfigurationReference = 9740EEB21CF90195004384FC /* Debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "Runner/医生端.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
@@ -734,6 +738,7 @@
 			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "Runner/医生端.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Nanjing Sinosoft Technology Co., Ltd. (9749GQ82G7)";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
