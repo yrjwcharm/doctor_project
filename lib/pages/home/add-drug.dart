@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:doctor_project/common/style/gsy_style.dart';
+import 'package:doctor_project/pages/home/prescription_detail.dart';
 import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:doctor_project/widget/custom_app_bar.dart';
 import 'package:doctor_project/widget/custom_outline_button.dart';
@@ -10,7 +11,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 class AddDrug extends StatefulWidget {
-  const AddDrug({Key key}) : super(key: key);
+  const AddDrug({Key? key}) : super(key: key);
 
   @override
   _AddDrugState createState() => _AddDrugState();
@@ -167,6 +168,9 @@ class _AddDrugState extends State<AddDrug> {
             child: Column(
               children: <Widget>[
                 ListTile(
+                  onTap:(){
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>const PrescriptDetail()));
+                  },
                   contentPadding: const EdgeInsets.only(top:10.0,left: 16.0,right: 16.0,bottom: 14.0),
                   tileColor: Colors.white,
                   title: Row(
@@ -275,9 +279,9 @@ class _AddDrugState extends State<AddDrug> {
 }
 class SlideAction extends StatelessWidget {
   const SlideAction({
-    Key key,
-    @required this.color,
-    @required this.icon,
+    Key? key,
+    required this.color,
+    required this.icon,
     this.flex = 1,
   }) : super(key: key);
 

@@ -10,7 +10,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class OrderDetail extends StatefulWidget {
-  const OrderDetail({Key key}) : super(key: key);
+  const OrderDetail({Key? key}) : super(key: key);
 
   @override
   _OrderDetailState createState() => _OrderDetailState();
@@ -266,10 +266,13 @@ class _OrderDetailState extends State<OrderDetail> {
                                             border:Border.all(width: 1,color: ColorsUtil.hexStringColor('#cccccc'))
                                         ),
                                         height:88,
-                                        child:CustomInputWidget(onChanged: (String value) {
-
-                                        }, hintText: '', textStyle: TextStyle(fontSize: 16.0, color: ColorsUtil.hexStringColor('#666666')),)
-                                    ) ,
+                                        child:TextField(
+                                           decoration:  InputDecoration(
+                                              hintText: '',
+                                              border:InputBorder.none,
+                                             hintStyle: GSYConstant.textStyle(color: '#999999'),
+                                           ), style: GSYConstant.textStyle(color: '#666666'),cursorColor: ColorsUtil.hexStringColor('#666666'),
+                                        ),),
                                     onPressed: () {
                                       Navigator.of(context).pop();
                                     },
@@ -281,7 +284,10 @@ class _OrderDetailState extends State<OrderDetail> {
                                         Expanded(child: CustomElevatedButton(title: '确认', onPressed: () {
                                           Navigator.pop(context);
                                         },height: 48,textStyle: GSYConstant.textStyle(fontSize: 15.0,),borderRadius:const BorderRadius.only(bottomLeft:Radius.circular(4.0)),)),
-                                        Expanded(child: CustomOutlineButton(title: '取消', onPressed: () {
+                                        Expanded(
+                                            child: CustomOutlineButton(
+                                              height:48.0,
+                                              title: '取消', onPressed: () {
                                           Navigator.pop(context);
 
                                         },primary:'#ffffff',textStyle: GSYConstant.textStyle(fontSize: 15.0,color: '#666666'),borderRadius:BorderRadius.only(bottomRight:const Radius.circular(4.0)), borderColor: ColorsUtil.hexStringColor('#cccccc'),))
@@ -319,7 +325,7 @@ class _OrderDetailState extends State<OrderDetail> {
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(0))),
                             onPressed: () {
-
+                              // Navigator.push(context, MaterialPageRoute(builder: (context)=> ChatPage() ));
                             },
                             child: Text(
                               '接诊',

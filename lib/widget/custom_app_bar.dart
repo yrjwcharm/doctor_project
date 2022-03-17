@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
-   CustomAppBar(this.title, {Key key,this.onBackPressed,this.onForwardPressed,
+   CustomAppBar(this.title, {Key? key,this.onBackPressed,this.onForwardPressed,
     this.isBack=true, this.isForward=false,this.rightIcon='', this.borderBottomWidth=1.0, this.leftIcon='assets/images/back.png', this.titleColor='#333333', this.startColor=Colors.white, this.endColor=Colors.white, this.child}) : super(key: key);
   final bool isBack;
   final String title;
@@ -15,10 +15,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String rightIcon;
   final Color startColor;
   final Color endColor;
-  VoidCallback onBackPressed;
-  VoidCallback onForwardPressed;
+  VoidCallback? onBackPressed;
+  VoidCallback? onForwardPressed;
   final double borderBottomWidth;
-  final Widget child;
+  final Widget? child;
   @override
   Widget build(BuildContext context) {
 
@@ -63,7 +63,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                     style: TextButton.styleFrom(
                       padding: EdgeInsets.zero,
                     ),
-                    onPressed: onForwardPressed, child:child)
+                    onPressed: onForwardPressed, child:child!)
             ):Container(child:const Text(''))
             )
           ],

@@ -6,7 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class MyIncome extends StatefulWidget {
-  const MyIncome({Key key}) : super(key: key);
+  const MyIncome({Key? key}) : super(key: key);
 
   @override
   _MyIncomeState createState() => _MyIncomeState();

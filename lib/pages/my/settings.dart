@@ -1,5 +1,4 @@
 import 'package:doctor_project/common/style/gsy_style.dart';
-import 'package:doctor_project/tools/wechat_flutter.dart';
 import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:doctor_project/widget/custom_app_bar.dart';
 import 'package:doctor_project/widget/custom_elevated_button.dart';
@@ -9,7 +8,7 @@ import 'package:flutter/material.dart';
 import '../../widget/safe_area_button.dart';
 
 class Settings extends StatefulWidget {
-  const Settings({Key key}) : super(key: key);
+  const Settings({Key? key}) : super(key: key);
 
   @override
   _SettingsState createState() => _SettingsState();
@@ -24,7 +23,7 @@ class _SettingsState extends State<Settings> {
        body: Column(
         children: <Widget>[
           CustomAppBar('设置',onBackPressed: (){Navigator.of(context).pop(this);},),
-          Space(height: 10.0,),
+          SizedBox(height: 10.0,),
           Column(
               children:list.map((item) =>
                   Column(

@@ -7,7 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class MainSuit extends StatefulWidget {
-  const MainSuit({Key key}) : super(key: key);
+  const MainSuit({Key? key}) : super(key: key);
 
   @override
   _MainSuitState createState() => _MainSuitState();

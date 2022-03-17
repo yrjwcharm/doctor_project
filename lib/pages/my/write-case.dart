@@ -1,5 +1,4 @@
 import 'package:doctor_project/common/style/gsy_style.dart';
-import 'package:doctor_project/tools/wechat_flutter.dart';
 import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:doctor_project/widget/custom_app_bar.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'case_template.dart';
 
 class WriteCase extends StatefulWidget {
-  const WriteCase({Key key}) : super(key: key);
+  const WriteCase({Key? key}) : super(key: key);
 
   @override
   _WriteCaseState createState() => _WriteCaseState();
@@ -79,7 +78,7 @@ class _WriteCaseState extends State<WriteCase> {
                                 ),)
                                 // Text(list[index]['value'],style: GSYConstant.textStyle(color: '#888888'),),
                                  ,
-                                Space(width:list[index]['isArrow']? 8.0:0,),
+                                SizedBox(width:list[index]['isArrow']? 8.0:0,),
                                 list[index]['isArrow']?Image.asset('assets/images/arrow_right.png'):Container()
                               ],
                             ),

@@ -10,8 +10,8 @@ class Checkcode {
   String tokenValue;
   String tokenName;
   Checkcode({
-    @required this.tokenName,
-    @required this.tokenValue,
+    required this.tokenName,
+    required this.tokenValue,
   });
   factory Checkcode.fromJson(Map<String, dynamic> json) =>
       _$CheckcodeFromJson(json);

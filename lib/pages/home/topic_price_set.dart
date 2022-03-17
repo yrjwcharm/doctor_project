@@ -7,7 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class TopicPriceSet extends StatefulWidget {
-  const TopicPriceSet({Key key}) : super(key: key);
+  const TopicPriceSet({Key? key}) : super(key: key);
 
   @override
   _TopicPriceSetState createState() => _TopicPriceSetState();

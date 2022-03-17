@@ -1,12 +1,11 @@
 import 'package:doctor_project/common/style/gsy_style.dart';
-import 'package:doctor_project/tools/wechat_flutter.dart';
 import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:doctor_project/widget/custom_app_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class NoticeDetail extends StatefulWidget {
-  const NoticeDetail({Key key}) : super(key: key);
+  const NoticeDetail({Key? key}) : super(key: key);
 
   @override
   _NoticeDetailState createState() => _NoticeDetailState();
@@ -28,7 +27,7 @@ class _NoticeDetailState extends State<NoticeDetail> {
             child: Column(
               children: <Widget>[
                 Text('北京市区领导来我区考察、交流思想',style: GSYConstant.textStyle(fontSize: 18.0,color: '#333333'),),
-                Space(height: 6.0,),
+                SizedBox(height: 6.0,),
                 Text('2022年2月10日',style: GSYConstant.textStyle(color: '#888888'),)
               ],
             ),
@@ -51,7 +50,7 @@ class _NoticeDetailState extends State<NoticeDetail> {
             child: Column(
               children: <Widget>[
                 Text('2022年2月10日',style: GSYConstant.textStyle(color: '#333333'),),
-                Space(height: 5.0,),
+                SizedBox(height: 5.0,),
                 Text('通海县人民医院',style: GSYConstant.textStyle(color: '#333333'),)
               ],
             ),

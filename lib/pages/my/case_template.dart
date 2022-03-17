@@ -1,5 +1,4 @@
 import 'package:doctor_project/common/style/gsy_style.dart';
-import 'package:doctor_project/tools/wechat_flutter.dart';
 import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:doctor_project/utils/svg_utils.dart';
 import 'package:doctor_project/widget/custom_app_bar.dart';
@@ -9,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'main_suit.dart';
 
 class CaseTemplate extends StatefulWidget {
-  const CaseTemplate({Key key}) : super(key: key);
+  const CaseTemplate({Key? key}) : super(key: key);
 
   @override
   _CaseTemplateState createState() => _CaseTemplateState();
@@ -30,9 +29,9 @@ class _CaseTemplateState extends State<CaseTemplate> {
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   Text('高血压病历模板',style: GSYConstant.textStyle(color: '#333333'),),
-                  Space(width: 8.0,),
+                  const SizedBox(width: 8.0,),
                   Text('内科',style: GSYConstant.textStyle(fontSize: 13.0,color: '#888888'),),
-                  Space(width: 8.0,),
+                  const SizedBox(width: 8.0,),
                   Text('个人模板',style: GSYConstant.textStyle(fontSize: 13.0,color: '#888888'))
                 ],
               ),
@@ -53,7 +52,7 @@ class _CaseTemplateState extends State<CaseTemplate> {
                   Text('胸部憋闷，疼痛1小时。',overflow: TextOverflow.ellipsis,style: GSYConstant.textStyle(fontSize: 13.0,color: '#666666'),)
                 ],
               ),
-              Space(height: 11.0,),
+              const SizedBox(height: 11.0,),
               Row(
                 children: <Widget>[
                   Text('现病史：',style: GSYConstant.textStyle(fontSize: 13.0,color: '#333333'),),
@@ -62,14 +61,14 @@ class _CaseTemplateState extends State<CaseTemplate> {
                   )
                 ],
               ),
-              Space(height: 11.0,),
+              const SizedBox(height: 11.0,),
               Row(
                 children: <Widget>[
                   Text('过敏史：',style: GSYConstant.textStyle(fontSize: 13.0,color: '#333333'),),
                   Text('否认药物过敏史及食物过敏史。',overflow: TextOverflow.ellipsis,style: GSYConstant.textStyle(fontSize: 13.0,color: '#666666'),)
                 ],
               ),
-              Space(height: 11.0,),
+              const SizedBox(height: 11.0,),
               Row(
                 children: <Widget>[
                   Text('既往史：',style: GSYConstant.textStyle(fontSize: 13.0,color: '#333333'),),

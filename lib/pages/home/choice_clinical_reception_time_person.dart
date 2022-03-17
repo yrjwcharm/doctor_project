@@ -1,6 +1,5 @@
 import 'package:doctor_project/common/style/gsy_style.dart';
 import 'package:doctor_project/utils/colors_utils.dart';
-import 'package:doctor_project/utils/log_utils.dart';
 import 'package:doctor_project/utils/text_utils.dart';
 import 'package:doctor_project/utils/toast_utils.dart';
 import 'package:doctor_project/widget/custom_app_bar.dart';
@@ -10,7 +9,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class ChoiceClinicReceptTimePerson extends StatefulWidget {
-  const ChoiceClinicReceptTimePerson({Key key}) : super(key: key);
+  const ChoiceClinicReceptTimePerson({Key? key}) : super(key: key);
 
   @override
   _ChoiceClinicReceptTimePersonState createState() =>

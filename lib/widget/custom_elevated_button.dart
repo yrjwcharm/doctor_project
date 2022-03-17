@@ -3,13 +3,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CustomElevatedButton extends StatelessWidget {
-   CustomElevatedButton({Key key,this.height=40.0,  @required this.title, this.textStyle,  @required this.onPressed, this.primary='#06B48D', this.borderRadius,}) : super(key: key);
+   CustomElevatedButton({Key? key,this.height=40.0,  required this.title, this.textStyle,  required this.onPressed, this.primary='#06B48D', this.borderRadius,}) : super(key: key);
   final String primary;
   final double height;
   final String title;
-  final TextStyle textStyle;
-  final VoidCallback onPressed;
-  final BorderRadiusGeometry borderRadius;
+  final TextStyle? textStyle;
+  final VoidCallback? onPressed;
+  final BorderRadiusGeometry? borderRadius;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -18,7 +18,7 @@ class CustomElevatedButton extends StatelessWidget {
           style: ElevatedButton.styleFrom(
               primary: ColorsUtil.hexStringColor(primary),
               shape: RoundedRectangleBorder(
-                  borderRadius:borderRadius)),
+                  borderRadius:borderRadius!)),
           onPressed:onPressed,
           child: Text(title,style: textStyle,),
         ));

@@ -1,5 +1,4 @@
 import 'package:doctor_project/common/style/gsy_style.dart';
-import 'package:doctor_project/tools/wechat_flutter.dart';
 import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:doctor_project/widget/custom_app_bar.dart';
 import 'package:doctor_project/widget/custom_elevated_button.dart';
@@ -10,7 +9,7 @@ import 'package:flutter/material.dart';
 import '../../widget/custom_input_widget.dart';
 
 class PrescriptDetail extends StatefulWidget {
-  const PrescriptDetail({Key key}) : super(key: key);
+  const PrescriptDetail({Key? key}) : super(key: key);
 
   @override
   _PrescriptDetailState createState() => _PrescriptDetailState();
@@ -82,7 +81,7 @@ class _PrescriptDetailState extends State<PrescriptDetail> {
                         ],
                       ),
                     ),
-                    // Space(
+                    // SizedBox(
                     //
                     //   height: 18.0,
                     // ),
@@ -124,7 +123,7 @@ class _PrescriptDetailState extends State<PrescriptDetail> {
                         ],
                       ),
                     ),
-                    Space(
+                    SizedBox(
                       height: 18.0,
                     ),
                     Row(
@@ -132,7 +131,7 @@ class _PrescriptDetailState extends State<PrescriptDetail> {
                       children: <Widget>[
                         Row(
                           children: <Widget>[
-                            Space(
+                            SizedBox(
                               width: 16.0,
                             ),
                             Text(
@@ -159,21 +158,21 @@ class _PrescriptDetailState extends State<PrescriptDetail> {
                                 style: GSYConstant.textStyle(color: '#333333')),
                             Text('38岁',
                                 style: GSYConstant.textStyle(color: '#666666')),
-                            Space(
+                            SizedBox(
                               width: 16.0,
                             )
                           ],
                         ),
                       ],
                     ),
-                    Space(
+                    SizedBox(
                       height: 10.0,
                     ),
                     Row(
                       children: <Widget>[
                         Row(
                           children: <Widget>[
-                            Space(
+                            SizedBox(
                               width: 16.0,
                             ),
                             Text(
@@ -213,7 +212,7 @@ class _PrescriptDetailState extends State<PrescriptDetail> {
                         )
                       ],
                     ),
-                    Space(
+                    SizedBox(
                       height: 7.0,
                     ),
                     Divider(
@@ -233,7 +232,7 @@ class _PrescriptDetailState extends State<PrescriptDetail> {
                             '9899008766',
                             style: GSYConstant.textStyle(color: '#666666'),
                           ),
-                          Space(
+                          SizedBox(
                             width: 25.0,
                           ),
                           Text(
@@ -272,7 +271,7 @@ class _PrescriptDetailState extends State<PrescriptDetail> {
               ),
               Column(
                 children: <Widget>[
-                  Space(height: 8.0,),
+                  SizedBox(height: 8.0,),
                   Container(
                     padding: const EdgeInsets.only(left: 16.0),
                     alignment: Alignment.centerLeft,
@@ -308,7 +307,7 @@ class _PrescriptDetailState extends State<PrescriptDetail> {
                                 ),
                               ) ,
                             ),
-                            index==3?Space(height: 8.0,):Container()
+                            index==3?SizedBox(height: 8.0,):Container()
                           ]
                         ),
                       )).toList(),
@@ -327,15 +326,15 @@ class _PrescriptDetailState extends State<PrescriptDetail> {
                         Row(
                           children: <Widget>[
                             Text('处方医师',style: GSYConstant.textStyle(color: '#333333'),),
-                            Space(width: 15.0,),
+                            SizedBox(width: 15.0,),
                             Text('张望国',style: GSYConstant.textStyle(fontSize:18.0,color: '#666666',fontFamily: 'ShouShuti'),)
                           ],
                         ),
-                        Space(height: 25.0,),
+                        SizedBox(height: 25.0,),
                         Row(
                           children: <Widget>[
                             Text('审方医师',style: GSYConstant.textStyle(color: '#333333'),),
-                            Space(width: 15.0,),
+                            SizedBox(width: 15.0,),
                             Text('苏山寒',style: GSYConstant.textStyle(fontSize:18.0,color: '#666666',fontFamily: 'ShouShuti'),)
                           ],
                         )
@@ -353,7 +352,7 @@ class _PrescriptDetailState extends State<PrescriptDetail> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text('备注：',style: GSYConstant.textStyle(fontSize: 13.0,color: '#666666'),),
-                    Space(height: 7.0,),
+                    SizedBox(height: 7.0,),
                     Text('该处方有效期为7天。',style: GSYConstant.textStyle(fontSize: 13.0,color: '#666666')),
 
                     // Text('1、该处方有效期为7天。',style: GSYConstant.textStyle(fontSize: 13.0,color: '#666666')),

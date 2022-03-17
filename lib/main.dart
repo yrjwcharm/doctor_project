@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:doctor_project/pages/tabs/main.dart';
 import 'dart:io';
-
 import 'package:flutter/services.dart';
-import 'package:doctor_project/login_and_regrist/login.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'routes/Routes.dart';
 
 void main()
@@ -16,6 +15,11 @@ class MyApp extends StatelessWidget{
   Widget build(BuildContext context) {
 
     return MaterialApp(
+      localizationsDelegates: const [
+        GlobalCupertinoLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate
+      ],
         debugShowCheckedModeBanner: false, // 设置这一属性即可
         home:Main(),
         routes:routes,
@@ -37,7 +41,6 @@ class MyApp extends StatelessWidget{
 
 
     );
-    HomeContent();
   }
 
 }

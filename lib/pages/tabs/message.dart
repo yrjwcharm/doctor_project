@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class Message extends StatefulWidget {
-  const Message({Key key}) : super(key: key);
+  const Message({Key? key}) : super(key: key);
 
   @override
   MessageState createState() => MessageState();

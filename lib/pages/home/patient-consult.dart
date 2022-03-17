@@ -1,5 +1,4 @@
 import 'package:doctor_project/common/style/gsy_style.dart';
-import 'package:doctor_project/pages/chat/chat_page.dart';
 import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:doctor_project/widget/custom_app_bar.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,7 +7,7 @@ import 'order_detail.dart';
 import 'package:flutter/services.dart';
 
 class PatientConsult extends StatefulWidget {
-   const PatientConsult({Key key, @required this.type}) : super(key: key);
+   const PatientConsult({Key? key, required this.type}) : super(key: key);
    final String type;
   @override
   _PatientConsultState createState() => _PatientConsultState(type);
@@ -220,7 +219,7 @@ class _PatientConsultState extends State<PatientConsult> {
                             primary: ColorsUtil.shallowColor,
                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14.0))
                         ), onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=> ChatPage()));
+                          // Navigator.push(context, MaterialPageRoute(builder: (context)=> ChatPage()));
                       }, child: Text('继续交流',style: GSYConstant.textStyle(fontSize: 13.0),),
                       ),
                     )

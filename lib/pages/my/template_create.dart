@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class TemplateCreate extends StatefulWidget {
-  const TemplateCreate({Key key}) : super(key: key);
+  const TemplateCreate({Key? key}) : super(key: key);
 
   @override
   _TemplateCreateState createState() => _TemplateCreateState();

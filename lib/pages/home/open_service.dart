@@ -7,7 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class OpenService extends StatefulWidget {
-  const OpenService({Key key}) : super(key: key);
+  const OpenService({Key? key}) : super(key: key);
 
   @override
   _OpenServiceState createState() => _OpenServiceState();
@@ -27,7 +27,7 @@ class _OpenServiceState extends State<OpenService> {
   @override
   Widget build(BuildContext context) {
     Widget buildServiceIntr(String title, String subTitle,
-        {double lineHeight}) {
+        {double? lineHeight}) {
       return Column(
         children: [
           Row(

@@ -6,7 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ChineseDiagnosis extends StatefulWidget {
-  const ChineseDiagnosis({Key key}) : super(key: key);
+  const ChineseDiagnosis({Key? key}) : super(key: key);
 
   @override
   _DiagnosisState createState() => _DiagnosisState();

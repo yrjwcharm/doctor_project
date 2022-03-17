@@ -4,7 +4,7 @@ import 'CustomerFieldDialog.dart';
 typedef CallbackAction = void Function(Map<String, String>);
 
 class CustomerField extends StatefulWidget {
-  CustomerField({@required this.onSetField, this.maxSetCount = 5});
+  CustomerField({required this.onSetField, this.maxSetCount = 5});
 
   final onSetField;
   final int maxSetCount;
@@ -15,7 +15,7 @@ class CustomerField extends StatefulWidget {
 }
 
 class CustomerFieldState extends State<CustomerField> {
-  CustomerFieldState({@required this.onSetField, @required this.maxSetCount});
+  CustomerFieldState({required this.onSetField, required this.maxSetCount});
 
   final CallbackAction onSetField;
   final int maxSetCount;

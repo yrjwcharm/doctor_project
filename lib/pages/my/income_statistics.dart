@@ -1,5 +1,4 @@
 import 'package:doctor_project/common/style/gsy_style.dart';
-import 'package:doctor_project/tools/wechat_flutter.dart';
 import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:doctor_project/widget/custom_app_bar.dart';
 import 'package:doctor_project/widget/custom_outline_button.dart';
@@ -7,7 +6,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 class IncomeStatistic extends StatefulWidget {
-  const IncomeStatistic({Key key}) : super(key: key);
+  const IncomeStatistic({Key? key}) : super(key: key);
 
   @override
   _IncomeStatisticState createState() => _IncomeStatisticState();
@@ -42,7 +41,7 @@ class _IncomeStatisticState extends State<IncomeStatistic> {
               ])),
           child: Column(
             children: <Widget>[
-              Space(
+              SizedBox(
                 height: 12.0,
               ),
               Row(
@@ -61,7 +60,7 @@ class _IncomeStatisticState extends State<IncomeStatistic> {
                             '月统计',
                             style: GSYConstant.textStyle(fontSize: 16.0),
                           ),
-                          Space(
+                          SizedBox(
                             height: 6.0,
                           ),
                           Container(
@@ -75,7 +74,7 @@ class _IncomeStatisticState extends State<IncomeStatistic> {
                                           : Colors.transparent)))
                         ],
                       )),
-                  Space(
+                  SizedBox(
                     width: 44.0,
                   ),
                   GestureDetector(
@@ -91,7 +90,7 @@ class _IncomeStatisticState extends State<IncomeStatistic> {
                           '月统计',
                           style: GSYConstant.textStyle(fontSize: 16.0),
                         ),
-                        Space(
+                        SizedBox(
                           height: 6.0,
                         ),
                         Container(
@@ -143,7 +142,7 @@ class _IncomeStatisticState extends State<IncomeStatistic> {
                           borderRadius: BorderRadius.circular(11.0),
                           borderColor: ColorsUtil.hexStringColor('#ffffff'),
                         ),
-                        Space(width: 28.0,),
+                        SizedBox(width: 28.0,),
                         CustomOutlineButton(
                           width: 52.0,
                           height: 20,
@@ -193,7 +192,7 @@ class _IncomeStatisticState extends State<IncomeStatistic> {
                             borderRadius: BorderRadius.circular(1)
                           ),
                         ),
-                        Space(width: 7.0,),
+                        SizedBox(width: 7.0,),
                         Text('收入分类',style: GSYConstant.textStyle(color: '#333333'),)
                       ],
                     ),

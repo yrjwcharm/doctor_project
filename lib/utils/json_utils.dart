@@ -1,7 +1,5 @@
 import 'dart:convert';
 
-import 'log_utils.dart';
-
 /// json 格式转化工具类
 class JsonUtils {
 
@@ -10,9 +8,7 @@ class JsonUtils {
     try {
       JsonEncoder encoder = JsonEncoder.withIndent('  ');
       var encoderString = encoder.convert(object);
-      LogUtils.i(encoderString,tag: "json:");
     } catch (e) {
-      LogUtils.e(e,tag: "json:");
     }
   }
 
@@ -20,21 +16,19 @@ class JsonUtils {
   static void printJsonEncode(Object object) {
     try {
       var encoderString = json.encode(object);
-      LogUtils.i(encoderString,tag: "json:");
     } catch (e) {
-      LogUtils.e(e,tag: "json:");
     }
   }
 
   /// 将对象[值]转换为JSON字符串
   /// Converts object [value] to a JSON string.
-  static String encodeObj(dynamic value) {
+  static String? encodeObj(dynamic value) {
     return value == null ? null : json.encode(value);
   }
 
   /// 转换JSON字符串到对象
   /// Converts JSON string [source] to object.
-  static T getObj<T>(String source, T f(Map v)) {
+  static T? getObj<T>(String source, T f(Map v)) {
     if (source == null || source.isEmpty) return null;
     try {
       Map map = json.decode(source);
@@ -47,7 +41,7 @@ class JsonUtils {
 
   /// 转换JSON字符串或JSON映射[源]到对象
   /// Converts JSON string or JSON map [source] to object.
-  static T getObject<T>(dynamic source, T f(Map v)) {
+  static T? getObject<T>(dynamic source, T f(Map v)) {
     if (source == null || source.toString().isEmpty) return null;
     try {
       Map map;
@@ -65,7 +59,7 @@ class JsonUtils {
 
   /// 转换JSON字符串列表[源]到对象列表
   /// Converts JSON string list [source] to object list.
-  static List<T> getObjList<T>(String source, T f(Map v)) {
+  static List<T>? getObjList<T>(String source, T f(Map v)) {
     if (source == null || source.isEmpty) return null;
     try {
       List list = json.decode(source);
@@ -83,7 +77,7 @@ class JsonUtils {
 
   /// 转换JSON字符串或JSON映射列表[源]到对象列表
   /// Converts JSON string or JSON map list [source] to object list.
-  static List<T> getObjectList<T>(dynamic source, T f(Map v)) {
+  static List<T>? getObjectList<T>(dynamic source, T f(Map v)) {
     if (source == null || source.toString().isEmpty) return null;
     try {
       List list;
@@ -105,7 +99,7 @@ class JsonUtils {
   }
 
   /// get List
-  static List<T> getList<T>(dynamic source) {
+  static List<T>? getList<T>(dynamic source) {
     List list;
     if (source is String) {
       list = json.decode(source);

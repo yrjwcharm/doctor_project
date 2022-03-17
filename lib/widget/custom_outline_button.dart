@@ -4,24 +4,24 @@ import 'package:flutter/material.dart';
 
 class CustomOutlineButton extends StatelessWidget {
    CustomOutlineButton({
-    Key key,
+    Key? key,
     this.height = 40.0,
-    @required this.title,
+    required this.title,
     this.textStyle,
-    @required this.onPressed,
+    required this.onPressed,
     this.primary = '#06B48D',
-    @required this.borderRadius,
-    @required this.borderColor, this.padding, this.width,
+    required this.borderRadius,
+    required this.borderColor, this.padding, this.width,
   }) : super(key: key);
   final String primary;
   final double height;
-  final double width;
+  final double? width;
   final String title;
-  final TextStyle textStyle;
+  final TextStyle? textStyle;
   final VoidCallback onPressed;
   final BorderRadiusGeometry borderRadius;
   final Color borderColor;
-  final EdgeInsetsGeometry padding;
+  final EdgeInsetsGeometry? padding;
    @override
   Widget build(BuildContext context) {
     return SizedBox(

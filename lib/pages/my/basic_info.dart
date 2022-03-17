@@ -1,5 +1,4 @@
 import 'package:doctor_project/common/style/gsy_style.dart';
-import 'package:doctor_project/tools/wechat_flutter.dart';
 import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:doctor_project/utils/toast_utils.dart';
 import 'package:doctor_project/widget/custom_app_bar.dart';
@@ -7,7 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class BasicInfo extends StatefulWidget {
-  const BasicInfo({Key key}) : super(key: key);
+  const BasicInfo({Key? key}) : super(key: key);
 
   @override
   _BasicInfoState createState() => _BasicInfoState();
@@ -21,11 +20,11 @@ class _BasicInfoState extends State<BasicInfo> {
     {'label': '所在科室','placeholder':'请选择','enabled':false},
     {'label': '职称','placeholder':'请选择','enabled':false}
   ];
-  String name;
-  String idCard;
-  String hospital;
-  String clinic;
-  String job;
+  String name='';
+  String idCard='';
+  String hospital='';
+  String clinic='';
+  String job='';
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +49,7 @@ class _BasicInfoState extends State<BasicInfo> {
                 'assets/images/pass.png',
                 fit: BoxFit.cover,
               ),
-              Space(
+              const SizedBox(
                 width: 8.0,
               ),
               Text(
@@ -99,7 +98,7 @@ class _BasicInfoState extends State<BasicInfo> {
                               style: GSYConstant.textStyle(color: '#666666'),
                             ),
                           ),
-                          !item['enabled']?Icon(Icons.keyboard_arrow_right,color:ColorsUtil.hexStringColor('#999999'),):Space(width: 0,height: 0,)
+                          !item['enabled']?Icon(Icons.keyboard_arrow_right,color:ColorsUtil.hexStringColor('#999999'),):const SizedBox(width: 0,height: 0,)
                         ],
                       ),
                     ),

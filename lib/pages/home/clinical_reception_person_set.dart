@@ -7,7 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ClinicReceptionPersonSet extends StatefulWidget {
-  const ClinicReceptionPersonSet({Key key}) : super(key: key);
+  const ClinicReceptionPersonSet({Key? key}) : super(key: key);
 
   @override
   _ClinicReceptionPersonSetState createState() => _ClinicReceptionPersonSetState();

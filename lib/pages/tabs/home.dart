@@ -1,26 +1,18 @@
-import 'dart:ffi';
 
-import 'package:doctor_project/common/style/gsy_style.dart';
-import 'package:doctor_project/pages/home/add-drug.dart';
-import 'package:doctor_project/pages/home/make_prescription.dart';
-import 'package:doctor_project/pages/home/notice_detail.dart';
-import 'package:doctor_project/pages/home/open_service.dart';
-import 'package:doctor_project/pages/home/order_detail.dart';
-import 'package:doctor_project/pages/home/patient-consult.dart';
-import 'package:doctor_project/pages/home/prescription_detail.dart';
-import 'package:doctor_project/pages/my/case_template.dart';
-import 'package:doctor_project/pages/my/write-case.dart';
-import 'package:doctor_project/utils/colors_utils.dart';
-import 'package:doctor_project/utils/common_utils.dart';
-import 'package:doctor_project/utils/platform_utils.dart';
-import 'package:doctor_project/utils/text_utils.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-
-import '../../tools/wechat_flutter.dart';
+import '../../common/style/gsy_style.dart';
+import '../../utils/colors_utils.dart';
+import '../../utils/platform_utils.dart';
+import '../home/notice_detail.dart';
+import '../home/open_service.dart';
+import '../home/order_detail.dart';
+import '../home/patient-consult.dart';
 
 class Home extends StatefulWidget {
-  const Home({Key key}) : super(key: key);
+  const Home({Key? key}) : super(key: key);
 
   @override
   HomeState createState() => HomeState();
@@ -422,7 +414,7 @@ class HomeState extends State<Home> {
       ),
     );
     void _goToHealthHutModular() async {
-      const platform = const MethodChannel("flutterPrimordialBrige");
+      const platform = MethodChannel("flutterPrimordialBrige");
       bool result = false;
       try {
         result = await platform.invokeMethod("jumpToCallVideo"); //分析2
@@ -439,7 +431,7 @@ class HomeState extends State<Home> {
       child: Row(
         children: [
           buildButtonColumn('assets/images/home/consult1.png', '患者咨询',(){
-            Navigator.push(context, MaterialPageRoute(builder: (context)=> const WriteCase()));
+            Navigator.push(context, MaterialPageRoute(builder: (context)=> const PatientConsult(type: '1')));
           }),
           buildButtonColumn('assets/images/home/picture1.png', '图文问诊',(){
             Navigator.push(context, MaterialPageRoute(builder: (context)=> const PatientConsult(type: '2',)));
@@ -615,8 +607,7 @@ class HomeState extends State<Home> {
     );
     return Scaffold(
       backgroundColor: ColorsUtil.bgColor,
-      body:SingleChildScrollView(
-        child:IntrinsicHeight(child: Column(
+      body: Column(
         children: [
           buildBg,
           buttonSection,
@@ -691,23 +682,23 @@ class HomeState extends State<Home> {
               ],
             ),
           ),
-          // Expanded(
-          //   child: RefreshIndicator(
-          //     onRefresh: _onRefresh,
-          //     child: ListView.builder(
-          //       itemBuilder: _renderRow,
-          //       itemCount: list.length,
-          //       controller: _scrollController,
-          //     ),
-          //   ),
-          // )
+          Expanded(
+            child: RefreshIndicator(
+              onRefresh: _onRefresh,
+              child: ListView.builder(
+                itemBuilder: _renderRow,
+                itemCount: list.length,
+                controller: _scrollController,
+              ),
+            ),
+          ),
           // Expanded(
           //   child: inPassSection,
           // ),
-          Expanded(child: inOpenSection),
-          // Expanded(child: adultSection)
+          // Expanded(child: inOpenSection),
+          // // Expanded(child: adultSection)
         ],
-      ),))
+      ),
     );
   }
 }

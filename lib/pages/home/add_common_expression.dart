@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class AddUsefulExpression extends StatefulWidget {
-  const AddUsefulExpression({Key key}) : super(key: key);
+  const AddUsefulExpression({Key? key}) : super(key: key);
   @override
   _AddUsefulExpressionState createState() => _AddUsefulExpressionState();
 }

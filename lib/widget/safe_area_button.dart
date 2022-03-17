@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 
 class SafeAreaButton extends StatelessWidget {
   SafeAreaButton(
-      {Key key,
-      @required this.text,
+      {Key? key,
+      required this.text,
       this.height = 40.0,
       this.backgroundColor = '#06B48D',
-      @required this.onPressed, this.width=343.0, this.textColor='#ffffff', this.radius=25.0})
+      required this.onPressed, this.width=343.0, this.textColor='#ffffff', this.radius=25.0})
       : super(key: key);
   final String text;
   final String textColor;

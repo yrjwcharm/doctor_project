@@ -10,7 +10,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class VideoService extends StatefulWidget {
-  const VideoService({Key key}) : super(key: key);
+  const VideoService({Key? key}) : super(key: key);
 
   @override
   _HealthConsultServiceState createState() => _HealthConsultServiceState();

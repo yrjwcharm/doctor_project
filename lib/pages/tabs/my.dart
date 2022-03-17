@@ -13,13 +13,13 @@ import 'package:image_picker/image_picker.dart';
 import '../my/basic_info.dart';
 
 class My extends StatefulWidget {
-  const My({Key key}) : super(key: key);
+  const My({Key? key}) : super(key: key);
   @override
   MyState createState() => MyState();
 }
 
 class MyState extends State<My> {
-  File _image;
+  late File _image;
    List<Widget> items = [];
    @override
     initState(){
@@ -42,7 +42,7 @@ class MyState extends State<My> {
           }),
         ];
      }
-   _buildListTile({@required int id,@required String icon,@required String title,@required GestureTapCallback onTap}){
+   _buildListTile({required int id,required String icon,required String title,required GestureTapCallback onTap}){
      return Container(
         decoration:  BoxDecoration(
           color: Colors.white,
@@ -70,25 +70,24 @@ class MyState extends State<My> {
    }
    /*拍照*/
    _takePhoto() async {
-     var image = await ImagePicker()
-         .getImage(source: ImageSource.camera, maxWidth: 150, maxHeight: 150);
+     var image = await ImagePicker().getImage(source: ImageSource.camera, maxWidth: 150, maxHeight: 150);
      // this._uploadImage(File(image.path));
      // print(image.path);
 
-     _image = File(image.path);
+     _image = File((image?.path)!);
      // print(_image);
 
      setState(() {
-       this._image = File(image.path);
+       this._image = File((image?.path)!);
      });
    }
 
    /*相册*/
    _openGallery() async {
-     var image = await ImagePicker().getImage(source: ImageSource.gallery, maxWidth: 150, maxHeight: 150);
-     _image = File(image.path);
+     var image = await ImagePicker().pickImage(source: ImageSource.gallery, maxWidth: 150, maxHeight: 150);
+     _image = File((image?.path)!);
      setState(() {
-       this._image = File(image.path);
+       this._image = File((image?.path)!);
      });
    }
    Future<void> _handleClickMe(BuildContext context) async {

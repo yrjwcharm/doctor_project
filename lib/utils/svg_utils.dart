@@ -5,7 +5,7 @@ class SvgUtil {
     return "assets/images/svg/$svgName";
   }
 
-  static SvgPicture svg(String svgName, {double width, double height}) {
+  static SvgPicture svg(String svgName, {double? width, double? height}) {
     var name = svgName;
     if (name.endsWith(".svg") == false) {
       name = "$svgName.svg";
