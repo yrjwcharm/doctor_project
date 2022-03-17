@@ -581,13 +581,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.0.1"
-  mime_type:
-    dependency: "direct main"
-    description:
-      name: mime_type
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "1.0.0"
   nested:
     dependency: transitive
     description:

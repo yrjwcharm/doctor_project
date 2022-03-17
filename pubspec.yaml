@@ -62,7 +62,6 @@ dependencies:
   #   path: /Users/xingchenhe/Documents/work/TPNS-Flutter-Plugin
   localstorage: ^4.0.0+1
   adaptive_dialog: ^0.10.0+5
-  mime_type: ^1.0.0
   file_picker: ^4.2.1
   #  provider: ^5.0.0 #Flutter2用这个
   #  cached_network_image: 1.1.1 # 1.9版本flutter
