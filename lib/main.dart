@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:doctor_project/pages/tabs/main.dart';
 import 'dart:io';
-
 import 'package:flutter/services.dart';
 import 'package:doctor_project/login_and_regrist/login.dart';
 import 'routes/Routes.dart';
@@ -16,9 +15,9 @@ class MyApp extends StatelessWidget{
   Widget build(BuildContext context) {
 
     return MaterialApp(
-        debugShowCheckedModeBanner: false, // 设置这一属性即可
-        home:Main(),
-        routes:routes,
+      debugShowCheckedModeBanner: false, // 设置这一属性即可
+      home:Main(),
+      routes:routes,
 
       //   void main()  {
       // runApp(const MaterialApp(
