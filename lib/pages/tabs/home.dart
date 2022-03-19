@@ -1,4 +1,7 @@
 
+import 'package:doctor_project/pages/home/add_multi_diagnosis.dart';
+import 'package:doctor_project/pages/home/chat_room.dart';
+import 'package:doctor_project/pages/home/make_prescription.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -6,6 +9,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import '../../common/style/gsy_style.dart';
 import '../../utils/colors_utils.dart';
 import '../../utils/platform_utils.dart';
+import '../home/add-drug.dart';
 import '../home/notice_detail.dart';
 import '../home/open_service.dart';
 import '../home/order_detail.dart';
@@ -110,19 +114,22 @@ class HomeState extends State<Home> {
 
   Widget _renderRow(BuildContext context, int index) {
     if (index < list.length) {
-      return Container(
+      int status =1;
+      return GestureDetector(
+          onTap: (){
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const OrderDetail()));
+          },
+          child: Container(
           margin: const EdgeInsets.fromLTRB(16.0, 10.0, 16.0, 0),
           decoration: BoxDecoration(
               color: Colors.white, borderRadius: BorderRadius.circular(5.0)),
           child: Column(
             children: [
               ListTile(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const OrderDetail()));
-                },
+                onTap: null,
                 contentPadding: const EdgeInsets.symmetric(horizontal: 8.0),
                 subtitle: Text(
                   '健康咨询',
@@ -170,7 +177,7 @@ class HomeState extends State<Home> {
                         width: 4,
                       ),
                       Text(
-                        '接诊中',
+                        status==1?'接诊中':'待接诊',
                         style: GSYConstant.textStyle(color: '#F94C26'),
                       )
                     ],
@@ -228,9 +235,11 @@ class HomeState extends State<Home> {
                             primary: ColorsUtil.shallowColor,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(14.0))),
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>const ChatRoom()));
+                        },
                         child: Text(
-                          '继续交流',
+                          status==1?'继续交流':'接诊',
                           style: GSYConstant.textStyle(fontSize: 13.0),
                         ),
                       ),
@@ -239,7 +248,7 @@ class HomeState extends State<Home> {
                 ),
               )
             ],
-          ));
+          )));
     }
     return _getMoreWidget();
   }
@@ -431,7 +440,8 @@ class HomeState extends State<Home> {
       child: Row(
         children: [
           buildButtonColumn('assets/images/home/consult1.png', '患者咨询',(){
-            Navigator.push(context, MaterialPageRoute(builder: (context)=> const PatientConsult(type: '1')));
+            // Navigator.push(context, MaterialPageRoute(builder: (context)=> const PatientConsult(type: '1')));
+            Navigator.push(context, MaterialPageRoute(builder: (context)=> const MakePrescription()));
           }),
           buildButtonColumn('assets/images/home/picture1.png', '图文问诊',(){
             Navigator.push(context, MaterialPageRoute(builder: (context)=> const PatientConsult(type: '2',)));
@@ -632,7 +642,7 @@ class HomeState extends State<Home> {
                   child: Column(
                     children: [
                       Text(
-                        '接诊中',
+                        '接诊中(10)',
                         style: GSYConstant.textStyle(color: '#333333'),
                       ),
                       const SizedBox(
@@ -661,7 +671,7 @@ class HomeState extends State<Home> {
                   child: Column(
                     children: [
                       Text(
-                        '接诊中',
+                        '待接诊(9)',
                         style: GSYConstant.textStyle(color: '#333333'),
                       ),
                       const SizedBox(

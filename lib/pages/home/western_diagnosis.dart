@@ -1,5 +1,6 @@
 import 'package:doctor_project/common/style/gsy_style.dart';
 import 'package:doctor_project/utils/colors_utils.dart';
+import 'package:doctor_project/utils/svg_utils.dart';
 import 'package:doctor_project/widget/custom_app_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -115,10 +116,7 @@ class _DiagnosisState extends State<WesternDiagnosis> {
                 Text('风寒感冒', style: GSYConstant.textStyle(color: '#333330'),)
               ],
             ),
-            trailing: Image.asset(
-              'assets/images/my/more.png', fit: BoxFit.cover,
-              width: 16.0,
-              height: 16.0,),
+            trailing: SvgUtil.svg('add_drug.svg',width: 16.0,height: 16.0)
           ),
           Divider(color: ColorsUtil.hexStringColor('#cccccc', alpha: 0.3),)
         ],

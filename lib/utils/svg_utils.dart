@@ -1,4 +1,5 @@
 
+import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 class SvgUtil {
   static String svgPath(String svgName) {
@@ -10,6 +11,6 @@ class SvgUtil {
     if (name.endsWith(".svg") == false) {
       name = "$svgName.svg";
     }
-    return SvgPicture.asset(SvgUtil.svgPath(name), width: width, height: height,);
+    return SvgPicture.asset(SvgUtil.svgPath(name),width: width,height: height,);
   }
 }

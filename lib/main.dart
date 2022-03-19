@@ -27,7 +27,7 @@ class _MyAppState extends State<MyApp> {
   //  https://github.com/jpush/jpush-flutter-plugin/blob/master/documents/APIs.md
   initJpush() async {
     // 初始化
-    JPush jpush = new JPush();
+    JPush jpush = JPush();
 
     // 获取注册的ID
     jpush.getRegistrationID().then((rid) {

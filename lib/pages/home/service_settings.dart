@@ -1,5 +1,5 @@
 import 'package:doctor_project/common/style/gsy_style.dart';
-import 'package:doctor_project/modal/ServiceSettingsBean.dart';
+import 'package:doctor_project/model/ServiceSettingsBean.dart';
 import 'package:doctor_project/pages/home/health_consult_service.dart';
 import 'package:doctor_project/pages/home/picture_service.dart';
 import 'package:doctor_project/pages/home/video_service.dart';
