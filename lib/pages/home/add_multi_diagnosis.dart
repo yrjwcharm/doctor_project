@@ -16,8 +16,8 @@ class AddMultiDiagnosis extends StatefulWidget {
 
 class _AddMultiDiagnosisState extends State<AddMultiDiagnosis> {
   List list =[
-    {'label':'内科','type':'P92.500','symptom':'风寒感冒'},
-    {'label':'内科','type':'P92.500','symptom':'痛风'}
+    {'label':'内科','type':'P92.500','isMain':true,'symptom':'风寒感冒'},
+    {'label':'内科','type':'P92.500','isMain':false,'symptom':'痛风'}
   ];
   int groupValue =0;
   final TextEditingController _editingController = TextEditingController();
@@ -89,12 +89,9 @@ class _AddMultiDiagnosisState extends State<AddMultiDiagnosis> {
                trailing: Row(
                  mainAxisSize: MainAxisSize.min,
                  children: <Widget>[
-                    Text('主诊断',style: GSYConstant.textStyle(color: '#666666',fontSize: 13.0),),
-                    Radio(value: 0, activeColor: ColorsUtil.hexStringColor('#06B48D'), groupValue: groupValue, onChanged: (value){
-                      setState(() {
-                        groupValue = value.toString() as int;
-                      });
-                    })
+                    item['isMain']?Text('主诊断',style: GSYConstant.textStyle(color: '#666666',fontSize: 13.0),):Container(),
+                    const SizedBox(width: 8.0,),
+                    item['isMain']?SvgUtil.svg('active_radio.svg'):SvgUtil.svg('radio.svg')
                  ],
                ),
              )) ).toList()

@@ -1,22 +1,28 @@
 import 'package:doctor_project/common/style/gsy_style.dart';
+import 'package:doctor_project/pages/home/add_multi_diagnosis.dart';
 import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:doctor_project/utils/svg_utils.dart';
 import 'package:doctor_project/widget/custom_app_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
-class WesternDiagnosis extends StatefulWidget {
-  const WesternDiagnosis({Key? key}) : super(key: key);
+import '../../widget/custom_elevated_button.dart';
+
+class Diagnosis extends StatefulWidget {
+  const Diagnosis({Key? key}) : super(key: key);
 
   @override
   _DiagnosisState createState() => _DiagnosisState();
 }
 
-class _DiagnosisState extends State<WesternDiagnosis> {
+class _DiagnosisState extends State<Diagnosis> {
   List list = [];
+  List commonList =[{'title':'风寒感冒'},{'title':'糖尿病'},{'title':'腰肌劳损'},{'title':'痛风'}];
   final ScrollController _scrollController = ScrollController(); //listview的控制器
   int _page = 1; //加载的页数
   bool isLoading = false;
+  final TextEditingController _editingController = TextEditingController();
   @override
   void initState() {
     super.initState();
@@ -116,7 +122,14 @@ class _DiagnosisState extends State<WesternDiagnosis> {
                 Text('风寒感冒', style: GSYConstant.textStyle(color: '#333330'),)
               ],
             ),
-            trailing: SvgUtil.svg('add_drug.svg',width: 16.0,height: 16.0)
+            trailing: TextButton(onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>const AddMultiDiagnosis()));
+            },
+            style: TextButton.styleFrom(
+              alignment: Alignment.centerRight,
+              padding:EdgeInsets.zero,
+            ),
+            child: SvgUtil.svg('add_drug.svg'),)
           ),
           Divider(color: ColorsUtil.hexStringColor('#cccccc', alpha: 0.3),)
         ],
@@ -138,34 +151,58 @@ class _DiagnosisState extends State<WesternDiagnosis> {
             },
           ),
           const SizedBox(height: 10.0,),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Container(
-                padding: const EdgeInsets.only(left: 16.0),
-                width: 298,
-                child: TextField(
-                  onChanged: (text) {},
-                  decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.only(left: 16.0,right:16.0,top:6.0,bottom:6.0),
-                      filled: true,
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(19.0),
-                          borderSide: BorderSide.none),
+          Padding(padding:const EdgeInsets.only(top: 11.0,left: 17.0,right: 16.0), child:Row(
+              children: <Widget>[
+                Expanded(child:Container(
+                  height: 32.0,
+                  padding: const EdgeInsets.only(left:8.0,right: 16.0),
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: ColorsUtil.bgColor,
+                    borderRadius: BorderRadius.circular(19.0),
+                  ),
+                  child: TextField(
+                    controller: _editingController,
+                    inputFormatters: <TextInputFormatter>[
+                      LengthLimitingTextInputFormatter(20)//限制长度
+                    ],
+                    onChanged: (value)=>{
+                      print(_editingController.text.isNotEmpty)
+                    },
+                    style:GSYConstant.textStyle(color: '#666666'),
+                    cursorColor: ColorsUtil.hexStringColor('#666666'),
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      suffixIconConstraints: const BoxConstraints(
+                      ),
+                      prefixIconConstraints: const BoxConstraints(
+                          minWidth: 31.0
+                      ),
+                      // isDense: true,
+                      isCollapsed: true,
+                      prefixIcon: SvgUtil.svg('search.svg'),
+
+                      suffixIcon:_editingController.text.isNotEmpty?SvgUtil.svg('delete.svg'):null,
+                      hintStyle: GSYConstant.textStyle(color: '#888888'),
                       hintText: '搜索ICD名称、拼音码',
-                      hintStyle: GSYConstant.textStyle(color: '#999999'),
-                      fillColor: ColorsUtil.hexStringColor('#f9f9f9'),
-                      isCollapsed: true),
-                ),
-              ),
-              Container(
-                margin: const EdgeInsets.only(right: 16.0),
-                child:Text(
-                  '取消',
-                  style: GSYConstant.textStyle(color: '#333333'),
-                ),
-              ),
-            ],
+                    ),
+                  ),
+                ),),
+                const SizedBox(width: 16.0,),
+                Text('取消',style: GSYConstant.textStyle(color: '#333333'),)
+              ]
+          ),),
+          Container(
+            alignment: Alignment.centerLeft,
+            margin: const EdgeInsets.only(left:16.0,top: 24.0,bottom: 16.0),
+            child: Text('常用诊断',style: GSYConstant.textStyle(fontSize: 15.0,fontWeight: FontWeight.w500,color: '#333333'),),
+          ),
+          Wrap(
+            runSpacing: 8.0,
+            spacing: 8.0,
+            children:commonList.map((item) =>CustomElevatedButton(elevation:0,title: item['title'], onPressed: (){
+            },height: 29.0,primary: '#F7F7F7',textStyle: GSYConstant.textStyle(color: '#666666'), borderRadius: BorderRadius.circular(15.0),),
+            ).toList()
           ),
           Expanded(
             child: RefreshIndicator(

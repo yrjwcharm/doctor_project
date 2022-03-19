@@ -1,4 +1,5 @@
 import 'package:doctor_project/pages/home/add-drug.dart';
+import 'package:doctor_project/pages/home/diagnosis.dart';
 import 'package:doctor_project/utils/svg_utils.dart';
 import 'package:doctor_project/widget/safe_area_button.dart';
 import 'package:flutter/material.dart';
@@ -6,9 +7,6 @@ import 'package:doctor_project/common/style/gsy_style.dart';
 import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:doctor_project/widget/custom_app_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
-import 'chinese_diagnosis.dart';
-
 class MakePrescription extends StatefulWidget {
   const MakePrescription({Key? key}) : super(key: key);
 
@@ -137,7 +135,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          const ChineseDiagnosis()));
+                                          const Diagnosis()));
                               break;
                             case 2:
                               break;
