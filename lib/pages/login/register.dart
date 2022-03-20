@@ -5,7 +5,7 @@ import 'package:doctor_project/utils/toast_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/cupertino.dart';
-import '../../routes/Routes.dart';
+import '../../routes/routes.dart';
 import 'package:dio/dio.dart';
 // import 'package:garbagecan/passwordCheck/setPassword.dart';
 import 'package:fluttertoast/fluttertoast.dart';
