@@ -87,7 +87,10 @@ class _MyAppState extends State<MyApp> {
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate
         ],
-        debugShowCheckedModeBanner: false, // 设置这一属性即可
+      supportedLocales: const [
+        Locale('zh', 'CN'),//设置语言为中文
+      ],
+      debugShowCheckedModeBanner: false, // 设置这一属性即可
         home:LoginPage(),
         routes:routes,
     );

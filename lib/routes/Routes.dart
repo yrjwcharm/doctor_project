@@ -14,7 +14,7 @@ final routes={
   '/registerSuccess':(context)=>RegisterSuccessHomeConent(),
   '/setPassword':(context)=>settingContent(),
   '/changePas':(context)=>changePas(),
-  '/JumpToVideoList':(context)=>MyHomePage(title: ''),
-  '/TabHome':(context)=>Main(),
+  '/JumpToVideoList':(context)=>const MyHomePage(title: ''),
+  '/TabHome':(context)=>const Main(),
 
 };
