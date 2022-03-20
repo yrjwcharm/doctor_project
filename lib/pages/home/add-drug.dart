@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:doctor_project/common/style/gsy_style.dart';
 import 'package:doctor_project/pages/home/prescription_detail.dart';
 import 'package:doctor_project/utils/colors_utils.dart';
+import 'package:doctor_project/utils/svg_utils.dart';
 import 'package:doctor_project/widget/custom_app_bar.dart';
 import 'package:doctor_project/widget/custom_outline_button.dart';
 import 'package:flutter/cupertino.dart';
@@ -25,14 +26,14 @@ class _AddDrugState extends State<AddDrug> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorsUtil.bgColor,
+      appBar:  CustomAppBar(
+        '添加药品',
+        onBackPressed: () {
+          Navigator.pop(context);
+        },
+      ),
       body: Column(
         children: <Widget>[
-          CustomAppBar(
-            '添加药品',
-            onBackPressed: () {
-              Navigator.pop(context);
-            },
-          ),
           Container(
             margin: const EdgeInsets.only(top: 10.0),
             child: Row(
@@ -206,7 +207,7 @@ class _AddDrugState extends State<AddDrug> {
                               decoration: BoxDecoration(
                                   border: Border(right: BorderSide(width:1.0,color: ColorsUtil.hexStringColor('#cccccc')))
                               ),
-                              child: Text('-'),
+                              child: SvgUtil.svg('minus.svg'),
                             ),
                             Container(
                               width: 26.0,
@@ -235,7 +236,7 @@ class _AddDrugState extends State<AddDrug> {
                             Container(
                               alignment: Alignment.center,
                               width:26,
-                              child: Text('+'),
+                              child: SvgUtil.svg('increment_add.svg'),
                             ),
                           ],
                         ),

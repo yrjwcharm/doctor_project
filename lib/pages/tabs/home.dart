@@ -2,6 +2,7 @@
 import 'package:doctor_project/pages/home/add_multi_diagnosis.dart';
 import 'package:doctor_project/pages/home/chat_room.dart';
 import 'package:doctor_project/pages/home/make_prescription.dart';
+import 'package:doctor_project/pages/home/use_drug_info.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -441,7 +442,7 @@ class HomeState extends State<Home> {
         children: [
           buildButtonColumn('assets/images/home/consult1.png', '患者咨询',(){
             // Navigator.push(context, MaterialPageRoute(builder: (context)=> const PatientConsult(type: '1')));
-            Navigator.push(context, MaterialPageRoute(builder: (context)=> const MakePrescription()));
+            Navigator.push(context, MaterialPageRoute(builder: (context)=> const UseDrugInfo()));
           }),
           buildButtonColumn('assets/images/home/picture1.png', '图文问诊',(){
             Navigator.push(context, MaterialPageRoute(builder: (context)=> const PatientConsult(type: '2',)));

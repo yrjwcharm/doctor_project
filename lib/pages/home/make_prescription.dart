@@ -1,4 +1,5 @@
 import 'package:doctor_project/pages/home/add-drug.dart';
+import 'package:doctor_project/pages/home/add_drug_list.dart';
 import 'package:doctor_project/pages/home/diagnosis.dart';
 import 'package:doctor_project/utils/svg_utils.dart';
 import 'package:doctor_project/widget/safe_area_button.dart';
@@ -21,6 +22,9 @@ class _MakePrescriptionState extends State<MakePrescription> {
     {'name':'[阿莫灵]阿莫西林胶囊0.25*24粒/盒','usage':'一次3粒，4次/天','price':'38.30','count':'2'},
     {'name':'先锋霉素VI胶囊 头孢拉定胶囊0.25*24粒/盒','remark':'饭后半小时吃','usage':'一次3粒，4次/天','price':'38.30','count':'2'}
   ];
+
+  bool tab1Active=true;
+  bool tab2Active = false;
   @override
   void initState() {
     super.initState();
@@ -74,52 +78,68 @@ class _MakePrescriptionState extends State<MakePrescription> {
       backgroundColor: ColorsUtil.bgColor,
       body:SingleChildScrollView(child: Column(
         children: <Widget>[
-          const SizedBox(
-            height: 13.0,
-          ),
-          Row(
-            mainAxisSize: MainAxisSize.max,
-            children: <Widget>[
-              Stack(
-                children: [
-                  Image.asset(
-                    'assets/images/self_mention.png',
-                    fit: BoxFit.contain,
-                    height: 44,
-                  ),
-                  Positioned(
-                      top: 10.0,
-                      left: 39.0,
-                      child: Text(
-                        '西药/中成药处方',
-                        style: GSYConstant.textStyle(
-                            fontSize: 17.0, color: '#06B48D'),
-                      ))
-                ],
-              ),
-              Flexible(
-                child: Stack(
-                  children: [
-                    Container(
-                      transform: Matrix4.translationValues(0, 0, 0),
-                      child: Image.asset(
-                        'assets/images/express_delivery.png',
-                        fit: BoxFit.cover,
-                        height: 44,
+          Container(
+            margin: const EdgeInsets.only(top: 14.0),
+            child: Row(
+              children: <Widget>[
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      tab1Active = true;
+                      tab2Active = false;
+                    });
+                  },
+                  child: Stack(
+                    children: [
+                      Image.asset(
+                        tab1Active
+                            ? 'assets/images/self_mention.png'
+                            : 'assets/images/self_mention1.png',
+                        fit: BoxFit.contain,
                       ),
-                    ),
-                    Positioned(
-                        left: 44.0,
-                        top: 8.0,
-                        child: Text(
-                          '中药处方',
-                          style: GSYConstant.textStyle(
-                              fontSize: 16.0, color: '#333333'),
-                        ))
-                  ],
+                      Positioned(
+                          width: tab1Active?206:169,
+                          height: 44,
+                          child: Center(
+                              child: Text(
+                                '西药/中成药处方',
+                                style: GSYConstant.textStyle(
+                                    fontSize: 17.0, color:tab1Active? '#06B48D':'#333333'),
+                              ))),
+                    ],
+                  ),
                 ),
-              )
-            ],
+                Flexible(
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          tab2Active =true;
+                          tab1Active = false;
+                        });
+                      },
+                      child: Stack(
+                        children: [
+                          Image.asset(
+                            tab2Active
+                                ? 'assets/images/express_delivery1.png'
+                                : 'assets/images/express_delivery.png',
+                            fit: BoxFit.contain,
+                          ),
+                          Positioned(
+                              width:tab2Active?206:169,
+                              height: 44,
+                              child: Center(
+                                child: Text(
+                                  '中药处方',
+                                  style: GSYConstant.textStyle(
+                                      fontSize: 16.0, color:tab2Active? '#06B48D':'#333333'),
+                                ),
+                              )),
+                        ],
+                      ),
+                    ))
+              ],
+            ),
           ),
           Column(
               children: ListTile.divideTiles(
@@ -245,7 +265,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
                   'increment.svg',
                 ),
                 TextButton(onPressed: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>const AddDrug()));
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>const AddDrugList()));
                 }, child: Text('添加药品',style: GSYConstant.textStyle(color: '#06B48D'),))
               ],
             ),

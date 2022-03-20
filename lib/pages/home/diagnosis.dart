@@ -89,7 +89,6 @@ class _DiagnosisState extends State<Diagnosis> {
         isLoading = true;
       });
       await Future.delayed(const Duration(seconds: 1), () {
-        print('加载更多');
         setState(() {
           list.addAll(List.generate(5, (i) => '第$_page次上拉来的数据'));
           _page++;
