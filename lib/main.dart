@@ -88,7 +88,7 @@ class _MyAppState extends State<MyApp> {
         GlobalWidgetsLocalizations.delegate
         ],
         debugShowCheckedModeBanner: false, // 设置这一属性即可
-        home:Main(),
+        home:LoginPage(),
         routes:routes,
     );
   }

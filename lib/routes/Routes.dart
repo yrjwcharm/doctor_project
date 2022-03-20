@@ -9,7 +9,7 @@ import '../pages/tabs/main.dart';
 
 final routes={
 
-  '/loginP':(context)=>HomeContent(),
+  '/loginP':(context)=>LoginPage(),
   '/register':(context)=>RegisterContent(),
   '/registerSuccess':(context)=>RegisterSuccessHomeConent(),
   '/setPassword':(context)=>settingContent(),

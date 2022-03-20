@@ -9,13 +9,13 @@ import 'package:doctor_project/pages/tabs/main.dart';
 
 // import 'package:garbagecan/passwordCheck/setPassword.dart';
 
-class HomeContent extends StatefulWidget
-{
+class LoginPage extends StatefulWidget {
+
   @override
   State<StatefulWidget> createState() =>RegisterContentStates();
 
 }
-class RegisterContentStates extends State<HomeContent>
+class RegisterContentStates extends State<LoginPage>
 {
   String loginStr ="";
   String loginPas ="";
@@ -395,7 +395,7 @@ class RegisterContentStates extends State<HomeContent>
 }
 
 //
-// class HomeContent extends StatelessWidget{
+// class LoginPage extends StatelessWidget{
 //   // Future _openAlertDialog() async {
 //   //
 //   // }
