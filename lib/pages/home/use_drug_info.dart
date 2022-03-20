@@ -1,11 +1,15 @@
+import 'dart:convert';
+import 'dart:math';
+
 import 'package:doctor_project/common/style/gsy_style.dart';
 import 'package:doctor_project/utils/colors_utils.dart';
+import 'package:doctor_project/utils/picker_utils.dart';
 import 'package:doctor_project/widget/custom_app_bar.dart';
 import 'package:doctor_project/widget/safe_area_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
+import 'package:flutter_picker/flutter_picker.dart';
 import '../../utils/svg_utils.dart';
 
 class UseDrugInfo extends StatefulWidget {
@@ -16,16 +20,19 @@ class UseDrugInfo extends StatefulWidget {
 }
 
 class _UseDrugInfoState extends State<UseDrugInfo> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final List list = [
     {'label': '每次用量', 'placeholder': '请选择频率'},
     {'label': '次数：', 'placeholder': '请输入数量 粒/次'},
     {'label': '用法：', 'placeholder': '请选择用法'},
     {'label': '持续用药天数：', 'placeholder': '请输入用药天数'}
   ];
+  final List<String> pickerData = <String>['通海县人民医院', '京东大药房', '阿里健康大药房'];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: CustomAppBar(
         '用药信息',
         onBackPressed: () {
@@ -175,60 +182,69 @@ class _UseDrugInfoState extends State<UseDrugInfo> {
                   ),
                 ),
                 Column(
-                  children: list
-                      .map((item) => Container(
-                          height: 40.0,
-                          decoration: const BoxDecoration(
-                            color: Colors.white,
-                          ),
+                  children: list.asMap().keys
+                      .map((index) => GestureDetector(
+                          onTap:(){
+                             if(index==0){
+                               PickerUtil.showPicker(context,_scaffoldKey, confirmCallback: (Picker picker, List<int> selected) {
+
+                               }, pickerData: []);
+                             }
+                          },
                           child: Container(
-                            margin:
-                                const EdgeInsets.symmetric(horizontal: 16.0),
-                            decoration: BoxDecoration(
+                              height: 40.0,
+                              decoration: const BoxDecoration(
                                 color: Colors.white,
-                                border: Border(
-                                    bottom: BorderSide(
-                                        color: ColorsUtil.hexStringColor(
-                                            '#cccccc',
-                                            alpha: 0.3)))),
-                            child: Row(
-                              children: <Widget>[
-                                SizedBox(
-                                  width: 98.0,
-                                  child: Text(
-                                    item['label'],
-                                    style:
-                                        GSYConstant.textStyle(color: '#333333'),
-                                  ),
+                              ),
+                              child: Container(
+                                margin: const EdgeInsets.symmetric(
+                                    horizontal: 16.0),
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    border: Border(
+                                        bottom: BorderSide(
+                                            color: ColorsUtil.hexStringColor(
+                                                '#cccccc',
+                                                alpha: 0.3)))),
+                                child: Row(
+                                  children: <Widget>[
+                                    SizedBox(
+                                      width: 98.0,
+                                      child: Text(
+                                        list[index]['label'],
+                                        style: GSYConstant.textStyle(
+                                            color: '#333333'),
+                                      ),
+                                    ),
+                                    Expanded(
+                                        child: TextField(
+                                      cursorColor:
+                                          ColorsUtil.hexStringColor('#666666'),
+                                      style: GSYConstant.textStyle(
+                                          color: '#666666'),
+                                      inputFormatters: [],
+                                      textAlign: TextAlign.right,
+                                      enabled: false,
+                                      decoration: InputDecoration(
+                                          border: InputBorder.none,
+                                          hintText: list[index]['placeholder'],
+                                          hintStyle: GSYConstant.textStyle(
+                                              color: '#999999')),
+                                    )),
+                                    const SizedBox(
+                                      width: 8.0,
+                                    ),
+                                    SvgUtil.svg('arrow.svg')
+                                  ],
                                 ),
-                                Expanded(
-                                    child: TextField(
-                                  cursorColor:
-                                      ColorsUtil.hexStringColor('#666666'),
-                                  style:
-                                      GSYConstant.textStyle(color: '#666666'),
-                                  inputFormatters: [],
-                                  textAlign: TextAlign.right,
-                                  decoration: InputDecoration(
-                                      border: InputBorder.none,
-                                      hintText: item['placeholder'],
-                                      hintStyle: GSYConstant.textStyle(
-                                          color: '#999999')),
-                                )),
-                                const SizedBox(
-                                  width: 8.0,
-                                ),
-                                SvgUtil.svg('arrow.svg')
-                              ],
-                            ),
-                          )))
+                              ))))
                       .toList(),
                 ),
                 Container(
                   padding: const EdgeInsets.only(left: 16.0, top: 9.0),
                   constraints: const BoxConstraints(minHeight: 80.0),
                   alignment: Alignment.topLeft,
-                  decoration: BoxDecoration(color: Colors.white),
+                  decoration: const BoxDecoration(color: Colors.white),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[

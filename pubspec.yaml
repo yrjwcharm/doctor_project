@@ -98,6 +98,7 @@ dependencies:
   #  wechat_assets_picker: ^4.2.1 #1.22.5版本Flutter用这个
   #  wechat_assets_picker: ^5.4.0 #Flutter2用这个
   wechat_assets_picker: ^7.0.1
+  flutter_picker: ^2.0.3
 
 dev_dependencies:
   flutter_test:
