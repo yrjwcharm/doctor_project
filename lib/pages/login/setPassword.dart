@@ -15,7 +15,7 @@ class settingContent extends StatelessWidget
       "token": tokenValueStr,
     };
 
-    var response = await dio.post('https://interhos.youjiankang.net/doctor/dr-service/ba-doctor-user/doExit');
+    var response = await dio.post('https://interhospital.youjiankang.net/doctor/dr-service/ba-doctor-user/doExit');
     String mess=response.data['msg'];
 
     if(response.data['code']!=200)

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="42px" height="42px" viewBox="0 0 42 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>编组_6_slice</title>
+    <g id="医生端" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="画板" transform="translate(-160.000000, -702.000000)" fill="#06B48D">
+            <g id="编组-6" transform="translate(160.000000, 702.000000)">
+                <rect id="矩形备份-19" opacity="0.112002418" x="0" y="0" width="42" height="42" rx="8"></rect>
+                <g id="编组-3" transform="translate(9.000000, 14.000000)" fill-rule="nonzero">
+                    <path d="M15.3217662,15.6190476 C15.3217662,15.6190476 17.5238095,15.6190476 17.5238095,13.3877483 L17.5238095,2.23129937 C17.5238095,0 15.3217662,0 15.3217662,0 L2.20204336,0 C2.20204336,0 0,0 0,2.23129937 L0,13.3877483 C0,15.6190476 2.20204336,15.6190476 2.20204336,15.6190476 L15.3217662,15.6190476 Z" id="路径"></path>
+                    <polygon id="路径" points="19.047619 4.35881959 19.047619 11.3003762 24.3809524 15.6190476 24.3809524 0"></polygon>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

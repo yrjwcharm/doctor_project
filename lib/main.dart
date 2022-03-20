@@ -1,3 +1,4 @@
+import 'package:doctor_project/pages/login/login.dart';
 import 'package:flutter/material.dart';
 import 'package:doctor_project/pages/tabs/main.dart';
 import 'dart:io';
@@ -88,7 +89,7 @@ class _MyAppState extends State<MyApp> {
         ],
         debugShowCheckedModeBanner: false, // 设置这一属性即可
         home:Main(),
-    routes:routes,
+        routes:routes,
     );
   }
 }

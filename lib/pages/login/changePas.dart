@@ -57,7 +57,7 @@ class changePasStates extends State<changePas>
   void postCheck_code() async {
 
     var dio = new Dio();
-    var response = await dio.post('https://interhos.youjiankang.net/doctor/dr-service/verificationCode/check',data: {
+    var response = await dio.post('https://interhospital.youjiankang.net/doctor/dr-service/verificationCode/check',data: {
       "phone": iphne, //手机号
       "type": "reset", //操作类型，register=注册；reset=重置密码
       "code": code //验证码
@@ -87,7 +87,7 @@ class changePasStates extends State<changePas>
     dio.options.headers = {
       "token": tokenValueStr,
     };
-    var response = await dio.post('https://interhos.youjiankang.net/doctor/dr-service/ba-doctor-user/editPwd',data: {
+    var response = await dio.post('https://interhospital.youjiankang.net/doctor/dr-service/ba-doctor-user/editPwd',data: {
       "password1": pas, //密码
       "password2": pasCof,
     } );
@@ -381,7 +381,7 @@ class sendIphoneCodeStates extends State<sendIphoneCode>
 
 
   void postNet_3() async {
-    PostStr="https://interhos.youjiankang.net/doctor/dr-service/verificationCode/get?phone="+widget.str1+'&type=reset';
+    PostStr="https://interhospital.youjiankang.net/doctor/dr-service/verificationCode/get?phone="+widget.str1+'&type=reset';
     // FormData formData = new FormData.from({
     //   "username":'15038342183',
     //   "type": "register",

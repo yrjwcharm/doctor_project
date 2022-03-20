@@ -50,7 +50,7 @@ class RegisterContentStates extends State<RegisterContent>
        ToastUtil.showToast(msg: '密码必须包含字母和数字和特殊字符,6-20');
        return;
     }
-    var response = await dio.post('https://interhos.youjiankang.net/doctor/dr-service/ba-doctor-user/register',data:{
+    var response = await dio.post('https://interhospital.youjiankang.net/doctor/dr-service/ba-doctor-user/register',data:{
       "phone":iphoneStr,
       "password": loginPas,
       "code": code,
@@ -498,7 +498,7 @@ class sendIphoneCodeStates extends State<sendIphoneCode>
     setState(() {
       buttonDisabled = true;
     });
-    PostStr="https://interhos.youjiankang.net/doctor/dr-service/verificationCode/get?phone="+widget.str1+'&type=register';
+    PostStr="https://interhospital.youjiankang.net/doctor/dr-service/verificationCode/get?phone="+widget.str1+'&type=register';
 
     // FormData formData = new FormData.from({
     //   "username":'15038342183',

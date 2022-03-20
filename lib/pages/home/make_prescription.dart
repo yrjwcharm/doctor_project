@@ -350,7 +350,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
             ),
           ):Container(),
           Container(
-            margin: const EdgeInsets.only(top: 203.0),
+            margin: const EdgeInsets.only(top:30.0),
             alignment: Alignment.bottomCenter,
             child: SafeAreaButton(text: '电子签名', onPressed:(){})
             ,

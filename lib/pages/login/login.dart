@@ -31,7 +31,7 @@ class RegisterContentStates extends State<HomeContent>
 
 
     var dio = new Dio();
-    var response = await dio.post('https://interhos.youjiankang.net/doctor/dr-service/ba-doctor-user/doLogin',data:{
+    var response = await dio.post('https://interhospital.youjiankang.net/doctor/dr-service/ba-doctor-user/doLogin',data:{
       "key":loginStr,
       "password": loginPas,
     });
