@@ -3,6 +3,7 @@ import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:doctor_project/widget/custom_app_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'chat_room.dart';
 import 'order_detail.dart';
 import 'package:flutter/services.dart';
 
@@ -111,12 +112,14 @@ class _PatientConsultState extends State<PatientConsult> {
           margin: const EdgeInsets.fromLTRB(16.0, 10.0, 16.0, 0),
           decoration: BoxDecoration(
               color: Colors.white, borderRadius: BorderRadius.circular(5.0)),
-          child: Column(
+          child:GestureDetector(
+              onTap: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>const OrderDetail()));
+              },
+              child:Column(
             children: [
               ListTile(
-                onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>const OrderDetail()));
-                },
+                onTap: null,
                 contentPadding: const EdgeInsets.symmetric(horizontal: 8.0),
                 subtitle: Text(
                   '健康咨询',
@@ -219,7 +222,7 @@ class _PatientConsultState extends State<PatientConsult> {
                             primary: ColorsUtil.shallowColor,
                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14.0))
                         ), onPressed: () {
-                          // Navigator.push(context, MaterialPageRoute(builder: (context)=> ChatPage()));
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=> const ChatRoom()));
                       }, child: Text('继续交流',style: GSYConstant.textStyle(fontSize: 13.0),),
                       ),
                     )
@@ -227,7 +230,7 @@ class _PatientConsultState extends State<PatientConsult> {
                 ),
               )
             ],
-          ));
+          )),);
     }
     return _getMoreWidget();
   }

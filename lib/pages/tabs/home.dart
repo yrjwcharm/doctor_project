@@ -441,15 +441,13 @@ class HomeState extends State<Home> {
       child: Row(
         children: [
           buildButtonColumn('assets/images/home/consult1.png', '患者咨询',(){
-            // Navigator.push(context, MaterialPageRoute(builder: (context)=> const PatientConsult(type: '1')));
-            Navigator.push(context, MaterialPageRoute(builder: (context)=> const UseDrugInfo()));
+            Navigator.push(context, MaterialPageRoute(builder: (context)=> const PatientConsult(type: '1')));
           }),
           buildButtonColumn('assets/images/home/picture1.png', '图文问诊',(){
             Navigator.push(context, MaterialPageRoute(builder: (context)=> const PatientConsult(type: '2',)));
           }),
           buildButtonColumn('assets/images/home/video1.png', '视频问诊',(){
             _goToHealthHutModular();
-            // Navigator.push(context, MaterialPageRoute(builder: (context)=> const PatientConsult(type: '3',)));
           }),
         ],
       ),
