@@ -5,6 +5,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:doctor_project/model/CheckCode.dart';
+import 'package:doctor_project/utils/svg_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -595,7 +596,7 @@ class  setNewPasStates extends State<setNewPas>
 
               ),
               suffixIcon: GestureDetector(
-                child: isCanSee==false? Image.asset('images/hidePas.png'):Image.asset('images/showPsa.png'),
+                child: isCanSee==false? SvgUtil.svg('showPsa.svg'):SvgUtil.svg('hidePsa.svg'),
                 onTap: () {
                   setState(() {
                     isCanSee = !isCanSee;
@@ -681,7 +682,7 @@ class  setNewComfPasStates extends State<setNewComfPas>
 
               ),
               suffixIcon: GestureDetector(
-                child: isCanSee==false? Image.asset('images/hidePas.png'):Image.asset('images/showPsa.png'),
+                child: isCanSee==false? SvgUtil.svg('hidePsa.svg'):SvgUtil.svg('showPsa.png'),
                 onTap: () {
                   setState(() {
                     isCanSee = !isCanSee;

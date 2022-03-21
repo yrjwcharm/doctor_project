@@ -6,6 +6,8 @@ import 'package:flutter/services.dart';
 import 'routes/routes.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:jpush_flutter/jpush_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 void main()
 {
   runApp(const MyApp() );
@@ -31,9 +33,15 @@ class _MyAppState extends State<MyApp> {
     JPush jpush = JPush();
 
     // 获取注册的ID
-    jpush.getRegistrationID().then((rid) {
-      print("获取注册的id:$rid");
+    jpush.getRegistrationID().then((rid) async {
+
+      SharedPreferences perfer= await SharedPreferences.getInstance();
+      bool isSuccess= await  perfer.setString('jpushToken', rid);
+      print('获取注册的id $isSuccess'+rid);
+      // print("获取注册的id:$rid");
+
     });
+
     // 初始化
     jpush.setup(
       // 极光官方申请应用的APP KEY
