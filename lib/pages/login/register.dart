@@ -1,14 +1,18 @@
 import 'dart:async';
 
 import 'package:doctor_project/utils/regex_util.dart';
+import 'package:doctor_project/utils/svg_utils.dart';
 import 'package:doctor_project/utils/toast_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/cupertino.dart';
+import '../../common/style/gsy_style.dart';
 import '../../routes/routes.dart';
 import 'package:dio/dio.dart';
 // import 'package:garbagecan/passwordCheck/setPassword.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+
+import '../../widget/custom_app_bar.dart';
 
 
 class RegisterContent extends StatefulWidget{
@@ -77,85 +81,37 @@ class RegisterContentStates extends State<RegisterContent>
   }
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-
-          backgroundColor: Colors.white,
-          leading: Container(      decoration: BoxDecoration(
-            color: Colors.white,
-            image: DecorationImage(
-              image: AssetImage('images/back.png'),
-              fit: BoxFit.scaleDown,
-            ),
-          ),
-            child:  FlatButton(
-              child:Text(""),
-              onPressed: () {
-                Navigator.of(context).pop();
-
-              },
-            ),
-          ),
-        ),
-        body:
-        Container(
-          width: double.infinity,
-          decoration: BoxDecoration(
-            image:DecorationImage(
-              image: AssetImage('images/2.0x/LoginbackGrond@2x.png'),
-              fit: BoxFit.cover,
-            ) ,
-          ),
-          child:Column(
+        appBar: CustomAppBar('',onBackPressed: (){
+          Navigator.pop(context);
+        },),
+        body: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Row(
-                textDirection:TextDirection.ltr ,
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    width: 200,
-                    height: 30,
-                    margin: EdgeInsets.fromLTRB(20, 45, 0, 0),
-                    alignment: Alignment.topLeft,
-                    decoration: new BoxDecoration(
-                    ),
-                    child:Text('欢迎注册',textDirection: TextDirection.ltr,
-                      textAlign:TextAlign.left ,
-                      style:TextStyle(
-                        fontSize: 20,
-                        color: Colors.white,
-                      ) ,
-                    ),
-                  )
-                ],
+              Container(
+                width: double.infinity,
+                alignment: Alignment.topLeft,
+                padding: const EdgeInsets.only(left: 16.0,top: 32.0),
+                height: 157.0,
+                decoration: const BoxDecoration(
+                  image: DecorationImage(
+                      image: AssetImage(
+                        'assets/images/background.png',
+                      ),
+                      fit: BoxFit.cover
+                    // fit: BoxFit.cover,
+                  ),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text('欢迎注册',style: GSYConstant.textStyle(fontFamily:'Medium',fontSize: 20.0,fontWeight: FontWeight.w500),),
+                    const SizedBox(height: 4.0,),
+                  ],
+                ),
               ),
-              Row(
-                textDirection:TextDirection.ltr ,
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    width: 200,
-                    height: 20,
-                    margin: EdgeInsets.fromLTRB(20, 0, 0, 0),
-                    alignment: Alignment.topLeft,
-                    decoration: new BoxDecoration(
-                      // color: Colors.grey,
-                    ),
-                    child:Text('',textDirection: TextDirection.ltr,
-                      textAlign:TextAlign.left ,
-                      style:TextStyle(
-                        fontSize: 10,
-                        color: Colors.white,
-                      ) ,
-                    ),
-                  )
-                ],
-              ),
-              SizedBox(height: 25),
               Expanded(
                   child: Container(
+                    transform: Matrix4.translationValues(0, -43.0, 0),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
@@ -168,18 +124,18 @@ class RegisterContentStates extends State<RegisterContent>
                           textDirection:TextDirection.ltr ,
                           children: [
                             Container(
-                              child: Image.asset('images/2.0x/userIcon@2x.png',
-                              ),
+                              child: SvgUtil.svg('userIcon.svg'),
                               margin: EdgeInsets.fromLTRB(20, 30, 0, 0),
                               width: 16.0,
                               height: 18,
                             ),
-                            SizedBox(width: 5),
                             Container(
 
                               child: Theme(data:new ThemeData(primaryColor: Colors.red) , child:TextField(
                                 // controller: iphoneTFController,
                                 decoration: InputDecoration(
+                                  isCollapsed: true,
+                                  contentPadding: const EdgeInsets.only(left: 10.0),
                                   border: InputBorder.none,
                                   hintText: '请输入手机号',
                                   hintStyle: TextStyle(
@@ -196,6 +152,7 @@ class RegisterContentStates extends State<RegisterContent>
                               width: MediaQuery.of(context).size.width-61,
                               margin: EdgeInsets.fromLTRB(5, 30, 10, 0),
                               height: 30,
+                              alignment: Alignment.centerLeft,
                             )
                           ],
                         ),
@@ -213,17 +170,17 @@ class RegisterContentStates extends State<RegisterContent>
                           textDirection:TextDirection.ltr ,
                           children: [
                             Container(
-                              child: Image.asset('images/2.0x/pasIcon@2x.png',
-                              ),
+                              child: SvgUtil.svg('pasIcon.svg',),
                               margin: EdgeInsets.fromLTRB(20, 0, 0, 0),
                               width: 16.0,
                               height: 18,
                             ),
-                            SizedBox(width: 10),
                             Container(
                               child: Theme(data:new ThemeData(primaryColor: Colors.red) , child:TextField(
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
+                                  isCollapsed: true,
+                                  contentPadding: const EdgeInsets.only(left: 10.0),
                                   hintText: '请输入短信验证码',
                                   hintStyle: TextStyle(
                                     fontSize: 14,
@@ -239,6 +196,8 @@ class RegisterContentStates extends State<RegisterContent>
                               width: MediaQuery.of(context).size.width-61-120,
                               margin: EdgeInsets.fromLTRB(5, 0, 10, 0),
                               height: 30,
+                              alignment: Alignment.centerLeft,
+
                             ),
 
                             sendIphoneCode(
@@ -263,16 +222,16 @@ class RegisterContentStates extends State<RegisterContent>
                           textDirection:TextDirection.ltr ,
                           children: [
                             Container(
-                              child: Image.asset('images/2.0x/pasIcon@2x.png',
-                              ),
+                              child: SvgUtil.svg('pasIcon.svg'),
                               margin: EdgeInsets.fromLTRB(20, 0, 0, 0),
                               width: 16.0,
                               height: 18,
                             ),
-                            SizedBox(width: 10),
                             Container(
                               child: Theme(data:new ThemeData(primaryColor: Colors.red) , child:TextField(
                                 decoration: InputDecoration(
+                                  isCollapsed: true,
+                                  contentPadding: const EdgeInsets.only(left: 10.0),
                                   border: InputBorder.none,
                                   hintText: '请输入登录密码（6-16位数字字母组合密码）',
                                   hintStyle: TextStyle(
@@ -289,6 +248,7 @@ class RegisterContentStates extends State<RegisterContent>
                               width: MediaQuery.of(context).size.width-61,
                               margin: EdgeInsets.fromLTRB(5, 0, 10, 0),
                               height: 30,
+                              alignment: Alignment.centerLeft,
                             ),
                           ],
                         ),
@@ -453,8 +413,6 @@ class RegisterContentStates extends State<RegisterContent>
             ],
 
           ),
-
-        )
     );
   }
 
@@ -590,10 +548,11 @@ class singChooseBtnStates extends State<singChooseBtn>
   Widget build(BuildContext context) {
     // TODO: implement build
     return Container(
+      height: 304,
       decoration: BoxDecoration(
         color: Colors.white,
         image: DecorationImage(
-          image: this.isSelect==0?AssetImage('images/2.0x/check box@2x.png'):AssetImage('images/2.0x/check box-select@2x.png'),
+          image: isSelect==0?AssetImage('assets/images/checkbox.png'):AssetImage('assets/images/checkbox-sel.png'),
           fit: BoxFit.cover,
         ),
       ),
