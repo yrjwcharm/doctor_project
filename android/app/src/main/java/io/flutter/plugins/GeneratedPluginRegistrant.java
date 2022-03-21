@@ -66,11 +66,6 @@ public final class GeneratedPluginRegistrant {
       Log.e(TAG, "Error registering plugin fluttertoast, io.github.ponnamkarthik.toast.fluttertoast.FlutterToastPlugin", e);
     }
     try {
-      flutterEngine.getPlugins().add(new com.baseflow.geolocator.GeolocatorPlugin());
-    } catch(Exception e) {
-      Log.e(TAG, "Error registering plugin geolocator_android, com.baseflow.geolocator.GeolocatorPlugin", e);
-    }
-    try {
       flutterEngine.getPlugins().add(new io.flutter.plugins.imagepicker.ImagePickerPlugin());
     } catch(Exception e) {
       Log.e(TAG, "Error registering plugin image_picker, io.flutter.plugins.imagepicker.ImagePickerPlugin", e);
