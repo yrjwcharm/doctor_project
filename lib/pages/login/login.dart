@@ -91,8 +91,7 @@ void postNet_bindRid () async{
           "jigId":jpushTokenStr,
         });
     String mess = response.data['msg'];
-    print("data= " + response.data.toString());
-    print(response.realUri);
+    print("data= " + response.data.toString() + "url= " + response.realUri.toString());
 
     if(response.data['code']!=200)
     {
@@ -150,7 +149,7 @@ void postNet_bindRid () async{
             ),
             width: double.infinity,
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              // mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Row(
                   children: [
