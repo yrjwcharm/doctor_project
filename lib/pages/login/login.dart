@@ -47,20 +47,62 @@ class RegisterContentStates extends State<LoginPage> {
       Fluttertoast.showToast(msg: mess, gravity: ToastGravity.CENTER);
       return;
     } else {
-      Fluttertoast.showToast(msg: '登录成功', gravity: ToastGravity.CENTER);
 
+      String tokenValueStr = response.data['data']['tokenValue'];
       SharedPreferences perfer = await SharedPreferences.getInstance();
       bool isSuccess = await perfer.setString(
-          'tokenValue', response.data['data']['tokenValue']);
+          'tokenValue', tokenValueStr);
       print(
-          'SharedPreferences$isSuccess' + response.data['data']['tokenValue']);
-      Navigator.pushNamed(context, '/TabHome');
+          'SharedPreferences$isSuccess' + tokenValueStr);
+      postNet_bindRid();
+
+      // Fluttertoast.showToast(msg: '登录成功', gravity: ToastGravity.CENTER);
+      //
+      // SharedPreferences perfer = await SharedPreferences.getInstance();
+      // bool isSuccess = await perfer.setString(
+      //     'tokenValue', response.data['data']['tokenValue']);
+      // print(
+      //     'SharedPreferences$isSuccess' + response.data['data']['tokenValue']);
+      // Navigator.pushNamed(context, '/TabHome');
     }
 
     // _content = response.data.toString();
     print(response.data.toString() + "" + loginStr + loginPas);
 
     // Navigator.pushNamed(context, '/registerSuccess');
+  }
+
+@override
+//用户绑定极光推送 接口
+void postNet_bindRid () async{
+
+    SharedPreferences perfer = await SharedPreferences.getInstance();
+    String? tokenValueStr = perfer.getString("tokenValue");
+    String? jpushTokenStr = perfer.getString("jpushToken");
+    print("取出储存的jPush注册id:$jpushTokenStr");
+
+    var dio = new Dio();
+    dio.options.headers = {
+      "token": tokenValueStr,
+    };
+    var response = await dio.post(
+        'https://interhospital.youjiankang.net/doctor/dr-service/jig/bindRid',
+        data: {
+          "jigId":jpushTokenStr,
+        });
+    String mess = response.data['msg'];
+    print("data= " + response.data.toString());
+    print(response.realUri);
+
+    if(response.data['code']!=200)
+    {
+      Fluttertoast.showToast(msg: mess,gravity: ToastGravity.CENTER);
+      return;
+    }else
+    {
+      Fluttertoast.showToast(msg: '登录成功', gravity: ToastGravity.CENTER);
+      Navigator.pushNamed(context, '/TabHome');
+    }
   }
 
   Widget build(BuildContext context) {
