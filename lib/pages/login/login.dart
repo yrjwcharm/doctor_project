@@ -108,7 +108,7 @@ class RegisterContentStates extends State<LoginPage> {
             ),
             width: double.infinity,
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              // mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Row(
                   children: [
