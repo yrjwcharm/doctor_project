@@ -33,6 +33,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   jpush_flutter: 2.1.4
   flutter_chat_ui: ^1.5.5
+  zego_express_engine: ^2.17.1
   cupertino_icons: ^1.0.2
   fl_chart: ^0.45.1
   flutter_svg: ^1.0.3
@@ -118,8 +119,6 @@ flutter:
     - assets/images/patient/
     - assets/images/svg/
     - assets/messages.json
-
-
   # To add assets to your application, add an assets section, like this:
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

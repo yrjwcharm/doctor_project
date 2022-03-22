@@ -1,3 +1,4 @@
+import 'package:doctor_project/pages/home/video_topic.dart';
 import 'package:doctor_project/pages/login/login.dart';
 import 'package:flutter/material.dart';
 import 'package:doctor_project/pages/tabs/main.dart';
@@ -7,7 +8,6 @@ import 'routes/routes.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:jpush_flutter/jpush_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 void main()
 {
   runApp(const MyApp() );
@@ -99,7 +99,7 @@ class _MyAppState extends State<MyApp> {
         Locale('zh', 'CN'),//设置语言为中文
       ],
       debugShowCheckedModeBanner: false, // 设置这一属性即可
-        home:LoginPage(),
+        home:VideoTopic(),
         routes:routes,
     );
   }
