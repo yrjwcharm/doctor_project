@@ -100,7 +100,8 @@ class RegisterContentStates extends State<LoginPage> {
             ),
           ),
           Expanded(
-              child: Container(transform: Matrix4.translationValues(0, -43.0, 0),
+
+            child: Container(transform: Matrix4.translationValues(0, -43.0, 0),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
