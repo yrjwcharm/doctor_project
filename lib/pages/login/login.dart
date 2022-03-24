@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:doctor_project/common/style/gsy_style.dart';
+import 'package:doctor_project/pages/login/verify_mobile.dart';
 import 'package:doctor_project/utils/svg_utils.dart';
 import 'package:doctor_project/widget/custom_app_bar.dart';
 import 'package:flutter/material.dart';
@@ -108,10 +109,11 @@ void postNet_bindRid () async{
     // TODO: implement build
     return Scaffold(
       appBar: CustomAppBar(
-        ' ',
+        '',
         onBackPressed: () {
-          SystemNavigator.pop();
+          // SystemNavigator.pop();
           //or exit(0) 退出应用程序
+          SystemChannels.platform.invokeMethod('SystemNavigator.pop');
         },
       ),
       body: Column(
@@ -276,6 +278,7 @@ void postNet_bindRid () async{
                         ),
                         textColor: Colors.white,
                         onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>const VerifyMobile()));
                           // Navigator.pushNamed(context, '/setPassword');
                         },
                       ),

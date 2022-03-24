@@ -39,7 +39,7 @@ class _HealthConsultServiceState extends State<PictureService> {
                onTap: (){
 
                },
-               leading:TextUtils.isEmpty(list[index]['subTitle'].toString())?Row(
+               leading:TextUtil.isEmpty(list[index]['subTitle'].toString())?Row(
                    mainAxisSize: MainAxisSize.min,
                    children: [
                      Text(list[index]['title'],style: GSYConstant.textStyle(color: '#333333'),)

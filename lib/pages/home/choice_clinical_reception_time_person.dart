@@ -166,9 +166,9 @@ class _ChoiceClinicReceptTimePersonState
                                 padding: const EdgeInsets.all(0.0)),
                             onPressed: _selStartTime,
                             child: Text(
-                              TextUtils.isEmpty(startTime) ? '开始时间' : startTime,
+                              TextUtil.isEmpty(startTime) ? '开始时间' : startTime,
                               style: GSYConstant.textStyle(
-                                  color: TextUtils.isEmpty(startTime)
+                                  color: TextUtil.isEmpty(startTime)
                                       ? '#999999'
                                       : '#333333'),
                             ),
@@ -183,11 +183,11 @@ class _ChoiceClinicReceptTimePersonState
                               TextButton(
                                   onPressed: _selStartTime,
                                   child: Text(
-                                    TextUtils.isEmpty(endTime)
+                                    TextUtil.isEmpty(endTime)
                                         ? '结束时间'
                                         : endTime,
                                     style: GSYConstant.textStyle(
-                                        color: TextUtils.isEmpty(endTime)
+                                        color: TextUtil.isEmpty(endTime)
                                             ? '#999999'
                                             : '#333333'),
                                   )),

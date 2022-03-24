@@ -1,5 +1,7 @@
 import 'package:doctor_project/pages/home/video_topic.dart';
 import 'package:doctor_project/pages/login/login.dart';
+import 'package:doctor_project/pages/login/regist_success.dart';
+import 'package:doctor_project/pages/login/verify_mobile.dart';
 import 'package:flutter/material.dart';
 import 'package:doctor_project/pages/tabs/main.dart';
 import 'dart:io';
@@ -99,7 +101,7 @@ class _MyAppState extends State<MyApp> {
         Locale('zh', 'CN'),//设置语言为中文
       ],
       debugShowCheckedModeBanner: false, // 设置这一属性即可
-        home:VideoTopic(),
+        home:RegisterSuccess(),
         routes:routes,
     );
   }

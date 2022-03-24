@@ -60,7 +60,8 @@ class _CustomInputWidgetState extends State<CustomInputWidget> {
         textAlign: TextAlign.center,
         // textDirection: TextDirection.rtl,
         style: widget.textStyle,//输入文本的样式
-        // inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],//允许的输入格式
+        inputFormatters: [
+        ],//允许的输入格式
         cursorColor: ColorsUtil.hexStringColor('#666666')
     );
   }
