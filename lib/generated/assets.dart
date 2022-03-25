@@ -93,13 +93,17 @@ class Assets {
   static const String svgCloseSpeaker = 'assets/images/svg/close_speaker.svg';
   static const String svgDelete = 'assets/images/svg/delete.svg';
   static const String svgDoctor = 'assets/images/svg/doctor.svg';
+  static const String svgDrugDoc = 'assets/images/svg/drug_doc.svg';
+  static const String svgEvaluateDoc = 'assets/images/svg/evaluate_doc.svg';
   static const String svgFront = 'assets/images/svg/front.svg';
   static const String svgHidePsa = 'assets/images/svg/hidePsa.svg';
   static const String svgIncrement = 'assets/images/svg/increment.svg';
   static const String svgIncrementAdd = 'assets/images/svg/increment_add.svg';
+  static const String svgInternetDoc = 'assets/images/svg/internet_doc.svg';
   static const String svgMRp = 'assets/images/svg/m_rp.svg';
   static const String svgMinus = 'assets/images/svg/minus.svg';
   static const String svgMore = 'assets/images/svg/more.svg';
+  static const String svgNurse = 'assets/images/svg/nurse.svg';
   static const String svgOpenEyes = 'assets/images/svg/open_eyes.svg';
   static const String svgPasIcon = 'assets/images/svg/pasIcon.svg';
   static const String svgPicture = 'assets/images/svg/picture.svg';
