@@ -162,7 +162,29 @@ class _MakePrescriptionState extends State<MakePrescription> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          const Diagnosis()));
+                                          Diagnosis(type: 1,))).then((value) {
+
+                                // {
+                                //   'title': '诊断',
+                                // 'detail': '请选择诊断',
+                                // 'isArrow': true,
+                                // },
+                                            List datalist = [];
+                                            datalist.addAll(value);
+                                            String str ="";
+
+                                            for(int i=0; i<datalist.length; i++){
+                                              String str1 = str.isEmpty ? datalist[i]["diadesc"] : "," +datalist[i]["diadesc"];
+                                              str += str1;
+                                            }
+                                            print(str);
+                                            setState(() {
+
+                                              Map item = list[1];
+                                              item.update("detail", (value) => str);
+                                            });
+
+                              }); //type 诊断类（0-中医，1-西医）
                               break;
                             case 2:
                               PickerUtil.showPicker(context, _scaffoldKey, pickerData: pickerData, confirmCallback: (Picker picker, List<int> selected) {
@@ -187,8 +209,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
                         trailing: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: <Widget>[
-                            Text(
-                              list[index]['detail'],
+                            Text(list[index]['detail'],
                               style: GSYConstant.textStyle(color: '#666666'),
                             ),
                             const SizedBox(

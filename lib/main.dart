@@ -8,6 +8,10 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:jpush_flutter/jpush_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'package:doctor_project/pages/home/diagnosis.dart';
+
+
+
 void main()
 {
   runApp(const MyApp() );
@@ -100,6 +104,7 @@ class _MyAppState extends State<MyApp> {
       ],
       debugShowCheckedModeBanner: false, // 设置这一属性即可
         home:LoginPage(),
+        // home:Diagnosis(),
         routes:routes,
     );
   }

@@ -72,6 +72,24 @@ class RegisterContentStates extends State<LoginPage> {
     // Navigator.pushNamed(context, '/registerSuccess');
   }
 
+  //测试代码
+  void jpushTest() async{
+
+    var dio = new Dio();
+
+    print(1111111);
+    var response = await dio.post(
+        'https://interhospital.youjiankang.net/doctor/dr-service/push/test',
+        data: {
+          "jigId":"141fe1da9e5fd9aea7e",
+          "channel" : Platform.isAndroid ? "Android" : "iOS",
+          "title" : "测试",
+          "alert" : "testtest",
+          "type" : "recipe" //模块（recipe-处方，register-挂号，logistics-物流，text-图文，video-视频）
+        });
+    print("data= " + response.data.toString() + "----url= " + response.realUri.toString());
+  }
+
 @override
 //用户绑定极光推送 接口
 void postNet_bindRid () async{
@@ -79,7 +97,7 @@ void postNet_bindRid () async{
     SharedPreferences perfer = await SharedPreferences.getInstance();
     String? tokenValueStr = perfer.getString("tokenValue");
     String? jpushTokenStr = perfer.getString("jpushToken");
-    print("取出储存的jPush注册id:$jpushTokenStr");
+    print("取出储存的jPush注册id:$jpushTokenStr  ----isAndroid" + Platform.isAndroid.toString());
 
     var dio = new Dio();
     dio.options.headers = {
@@ -89,6 +107,7 @@ void postNet_bindRid () async{
         'https://interhospital.youjiankang.net/doctor/dr-service/jig/bindRid',
         data: {
           "jigId":jpushTokenStr,
+          "channel" : Platform.isAndroid ? "Android" : "iOS",
         });
     String mess = response.data['msg'];
     print("data= " + response.data.toString() + "url= " + response.realUri.toString());
@@ -117,7 +136,7 @@ void postNet_bindRid () async{
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Container(
+          Container  (
             width: double.infinity,
             alignment: Alignment.topLeft,
             padding: const EdgeInsets.only(left: 16.0,top: 32.0),
@@ -276,7 +295,8 @@ void postNet_bindRid () async{
                         ),
                         textColor: Colors.white,
                         onPressed: () {
-                          // Navigator.pushNamed(context, '/setPassword');
+                          // Navigator.pushNamed(context, '/forgetPassword');
+                          // jpushTest();
                         },
                       ),
                     )
