@@ -44,7 +44,7 @@ class _HealthConsultServiceState extends State<VideoService> {
                     Navigator.push(context, MaterialPageRoute(builder: (context)=>const ChoiceClinicReceptTimePerson()));
                   }
                },
-               leading:TextUtils.isEmpty(list[index]['subTitle'].toString())?Row(
+               leading:TextUtil.isEmpty(list[index]['subTitle'].toString())?Row(
                    mainAxisSize: MainAxisSize.min,
                    children: [
                      Text(list[index]['title'],style: GSYConstant.textStyle(color: '#333333'),)

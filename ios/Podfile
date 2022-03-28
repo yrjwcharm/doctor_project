@@ -1,5 +1,5 @@
-# Uncomment this line to define a global platform for your projectplatform :ios, '10.0'
-
+# Uncomment this line to define a global platform for your project
+platform :ios, '10.0'
 # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
 ENV['COCOAPODS_DISABLE_STATS'] = 'true'
 
@@ -28,7 +28,6 @@ flutter_ios_podfile_setup
 
 target 'Runner' do
   use_frameworks!
-  pod 'ZegoExpressEngine/Video'
   pod 'SVProgressHUD', '~> 2.2.5'
   pod 'M80AttributedLabel', '~> 1.9.9'
   pod 'SDWebImage', '~> 5.12.2'

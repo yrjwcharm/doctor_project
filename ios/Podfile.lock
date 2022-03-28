@@ -121,7 +121,12 @@ PODS:
     - libwebp
   - webview_flutter_wkwebview (0.0.1):
     - Flutter
-  - ZegoExpressEngine/Video (2.16.1)
+  - zego_express_engine (2.17.1):
+    - Flutter
+    - ZegoExpressEngine (= 2.17.1)
+  - ZegoExpressEngine (2.17.1):
+    - ZegoExpressEngine/Video (= 2.17.1)
+  - ZegoExpressEngine/Video (2.17.1)
 
 DEPENDENCIES:
   - audioplayers (from `.symlinks/plugins/audioplayers/ios`)
@@ -153,7 +158,7 @@ DEPENDENCIES:
   - video_player_avfoundation (from `.symlinks/plugins/video_player_avfoundation/ios`)
   - video_thumbnail (from `.symlinks/plugins/video_thumbnail/ios`)
   - webview_flutter_wkwebview (from `.symlinks/plugins/webview_flutter_wkwebview/ios`)
-  - ZegoExpressEngine/Video
+  - zego_express_engine (from `.symlinks/plugins/zego_express_engine/ios`)
 
 SPEC REPOS:
   trunk:
@@ -225,6 +230,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/video_thumbnail/ios"
   webview_flutter_wkwebview:
     :path: ".symlinks/plugins/webview_flutter_wkwebview/ios"
+  zego_express_engine:
+    :path: ".symlinks/plugins/zego_express_engine/ios"
 
 SPEC CHECKSUMS:
   audioplayers: 455322b54050b30ea4b1af7cd9e9d105f74efa8c
@@ -268,8 +275,9 @@ SPEC CHECKSUMS:
   video_player_avfoundation: e489aac24ef5cf7af82702979ed16f2a5ef84cff
   video_thumbnail: c4e2a3c539e247d4de13cd545344fd2d26ffafd1
   webview_flutter_wkwebview: 005fbd90c888a42c5690919a1527ecc6649e1162
-  ZegoExpressEngine: 66423eb23badc4d97c3313f7a6e95ccbae2d32c9
+  zego_express_engine: ddd3fdbe634f0e523884ff690edd1c16fed5aed9
+  ZegoExpressEngine: 17d6eea8371143deaf544bba0952179ce9c0ad97
 
-PODFILE CHECKSUM: 750fd43ce77a4ed729ab36dd238a976a6c693178
+PODFILE CHECKSUM: eb1d81bd729e76dfc2f0d501a25c5e80ac720c80
 
 COCOAPODS: 1.11.2

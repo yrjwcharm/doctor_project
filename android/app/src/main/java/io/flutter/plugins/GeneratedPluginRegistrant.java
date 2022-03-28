@@ -140,5 +140,10 @@ public final class GeneratedPluginRegistrant {
     } catch(Exception e) {
       Log.e(TAG, "Error registering plugin webview_flutter_android, io.flutter.plugins.webviewflutter.WebViewFlutterPlugin", e);
     }
+    try {
+      flutterEngine.getPlugins().add(new im.zego.zego_express_engine.ZegoExpressEnginePlugin());
+    } catch(Exception e) {
+      Log.e(TAG, "Error registering plugin zego_express_engine, im.zego.zego_express_engine.ZegoExpressEnginePlugin", e);
+    }
   }
 }

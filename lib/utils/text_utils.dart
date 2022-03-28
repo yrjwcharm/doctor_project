@@ -1,5 +1,5 @@
 /// 文本工具类
-class TextUtils {
+class TextUtil {
 
   /// 判断文本内容是否为空
   static bool isEmpty(String text) {

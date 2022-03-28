@@ -43,7 +43,7 @@ class _AddMultiDiagnosisState extends State<AddMultiDiagnosis> {
                 child: TextField(
                   controller: _editingController,
                   inputFormatters: <TextInputFormatter>[
-                    LengthLimitingTextInputFormatter(20)//限制长度
+                    LengthLimitingTextInputFormatter(20),//限制长度
                   ],
                   onChanged: (value)=>{
                     print(_editingController.text.isNotEmpty)

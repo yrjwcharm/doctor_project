@@ -1,4 +1,9 @@
+import 'package:doctor_project/pages/home/video_topic.dart';
+import 'package:doctor_project/pages/login/doctor_qualification.dart';
+import 'package:doctor_project/pages/login/identity_choice.dart';
 import 'package:doctor_project/pages/login/login.dart';
+import 'package:doctor_project/pages/login/regist_success.dart';
+import 'package:doctor_project/pages/login/verify_mobile.dart';
 import 'package:flutter/material.dart';
 import 'package:doctor_project/pages/tabs/main.dart';
 import 'dart:io';
@@ -9,8 +14,6 @@ import 'package:jpush_flutter/jpush_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:doctor_project/pages/home/diagnosis.dart';
-
-
 
 void main()
 {
