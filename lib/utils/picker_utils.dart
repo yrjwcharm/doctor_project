@@ -1,3 +1,4 @@
+import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_picker/Picker.dart';
@@ -7,7 +8,10 @@ import '../common/style/gsy_style.dart';
 class PickerUtil{
   static showPicker(BuildContext context, GlobalKey<ScaffoldState> _scaffoldKey,{required List pickerData,required PickerConfirmCallback confirmCallback}){
     Picker picker = Picker(
-        adapter: PickerDataAdapter<dynamic>(pickerdata: pickerData),
+        headerDecoration: BoxDecoration(
+          border: Border(bottom: BorderSide(color: ColorsUtil.hexStringColor('#cccccc',alpha: 0.3)))
+        ),
+        adapter: PickerDataAdapter<String>(pickerdata: pickerData),
         changeToFirst: false,
         confirmText: '确定',
         cancelText: '取消',
