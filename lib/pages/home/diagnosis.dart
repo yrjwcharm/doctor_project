@@ -6,6 +6,7 @@ import 'package:doctor_project/utils/svg_utils.dart';
 import 'package:doctor_project/widget/custom_app_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -14,39 +15,38 @@ import 'package:doctor_project/widget/safe_area_button.dart';
 
 class Diagnosis extends StatefulWidget {
 
+  List checkedDataList ; //选中的诊断 数组
   int type ; //诊断类型（0-中医，1-西医）
-  Diagnosis({Key? key,this.type =0}) : super(key: key);
+  Diagnosis({Key? key,this.type =0,required this.checkedDataList}) : super(key: key);
 
   @override
-  _DiagnosisState createState() => _DiagnosisState(type :this.type);
+  _DiagnosisState createState() => _DiagnosisState(type :this.type, checkedDataList:this.checkedDataList);
 }
 
 class _DiagnosisState extends State<Diagnosis> {
 
+  List checkedDataList ;
   int type ;
-  _DiagnosisState({this.type =0});
+  _DiagnosisState({this.type =0, required this.checkedDataList});
 
   Map dataMap = new Map(); //诊断列表数据
   List detailDataList = []; //诊断列表数据
   List commonList =[{'title':'风寒感冒'},{'title':'糖尿病'},{'title':'腰肌劳损'},{'title':'痛风'}];
-  List checkedDataList = []; //选中的诊断 数组
   final ScrollController _scrollController = ScrollController(); //listview的控制器
   int _page = 1; //加载的页数
   bool isLoading = false; //判断 loading框是否隐藏
   String loadText = ""; //加载时显示的文字
   bool commonlyUsedIsHidden = true; //常用诊断是否隐藏
-  bool diagnosisListIsHidden = false; //诊断列表是否隐藏
-  bool checkedDiagnosisIsHidden = true; //选中列表是否隐藏
+  bool diagnosisListIsHidden = true; //诊断列表是否隐藏
+  bool checkedDiagnosisIsHidden = false; //选中列表是否隐藏
 
   final TextEditingController _editingController = TextEditingController();
-  final FocusNode contentFocusNode = FocusNode();
+  final FocusNode _contentFocusNode = FocusNode();
 
   @override
   void initState() {
     super.initState();
 
-    // getNet_diagnosisList();
-    // getData();
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
@@ -202,11 +202,11 @@ void getNet_diagnosisList () async{
             title: Row(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                Expanded(
-                  flex : 2 ,
-                  child: Text(detailDataList[index]["dianame"], style: GSYConstant.textStyle(color: '#888888'),),
-                ),
-                const SizedBox(width: 10.0,),
+                // Expanded(
+                //   flex : 2 ,
+                //   child: Text(detailDataList[index]["dianame"], style: GSYConstant.textStyle(color: '#888888'),),
+                // ),
+                // const SizedBox(width: 10.0,),
                 Expanded(
                   flex : 1 ,
                   child:Text(detailDataList[index]["diacode"], style: GSYConstant.textStyle(color: '#333333'),),
@@ -222,7 +222,9 @@ void getNet_diagnosisList () async{
             trailing: TextButton(onPressed: () {
               // Navigator.push(context, MaterialPageRoute(builder: (context)=>const AddMultiDiagnosis()));
               setState(() {
-                checkedDataList.add(detailDataList[index]);
+                Map item = detailDataList[index];
+                item["isMain"] = checkedDataList.isEmpty;
+                checkedDataList.add(item);
                 diagnosisListIsHidden = true;
                 checkedDiagnosisIsHidden = false;
               });
@@ -265,7 +267,7 @@ void getNet_diagnosisList () async{
                   ),
                   child: TextField(
                     controller: _editingController,
-                    focusNode: contentFocusNode,
+                    focusNode: _contentFocusNode,
                     inputFormatters: <TextInputFormatter>[
                       LengthLimitingTextInputFormatter(20)//限制长度
                     ],
@@ -274,7 +276,7 @@ void getNet_diagnosisList () async{
                     },
                     onEditingComplete: (){
 
-                      contentFocusNode.unfocus();
+                      _contentFocusNode.unfocus();
                       _page = 1 ;
                       getNet_diagnosisList();
                     } ,
@@ -364,11 +366,11 @@ void getNet_diagnosisList () async{
                         title: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: <Widget>[
-                            Expanded(
-                              flex : 2 ,
-                              child: Text(checkedDataList[index]["dianame"], style: GSYConstant.textStyle(color: '#888888'),),
-                            ),
-                            const SizedBox(width: 10.0,),
+                            // Expanded(
+                            //   flex : 2 ,
+                            //   child: Text(checkedDataList[index]["dianame"], style: GSYConstant.textStyle(color: '#888888'),),
+                            // ),
+                            // const SizedBox(width: 10.0,),
                             Expanded(
                               flex : 1 ,
                               child:Text(checkedDataList[index]["diacode"], style: GSYConstant.textStyle(color: '#333333'),),
@@ -381,6 +383,24 @@ void getNet_diagnosisList () async{
                             )
                           ],
                         ),
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            checkedDataList[index]['isMain']?Text('主诊断',style: GSYConstant.textStyle(color: '#666666',fontSize: 13.0),):Container(),
+                            const SizedBox(width: 8.0,),
+                            checkedDataList[index]['isMain']?SvgUtil.svg('active_radio.svg'):SvgUtil.svg('radio.svg')
+                          ],
+                        ),
+                        onTap: () {
+                          setState(() {
+
+                            checkedDataList.forEach((element) {
+                              element['isMain'] = false ;
+                            });
+                            checkedDataList[index]['isMain'] = true;
+
+                          });
+                        },
                       ),
                       Divider(color: ColorsUtil.hexStringColor('#cccccc', alpha: 0.3),)
                     ],

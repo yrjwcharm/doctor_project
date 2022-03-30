@@ -10,6 +10,8 @@ import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:doctor_project/widget/custom_app_bar.dart';
 import 'package:flutter_picker/Picker.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'dart:ui';
+
 class MakePrescription extends StatefulWidget {
   const MakePrescription({Key? key}) : super(key: key);
 
@@ -19,6 +21,9 @@ class MakePrescription extends StatefulWidget {
 
 class _MakePrescriptionState extends State<MakePrescription> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  double screenWidth = window.physicalSize.width;
+  List checkDataList = []; //选中的诊断数组
   List list = [];
   List list1 = [];
   List drugList = [
@@ -102,7 +107,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
                         fit: BoxFit.contain,
                       ),
                       Positioned(
-                          width: tab1Active?206:169,
+                          width:tab1Active?206:169,
                           height: 44,
                           child: Center(
                               child: Text(
@@ -162,19 +167,12 @@ class _MakePrescriptionState extends State<MakePrescription> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          Diagnosis(type: 1,))).then((value) {
-
-                                // {
-                                //   'title': '诊断',
-                                // 'detail': '请选择诊断',
-                                // 'isArrow': true,
-                                // },
-                                            List datalist = [];
-                                            datalist.addAll(value);
+                                          Diagnosis(type: tab1Active ? 1 : 0,checkedDataList: checkDataList,))).then((value) {
+                                            checkDataList =value;
                                             String str ="";
 
-                                            for(int i=0; i<datalist.length; i++){
-                                              String str1 = str.isEmpty ? datalist[i]["diadesc"] : "," +datalist[i]["diadesc"];
+                                            for(int i=0; i<value.length; i++){
+                                              String str1 = str.isEmpty ? value[i]["diadesc"] : "," +value[i]["diadesc"];
                                               str += str1;
                                             }
                                             print(str);
@@ -195,32 +193,31 @@ class _MakePrescriptionState extends State<MakePrescription> {
                         },
                         tileColor: Colors.white,
                         title: Row(
-                          children: <Widget>[
-                            Text(
-                              list[index]['title'],
-                              style: GSYConstant.textStyle(color: '#333333'),
-                            ),
-                            Text(
-                              list[index]['subTitle'] ?? '',
-                              style: GSYConstant.textStyle(color: '#333333'),
-                            )
-                          ],
-                        ),
-                        trailing: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: <Widget>[
-                            Text(list[index]['detail'],
-                              style: GSYConstant.textStyle(color: '#666666'),
-                            ),
-                            const SizedBox(
-                              width: 8.0,
-                            ),
-                            list[index]['isArrow']
-                                ? Image.asset(
-                                    'assets/images/home/arrow_right.png')
-                                : Container()
+                            Expanded(
+                              flex: 1,
+                              child: Text(
+                              list[index]['title'],
+                              style: GSYConstant.textStyle(color: '#333333'),
+                            ),),
+
+                            // Text(
+                            //   list[index]['subTitle'] ?? '',
+                            //   style: GSYConstant.textStyle(color: '#333333'),
+                            // )
+                            Expanded(
+                              flex: 2,
+                              child: Text(list[index]['detail'],
+                              style: GSYConstant.textStyle(color: '#666666'),textAlign: TextAlign.right ,
+                            ),),
+
                           ],
                         ),
+                        trailing: list[index]['isArrow']
+                            ? Image.asset(
+                            'assets/images/home/arrow_right.png')
+                            : Container(),
                       ))).toList()),
           const SizedBox(
             height: 8.0,
@@ -295,8 +292,10 @@ class _MakePrescriptionState extends State<MakePrescription> {
                 SvgUtil.svg(
                   'increment.svg',
                 ),
-                TextButton(onPressed: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>const AddDrugList()));
+                TextButton(
+                    onPressed: ()
+                    {
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=> const AddDrugList()));
                 }, child: Text('添加药品',style: GSYConstant.textStyle(color: '#06B48D'),))
               ],
             ),
