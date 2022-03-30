@@ -3,6 +3,7 @@ import 'package:doctor_project/pages/home/add_drug_list.dart';
 import 'package:doctor_project/pages/home/diagnosis.dart';
 import 'package:doctor_project/utils/picker_utils.dart';
 import 'package:doctor_project/utils/svg_utils.dart';
+import 'package:doctor_project/utils/toast_utils.dart';
 import 'package:doctor_project/widget/safe_area_button.dart';
 import 'package:flutter/material.dart';
 import 'package:doctor_project/common/style/gsy_style.dart';
@@ -10,8 +11,9 @@ import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:doctor_project/widget/custom_app_bar.dart';
 import 'package:flutter_picker/Picker.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import '../../http/http_request.dart';
+import '../../http/api.dart';
 import 'dart:ui';
-
 class MakePrescription extends StatefulWidget {
   const MakePrescription({Key? key}) : super(key: key);
 
@@ -30,7 +32,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
     {'name':'[阿莫灵]阿莫西林胶囊0.25*24粒/盒','usage':'一次3粒，4次/天','price':'38.30','count':'2'},
     {'name':'先锋霉素VI胶囊 头孢拉定胶囊0.25*24粒/盒','remark':'饭后半小时吃','usage':'一次3粒，4次/天','price':'38.30','count':'2'}
   ];
-  final List<String> pickerData = <String>['通海县人民医院', '京东大药房', '阿里健康大药房'];
+  List<dynamic> rpList = <dynamic>[];
   bool tab1Active=true;
   bool tab2Active = false;
   @override
@@ -71,6 +73,18 @@ class _MakePrescriptionState extends State<MakePrescription> {
         'isArrow': true,
       }
     ];
+    initData();
+
+  }
+   //初始化加载处方列表
+   initData() async {
+        HttpRequest?  request = HttpRequest.getInstance();
+          var res = await request?.get(Api.dataDicUrl + '?dictId=14');
+          if (res['code'] == 200) {
+            setState(() {
+              rpList = res['data'];
+            });
+          }
   }
 
   @override
@@ -157,7 +171,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
                         onTap: () {
                           switch (index) {
                             case 0:
-                              PickerUtil.showPicker(context, _scaffoldKey, pickerData: pickerData, confirmCallback: (Picker picker, List<int> selected) {
+                              PickerUtil.showPicker(context, _scaffoldKey, pickerData: rpList, confirmCallback: (Picker picker, List<int> selected) {
 
                               });
                               break;
@@ -185,9 +199,9 @@ class _MakePrescriptionState extends State<MakePrescription> {
                               }); //type 诊断类（0-中医，1-西医）
                               break;
                             case 2:
-                              PickerUtil.showPicker(context, _scaffoldKey, pickerData: pickerData, confirmCallback: (Picker picker, List<int> selected) {
-
-                              });
+                              // PickerUtil.showPicker(context, _scaffoldKey, pickerData: pickerData, confirmCallback: (Picker picker, List<int> selected) {
+                              //
+                              // });
                               break;
                           }
                         },

@@ -62,9 +62,9 @@ class _VerifyMobileState extends State<VerifyMobile>  {
                   keyboardType: TextInputType.phone,
                   style: GSYConstant.textStyle(fontSize: 16.0,color: '#333333'),
                   cursorColor: ColorsUtil.hexStringColor('#333333'),
-                  inputFormatters:const <TextInputFormatter> [
-                    // WhitelistingTextInputFormatter(
-                    //     RegExp("[0-9]"))
+                  inputFormatters: <TextInputFormatter> [
+                   /* BlacklistingTextInputFormatter(
+                        RegExp("[0-9]"))*/
                     // LengthLimitingTextInputFormatter(11),
                     // WhitelistingTextInputFormatter(RegExp("[a-zA-Z]")),//只允许输入字母
                     // WhitelistingTextInputFormatter.digitsOnly,

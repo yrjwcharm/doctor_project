@@ -1,3 +1,4 @@
+import 'package:doctor_project/pages/home/make_prescription.dart';
 import 'package:doctor_project/pages/home/video_topic.dart';
 import 'package:doctor_project/pages/login/doctor_qualification.dart';
 import 'package:doctor_project/pages/login/identity_choice.dart';
@@ -106,7 +107,7 @@ class _MyAppState extends State<MyApp> {
         Locale('zh', 'CN'),//设置语言为中文
       ],
       debugShowCheckedModeBanner: false, // 设置这一属性即可
-        home:LoginPage(),
+        home:MakePrescription(),
         // home:AddDrugList(),
         routes:routes,
     );

@@ -7,7 +7,7 @@ import '../common/style/gsy_style.dart';
 class PickerUtil{
   static showPicker(BuildContext context, GlobalKey<ScaffoldState> _scaffoldKey,{required List pickerData,required PickerConfirmCallback confirmCallback}){
     Picker picker = Picker(
-        adapter: PickerDataAdapter<String>(pickerdata: pickerData),
+        adapter: PickerDataAdapter<dynamic>(pickerdata: pickerData),
         changeToFirst: false,
         confirmText: '确定',
         cancelText: '取消',
