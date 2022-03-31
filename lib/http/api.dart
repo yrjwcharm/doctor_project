@@ -1,8 +1,4 @@
-import 'http_request.dart';
-typedef RequestCallBack<T> = void Function(T value);
-
-class API {
+class Api {
   static const BASE_URL = 'https://interhospital.youjiankang.net';
-  var _request = HttpRequest(API.BASE_URL);
-
+  static const dataDicUrl ='/doctor/dr-service/baDatadictDetail/getDatadictDetail';
 }

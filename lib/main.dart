@@ -1,3 +1,4 @@
+import 'package:doctor_project/pages/home/make_prescription.dart';
 import 'package:doctor_project/pages/home/video_topic.dart';
 import 'package:doctor_project/pages/login/doctor_qualification.dart';
 import 'package:doctor_project/pages/login/identity_choice.dart';

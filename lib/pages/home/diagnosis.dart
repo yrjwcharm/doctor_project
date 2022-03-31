@@ -246,14 +246,14 @@ void getNet_diagnosisList () async{
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+      appBar: CustomAppBar(
+        '诊断',
+        onBackPressed: () {
+          Navigator.of(context).pop(this);
+        },
+      ),
       body: Column(
         children: <Widget>[
-          CustomAppBar(
-            '诊断',
-            onBackPressed: () {
-              Navigator.of(context).pop(this);
-            },
-          ),
           const SizedBox(height: 10.0,),
           Padding(padding:const EdgeInsets.only(top: 11.0,left: 17.0,right: 16.0), child:Row(
               children: <Widget>[
