@@ -35,8 +35,8 @@ class RegisterContentStates extends State<LoginPage> {
   @override
   void postNet_Login() async {
 
-    // loginStr = "15038342183";
-    // loginPas = "aB123456?";
+    loginStr = "15038342183";
+    loginPas = "aB123456?";
 
     var dio = new Dio();
     var response = await dio.post(

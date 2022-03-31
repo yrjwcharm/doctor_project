@@ -217,7 +217,7 @@ class _AddDrugListState extends State<AddDrugList> {
                           setState(() {
                             tab2Active = true;
                             tab1Active = false;
-                            type = 0;
+                            type = 2;
                             _editingController.text = "";
                             detailDataList.clear();
                             drugListIsHidden = true;
@@ -380,7 +380,12 @@ class _AddDrugListState extends State<AddDrugList> {
                           return GestureDetector(
                             onTap: (){
 
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=> const UseDrugInfo()));
+                              // Navigator.push(context, MaterialPageRoute(builder: (context)=> UseDrugInfo(drugInfoMap: detailDataList[index],))).then((value) {
+                              //   print("3333333333");
+                              // });
+
+                              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> UseDrugInfo(drugInfoMap: detailDataList[index],)));
+
                             },
                             child: Container(
                               height: 44.0,

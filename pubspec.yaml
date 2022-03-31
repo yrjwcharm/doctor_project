@@ -32,6 +32,8 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   jpush_flutter: 2.1.4
+  #广播
+  event_bus: ^2.0.0
   flutter_chat_ui: ^1.5.5
   zego_express_engine: ^2.17.1
   cupertino_icons: ^1.0.2

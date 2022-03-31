@@ -11,6 +11,7 @@ import 'package:doctor_project/widget/custom_app_bar.dart';
 import 'package:flutter_picker/Picker.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'dart:ui';
+import 'package:doctor_project/utils/EventBus_Utils.dart';
 
 class MakePrescription extends StatefulWidget {
   const MakePrescription({Key? key}) : super(key: key);
@@ -27,12 +28,14 @@ class _MakePrescriptionState extends State<MakePrescription> {
   List list = [];
   List list1 = [];
   List drugList = [
-    {'name':'[阿莫灵]阿莫西林胶囊0.25*24粒/盒','usage':'一次3粒，4次/天','price':'38.30','count':'2'},
-    {'name':'先锋霉素VI胶囊 头孢拉定胶囊0.25*24粒/盒','remark':'饭后半小时吃','usage':'一次3粒，4次/天','price':'38.30','count':'2'}
+    // {'name':'[阿莫灵]阿莫西林胶囊0.25*24粒/盒','usage':'一次3粒，4次/天','price':'38.30','count':'2'},
+    // {'name':'先锋霉素VI胶囊 头孢拉定胶囊0.25*24粒/盒','remark':'饭后半小时吃','usage':'一次3粒，4次/天','price':'38.30','count':'2'}
   ];
   final List<String> pickerData = <String>['通海县人民医院', '京东大药房', '阿里健康大药房'];
   bool tab1Active=true;
   bool tab2Active = false;
+  // Map item = new Map();
+
   @override
   void initState() {
     super.initState();
@@ -71,6 +74,20 @@ class _MakePrescriptionState extends State<MakePrescription> {
         'isArrow': true,
       }
     ];
+
+    EventBusUtil.getInstance().on<Map>().listen((event) {
+      setState(() {
+        drugList.add(event);
+        print(event);
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    //不用的时候记得关闭
+    EventBusUtil.getInstance().destroy();
   }
 
   @override
@@ -87,6 +104,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
       backgroundColor: ColorsUtil.bgColor,
       body:SingleChildScrollView(child: Column(
         children: <Widget>[
+
           Container(
             margin: const EdgeInsets.only(top: 14.0),
             child: Row(
@@ -317,9 +335,11 @@ class _MakePrescriptionState extends State<MakePrescription> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            Text(drugList[index]['name'],style: GSYConstant.textStyle(color: '#333333'),),
+
+                            Text(drugList[index]["medicinename"] +drugList[index]["specification"] +"/" +drugList[index]["packageUnitid_dictText"],
+                              style: GSYConstant.textStyle(color: '#333333'),),
                             const SizedBox(height: 4.0,),
-                            Text('口服：${drugList[index]['usage']}',style: GSYConstant.textStyle(fontSize: 13.0,color: '#666666'),),
+                            Text(drugList[index]['usage'] +"：" +drugList[index]['frequency'] +"," +drugList[index]['dosage'],style: GSYConstant.textStyle(fontSize: 13.0,color: '#666666'),),
                             (drugList[index]['remark']?.toString()??'').isNotEmpty?Container(
                               margin: const EdgeInsets.only(top: 4.0),
                               child: Text('备注：${drugList[index]['remark']}',style: GSYConstant.textStyle(fontSize: 13.0,color: '#666666')),
@@ -329,7 +349,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            Text('¥${drugList[index]['price']}',style: GSYConstant.textStyle(fontSize: 10.0,color: '#333333'),),
+                            Text('¥${drugList[index]['unitprice']}',style: GSYConstant.textStyle(fontSize: 10.0,color: '#333333'),),
                             const SizedBox(height: 5.0,),
                             Text('x ${drugList[index]['count']}',style: GSYConstant.textStyle(fontSize: 12.0,color: '#888888'),)
                           ],
