@@ -12,6 +12,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../widget/custom_elevated_button.dart';
 import 'package:doctor_project/widget/safe_area_button.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class Diagnosis extends StatefulWidget {
 
@@ -118,8 +119,11 @@ void getNet_diagnosisList () async{
     }
 
     print("data= " + response.data.toString() + "url= " + response.realUri.toString());
+  }else{
 
+    Fluttertoast.showToast(msg: response.data['msg'], gravity: ToastGravity.CENTER);
   }
+
 }
 
 

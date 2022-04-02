@@ -18,6 +18,10 @@ import '../../http/http_request.dart';
 import '../../http/api.dart';
 import 'dart:ui';
 import 'package:doctor_project/utils/EventBus_Utils.dart';
+import 'package:dio/dio.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:doctor_project/pages/home/add_chineseMedicine_list.dart';
 
 class MakePrescription extends StatefulWidget {
   const MakePrescription({Key? key}) : super(key: key);
@@ -27,11 +31,15 @@ class MakePrescription extends StatefulWidget {
 }
 
 class _MakePrescriptionState extends State<MakePrescription> {
+
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final TextEditingController _editingController1 = TextEditingController();
+  final TextEditingController _editingController2 = TextEditingController();
 
   double screenWidth = window.physicalSize.width;
+  double ratio = window.devicePixelRatio;
   List checkDataList = []; //选中的诊断数组
-  List list = [];
+  List chineseMedicineTypeList = [];
   List drugList = [
     // {
     //   'name': '[阿莫灵]阿莫西林胶囊0.25*24粒/盒',
@@ -46,7 +54,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
     //   'price': '38.30',
     //   'count': '2'
     // }
-  ];
+  ]; //选中的药品数组
   List<String> rpData = <String>[];
   List rpList = [];
   String rpTypeId = '1';
@@ -58,10 +66,13 @@ class _MakePrescriptionState extends State<MakePrescription> {
   bool tab1Active = true;
   bool tab2Active = false;
 
+  final List<String> pickerData1 = <String>["口服","外用","含化","吸入用药","局部用药","喷鼻","滴眼","喷喉"];
+  final List<String> pickerData2 = <String>["每日一次","每日两次","每日三次","每日四次","隔日一次","每周一次","每周两次"];
+
   @override
   void initState() {
     super.initState();
-    list = [
+    chineseMedicineTypeList = [
       {
         'title': '处方贴数',
         'subTitle': '(付/剂)',
@@ -88,6 +99,163 @@ class _MakePrescriptionState extends State<MakePrescription> {
     });
   }
 
+  //新建处方
+  void getNet_createPrescription() async{
+
+    if(checkDataList.isEmpty || drugList.isEmpty){
+      Fluttertoast.showToast(msg: "请选择诊断或药品", gravity: ToastGravity.CENTER);
+      return ;
+    }
+    if(tab2Active){
+      if(chineseMedicineTypeList[1]["detail"] =="请选择用法"
+          ||chineseMedicineTypeList[2]["detail"] =="请选择频次"
+          ||_editingController1.text.isEmpty){
+
+        Fluttertoast.showToast(msg: "请选择或输入用法用量", gravity: ToastGravity.CENTER);
+        return;
+      }
+    }
+
+    List diagnosisParams = []; //诊断传参数组
+    for(int i=0; i<checkDataList.length; i++){
+      
+      Map item = new Map();
+      item["diagnosisId"] = checkDataList[i]["id"];
+      item["isMaster"] = checkDataList[i]["isMain"] ? "1" : "0";
+      diagnosisParams.add(item);
+    }
+
+    List medicineParams = []; //药品传参数组
+    for(int j=0; j<drugList.length; j++){
+
+      Map item = new Map();
+      item["medicineId"] = drugList[j]["medicineid"];
+      item["num"] = drugList[j]["count"];
+
+      //中药无这几项值
+      if(tab1Active){
+
+        item["useType"] = drugList[j]["usage"];
+        item["freq"] = drugList[j]["frequency"] +"," +drugList[j]["dosage"];
+        item["dayNum"] = drugList[j]["medicationDays"];
+        if(drugList[j]["remark"].isNotEmpty){
+          item["remarks"] = drugList[j]["remark"];
+        }
+      }
+
+      medicineParams.add(item);
+    }
+
+    Map map ;
+
+    if(tab1Active){
+      map = {
+        "registerId" : 2,
+        "name" : tab1Active ? "西药/中成药处方" : "中药处方",
+        "type" : 1, //模块（recipe-处方，register-挂号，logistics-物流，text-图文，video-视频）
+        "roomId" : 3696,
+        "category" : tab1Active ? 1 : 2, //处方类别（1-西药/中成药，2-中药）
+        "diagnosisParams" : diagnosisParams,
+        "medicineParams"  : medicineParams,
+      };
+    }else{
+
+      map = {
+        "registerId" : 5,
+        "name" : tab1Active ? "西药/中成药处方" : "中药处方",
+        "type" : 1, //模块（recipe-处方，register-挂号，logistics-物流，text-图文，video-视频）
+        "roomId" : 3696,
+        "useType" : chineseMedicineTypeList[1]["detail"], //用法
+        "freq" : chineseMedicineTypeList[2]["detail"], //频次
+        "remarks" : _editingController2.text.isEmpty ?"" :_editingController2.text, //备注
+        "countNum" : _editingController1.text, //副数、贴数（中药）
+        "category" : tab1Active ? 1 : 2, //处方类别（1-西药/中成药，2-中药）
+        "diagnosisParams" : diagnosisParams,
+        "medicineParams"  : medicineParams,
+      };
+    }
+
+    // Map map = {
+    //     "doctorId": 10008, //医生id
+    //     "registerId": 1, //挂号id
+    //     "name": "西药处方", //处方名称
+    //     "type": "1", //模块（recipe-处方，register-挂号，logistics-物流，text-图文，video-视频）
+    //     "roomId": 3696, //药房id
+    //     "useType": "1", //用法
+    //     "freq": "1", //频次
+    //     "category": "2", //处方类别（1-西药/中成药，2-中药）
+    //     "remarks": "备注", //备注
+    //     "countNum": 1, //副数、贴数（中药）
+    //     "diagnosisParams": [
+    //       {
+    //         "diagnosisId": 1, //诊断id
+    //         "isMaster": 1 //是否主诊断（0否1是）
+    //       },
+    //       {
+    //         "diagnosisId": 2, //诊断id
+    //         "isMaster": 0 //是否主诊断（0否1是）
+    //       }
+    //     ], //处方
+    //     "medicineParams": [
+    //       {
+    //         "medicineId": 1230, //药品id
+    //         "num": 2, //数量
+    //         "useType": "1", //用法
+    //         "freq": "1", //频次
+    //         "dayNum": 1, //用药天数
+    //         "remarks": "药品备注" //备注
+    //       },
+    //       {
+    //         "medicineId": 1231, //药品id
+    //         "num": 3, //数量
+    //         "useType": "1", //用法
+    //         "freq": "1", //频次
+    //         "dayNum": 1, //用药天数
+    //         "remarks": "药品备注" //备注
+    //       }
+    //     ] //药品信息
+    // };
+
+    print(map);
+    // HttpRequest? request = HttpRequest.getInstance();
+    // var res = await request?.post(Api.createPrescriptionUrl,map);
+    // print(res);
+    // if (res['code'] == 200) {
+    //
+    // }
+
+    SharedPreferences perfer = await SharedPreferences.getInstance();
+    String? tokenValueStr = perfer.getString("tokenValue");
+    var dio = new Dio();
+    dio.options.headers = {
+      "token": tokenValueStr,
+    };
+    var response = await dio.post(
+        // 'https://interhospital.youjiankang.net/doctor/dr-service/recipe/create',
+      Api.BASE_URL +Api.createPrescriptionUrl,
+        data: map
+    );
+    print(response.data);
+    if(response.data['code'] == 200){
+      //请求成功
+      Fluttertoast.showToast(msg: "新增处方成功", gravity: ToastGravity.CENTER);
+
+    }else{
+      Fluttertoast.showToast(msg: response.data['msg'], gravity: ToastGravity.CENTER);
+    }
+
+  }
+
+//切换处方类型时 重置数据源
+  void resetData() {
+
+    setState(() {
+      checkDataList.clear();
+      diagnosisName = "";
+      drugList.clear();
+    });
+  }
+
   @override
   void dispose() {
     super.dispose();
@@ -98,10 +266,12 @@ class _MakePrescriptionState extends State<MakePrescription> {
 
   //初始化加载处方列表
   initData() async {
+
     HttpRequest? request = HttpRequest.getInstance();
     var res = await request?.get(Api.dataDicUrl + '?dictId=14');
     if (res['code'] == 200) {
       List data = res['data'];
+      print("11111111" +data.toString());
       List<String> pickerData = [];
       for (var item in data) {
         pickerData.add(item['detailName']);
@@ -112,6 +282,220 @@ class _MakePrescriptionState extends State<MakePrescription> {
       });
     }
   }
+
+  void _showSimpleDialog1() async{
+
+    var result=await showDialog(
+        barrierDismissible:true,   //表示点击灰色背景的时候是否消失弹出框
+        context:context,
+        builder: (context){
+          return SimpleDialog(
+            // title:Text(""),
+            children: <Widget>[
+              SimpleDialogOption(
+                child: Text(pickerData1[0]),
+                onPressed: (){
+                  Navigator.of(context).pop();
+                  setState(() {
+
+                    Map item = chineseMedicineTypeList[1];
+                    item.update("detail", (value) => pickerData1[0]);
+                  });
+                },
+              ),
+              Divider(),
+              SimpleDialogOption(
+                child: Text(pickerData1[1]),
+                onPressed: (){
+                  Navigator.of(context).pop();
+                  setState(() {
+
+                    Map item = chineseMedicineTypeList[1];
+                    item.update("detail", (value) => pickerData1[1]);
+                  });
+                },
+              ),
+              Divider(),
+              SimpleDialogOption(
+                child: Text(pickerData1[2]),
+                onPressed: (){
+                  Navigator.of(context).pop();
+                  setState(() {
+
+                    Map item = chineseMedicineTypeList[1];
+                    item.update("detail", (value) => pickerData1[2]);
+                  });
+                },
+              ),
+              Divider(),
+              SimpleDialogOption(
+                child: Text(pickerData1[3]),
+                onPressed: (){
+                  Navigator.of(context).pop();
+                  setState(() {
+
+                    Map item = chineseMedicineTypeList[1];
+                    item.update("detail", (value) => pickerData1[3]);
+                  });
+                },
+              ),
+              Divider(),
+              SimpleDialogOption(
+                child: Text(pickerData1[4]),
+                onPressed: (){
+                  Navigator.of(context).pop();
+                  setState(() {
+
+                    Map item = chineseMedicineTypeList[1];
+                    item.update("detail", (value) => pickerData1[4]);
+                  });
+                },
+              ),
+              Divider(),
+              SimpleDialogOption(
+                child: Text(pickerData1[5]),
+                onPressed: (){
+                  Navigator.of(context).pop();
+                  setState(() {
+
+                    Map item = chineseMedicineTypeList[1];
+                    item.update("detail", (value) => pickerData1[5]);
+                  });
+                },
+              ),
+              Divider(),
+              SimpleDialogOption(
+                child: Text(pickerData1[6]),
+                onPressed: (){
+                  Navigator.of(context).pop();
+                  setState(() {
+
+                    Map item = chineseMedicineTypeList[1];
+                    item.update("detail", (value) => pickerData1[6]);
+                  });
+                },
+              ),
+              Divider(),
+              SimpleDialogOption(
+                child: Text(pickerData1[7]),
+                onPressed: (){
+                  Navigator.of(context).pop();
+                  setState(() {
+
+                    Map item = chineseMedicineTypeList[1];
+                    item.update("detail", (value) => pickerData1[7]);
+                  });
+                },
+              ),
+              Divider(),
+            ],
+
+          );
+        }
+    );
+  }
+
+  void _showSimpleDialog2() async{
+
+    var result=await showDialog(
+        barrierDismissible:true,   //表示点击灰色背景的时候是否消失弹出框
+        context:context,
+        builder: (context){
+          return SimpleDialog(
+            // title:Text(""),
+            children: <Widget>[
+              SimpleDialogOption(
+                child: Text(pickerData2[0]),
+                onPressed: (){
+                  Navigator.of(context).pop();
+                  setState(() {
+
+                    Map item = chineseMedicineTypeList[2];
+                    item.update("detail", (value) => pickerData2[0]);
+
+                  });
+                },
+              ),
+              Divider(),
+              SimpleDialogOption(
+                child: Text(pickerData2[1]),
+                onPressed: (){
+                  Navigator.of(context).pop();
+                  setState(() {
+
+                    Map item = chineseMedicineTypeList[2];
+                    item.update("detail", (value) => pickerData2[1]);
+                  });
+                },
+              ),
+              Divider(),
+              SimpleDialogOption(
+                child: Text(pickerData2[2]),
+                onPressed: (){
+                  Navigator.of(context).pop();
+                  setState(() {
+
+                    Map item = chineseMedicineTypeList[2];
+                    item.update("detail", (value) => pickerData2[2]);
+                  });
+                },
+              ),
+              Divider(),
+              SimpleDialogOption(
+                child: Text(pickerData2[3]),
+                onPressed: (){
+                  Navigator.of(context).pop();
+                  setState(() {
+
+                    Map item = chineseMedicineTypeList[2];
+                    item.update("detail", (value) => pickerData2[3]);
+                  });
+                },
+              ),
+              Divider(),
+              SimpleDialogOption(
+                child: Text(pickerData2[4]),
+                onPressed: (){
+                  Navigator.of(context).pop();
+                  setState(() {
+
+                    Map item = chineseMedicineTypeList[2];
+                    item.update("detail", (value) => pickerData2[4]);
+                  });
+                },
+              ),
+              Divider(),
+              SimpleDialogOption(
+                child: Text(pickerData2[5]),
+                onPressed: (){
+                  Navigator.of(context).pop();
+                  setState(() {
+
+                    Map item = chineseMedicineTypeList[2];
+                    item.update("detail", (value) => pickerData2[5]);
+                  });
+                },
+              ),
+              Divider(),
+              SimpleDialogOption(
+                child: Text(pickerData2[6]),
+                onPressed: (){
+                  Navigator.of(context).pop();
+                  setState(() {
+
+                    Map item = chineseMedicineTypeList[2];
+                    item.update("detail", (value) => pickerData2[6]);
+                  });
+                },
+              ),
+              Divider(),
+            ],
+
+          );
+        }
+    );
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -137,6 +521,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
                         setState(() {
                           tab1Active = true;
                           tab2Active = false;
+                          resetData();
                         });
                       },
                       child: Stack(
@@ -145,10 +530,12 @@ class _MakePrescriptionState extends State<MakePrescription> {
                             tab1Active
                                 ? 'assets/images/self_mention.png'
                                 : 'assets/images/self_mention1.png',
-                            fit: BoxFit.contain,
+                            width: screenWidth/ratio /2,
+                            height: 44,
+                            fit: BoxFit.cover,
                           ),
                           Positioned(
-                              width: tab1Active ? 206 : 169,
+                              width: screenWidth/ratio /2,
                               height: 44,
                               child: Center(
                                   child: Text(
@@ -166,6 +553,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
                         setState(() {
                           tab2Active = true;
                           tab1Active = false;
+                          resetData();
                         });
                       },
                       child: Stack(
@@ -174,10 +562,12 @@ class _MakePrescriptionState extends State<MakePrescription> {
                             tab2Active
                                 ? 'assets/images/express_delivery1.png'
                                 : 'assets/images/express_delivery.png',
-                            fit: BoxFit.contain,
+                            fit: BoxFit.cover,
+                            width: screenWidth/ratio /2,
+                            height: 44,
                           ),
                           Positioned(
-                              width: tab2Active ? 206 : 169,
+                              width: screenWidth/ratio /2,
                               height: 44,
                               child: Center(
                                 child: Text(
@@ -240,13 +630,13 @@ class _MakePrescriptionState extends State<MakePrescription> {
               ),
               GestureDetector(
                 onTap: () {
-                  // Navigator.push(context, MaterialPageRoute(builder: (context)=>const  WesternDiagnosis()));
                   Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) =>
                               Diagnosis(type: tab1Active ? 1 : 0,checkedDataList: checkDataList,))).then((value) {
                     checkDataList =value;
+                    print(value);
                     String str ="";
 
                     for(int i=0; i<value.length; i++){
@@ -332,67 +722,128 @@ class _MakePrescriptionState extends State<MakePrescription> {
               const SizedBox(
                 height: 8.0,
               ),
-              // Column(
-              //   children: list1.map(
-              //         (item) => Column(
-              //           children: <Widget>[
-              //             Container(
-              //               height: 44.0,
-              //               padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              //               decoration: const BoxDecoration(color: Colors.white),
-              //               // margin: const EdgeInsets.only(top: 8.0),
-              //               child: Row(
-              //                 children: <Widget>[
-              //                   Row(
-              //                     children: <Widget>[
-              //                       Text(
-              //                         item['title'],
-              //                         style:
-              //                             GSYConstant.textStyle(color: '#333333'),
-              //                       ),
-              //                       // Text('(付/剂)',style: GSYConstant.textStyle(color: '#999999'),)
-              //                     ],
-              //                   ),
-              //                   Expanded(
-              //                     child: Row(
-              //                       mainAxisAlignment: MainAxisAlignment.end,
-              //                       children: <Widget>[
-              //                         SizedBox(
-              //                           width:250.0,
-              //                           child: TextField(
-              //                             textAlign: TextAlign.right,
-              //                             textAlignVertical:
-              //                                 TextAlignVertical.center,
-              //                             style: GSYConstant.textStyle(
-              //                                 color: '#999999'),
-              //                             decoration: InputDecoration(
-              //                                 hintText: item['detail'],
-              //                                 isCollapsed: true,
-              //                                 contentPadding: EdgeInsets.zero,
-              //                                 // suffixIcon: Image.asset('assets/images/home/arrow_right.png'),
-              //                                 border: InputBorder.none,
-              //                                 // isCollapsed: true,
-              //                                 hintStyle: GSYConstant.textStyle(
-              //                                     color: '#999999')),
-              //                           ),
-              //                         ),
-              //                         const SizedBox(width: 8.0,),
-              //                         item['isArrow']?Image.asset('assets/images/home/arrow_right.png'):Container()
-              //                       ],
-              //                     ),
-              //                   )
-              //                 ],
-              //               ),
-              //             ),
-              //             Divider(
-              //               height: 0,
-              //               color: ColorsUtil.hexStringColor('#cccccc', alpha: 0.3),
-              //             )
-              //           ],
-              //         ),
-              //       )
-              //       .toList(),
-              // ),
+        Offstage(
+          offstage: !tab2Active,
+          child: Column(
+            children: chineseMedicineTypeList.map(
+                  (item) => GestureDetector(
+                    onTap: (){
+                      if(item['title'] =="用法"){
+                        _showSimpleDialog1();
+                      }else if(item['title'] =="频次"){
+                        _showSimpleDialog2();
+                      }
+                    },
+
+                    child: Column(
+                      children: <Widget>[
+                        Container(
+                          height: 44.0,
+                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border(
+                                  bottom: BorderSide(
+                                    width: 1.0,
+                                    color: ColorsUtil.hexStringColor('#cccccc', alpha: 0.3),
+                                  ))),
+                          // margin: const EdgeInsets.only(top: 8.0),
+                          child: Row(
+                            children: <Widget>[
+                              Row(
+                                children: <Widget>[
+                                  Text(
+                                    item['title'],
+                                    style:
+                                    GSYConstant.textStyle(color: '#333333'),
+                                  ),
+                                  // Text('(付/剂)',style: GSYConstant.textStyle(color: '#999999'),)
+                                ],
+                              ),
+                              Expanded(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: <Widget>[
+                                    SizedBox(
+                                      width:250.0,
+                                      child: TextField(
+                                        controller: !item['isArrow'] ? _editingController1 : null,
+                                        enabled: !item['isArrow'],
+                                        textAlign: TextAlign.right,
+                                        textAlignVertical:
+                                        TextAlignVertical.center,
+                                        style: GSYConstant.textStyle(
+                                            color: '#999999'),
+                                        decoration: InputDecoration(
+                                            hintText: item['detail'],
+                                            isCollapsed: true,
+                                            contentPadding: EdgeInsets.zero,
+                                            // suffixIcon: Image.asset('assets/images/home/arrow_right.png'),
+                                            border: InputBorder.none,
+                                            // isCollapsed: true,
+                                            hintStyle: GSYConstant.textStyle(
+                                                color: '#999999')),
+                                      ),
+                                    ),
+                                    const SizedBox(width: 8.0,),
+                                    item['isArrow']?Image.asset('assets/images/home/arrow_right.png'):Container()
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        Divider(
+                          height: 0,
+                          color: ColorsUtil.hexStringColor('#cccccc', alpha: 0.3),
+                        )
+                      ],
+                    ),
+                  ),
+
+            ).toList(),
+          ),
+              ),
+        Offstage(
+          offstage: !tab2Active,
+          child: Container(
+                padding: const EdgeInsets.only(left: 16.0, top: 9.0),
+                constraints: const BoxConstraints(minHeight: 80.0),
+                alignment: Alignment.topLeft,
+                decoration: const BoxDecoration(color: Colors.white),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      '备注：',
+                      style: GSYConstant.textStyle(color: '#333333'),
+                    ),
+                    const SizedBox(
+                      width: 6.0,
+                    ),
+                    Expanded(
+                        child: TextField(
+                          controller: _editingController2,
+                          inputFormatters: [],
+                          maxLines: 3,
+                          textInputAction: TextInputAction.done,
+                          cursorColor: ColorsUtil.hexStringColor('#666666'),
+                          style: GSYConstant.textStyle(color: '#666666'),
+                          decoration: InputDecoration(
+                              hintText: '请输入...',
+                              isCollapsed: true,
+                              hintStyle: GSYConstant.textStyle(color: '#999999'),
+                              border: InputBorder.none,
+                              contentPadding: EdgeInsets.zero),
+                        )),
+                  ],
+                ),
+              ),
+              ),
+              const SizedBox(
+                height: 8.0,
+              ),
+
               ListTile(
                 tileColor: Colors.white,
                 title: const Text('RP'),
@@ -407,7 +858,15 @@ class _MakePrescriptionState extends State<MakePrescription> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const AddDrugList()));
+                                  builder: (context) => tab1Active ? const AddDrugList() : AddChineseMedicineList(selectedDrugList: drugList,))).then((value){
+
+                                    print(value);
+                                    if(tab2Active){ //中药处方
+                                      setState(() {
+                                        drugList =value;
+                                      });
+                                    }
+                          });
                         },
                         child: Text(
                           '添加药品',
@@ -416,113 +875,217 @@ class _MakePrescriptionState extends State<MakePrescription> {
                   ],
                 ),
               ),
-              drugList.isNotEmpty
-                  ? ListView(
-                      shrinkWrap: true,
-                      children: drugList
-                          .asMap()
-                          .keys
-                          .map((index) => Container(
-                              decoration:
-                                  const BoxDecoration(color: Colors.white),
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 16.0),
-                              child: Column(
+              Offstage(
+                offstage: !drugList.isNotEmpty,
+                child:  tab1Active ? ListView(
+                    shrinkWrap: true,
+                    children: drugList
+                        .asMap()
+                        .keys
+                        .map((index) => Container(
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            border: Border(
+                                bottom: BorderSide(
+                                  width: 1.0,
+                                  color: ColorsUtil.hexStringColor('#cccccc', alpha: 0.3),
+                                ))),
+
+                        padding:
+                        const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: Column(
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  top: 11.0, bottom: 14.0),
+                              child: Row(
+                                mainAxisAlignment:
+                                MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment:
+                                CrossAxisAlignment.start,
                                 children: <Widget>[
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        top: 11.0, bottom: 14.0),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: <Widget>[
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: <Widget>[
-                                            Text(
-                                              drugList[index]['medicinename'],
-                                              style: GSYConstant.textStyle(
-                                                  color: '#333333'),
-                                            ),
-                                            const SizedBox(
-                                              height: 4.0,
-                                            ),
-                                            Text(
-                                              drugList[index]['usage'] +"：" +drugList[index]['frequency'] +"," +drugList[index]['dosage'],
-                                              style: GSYConstant.textStyle(
-                                                  fontSize: 13.0,
-                                                  color: '#666666'),
-                                            ),
-                                            (drugList[index]['remark']
-                                                            ?.toString() ??
-                                                        '')
-                                                    .isNotEmpty
-                                                ? Container(
-                                                    margin:
-                                                        const EdgeInsets.only(
-                                                            top: 4.0),
-                                                    child: Text(
-                                                        '备注：${drugList[index]['remark']}',
-                                                        style: GSYConstant
-                                                            .textStyle(
-                                                                fontSize: 13.0,
-                                                                color:
-                                                                    '#666666')),
-                                                  )
-                                                : Container()
-                                          ],
-                                        ),
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: <Widget>[
-                                            Text(
-                                              '¥${drugList[index]['unitprice']}',
-                                              style: GSYConstant.textStyle(
-                                                  fontSize: 10.0,
-                                                  color: '#333333'),
-                                            ),
-                                            const SizedBox(
-                                              height: 5.0,
-                                            ),
-                                            Text(
-                                              'x ${drugList[index]['count']}',
-                                              style: GSYConstant.textStyle(
-                                                  fontSize: 12.0,
-                                                  color: '#888888'),
-                                            )
-                                          ],
-                                        ),
-                                      ],
-                                    ),
+                                  Column(
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Text(
+                                        drugList[index]['medicinename'],
+                                        style: GSYConstant.textStyle(
+                                            color: '#333333'),
+                                      ),
+                                      const SizedBox(
+                                        height: 4.0,
+                                      ),
+                                      Text(
+                                        drugList[index]['usage'] +"：" +drugList[index]['frequency'] +"," +drugList[index]['dosage'],
+                                        style: GSYConstant.textStyle(
+                                            fontSize: 13.0,
+                                            color: '#666666'),
+                                      ),
+                                      (drugList[index]['remark']
+                                          ?.toString() ??
+                                          '')
+                                          .isNotEmpty
+                                          ? Container(
+                                        margin:
+                                        const EdgeInsets.only(
+                                            top: 4.0),
+                                        child: Text(
+                                            '备注：${drugList[index]['remark']}',
+                                            style: GSYConstant
+                                                .textStyle(
+                                                fontSize: 13.0,
+                                                color:
+                                                '#666666')),
+                                      )
+                                          : Container()
+                                    ],
                                   ),
-                                  index != drugList.length - 1
-                                      ? Divider(
-                                          height: 0,
-                                          color: ColorsUtil.hexStringColor(
-                                              '#cccccc',
-                                              alpha: 0.3),
-                                        )
-                                      : Container()
+                                  Column(
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Text(
+                                        '¥${drugList[index]['unitprice']}',
+                                        style: GSYConstant.textStyle(
+                                            fontSize: 10.0,
+                                            color: '#333333'),
+                                      ),
+                                      const SizedBox(
+                                        height: 5.0,
+                                      ),
+                                      Text(
+                                        'x ${drugList[index]['count'].toString()}',
+                                        style: GSYConstant.textStyle(
+                                            fontSize: 12.0,
+                                            color: '#888888'),
+                                      )
+                                    ],
+                                  ),
                                 ],
-                              )))
-                          .toList())
-                  : Container(
-                      width: double.infinity,
-                      alignment: Alignment.center,
-                      padding: const EdgeInsets.only(top: 25.0, bottom: 31.0),
-                      decoration: const BoxDecoration(
-                        color: Colors.white,
-                      ),
-                      child: Text(
-                        '暂时还没有药品添加',
-                        style: GSYConstant.textStyle(
-                            fontSize: 13.0, color: '#666666'),
-                      ),
-                    ),
+                              ),
+                            ),
+                            index != drugList.length - 1
+                                ? Divider(
+                              height: 0,
+                              color: ColorsUtil.hexStringColor(
+                                  '#cccccc',
+                                  alpha: 0.3),
+                            )
+                                : Container()
+                          ],
+                        )))
+                        .toList()) //西药处方
+                    : ListView(
+                    shrinkWrap: true,
+                    children: drugList
+                        .asMap()
+                        .keys
+                        .map((index) => Container(
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            border: Border(
+                                bottom: BorderSide(
+                                  width: 1.0,
+                                  color: ColorsUtil.hexStringColor('#cccccc', alpha: 0.3),
+                                ))),
+
+                        padding:
+                        const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: Column(
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  top: 11.0, bottom: 14.0),
+                              child: Row(
+                                mainAxisAlignment:
+                                MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment:
+                                CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Column(
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Text(
+                                        drugList[index]['medicinename'],
+                                        style: GSYConstant.textStyle(
+                                            color: '#333333'),
+                                      ),
+                                      const SizedBox(
+                                        height: 4.0,
+                                      ),
+                                      Text(
+                                        "用量：" +drugList[index]['specification'],
+                                        style: GSYConstant.textStyle(
+                                            fontSize: 13.0,
+                                            color: '#999999'),
+                                      ),
+                                      (drugList[index]['remark']
+                                          ?.toString() ??
+                                          '')
+                                          .isNotEmpty
+                                          ? Container(
+                                        margin:
+                                        const EdgeInsets.only(
+                                            top: 4.0),
+                                        child: Text(
+                                            '备注：${drugList[index]['remark']}',
+                                            style: GSYConstant
+                                                .textStyle(
+                                                fontSize: 13.0,
+                                                color:
+                                                '#999999')),
+                                      )
+                                          : Container()
+                                    ],
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Text(
+                                        '¥${drugList[index]['unitprice']}',
+                                        style: GSYConstant.textStyle(
+                                            fontSize: 12.0,
+                                            color: '#333333'),
+                                      ),
+                                      const SizedBox(
+                                        height: 5.0,
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                            index != drugList.length - 1
+                                ? Divider(
+                              height: 0,
+                              color: ColorsUtil.hexStringColor(
+                                  '#cccccc',
+                                  alpha: 0.3),
+                            )
+                                : Container()
+                          ],
+                        )))
+                        .toList()), //中药处方
+              ),
+              Offstage(
+                offstage: drugList.isNotEmpty,
+                child: Container(
+                  width: double.infinity,
+                  alignment: Alignment.center,
+                  padding: const EdgeInsets.only(top: 25.0, bottom: 31.0),
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                  ),
+                  child: Text(
+                    '暂时还没有药品添加',
+                    style: GSYConstant.textStyle(
+                        fontSize: 13.0, color: '#666666'),
+                  ),
+                ),
+              ),
               drugList.isNotEmpty
                   ? Divider(
                       height: 0,
@@ -565,7 +1128,10 @@ class _MakePrescriptionState extends State<MakePrescription> {
               Container(
                 margin: const EdgeInsets.only(top: 30.0),
                 alignment: Alignment.bottomCenter,
-                child: SafeAreaButton(text: '电子签名', onPressed: () {}),
+                child: SafeAreaButton(text: '电子签名', onPressed: () {
+
+                  getNet_createPrescription();
+                }),
               )
             ],
           ),

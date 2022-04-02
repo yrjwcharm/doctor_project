@@ -12,7 +12,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_picker/flutter_picker.dart';
 import '../../utils/svg_utils.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:doctor_project/pages/home/make_prescription.dart';
 import 'package:doctor_project/utils/EventBus_Utils.dart';
 
 class UseDrugInfo extends StatefulWidget {
@@ -57,7 +56,7 @@ class _UseDrugInfoState extends State<UseDrugInfo> {
     // TODO: implement initState
     super.initState();
 
-    drugInfoMap['count'] = "1";
+    drugInfoMap['count'] = 1;
     drugInfoMap['dosage'] = "";
     drugInfoMap['frequency'] = "";
     drugInfoMap['usage'] = "";
@@ -191,7 +190,6 @@ class _UseDrugInfoState extends State<UseDrugInfo> {
 
                     Map item = list[1];
                     item.update("placeholder", (value) => pickerData2[0]);
-                    drugInfoMap.update("frequency", (value) => item["placeholder"]);
                   });
                 },
               ),
@@ -204,7 +202,6 @@ class _UseDrugInfoState extends State<UseDrugInfo> {
 
                     Map item = list[1];
                     item.update("placeholder", (value) => pickerData2[1]);
-                    drugInfoMap.update("frequency", (value) => item["placeholder"]);
                   });
                 },
               ),
@@ -217,7 +214,6 @@ class _UseDrugInfoState extends State<UseDrugInfo> {
 
                     Map item = list[1];
                     item.update("placeholder", (value) => pickerData2[2]);
-                    drugInfoMap.update("frequency", (value) => item["placeholder"]);
                   });
                 },
               ),
@@ -230,7 +226,6 @@ class _UseDrugInfoState extends State<UseDrugInfo> {
 
                     Map item = list[1];
                     item.update("placeholder", (value) => pickerData2[3]);
-                    drugInfoMap.update("frequency", (value) => item["placeholder"]);
                   });
                 },
               ),
@@ -243,7 +238,6 @@ class _UseDrugInfoState extends State<UseDrugInfo> {
 
                     Map item = list[1];
                     item.update("placeholder", (value) => pickerData2[4]);
-                    drugInfoMap.update("frequency", (value) => item["placeholder"]);
                   });
                 },
               ),
@@ -672,7 +666,14 @@ class _UseDrugInfoState extends State<UseDrugInfo> {
                                     border: InputBorder.none,
                                     contentPadding: EdgeInsets.zero),
 
-                                onEditingComplete: (){
+                                onChanged: (value){
+
+                                  setState(() {
+                                    drugInfoMap.update("remark", (value) => _editingController3.text);
+                                  });
+                                },
+
+                                onSubmitted: (value){
 
                                   setState(() {
                                     drugInfoMap.update("remark", (value) => _editingController3.text);
@@ -690,6 +691,12 @@ class _UseDrugInfoState extends State<UseDrugInfo> {
             child: SafeAreaButton(
               text: '确认',
               onPressed: () {
+
+                setState(() {
+                  Map item = list[1];
+                  drugInfoMap.update("frequency", (value) => _editingController1.text +item["placeholder"]);
+                });
+
                 /* 新增字段：
                    count 个数
                    dosage 用量
