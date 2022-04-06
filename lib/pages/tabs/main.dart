@@ -3,6 +3,7 @@ import 'package:doctor_project/pages/tabs/message.dart';
 import 'package:doctor_project/pages/tabs/my.dart';
 import 'package:doctor_project/pages/tabs/patient.dart';
 import 'package:doctor_project/utils/colors_utils.dart';
+import 'package:doctor_project/utils/svg_utils.dart';
 import 'package:doctor_project/utils/toast_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -32,8 +33,8 @@ class _MainState extends State<Main> {
         activeIcon: Image.asset('assets/images/home-active.png')),
     BottomNavigationBarItem(
       label: '我的患者',
-      icon: Image.asset('assets/images/patient.png'),
-      activeIcon: Image.asset('assets/images/patient_active.png'),
+      icon: Image.asset('assets/images/patient-active.png'),
+      activeIcon: Image.asset('assets/images/patient-active.png'),
     ),
     BottomNavigationBarItem(
       label: '消息',
