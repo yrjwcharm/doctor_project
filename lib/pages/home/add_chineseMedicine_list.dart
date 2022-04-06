@@ -76,8 +76,7 @@ class _AddChineseMedicineListState extends State<AddChineseMedicineList> {
 
     var dio = new Dio();
     dio.options.headers = {
-      "token": "dfb33604-4686-4e55-abea-76571674c40a",
-      // "token": tokenValueStr,
+      "token": tokenValueStr,
     };
 
     String urlStr = "https://interhospital.youjiankang.net/doctor/dr-service/herbalMedicine/getList?keyword=" + _editingController.text + "&type=" +type.toString() +"&page=" +_page.toString() + "&size=" +pageSize.toString();
@@ -428,7 +427,7 @@ class _AddChineseMedicineListState extends State<AddChineseMedicineList> {
                                       Expanded(child: Text(detailDataList[index]["manuname"],style: GSYConstant.textStyle(color: '#999999'),overflow: TextOverflow.ellipsis,maxLines: 1,),),
                                     ],
                                   ),
-                                  trailing: TextButton(onPressed: () {},
+                                  trailing: TextButton(onPressed: null,
                                     style: TextButton.styleFrom(
                                       alignment: Alignment.centerRight,
                                       padding:EdgeInsets.zero,

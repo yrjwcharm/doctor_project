@@ -200,47 +200,49 @@ void getNet_diagnosisList () async{
   //获取列表数据
   Widget _renderRow(BuildContext context, int index) {
     if (index < detailDataList.length) {
-      return Column(
-        children: [
-          ListTile(
-            title: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                // Expanded(
-                //   flex : 2 ,
-                //   child: Text(detailDataList[index]["dianame"], style: GSYConstant.textStyle(color: '#888888'),),
-                // ),
-                // const SizedBox(width: 10.0,),
-                Expanded(
-                  flex : 1 ,
-                  child:Text(detailDataList[index]["diacode"], style: GSYConstant.textStyle(color: '#333333'),),
+      return GestureDetector(
+        onTap: (){
+          setState(() {
+            Map item = detailDataList[index];
+            item["isMain"] = checkedDataList.isEmpty;
+            checkedDataList.add(item);
+            diagnosisListIsHidden = true;
+            checkedDiagnosisIsHidden = false;
+          });
+        },
+        child: Column(
+          children: [
+            ListTile(
+                title: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    // Expanded(
+                    //   flex : 2 ,
+                    //   child: Text(detailDataList[index]["dianame"], style: GSYConstant.textStyle(color: '#888888'),),
+                    // ),
+                    // const SizedBox(width: 10.0,),
+                    Expanded(
+                      flex : 1 ,
+                      child:Text(detailDataList[index]["diacode"], style: GSYConstant.textStyle(color: '#333333'),),
 
+                    ),
+                    const SizedBox(width: 10.0,),
+                    Expanded(
+                      flex : 2 ,
+                      child:Text(detailDataList[index]["diadesc"], style: GSYConstant.textStyle(color: '#333330'),),
+                    )
+                  ],
                 ),
-                const SizedBox(width: 10.0,),
-                Expanded(
-                    flex : 2 ,
-                    child:Text(detailDataList[index]["diadesc"], style: GSYConstant.textStyle(color: '#333330'),),
-                )
-              ],
+                trailing: TextButton(onPressed: null,
+                  style: TextButton.styleFrom(
+                    alignment: Alignment.centerRight,
+                    padding:EdgeInsets.zero,
+                  ),
+                  child: SvgUtil.svg('add_drug.svg'),)
             ),
-            trailing: TextButton(onPressed: () {
-              // Navigator.push(context, MaterialPageRoute(builder: (context)=>const AddMultiDiagnosis()));
-              setState(() {
-                Map item = detailDataList[index];
-                item["isMain"] = checkedDataList.isEmpty;
-                checkedDataList.add(item);
-                diagnosisListIsHidden = true;
-                checkedDiagnosisIsHidden = false;
-              });
-            },
-            style: TextButton.styleFrom(
-              alignment: Alignment.centerRight,
-              padding:EdgeInsets.zero,
-            ),
-            child: SvgUtil.svg('add_drug.svg'),)
-          ),
-          Divider(color: ColorsUtil.hexStringColor('#cccccc', alpha: 0.3),)
-        ],
+            Divider(color: ColorsUtil.hexStringColor('#cccccc', alpha: 0.3),)
+          ],
+        ),
       );
     }
     return _getMoreWidget();

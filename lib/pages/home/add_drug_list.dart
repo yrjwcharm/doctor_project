@@ -13,13 +13,17 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 class AddDrugList extends StatefulWidget {
 
-  const AddDrugList({Key? key}) : super(key: key);
+  Map instructionsMap ; //药品使用方法列表（用量、服药单位、用法等）
+  AddDrugList({Key? key, required this.instructionsMap}) : super(key: key);
 
   @override
-  _AddDrugListState createState() => _AddDrugListState();
+  _AddDrugListState createState() => _AddDrugListState(instructionsMap: this.instructionsMap);
 }
 
 class _AddDrugListState extends State<AddDrugList> {
+
+  Map instructionsMap ; //药品使用方法列表（用量、服药单位、用法等）
+  _AddDrugListState({required this.instructionsMap});
 
   final TextEditingController _editingController = TextEditingController();
   final FocusNode _contentFocusNode = FocusNode();
@@ -60,8 +64,7 @@ class _AddDrugListState extends State<AddDrugList> {
 
     var dio = new Dio();
     dio.options.headers = {
-      "token": "dfb33604-4686-4e55-abea-76571674c40a",
-      // "token": tokenValueStr,
+      "token": tokenValueStr,
     };
 
     String urlStr = "https://interhospital.youjiankang.net/doctor/dr-service/medicine/getList?keyword=" + _editingController.text + "&type=" +type.toString() +"&page=" +_page.toString() + "&size=" +pageSize.toString();
@@ -387,7 +390,7 @@ class _AddDrugListState extends State<AddDrugList> {
                               //   print("3333333333");
                               // });
 
-                              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> UseDrugInfo(drugInfoMap: detailDataList[index],)));
+                              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> UseDrugInfo(drugInfoMap: detailDataList[index], instructionsMap: instructionsMap,)));
 
                             },
                             child: Container(

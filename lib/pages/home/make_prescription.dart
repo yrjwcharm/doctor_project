@@ -22,6 +22,8 @@ import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:doctor_project/pages/home/add_chineseMedicine_list.dart';
+import 'package:flutter_picker/Picker.dart';
+
 
 class MakePrescription extends StatefulWidget {
   const MakePrescription({Key? key}) : super(key: key);
@@ -59,19 +61,30 @@ class _MakePrescriptionState extends State<MakePrescription> {
   List rpList = [];
   String rpTypeId = '1';
   String rpTypeName = '普通处方';
+
   String diagnosisName='';
-  String diagnosisId='';
+
+  List pharmacyList = []; //药房数据源
+  List pharmacyNameList = []; //药房名称数据源
   String pharmacyName='';
   String pharmacyId='';
   bool tab1Active = true;
   bool tab2Active = false;
 
-  final List<String> pickerData1 = <String>["口服","外用","含化","吸入用药","局部用药","喷鼻","滴眼","喷喉"];
-  final List<String> pickerData2 = <String>["每日一次","每日两次","每日三次","每日四次","隔日一次","每周一次","每周两次"];
+  List<String> useTypeList = [];
+  List<String> freqTypeList = [];
+  List<String> baseUnitList = [];
 
   @override
   void initState() {
     super.initState();
+
+    loadtDataForRP();
+    loadtDataForPharmacy();
+    loadDataForUseType();
+    loadDataForFreqTYpe();
+    loadDataForBaseUnit();
+
     chineseMedicineTypeList = [
       {
         'title': '处方贴数',
@@ -99,7 +112,9 @@ class _MakePrescriptionState extends State<MakePrescription> {
     });
   }
 
-  //新建处方
+  //获取药房列表接口
+
+  //新建处方接口
   void getNet_createPrescription() async{
 
     if(checkDataList.isEmpty || drugList.isEmpty){
@@ -151,9 +166,9 @@ class _MakePrescriptionState extends State<MakePrescription> {
     if(tab1Active){
       map = {
         "registerId" : 2,
-        "name" : tab1Active ? "西药/中成药处方" : "中药处方",
+        "name" : rpTypeName,
         "type" : 1, //模块（recipe-处方，register-挂号，logistics-物流，text-图文，video-视频）
-        "roomId" : 3696,
+        "roomId" : 3696, //药房id
         "category" : tab1Active ? 1 : 2, //处方类别（1-西药/中成药，2-中药）
         "diagnosisParams" : diagnosisParams,
         "medicineParams"  : medicineParams,
@@ -162,9 +177,9 @@ class _MakePrescriptionState extends State<MakePrescription> {
 
       map = {
         "registerId" : 5,
-        "name" : tab1Active ? "西药/中成药处方" : "中药处方",
+        "name" : rpTypeName,
         "type" : 1, //模块（recipe-处方，register-挂号，logistics-物流，text-图文，video-视频）
-        "roomId" : 3696,
+        "roomId" : 3696, //药房id
         "useType" : chineseMedicineTypeList[1]["detail"], //用法
         "freq" : chineseMedicineTypeList[2]["detail"], //频次
         "remarks" : _editingController2.text.isEmpty ?"" :_editingController2.text, //备注
@@ -174,47 +189,6 @@ class _MakePrescriptionState extends State<MakePrescription> {
         "medicineParams"  : medicineParams,
       };
     }
-
-    // Map map = {
-    //     "doctorId": 10008, //医生id
-    //     "registerId": 1, //挂号id
-    //     "name": "西药处方", //处方名称
-    //     "type": "1", //模块（recipe-处方，register-挂号，logistics-物流，text-图文，video-视频）
-    //     "roomId": 3696, //药房id
-    //     "useType": "1", //用法
-    //     "freq": "1", //频次
-    //     "category": "2", //处方类别（1-西药/中成药，2-中药）
-    //     "remarks": "备注", //备注
-    //     "countNum": 1, //副数、贴数（中药）
-    //     "diagnosisParams": [
-    //       {
-    //         "diagnosisId": 1, //诊断id
-    //         "isMaster": 1 //是否主诊断（0否1是）
-    //       },
-    //       {
-    //         "diagnosisId": 2, //诊断id
-    //         "isMaster": 0 //是否主诊断（0否1是）
-    //       }
-    //     ], //处方
-    //     "medicineParams": [
-    //       {
-    //         "medicineId": 1230, //药品id
-    //         "num": 2, //数量
-    //         "useType": "1", //用法
-    //         "freq": "1", //频次
-    //         "dayNum": 1, //用药天数
-    //         "remarks": "药品备注" //备注
-    //       },
-    //       {
-    //         "medicineId": 1231, //药品id
-    //         "num": 3, //数量
-    //         "useType": "1", //用法
-    //         "freq": "1", //频次
-    //         "dayNum": 1, //用药天数
-    //         "remarks": "药品备注" //备注
-    //       }
-    //     ] //药品信息
-    // };
 
     print(map);
     // HttpRequest? request = HttpRequest.getInstance();
@@ -256,22 +230,14 @@ class _MakePrescriptionState extends State<MakePrescription> {
     });
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-    //不用的时候记得关闭
-    EventBusUtil.getInstance().destroy();
-    initData();
-  }
-
-  //初始化加载处方列表
-  initData() async {
+  //初始化加载处方类型列表
+  loadtDataForRP() async {
 
     HttpRequest? request = HttpRequest.getInstance();
     var res = await request?.get(Api.dataDicUrl + '?dictId=14');
     if (res['code'] == 200) {
       List data = res['data'];
-      print("11111111" +data.toString());
+      print("loadtDataForRP------" +data.toString());
       List<String> pickerData = [];
       for (var item in data) {
         pickerData.add(item['detailName']);
@@ -283,219 +249,143 @@ class _MakePrescriptionState extends State<MakePrescription> {
     }
   }
 
+  //初始化加载药房名称列表
+  loadtDataForPharmacy() async {
+
+    HttpRequest? request = HttpRequest.getInstance();
+    var res = await request?.get(Api.pharmacyListUrl);
+    print("loadtDataForPharmacy------" +res.toString());
+    if (res['code'] == 200) {
+      List data = res['data'];
+      List<String> pickerData = [];
+      for (var item in data) {
+        pickerData.add(item['name']);
+      }
+      setState(() {
+        pharmacyNameList = pickerData;
+        pharmacyList =data;
+      });
+    }
+  }
+
+  //初始化药品用法列表
+  loadDataForUseType() async {
+
+    HttpRequest? request = HttpRequest.getInstance();
+    var res = await request?.get(Api.dataDicUrl + '?dictId=15');
+    if (res['code'] == 200) {
+      List data = res['data'];
+      print("loadDataForUseType------" +data.toString());
+      List<String> pickerData = [];
+      for (var item in data) {
+        pickerData.add(item['detailName']);
+      }
+      setState(() {
+        useTypeList = pickerData;
+      });
+    }
+  }
+
+  //初始化药品频次列表
+  loadDataForFreqTYpe() async {
+
+    HttpRequest? request = HttpRequest.getInstance();
+    var res = await request?.get(Api.dataDicUrl + '?dictId=16');
+    if (res['code'] == 200) {
+      List data = res['data'];
+      print("loadDataForFreqTYpe------" +data.toString());
+      List<String> pickerData = [];
+      for (var item in data) {
+        pickerData.add(item['detailName']);
+      }
+      setState(() {
+        freqTypeList = pickerData;
+      });
+    }
+  }
+
+  //初始化药品服药单位列表
+  loadDataForBaseUnit() async {
+
+    HttpRequest? request = HttpRequest.getInstance();
+    var res = await request?.get(Api.dataDicUrl + '?dictId=19');
+    if (res['code'] == 200) {
+      List data = res['data'];
+      print("loadDataForBaseUnit------" +data.toString());
+      List<String> pickerData = [];
+      for (var item in data) {
+        pickerData.add(item['detailName']);
+      }
+      setState(() {
+        baseUnitList = pickerData;
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    //不用的时候记得关闭
+    EventBusUtil.getInstance().destroy();
+  }
+
+  /*
+  data 数据源数组
+  item 需要改变的数据源
+   */
+  List<Widget> dialogData(List<String> data, Map item)
+  {
+    List <Widget> widgetList = [];
+    for(int i=0; i<data.length; i++){
+
+      StatelessWidget dialog = SimpleDialogOption(
+        child: Text(data[i]),
+        onPressed: (){
+          Navigator.of(context).pop();
+          setState(() {
+
+            item.update("detail", (value) => data[i]);
+          });
+        },
+      );
+
+      widgetList.add(dialog);
+      widgetList.add(const Divider(),);
+    }
+
+    return widgetList ;
+  }
+
   void _showSimpleDialog1() async{
 
     var result=await showDialog(
+        useRootNavigator:false,
         barrierDismissible:true,   //表示点击灰色背景的时候是否消失弹出框
         context:context,
         builder: (context){
           return SimpleDialog(
             // title:Text(""),
-            children: <Widget>[
-              SimpleDialogOption(
-                child: Text(pickerData1[0]),
-                onPressed: (){
-                  Navigator.of(context).pop();
-                  setState(() {
-
-                    Map item = chineseMedicineTypeList[1];
-                    item.update("detail", (value) => pickerData1[0]);
-                  });
-                },
-              ),
-              Divider(),
-              SimpleDialogOption(
-                child: Text(pickerData1[1]),
-                onPressed: (){
-                  Navigator.of(context).pop();
-                  setState(() {
-
-                    Map item = chineseMedicineTypeList[1];
-                    item.update("detail", (value) => pickerData1[1]);
-                  });
-                },
-              ),
-              Divider(),
-              SimpleDialogOption(
-                child: Text(pickerData1[2]),
-                onPressed: (){
-                  Navigator.of(context).pop();
-                  setState(() {
-
-                    Map item = chineseMedicineTypeList[1];
-                    item.update("detail", (value) => pickerData1[2]);
-                  });
-                },
-              ),
-              Divider(),
-              SimpleDialogOption(
-                child: Text(pickerData1[3]),
-                onPressed: (){
-                  Navigator.of(context).pop();
-                  setState(() {
-
-                    Map item = chineseMedicineTypeList[1];
-                    item.update("detail", (value) => pickerData1[3]);
-                  });
-                },
-              ),
-              Divider(),
-              SimpleDialogOption(
-                child: Text(pickerData1[4]),
-                onPressed: (){
-                  Navigator.of(context).pop();
-                  setState(() {
-
-                    Map item = chineseMedicineTypeList[1];
-                    item.update("detail", (value) => pickerData1[4]);
-                  });
-                },
-              ),
-              Divider(),
-              SimpleDialogOption(
-                child: Text(pickerData1[5]),
-                onPressed: (){
-                  Navigator.of(context).pop();
-                  setState(() {
-
-                    Map item = chineseMedicineTypeList[1];
-                    item.update("detail", (value) => pickerData1[5]);
-                  });
-                },
-              ),
-              Divider(),
-              SimpleDialogOption(
-                child: Text(pickerData1[6]),
-                onPressed: (){
-                  Navigator.of(context).pop();
-                  setState(() {
-
-                    Map item = chineseMedicineTypeList[1];
-                    item.update("detail", (value) => pickerData1[6]);
-                  });
-                },
-              ),
-              Divider(),
-              SimpleDialogOption(
-                child: Text(pickerData1[7]),
-                onPressed: (){
-                  Navigator.of(context).pop();
-                  setState(() {
-
-                    Map item = chineseMedicineTypeList[1];
-                    item.update("detail", (value) => pickerData1[7]);
-                  });
-                },
-              ),
-              Divider(),
-            ],
-
+            children: dialogData(useTypeList,chineseMedicineTypeList[1]),
           );
         }
     );
   }
+
 
   void _showSimpleDialog2() async{
 
     var result=await showDialog(
+        useRootNavigator:false,
         barrierDismissible:true,   //表示点击灰色背景的时候是否消失弹出框
         context:context,
         builder: (context){
           return SimpleDialog(
             // title:Text(""),
-            children: <Widget>[
-              SimpleDialogOption(
-                child: Text(pickerData2[0]),
-                onPressed: (){
-                  Navigator.of(context).pop();
-                  setState(() {
-
-                    Map item = chineseMedicineTypeList[2];
-                    item.update("detail", (value) => pickerData2[0]);
-
-                  });
-                },
-              ),
-              Divider(),
-              SimpleDialogOption(
-                child: Text(pickerData2[1]),
-                onPressed: (){
-                  Navigator.of(context).pop();
-                  setState(() {
-
-                    Map item = chineseMedicineTypeList[2];
-                    item.update("detail", (value) => pickerData2[1]);
-                  });
-                },
-              ),
-              Divider(),
-              SimpleDialogOption(
-                child: Text(pickerData2[2]),
-                onPressed: (){
-                  Navigator.of(context).pop();
-                  setState(() {
-
-                    Map item = chineseMedicineTypeList[2];
-                    item.update("detail", (value) => pickerData2[2]);
-                  });
-                },
-              ),
-              Divider(),
-              SimpleDialogOption(
-                child: Text(pickerData2[3]),
-                onPressed: (){
-                  Navigator.of(context).pop();
-                  setState(() {
-
-                    Map item = chineseMedicineTypeList[2];
-                    item.update("detail", (value) => pickerData2[3]);
-                  });
-                },
-              ),
-              Divider(),
-              SimpleDialogOption(
-                child: Text(pickerData2[4]),
-                onPressed: (){
-                  Navigator.of(context).pop();
-                  setState(() {
-
-                    Map item = chineseMedicineTypeList[2];
-                    item.update("detail", (value) => pickerData2[4]);
-                  });
-                },
-              ),
-              Divider(),
-              SimpleDialogOption(
-                child: Text(pickerData2[5]),
-                onPressed: (){
-                  Navigator.of(context).pop();
-                  setState(() {
-
-                    Map item = chineseMedicineTypeList[2];
-                    item.update("detail", (value) => pickerData2[5]);
-                  });
-                },
-              ),
-              Divider(),
-              SimpleDialogOption(
-                child: Text(pickerData2[6]),
-                onPressed: (){
-                  Navigator.of(context).pop();
-                  setState(() {
-
-                    Map item = chineseMedicineTypeList[2];
-                    item.update("detail", (value) => pickerData2[6]);
-                  });
-                },
-              ),
-              Divider(),
-            ],
-
+            children: dialogData(freqTypeList,chineseMedicineTypeList[2]),
           );
         }
     );
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -685,6 +575,14 @@ class _MakePrescriptionState extends State<MakePrescription> {
               GestureDetector(
                 onTap: () {
 
+                  PickerUtil.showPicker(context, _scaffoldKey,
+                      pickerData: pharmacyNameList,
+                      confirmCallback: (Picker picker, List<int> selected) {
+                        setState(() {
+                          pharmacyId = pharmacyList[selected[0]]['id'];
+                          pharmacyName = pharmacyList[selected[0]]['name'];
+                        });
+                      });
                 },
                 child: Container(
                   height: 44.0,
@@ -855,10 +753,17 @@ class _MakePrescriptionState extends State<MakePrescription> {
                     ),
                     TextButton(
                         onPressed: () {
+
+                          Map map = {
+                            "useType" : useTypeList,
+                            "freqType" : freqTypeList,
+                            "baseUnit" : baseUnitList,
+                          };
+
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => tab1Active ? const AddDrugList() : AddChineseMedicineList(selectedDrugList: drugList,))).then((value){
+                                  builder: (context) => tab1Active ? AddDrugList(instructionsMap: map,) : AddChineseMedicineList(selectedDrugList: drugList,))).then((value){
 
                                     print(value);
                                     if(tab2Active){ //中药处方
@@ -1136,5 +1041,8 @@ class _MakePrescriptionState extends State<MakePrescription> {
             ],
           ),
         ));
+
+
+
   }
 }

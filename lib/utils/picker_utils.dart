@@ -23,6 +23,7 @@ class PickerUtil{
         GSYConstant.textStyle(fontSize: 15.0, color: '#06B48D'),
         columnPadding: const EdgeInsets.all(8.0),
         onConfirm:confirmCallback);
-    picker.show(_scaffoldKey.currentState!);
+    // picker.show(_scaffoldKey.currentState!);
+    picker.showModal(context);
   }
 }

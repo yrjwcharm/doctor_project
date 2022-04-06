@@ -16,16 +16,18 @@ import 'package:doctor_project/utils/EventBus_Utils.dart';
 
 class UseDrugInfo extends StatefulWidget {
 
-  Map drugInfoMap ;
-  UseDrugInfo({Key? key,required this.drugInfoMap}) : super(key: key);
+  Map drugInfoMap ; //药品信息
+  Map instructionsMap ; //药品使用方法列表（用量、服药单位、用法等）
+  UseDrugInfo({Key? key,required this.drugInfoMap, required this.instructionsMap}) : super(key: key);
 
   @override
-  _UseDrugInfoState createState() => _UseDrugInfoState(drugInfoMap: this.drugInfoMap);
+  _UseDrugInfoState createState() => _UseDrugInfoState(drugInfoMap: this.drugInfoMap, instructionsMap: this.instructionsMap);
 }
 
 class _UseDrugInfoState extends State<UseDrugInfo> {
 
-  /* 新增字段：
+  /* 药品信息
+  新增字段：
      count 个数
      dosage 用量
      frequency 次数
@@ -34,7 +36,8 @@ class _UseDrugInfoState extends State<UseDrugInfo> {
      remark 备注
   */
   Map drugInfoMap ;
-  _UseDrugInfoState({required this.drugInfoMap});
+  Map instructionsMap ; //药品使用方法列表（用量、服药单位、用法等）
+  _UseDrugInfoState({required this.drugInfoMap, required this.instructionsMap});
 
   final TextEditingController _editingController1 = TextEditingController();
   final TextEditingController _editingController2 = TextEditingController();
@@ -46,10 +49,6 @@ class _UseDrugInfoState extends State<UseDrugInfo> {
     {'label': '用法：', 'placeholder': '请选择用法'},
     {'label': '持续用药天数：', 'placeholder': '请输入用药天数'}
   ];
-
-  final List<String> pickerData1 = <String>["每日一次","每日两次","每日三次","每日四次","隔日一次","每周一次","每周两次"];
-  final List<String> pickerData2 = <String>["片/次","粒/次","袋/次","支/次","丸/次"];
-  final List<String> pickerData3 = <String>["口服","外用","含化","吸入用药","局部用药","喷鼻","滴眼","喷喉"];
 
   @override
   void initState() {
@@ -65,109 +64,50 @@ class _UseDrugInfoState extends State<UseDrugInfo> {
 
   }
 
+  /*
+  data 数据源数组
+  item 需要改变的数据源
+  index 索引，用于区分需要改变的数据源参数为哪个
+   */
+  List<Widget> dialogData(List<String> data, Map item, int index)
+  {
+    List <Widget> widgetList = [];
+    for(int i=0; i<data.length; i++){
+
+      StatelessWidget dialog = SimpleDialogOption(
+        child: Text(data[i]),
+        onPressed: (){
+          Navigator.of(context).pop();
+          setState(() {
+
+            item.update("placeholder", (value) => data[i]);
+            if(index ==0){
+              drugInfoMap.update("dosage", (value) => item["placeholder"]);
+            }else if(index ==2){
+
+              drugInfoMap.update("usage", (value) => item["placeholder"]);
+            }
+          });
+        },
+      );
+
+      widgetList.add(dialog);
+      widgetList.add(const Divider(),);
+    }
+
+    return widgetList ;
+  }
+
   void _showSimpleDialog1() async{
 
     var result=await showDialog(
+        useRootNavigator:false,
         barrierDismissible:true,   //表示点击灰色背景的时候是否消失弹出框
         context:context,
         builder: (context){
           return SimpleDialog(
             // title:Text(""),
-            children: <Widget>[
-              SimpleDialogOption(
-                child: Text(pickerData1[0]),
-                onPressed: (){
-                  Navigator.of(context).pop();
-                  setState(() {
-
-                    Map item = list[0];
-                    item.update("placeholder", (value) => pickerData1[0]);
-                    drugInfoMap.update("dosage", (value) => item["placeholder"]);
-
-                  });
-                },
-              ),
-              Divider(),
-              SimpleDialogOption(
-                child: Text(pickerData1[1]),
-                onPressed: (){
-                  Navigator.of(context).pop();
-                  setState(() {
-
-                    Map item = list[0];
-                    item.update("placeholder", (value) => pickerData1[1]);
-                    drugInfoMap.update("dosage", (value) => item["placeholder"]);
-                  });
-                },
-              ),
-              Divider(),
-              SimpleDialogOption(
-                child: Text(pickerData1[2]),
-                onPressed: (){
-                  Navigator.of(context).pop();
-                  setState(() {
-
-                    Map item = list[0];
-                    item.update("placeholder", (value) => pickerData1[2]);
-                    drugInfoMap.update("dosage", (value) => item["placeholder"]);
-                  });
-                },
-              ),
-              Divider(),
-              SimpleDialogOption(
-                child: Text(pickerData1[3]),
-                onPressed: (){
-                  Navigator.of(context).pop();
-                  setState(() {
-
-                    Map item = list[0];
-                    item.update("placeholder", (value) => pickerData1[3]);
-                    drugInfoMap.update("dosage", (value) => item["placeholder"]);
-                  });
-                },
-              ),
-              Divider(),
-              SimpleDialogOption(
-                child: Text(pickerData1[4]),
-                onPressed: (){
-                  Navigator.of(context).pop();
-                  setState(() {
-
-                    Map item = list[0];
-                    item.update("placeholder", (value) => pickerData1[4]);
-                    drugInfoMap.update("dosage", (value) => item["placeholder"]);
-                  });
-                },
-              ),
-              Divider(),
-              SimpleDialogOption(
-                child: Text(pickerData1[5]),
-                onPressed: (){
-                  Navigator.of(context).pop();
-                  setState(() {
-
-                    Map item = list[0];
-                    item.update("placeholder", (value) => pickerData1[5]);
-                    drugInfoMap.update("dosage", (value) => item["placeholder"]);
-                  });
-                },
-              ),
-              Divider(),
-              SimpleDialogOption(
-                child: Text(pickerData1[6]),
-                onPressed: (){
-                  Navigator.of(context).pop();
-                  setState(() {
-
-                    Map item = list[0];
-                    item.update("placeholder", (value) => pickerData1[6]);
-                    drugInfoMap.update("dosage", (value) => item["placeholder"]);
-                  });
-                },
-              ),
-              Divider(),
-            ],
-
+            children: dialogData(instructionsMap["freqType"], list[0], 0),
           );
         }
     );
@@ -176,74 +116,12 @@ class _UseDrugInfoState extends State<UseDrugInfo> {
   void _showSimpleDialog2() async{
 
     var result=await showDialog(
+        useRootNavigator:false,
         barrierDismissible:true,   //表示点击灰色背景的时候是否消失弹出框
         context:context,
         builder: (context){
           return SimpleDialog(
-            // title:Text(""),
-            children: <Widget>[
-              SimpleDialogOption(
-                child: Text(pickerData2[0]),
-                onPressed: (){
-                  Navigator.of(context).pop();
-                  setState(() {
-
-                    Map item = list[1];
-                    item.update("placeholder", (value) => pickerData2[0]);
-                  });
-                },
-              ),
-              Divider(),
-              SimpleDialogOption(
-                child: Text(pickerData2[1]),
-                onPressed: (){
-                  Navigator.of(context).pop();
-                  setState(() {
-
-                    Map item = list[1];
-                    item.update("placeholder", (value) => pickerData2[1]);
-                  });
-                },
-              ),
-              Divider(),
-              SimpleDialogOption(
-                child: Text(pickerData2[2]),
-                onPressed: (){
-                  Navigator.of(context).pop();
-                  setState(() {
-
-                    Map item = list[1];
-                    item.update("placeholder", (value) => pickerData2[2]);
-                  });
-                },
-              ),
-              Divider(),
-              SimpleDialogOption(
-                child: Text(pickerData2[3]),
-                onPressed: (){
-                  Navigator.of(context).pop();
-                  setState(() {
-
-                    Map item = list[1];
-                    item.update("placeholder", (value) => pickerData2[3]);
-                  });
-                },
-              ),
-              Divider(),
-              SimpleDialogOption(
-                child: Text(pickerData2[4]),
-                onPressed: (){
-                  Navigator.of(context).pop();
-                  setState(() {
-
-                    Map item = list[1];
-                    item.update("placeholder", (value) => pickerData2[4]);
-                  });
-                },
-              ),
-              Divider(),
-            ],
-
+            children: dialogData(instructionsMap["baseUnit"], list[1], 1),
           );
         }
     );
@@ -252,118 +130,12 @@ class _UseDrugInfoState extends State<UseDrugInfo> {
   void _showSimpleDialog3() async{
 
     var result=await showDialog(
+        useRootNavigator:false,
         barrierDismissible:true,   //表示点击灰色背景的时候是否消失弹出框
         context:context,
         builder: (context){
           return SimpleDialog(
-            // title:Text(""),
-            children: <Widget>[
-              SimpleDialogOption(
-                child: Text(pickerData3[0]),
-                onPressed: (){
-                  Navigator.of(context).pop();
-                  setState(() {
-
-                    Map item = list[2];
-                    item.update("placeholder", (value) => pickerData3[0]);
-                    drugInfoMap.update("usage", (value) => item["placeholder"]);
-                  });
-                },
-              ),
-              Divider(),
-              SimpleDialogOption(
-                child: Text(pickerData3[1]),
-                onPressed: (){
-                  Navigator.of(context).pop();
-                  setState(() {
-
-                    Map item = list[2];
-                    item.update("placeholder", (value) => pickerData3[1]);
-                    drugInfoMap.update("usage", (value) => item["placeholder"]);
-                  });
-                },
-              ),
-              Divider(),
-              SimpleDialogOption(
-                child: Text(pickerData3[2]),
-                onPressed: (){
-                  Navigator.of(context).pop();
-                  setState(() {
-
-                    Map item = list[2];
-                    item.update("placeholder", (value) => pickerData3[2]);
-                    drugInfoMap.update("usage", (value) => item["placeholder"]);
-                  });
-                },
-              ),
-              Divider(),
-              SimpleDialogOption(
-                child: Text(pickerData3[3]),
-                onPressed: (){
-                  Navigator.of(context).pop();
-                  setState(() {
-
-                    Map item = list[2];
-                    item.update("placeholder", (value) => pickerData3[3]);
-                    drugInfoMap.update("usage", (value) => item["placeholder"]);
-                  });
-                },
-              ),
-              Divider(),
-              SimpleDialogOption(
-                child: Text(pickerData3[4]),
-                onPressed: (){
-                  Navigator.of(context).pop();
-                  setState(() {
-
-                    Map item = list[2];
-                    item.update("placeholder", (value) => pickerData3[4]);
-                    drugInfoMap.update("usage", (value) => item["placeholder"]);
-                  });
-                },
-              ),
-              Divider(),
-              SimpleDialogOption(
-                child: Text(pickerData3[5]),
-                onPressed: (){
-                  Navigator.of(context).pop();
-                  setState(() {
-
-                    Map item = list[2];
-                    item.update("placeholder", (value) => pickerData3[5]);
-                    drugInfoMap.update("usage", (value) => item["placeholder"]);
-                  });
-                },
-              ),
-              Divider(),
-              SimpleDialogOption(
-                child: Text(pickerData3[6]),
-                onPressed: (){
-                  Navigator.of(context).pop();
-                  setState(() {
-
-                    Map item = list[2];
-                    item.update("placeholder", (value) => pickerData3[6]);
-                    drugInfoMap.update("usage", (value) => item["placeholder"]);
-                  });
-                },
-              ),
-              Divider(),
-              SimpleDialogOption(
-                child: Text(pickerData3[7]),
-                onPressed: (){
-                  Navigator.of(context).pop();
-                  setState(() {
-
-                    Map item = list[2];
-                    item.update("placeholder", (value) => pickerData3[7]);
-                    drugInfoMap.update("usage", (value) => item["placeholder"]);
-                  });
-                },
-              ),
-              Divider(),
-            ],
-
+            children: dialogData(instructionsMap["useType"], list[2], 2),
           );
         }
     );
