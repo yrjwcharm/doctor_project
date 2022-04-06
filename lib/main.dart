@@ -14,7 +14,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:jpush_flutter/jpush_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:doctor_project/pages/home/add_drug_list.dart';
+import 'package:doctor_project/pages/home/make_prescription.dart';
 
 void main()
 {
@@ -107,8 +107,8 @@ class _MyAppState extends State<MyApp> {
         Locale('zh', 'CN'),//设置语言为中文
       ],
       debugShowCheckedModeBanner: false, // 设置这一属性即可
-        home:MakePrescription(),
-        // home:AddDrugList(),
+        home:LoginPage(),
+        // home:MakePrescription(),
         routes:routes,
     );
   }
