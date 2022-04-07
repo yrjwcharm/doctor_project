@@ -9,10 +9,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../../widget/custom_elevated_button.dart';
 import 'package:doctor_project/widget/safe_area_button.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 
 class Diagnosis extends StatefulWidget {
 
@@ -366,7 +366,26 @@ void getNet_diagnosisList () async{
             child: Expanded(
               child: ListView.builder(
                 itemBuilder: (context,index){
-                  return Column(
+                  return Slidable(
+                    endActionPane:  ActionPane(
+                      motion: const ScrollMotion(),
+                      children: [
+                        SlidableAction(
+                          // An action can be bigger than the others.
+                          // flex: 2,
+                          onPressed: (BuildContext context){
+                            setState(() {
+                              checkedDataList.removeAt(index);
+                            });
+                          },
+                          backgroundColor: const Color(0xFFFE4A49),
+                          foregroundColor: Colors.white,
+                          icon: Icons.delete,
+                          label: '删除',
+                        ),
+                      ],
+                    ),
+                    child: Column(
                     children: [
                       ListTile(
                         title: Row(
@@ -410,7 +429,7 @@ void getNet_diagnosisList () async{
                       ),
                       Divider(color: ColorsUtil.hexStringColor('#cccccc', alpha: 0.3),)
                     ],
-                  );
+                  ),);
                 },
                 itemCount: checkedDataList.length,
               ) ,

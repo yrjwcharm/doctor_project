@@ -15,6 +15,7 @@ import 'package:jpush_flutter/jpush_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:doctor_project/pages/home/make_prescription.dart';
+import 'package:doctor_project/pages/my/write-case.dart';
 
 void main()
 {
@@ -109,7 +110,8 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false, // 设置这一属性即可
         home:LoginPage(),
         // home:MakePrescription(),
-        routes:routes,
+      // home:WriteCase(),
+      routes:routes,
     );
   }
 }
