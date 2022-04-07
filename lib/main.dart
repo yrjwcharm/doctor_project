@@ -107,7 +107,7 @@ class _MyAppState extends State<MyApp> {
         Locale('zh', 'CN'),//设置语言为中文
       ],
       debugShowCheckedModeBanner: false, // 设置这一属性即可
-        home:LoginPage(),
+        home:Main(),
         // home:MakePrescription(),
         routes:routes,
     );

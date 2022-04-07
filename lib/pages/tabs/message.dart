@@ -13,9 +13,9 @@ class MessageState extends State<Message> {
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
+      appBar:CustomAppBar('消息',isBack: false, onBackPressed: () {  },),
       body: Column(
         children: [
-           CustomAppBar('消息', onBackPressed: () {  },)
         ],
       )
     );

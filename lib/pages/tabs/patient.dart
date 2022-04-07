@@ -169,9 +169,9 @@ class PatientState extends State<Patient> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar:CustomAppBar('我的患者',isBack: false,),
       body: Column(
         children: [
-          CustomAppBar('我的患者',isBack: false,),
           Expanded(
             child: RefreshIndicator(
               onRefresh: _onRefresh,
