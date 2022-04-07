@@ -53,11 +53,11 @@ class HomeState extends State<Home> {
     //     list = List.generate(15, (i) => '哈喽,我是原始数据 $i');
     //   });
     // });
-    var request = HttpRequest.getInstance();
-    var res = await request?.get(Api.getReceiveConsultList+'?status=$status&page=$_page&size=10');
-    if(res['code']==200){
-
-    }
+    // var request = HttpRequest.getInstance();
+    // var res = await request?.get(Api.getReceiveConsultList+'?status=$status&page=$_page&size=10');
+    // if(res['code']==200){
+    //
+    // }
 
   }
 
