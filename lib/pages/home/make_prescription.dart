@@ -22,6 +22,7 @@ import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:doctor_project/pages/home/add_chineseMedicine_list.dart';
+import 'package:doctor_project/pages/home/prescription_detail.dart';
 import 'package:flutter_picker/Picker.dart';
 
 
@@ -205,7 +206,6 @@ class _MakePrescriptionState extends State<MakePrescription> {
       "token": tokenValueStr,
     };
     var response = await dio.post(
-        // 'https://interhospital.youjiankang.net/doctor/dr-service/recipe/create',
       Api.BASE_URL +Api.createPrescriptionUrl,
         data: map
     );
@@ -252,20 +252,31 @@ class _MakePrescriptionState extends State<MakePrescription> {
   //初始化加载药房名称列表
   loadtDataForPharmacy() async {
 
-    HttpRequest? request = HttpRequest.getInstance();
-    var res = await request?.get(Api.pharmacyListUrl);
-    print("loadtDataForPharmacy------" +res.toString());
-    if (res['code'] == 200) {
-      List data = res['data'];
-      List<String> pickerData = [];
-      for (var item in data) {
-        pickerData.add(item['name']);
-      }
-      setState(() {
-        pharmacyNameList = pickerData;
-        pharmacyList =data;
-      });
-    }
+    // HttpRequest? request = HttpRequest.getInstance();
+    // var res = await request?.get(Api.pharmacyListUrl);
+    // print("loadtDataForPharmacy------" +res.toString());
+    // if (res['code'] == 200) {
+    //   List data = res['data'];
+    //   List<String> pickerData = [];
+    //   for (var item in data) {
+    //     pickerData.add(item['name']);
+    //   }
+    //   setState(() {
+    //     pharmacyNameList = pickerData;
+    //     pharmacyList =data;
+    //   });
+    // }
+
+    SharedPreferences perfer = await SharedPreferences.getInstance();
+    String? tokenValueStr = perfer.getString("tokenValue");
+    var dio = new Dio();
+    dio.options.headers = {
+      "token": tokenValueStr,
+    };
+    String url = Api.BASE_URL +Api.pharmacyListUrl;
+    print("url------" +url);
+    var response = await dio.get(url);
+    print("loadtDataForPharmacy------" +response.data);
   }
 
   //初始化药品用法列表
@@ -1035,7 +1046,9 @@ class _MakePrescriptionState extends State<MakePrescription> {
                 alignment: Alignment.bottomCenter,
                 child: SafeAreaButton(text: '电子签名', onPressed: () {
 
-                  getNet_createPrescription();
+                  // getNet_createPrescription();
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>const PrescriptDetail()));
+
                 }),
               )
             ],

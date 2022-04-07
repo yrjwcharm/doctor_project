@@ -11,6 +11,7 @@ import 'package:dio/dio.dart';
 import 'package:doctor_project/pages/home/use_drug_info.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:doctor_project/widget/safe_area_button.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 
 
 class AddChineseMedicineList extends StatefulWidget {
@@ -377,8 +378,32 @@ class _AddChineseMedicineListState extends State<AddChineseMedicineList> {
                     shrinkWrap: true,
                     itemCount: commonlyUsedList.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return Container(
+
+                      GlobalKey key = GlobalKey();
+                      return Slidable(
+                        endActionPane:  ActionPane(
+                          motion: const ScrollMotion(),
+                          children: [
+                            SlidableAction(
+                              // An action can be bigger than the others.
+                              // flex: 2,
+                              onPressed: (BuildContext context){
+
+                                print("123456");
+                                setState(() {
+                                  commonlyUsedList.removeAt(index);
+                                });
+                              },
+                              backgroundColor: const Color(0xFFFE4A49),
+                              foregroundColor: Colors.white,
+                              icon: Icons.delete,
+                              label: '删除',
+                            ),
+                          ],
+                        ),
+                      child: Container(
                         height: 68.0,
+                        width: double.infinity,
                         padding: const EdgeInsets.only(left: 16.0),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -391,7 +416,7 @@ class _AddChineseMedicineListState extends State<AddChineseMedicineList> {
                             color: Colors.white,
                             border: Border(bottom: BorderSide(width: 1.0,color: ColorsUtil.hexStringColor('#cccccc',alpha: 0.3)))
                         ),
-                      );
+                      ),);
                     }),
               ),
             ),

@@ -276,6 +276,7 @@ class _AddDrugState extends State<AddDrug> {
 
   void _deleteRow(BuildContext context) {
 
+
   }
 }
 class SlideAction extends StatelessWidget {
