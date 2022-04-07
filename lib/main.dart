@@ -1,4 +1,6 @@
+import 'package:doctor_project/common/local/local_storage.dart';
 import 'package:doctor_project/pages/login/login.dart';
+import 'package:doctor_project/pages/tabs/main.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'routes/routes.dart';
@@ -19,10 +21,21 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  bool isLogin = false;
   @override
   void initState() {
     super.initState();
     initJpush();
+    getLoginState();
+
+  }
+  getLoginState(){
+    String token= LocalStorage.get('tokenValue');
+    if(token.isNotEmpty){
+      setState(() {
+        isLogin = true;
+      });
+    }
   }
 
   // getLoginState() async{
@@ -99,7 +112,7 @@ class _MyAppState extends State<MyApp> {
       ],
       debugShowCheckedModeBanner: false,
       // 设置这一属性即可
-      home: LoginPage(),
+      home: isLogin?LoginPage():Main(),
       builder: EasyLoading.init(),
       // home:MakePrescription(),
       routes: routes,

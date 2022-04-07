@@ -56,6 +56,10 @@ class HttpRequest {
     }, onResponse: (Response response,
         ResponseInterceptorHandler responseInterceptorHandler) {
       print("响应之前");
+      //状态900 代表token有问题
+      if(response.data['code']==900){
+         //跳转登录逻辑
+      }
       // Do something with response data
     }, onError:
         (DioError error, ErrorInterceptorHandler errorInterceptorHandler) {
@@ -92,9 +96,10 @@ class HttpRequest {
           queryParameters: data, options: options, cancelToken: cancelToken);
       final statusCode = response?.statusCode;
       if(isHideLoading)  EasyLoading.dismiss();
+      var result = response?.data;
       // var result = Convert.jsonDecode(responseBody);
       // var result = Convert.jsonDecode(utf8.decode(response.bodyBytes));
-      return response;
+      return result;
     } on DioError catch (e) {
       if(isHideLoading)  EasyLoading.dismiss();
       formatError(e);
@@ -117,7 +122,7 @@ class HttpRequest {
       formatError(e);
     }
     if(isHideLoading)  EasyLoading.dismiss();
-    return response;
+    return response?.data;
   }
   /*
    * error统一处理

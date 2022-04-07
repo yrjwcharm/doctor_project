@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class Main extends StatefulWidget {
-  const Main({Key? key}) : super(key: key);
+  Main({Key? key}) : super(key: key);
 
   @override
   _MainState createState() => _MainState();
