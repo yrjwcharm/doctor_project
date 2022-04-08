@@ -23,7 +23,6 @@ class _SplashScreenState extends State<SplashScreen> {
   getLoginState() async {
     var res = await LocalStorage.get('tokenValue');
     String token = res.toString();
-    print('222222$token');
     WidgetsBinding.instance?.addPostFrameCallback((_){
       // Your Code Here
       if (token=='null') {
