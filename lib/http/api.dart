@@ -6,5 +6,6 @@ class Api {
   static const writeCaseUrl = "/doctor/dr-service/case/write"; //写病历
   static const userSignatureUrl = "/doctor/dr-service/buYxq/userSignature"; //电子签名
   static const prescriptionDetailUrl = "/doctor/dr-service/recipe/queryByRegisterId"; //查看中医处方、西医处方
+  static const getReceiveConsultList= "/doctor/dr-service/register/getList" ; //获取接诊列表
 
 }

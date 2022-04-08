@@ -68,6 +68,7 @@ dependencies:
   image_picker: ^0.8.4
   video_thumbnail: ^0.4.3
   record: ^2.1.1
+  flutter_easyloading: ^3.0.3
   open_file: ^3.2.1
   # tpns_flutter_plugin:
   #   path: /Users/xingchenhe/Documents/work/TPNS-Flutter-Plugin

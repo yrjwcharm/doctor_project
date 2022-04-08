@@ -244,7 +244,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
   void getNet_userSignature()async {
 
     HttpRequest? request = HttpRequest.getInstance();
-    var res = await request?.get(Api.userSignatureUrl +"?userId=123124");
+    var res = await request?.get(Api.userSignatureUrl +"?userId=123124",{});
     print("getNet_userSignature------" +res.toString());
     Map data = res['data'];
     if (res['code'] == 200) {
@@ -260,7 +260,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
   loadtDataForRP() async {
 
     HttpRequest? request = HttpRequest.getInstance();
-    var res = await request?.get(Api.dataDicUrl + '?dictId=14');
+    var res = await request?.get(Api.dataDicUrl + '?dictId=14',{});
     if (res['code'] == 200) {
       List data = res['data'];
       print("loadtDataForRP------" +data.toString());
@@ -279,7 +279,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
   loadtDataForPharmacy() async {
 
     HttpRequest? request = HttpRequest.getInstance();
-    var res = await request?.get(Api.pharmacyListUrl);
+    var res = await request?.get(Api.pharmacyListUrl,{});
     print("loadtDataForPharmacy------" +res.toString());
     if (res['code'] == 200) {
       List data = res['data'];
@@ -298,7 +298,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
   loadDataForUseType() async {
 
     HttpRequest? request = HttpRequest.getInstance();
-    var res = await request?.get(Api.dataDicUrl + '?dictId=15');
+    var res = await request?.get(Api.dataDicUrl + '?dictId=15',{});
     if (res['code'] == 200) {
       List data = res['data'];
       print("loadDataForUseType------" +data.toString());
@@ -316,7 +316,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
   loadDataForFreqTYpe() async {
 
     HttpRequest? request = HttpRequest.getInstance();
-    var res = await request?.get(Api.dataDicUrl + '?dictId=16');
+    var res = await request?.get(Api.dataDicUrl + '?dictId=16',{});
     if (res['code'] == 200) {
       List data = res['data'];
       print("loadDataForFreqTYpe------" +data.toString());
@@ -334,7 +334,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
   loadDataForBaseUnit() async {
 
     HttpRequest? request = HttpRequest.getInstance();
-    var res = await request?.get(Api.dataDicUrl + '?dictId=19');
+    var res = await request?.get(Api.dataDicUrl + '?dictId=19',{});
     if (res['code'] == 200) {
       List data = res['data'];
       print("loadDataForBaseUnit------" +data.toString());

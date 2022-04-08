@@ -11,6 +11,6 @@ final routes={
   '/loginP':(context)=>LoginPage(),
   '/register':(context)=>RegisterContent(),
   // '/registerSuccess':(context)=> const RegisterSuccess(),
-  '/TabHome':(context)=>const Main(),
+  '/TabHome':(context)=> Main(),
   '/chatRoom':(context)=> const ChatRoom(),
 };

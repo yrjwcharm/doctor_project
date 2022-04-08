@@ -48,7 +48,6 @@ class RegisterContentStates extends State<LoginPage> {
 
     if (response.data['code'] != 200) {
       Fluttertoast.showToast(msg: mess, gravity: ToastGravity.CENTER);
-      return;
     } else {
 
       String tokenValueStr = response.data['data']['tokenValue'];

@@ -51,7 +51,7 @@ class _PrescriptDetailState extends State<PrescriptDetail> {
 
     HttpRequest? request = HttpRequest.getInstance();
     //registerId 挂号id  category  处方类别（1-西药/中成药，2-中药）
-    var res = await request?.get(Api.prescriptionDetailUrl +"?registerId=" +registerId +"&category=" +category);
+    var res = await request?.get(Api.prescriptionDetailUrl +"?registerId=" +registerId +"&category=" +category,{});
     print("getNet_PrescriptionDetail------" +res.toString());
     if (res['code'] == 200) {
       dataMap = res['data'];

@@ -1,4 +1,3 @@
-
 import 'package:doctor_project/pages/home/add_multi_diagnosis.dart';
 import 'package:doctor_project/pages/home/chat_room.dart';
 import 'package:doctor_project/pages/home/make_prescription.dart';
@@ -8,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import '../../common/style/gsy_style.dart';
+import '../../http/api.dart';
 import '../../utils/colors_utils.dart';
 import '../../utils/platform_utils.dart';
 import '../home/add-drug.dart';
@@ -15,7 +15,7 @@ import '../home/notice_detail.dart';
 import '../home/open_service.dart';
 import '../home/order_detail.dart';
 import '../home/patient-consult.dart';
-
+import '../../http/http_request.dart';
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
 
@@ -27,6 +27,7 @@ class HomeState extends State<Home> {
   bool tab1Active = true;
   bool tab2Active = false;
   List list = [];
+  int status = 0;
   final ScrollController _scrollController = ScrollController(); //listview的控制器
   int _page = 1; //加载的页数
   bool isLoading = false; //是否正在加载数据
@@ -47,11 +48,17 @@ class HomeState extends State<Home> {
    * 初始化list数据 加延时模仿网络请求
    */
   Future getData() async {
-    await Future.delayed(const Duration(seconds: 2), () {
-      setState(() {
-        list = List.generate(15, (i) => '哈喽,我是原始数据 $i');
-      });
-    });
+    // await Future.delayed(const Duration(seconds: 2), () {
+    //   setState(() {
+    //     list = List.generate(15, (i) => '哈喽,我是原始数据 $i');
+    //   });
+    // });
+    // var request = HttpRequest.getInstance();
+    // var res = await request?.get(Api.getReceiveConsultList+'?status=$status&page=$_page&size=10');
+    // if(res['code']==200){
+    //
+    // }
+
   }
 
   /**

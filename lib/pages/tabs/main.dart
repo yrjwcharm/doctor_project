@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class Main extends StatefulWidget {
-  const Main({Key? key}) : super(key: key);
+  Main({Key? key}) : super(key: key);
 
   @override
   _MainState createState() => _MainState();
@@ -33,7 +33,7 @@ class _MainState extends State<Main> {
         activeIcon: Image.asset('assets/images/home-active.png')),
     BottomNavigationBarItem(
       label: '我的患者',
-      icon: Image.asset('assets/images/patient-active.png'),
+      icon: Image.asset('assets/images/patient.png'),
       activeIcon: Image.asset('assets/images/patient-active.png'),
     ),
     BottomNavigationBarItem(
@@ -79,6 +79,7 @@ class _MainState extends State<Main> {
                     current = index;
                   });
                 },
+                backgroundColor:Colors.white,
                 elevation: 0,
                 currentIndex: current,
                 selectedLabelStyle: const TextStyle(
