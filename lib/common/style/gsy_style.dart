@@ -56,7 +56,7 @@ class GSYConstant {
       fontFamily: fontFamily,
       fontWeight: fontWeight,
       height: lineHeight,
-      shadows:shadows
+      shadows:shadows,
     );
   }
 }

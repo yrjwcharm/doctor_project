@@ -53,7 +53,7 @@ dependencies:
   meta: ^1.7.0
   visibility_detector: ^0.2.2
   path_provider: 2.0.8
-  webview_flutter: 3.0.0
+  webview_flutter: 3.0.2
   provider: 6.0.1
   permission_handler: ^8.2.0
   json_annotation: 4.4.0

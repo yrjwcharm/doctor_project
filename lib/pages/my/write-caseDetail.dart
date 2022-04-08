@@ -90,8 +90,10 @@ class _WriteCaseDetailState extends State<WriteCaseDetail> {
                 ],
               ),
             ),
+            Spacer(),
+            SafeArea(child:
             Container(
-              margin: const EdgeInsets.only(top: 60.0),
+              margin: const EdgeInsets.only(bottom: 0.0),
               width: double.infinity,
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               height: 40.0,
@@ -104,7 +106,6 @@ class _WriteCaseDetailState extends State<WriteCaseDetail> {
 
                   if(_editingController.text.isNotEmpty){
 
-                    print("111111");
                     dataMap["detail"] = _editingController.text;
                     Navigator.of(context).pop(dataMap);
                   }else{
@@ -112,7 +113,8 @@ class _WriteCaseDetailState extends State<WriteCaseDetail> {
                   }
                 },
                 child: Text('保存',style: GSYConstant.textStyle(fontSize: 16.0),),),
-            ),
+            ),),
+
           ],
         ),
       ),

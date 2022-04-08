@@ -5,6 +5,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'case_template.dart';
 import 'package:doctor_project/pages/my/write-caseDetail.dart';
+import '../../http/api.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:dio/dio.dart';
 
 class WriteCase extends StatefulWidget {
   const WriteCase({Key? key}) : super(key: key);
@@ -30,19 +34,56 @@ class _WriteCaseState extends State<WriteCase> {
   List<Widget> widgets =const <Widget>[];
   Map contentMap = new Map();
 
-   @override
+  @override
   void initState() {
     super.initState();
   }
+
+  loadtDataForWriteCase() async {
+
+    Map params = {
+      "billid"          : "1", //病历Id
+      "registerid"      : "1", //挂号Id
+      "extend8"         : list[6]["value"].indexOf("请输入") !=-1 ? "" : list[6]["value"] , //主诉
+      "extend9"         : list[7]["value"].indexOf("请输入") !=-1 ? "" : list[7]["value"], //病史描述
+      "hpi"             : list[8]["value"].indexOf("请输入") !=-1 ? "" : list[8]["value"], //现病史
+      "pasthistory"     : list[9]["value"].indexOf("请输入") !=-1 ? "" : list[9]["value"], //既往史
+      "allergichistory" : list[10]["value"].indexOf("请输入") !=-1 ? "" : list[10]["value"], //过敏史
+    };
+
+    SharedPreferences perfer = await SharedPreferences.getInstance();
+    String? tokenValueStr = perfer.getString("tokenValue");
+    var dio = new Dio();
+    dio.options.headers = {
+      "token": tokenValueStr,
+    };
+    var response = await dio.post(
+        Api.BASE_URL +Api.writeCaseUrl,
+        data: params);
+    String mess = response.data['msg'];
+    print("loadtDataForWriteCase------" + response.data.toString());
+
+    if(response.data['code'] == 200){
+      //请求成功
+      Fluttertoast.showToast(msg: "保存成功", gravity: ToastGravity.CENTER);
+      Navigator.pop(context);
+
+    }else{
+      Fluttertoast.showToast(msg: response.data['msg'], gravity: ToastGravity.CENTER);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorsUtil.bgColor,
       appBar: CustomAppBar('写病历',onBackPressed: (){
         Navigator.pop(context);
-      }, isForward:true,child: Text('引入病例模板',style: GSYConstant.textStyle(color: '#06B48D'),),onForwardPressed: (){
-        Navigator.push(context, MaterialPageRoute(builder: (context)=> const CaseTemplate()));
-      },),
+      },
+      //   isForward:true,child: Text('引入病例模板',style: GSYConstant.textStyle(color: '#06B48D'),),onForwardPressed: (){
+      //   Navigator.push(context, MaterialPageRoute(builder: (context)=> const CaseTemplate()));
+      // },
+      ),
       body:SingleChildScrollView(child: Column(
         children: <Widget>[
             ListView(
@@ -128,25 +169,25 @@ class _WriteCaseState extends State<WriteCase> {
                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25.0))
                ),
                onPressed: () {
-
+                 loadtDataForWriteCase();
                },
              child: Text('保存',style: GSYConstant.textStyle(fontSize: 16.0),),),
            ),
-          Container(
-              margin: const EdgeInsets.only(top: 8.0),
-              width: double.infinity,
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            height: 40.0,
-            child: OutlinedButton(
-              style:ElevatedButton.styleFrom(
-                  side: BorderSide(width: 1.0,color: ColorsUtil.primaryColor),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25.0))
-              ),
-              onPressed: () {
-
-              },
-              child: Text('另存成模板',style: GSYConstant.textStyle(fontSize: 16.0,color:'#06B48D'),),)
-          )
+          // Container(
+          //     margin: const EdgeInsets.only(top: 8.0),
+          //     width: double.infinity,
+          //     padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          //   height: 40.0,
+          //   child: OutlinedButton(
+          //     style:ElevatedButton.styleFrom(
+          //         side: BorderSide(width: 1.0,color: ColorsUtil.primaryColor),
+          //         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25.0))
+          //     ),
+          //     onPressed: () {
+          //
+          //     },
+          //     child: Text('另存成模板',style: GSYConstant.textStyle(fontSize: 16.0,color:'#06B48D'),),)
+          // )
         ],
       ),)
     );

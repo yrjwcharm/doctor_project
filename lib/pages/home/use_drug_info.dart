@@ -55,7 +55,7 @@ class _UseDrugInfoState extends State<UseDrugInfo> {
     // TODO: implement initState
     super.initState();
 
-    drugInfoMap['count'] = 1;
+    drugInfoMap['count'] = "1";
     drugInfoMap['dosage'] = "";
     drugInfoMap['frequency'] = "";
     drugInfoMap['usage'] = "";
@@ -192,8 +192,8 @@ class _UseDrugInfoState extends State<UseDrugInfo> {
                               const SizedBox(
                                 height: 6.0,
                               ),
-                              Text(
-                                '规格：' +drugInfoMap["specification"] +"/" +drugInfoMap["packageUnitid_dictText"],
+                              Text( //packageUnitid_dictText
+                                '规格：' +drugInfoMap["specification"] +"/" +drugInfoMap["packageUnitid_dictValue"],
                                 style: GSYConstant.textStyle(
                                     fontSize: 13.0, color: '#888888'),
                               ),
@@ -208,8 +208,8 @@ class _UseDrugInfoState extends State<UseDrugInfo> {
                             children: [
                               Container(
                                 transform: Matrix4.translationValues(0, -3.0, 0),
-                                width: 80,
-                                height: 20,
+                                width: 90,
+                                height: 25,
                                 margin: const EdgeInsets.only(bottom: 7.0),
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(2.0),
@@ -231,8 +231,8 @@ class _UseDrugInfoState extends State<UseDrugInfo> {
                                       child: SvgUtil.svg('minus.svg'),
                                     ),
                                     Container(
-                                      width: 26.0,
-                                      height: 20.0,
+                                      width: 35.0,
+                                      height: 25.0,
                                       decoration: BoxDecoration(
                                           border: Border(
                                               right: BorderSide(
@@ -250,10 +250,10 @@ class _UseDrugInfoState extends State<UseDrugInfo> {
                                         textAlignVertical: TextAlignVertical.center,
                                         decoration: InputDecoration(
                                             isDense: true,
-                                            contentPadding: EdgeInsets.zero,
+                                            contentPadding: EdgeInsets.all(2),
                                             fillColor: Colors.transparent,
                                             filled: true,
-                                            hintText: '2',
+                                            hintText: "1",
                                             hintStyle: TextStyle(
                                                 fontFamily: 'Medium',
                                                 fontSize: 12.0,
@@ -261,6 +261,20 @@ class _UseDrugInfoState extends State<UseDrugInfo> {
                                                 color: ColorsUtil.hexStringColor(
                                                     '#333333')),
                                             border: InputBorder.none),
+                                        onChanged: (value){
+                                          if(value.isNotEmpty){
+                                            setState(() {
+                                              drugInfoMap["count"] = value;
+                                            });
+                                          }
+                                        },
+                                        onSubmitted: (value){
+                                          if(value.isNotEmpty){
+                                            setState(() {
+                                              drugInfoMap["count"] = value;
+                                            });
+                                          }
+                                        },
                                       ),
                                     ),
                                     Container(
@@ -299,9 +313,6 @@ class _UseDrugInfoState extends State<UseDrugInfo> {
                           onTap:(){
 
                             if(index==0){
-                              // PickerUtil.showPicker(context,_scaffoldKey, confirmCallback: (Picker picker, List<int> selected) {
-                              //
-                              // }, pickerData: []);
                               _showSimpleDialog1();
                             }else if(index ==1){
                               _showSimpleDialog2();
@@ -345,7 +356,10 @@ class _UseDrugInfoState extends State<UseDrugInfo> {
                                             ColorsUtil.hexStringColor('#666666'),
                                             style: GSYConstant.textStyle(
                                                 color: '#666666'),
-                                            inputFormatters: [],
+                                            inputFormatters: [
+                                              FilteringTextInputFormatter.allow(
+                                                  RegExp("[0-9]")), //数字包括小数
+                                            ],
                                             textAlign: TextAlign.right,
                                             decoration: InputDecoration(
                                               // filled: true,
@@ -378,7 +392,10 @@ class _UseDrugInfoState extends State<UseDrugInfo> {
                                           ColorsUtil.hexStringColor('#666666'),
                                           style: GSYConstant.textStyle(
                                               color: '#666666'),
-                                          inputFormatters: [],
+                                          inputFormatters:index ==3 ? [
+                                            FilteringTextInputFormatter.allow(
+                                                RegExp("[0-9]")), //数字包括小数
+                                          ] :[],
                                           textAlign: TextAlign.right,
                                           enabled: index ==3,
                                           decoration: InputDecoration(

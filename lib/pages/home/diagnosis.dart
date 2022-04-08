@@ -18,7 +18,7 @@ class Diagnosis extends StatefulWidget {
 
   List checkedDataList ; //选中的诊断 数组
   int type ; //诊断类型（0-中医，1-西医）
-  Diagnosis({Key? key,this.type =0,required this.checkedDataList}) : super(key: key);
+  Diagnosis({Key? key,required this.type,required this.checkedDataList}) : super(key: key);
 
   @override
   _DiagnosisState createState() => _DiagnosisState(type :this.type, checkedDataList:this.checkedDataList);
@@ -28,7 +28,7 @@ class _DiagnosisState extends State<Diagnosis> {
 
   List checkedDataList ;
   int type ;
-  _DiagnosisState({this.type =0, required this.checkedDataList});
+  _DiagnosisState({required this.type, required this.checkedDataList});
 
   Map dataMap = new Map(); //诊断列表数据
   List detailDataList = []; //诊断列表数据
@@ -39,7 +39,7 @@ class _DiagnosisState extends State<Diagnosis> {
   String loadText = ""; //加载时显示的文字
   bool commonlyUsedIsHidden = true; //常用诊断是否隐藏
   bool diagnosisListIsHidden = true; //诊断列表是否隐藏
-  bool checkedDiagnosisIsHidden = false; //选中列表是否隐藏
+  bool checkedDiagnosisIsHidden = true; //选中列表是否隐藏
 
   final TextEditingController _editingController = TextEditingController();
   final FocusNode _contentFocusNode = FocusNode();
@@ -58,22 +58,6 @@ class _DiagnosisState extends State<Diagnosis> {
   }
 
 void getNet_diagnosisList () async{
-
-    // setState(() {
-    //
-    //   detailDataList = [
-    //     {"dianame": "甲型H1N1流感", "diacode": "A49.2", "id": "42698", "diadesc": "甲型H1N1流感"},
-    //     {"dianame": "人感染高致病性禽流感", "diacode": "J09", "id": "42697", "diadesc": "人感染高致病性禽流感"},
-    //     {"dianame": "流感嗜血杆菌性肺炎", "diacode": "J14  01", "id": "5411", "diadesc": "流感嗜血杆菌性肺炎"},
-    //     {"dianame": "流感伴有其他表现", "diacode": "J10.8", "id": "5406", "diadesc": "流感伴有其他表现"},
-    //     {"dianame": "流感伴有其他呼吸道表现", "diacode": "J10.1", "id": "5405", "diadesc": "流感伴有其他呼吸道表现"}];
-    //   loadText = "没有更多数据";
-    //   diagnosisListIsHidden = false ;
-    //   checkedDiagnosisIsHidden = true ;
-    // });
-
-    // return ;
-
 
   SharedPreferences perfer = await SharedPreferences.getInstance();
   String? tokenValueStr = perfer.getString("tokenValue");
@@ -367,7 +351,7 @@ void getNet_diagnosisList () async{
               child: ListView.builder(
                 itemBuilder: (context,index){
                   return Slidable(
-                    endActionPane:  ActionPane(
+                    endActionPane: ActionPane(
                       motion: const ScrollMotion(),
                       children: [
                         SlidableAction(
@@ -376,6 +360,9 @@ void getNet_diagnosisList () async{
                           onPressed: (BuildContext context){
                             setState(() {
                               checkedDataList.removeAt(index);
+                              if(checkedDataList.isEmpty){
+                                checkedDiagnosisIsHidden = true ;
+                              }
                             });
                           },
                           backgroundColor: const Color(0xFFFE4A49),

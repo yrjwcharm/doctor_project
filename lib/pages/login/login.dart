@@ -14,7 +14,6 @@ import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:doctor_project/pages/tabs/main.dart';
 
-// import 'package:garbagecan/passwordCheck/setPassword.dart';
 
 class LoginPage extends StatefulWidget {
   @override

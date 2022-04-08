@@ -399,8 +399,8 @@ class _AddDrugListState extends State<AddDrugList> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Text(detailDataList[index]["medicinename"] +" " +detailDataList[index]["specification"] +"/" +detailDataList[index]["packageUnitid_dictText"],style: GSYConstant.textStyle(color: '#333333'),),
+                                children: <Widget>[ // packageUnitid_dictText
+                                  Text(detailDataList[index]["medicinename"] +" " +detailDataList[index]["specification"] +"/" +detailDataList[index]["packageUnitid_dictValue"],style: GSYConstant.textStyle(color: '#333333'),),
                                 ],),
                               decoration: BoxDecoration(
                                   color: Colors.white,

@@ -23,8 +23,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:doctor_project/pages/home/add_chineseMedicine_list.dart';
 import 'package:doctor_project/pages/home/prescription_detail.dart';
-import 'package:flutter_picker/Picker.dart';
-
+import 'package:doctor_project/pages/home/webviewVC.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 
 class MakePrescription extends StatefulWidget {
   const MakePrescription({Key? key}) : super(key: key);
@@ -71,6 +71,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
   String pharmacyId='';
   bool tab1Active = true;
   bool tab2Active = false;
+  double totalPrice =0 ; //药品总价格
 
   List<String> useTypeList = [];
   List<String> freqTypeList = [];
@@ -108,23 +109,26 @@ class _MakePrescriptionState extends State<MakePrescription> {
     EventBusUtil.getInstance().on<Map>().listen((event) {
       setState(() {
         drugList.add(event);
-        print(event);
+        calculateThePrice();
       });
     });
   }
 
-  //获取药房列表接口
-
   //新建处方接口
   void getNet_createPrescription() async{
+
+    if(pharmacyId.isEmpty){
+      Fluttertoast.showToast(msg: "请选择药房", gravity: ToastGravity.CENTER);
+      return ;
+    }
 
     if(checkDataList.isEmpty || drugList.isEmpty){
       Fluttertoast.showToast(msg: "请选择诊断或药品", gravity: ToastGravity.CENTER);
       return ;
     }
     if(tab2Active){
-      if(chineseMedicineTypeList[1]["detail"] =="请选择用法"
-          ||chineseMedicineTypeList[2]["detail"] =="请选择频次"
+      if(chineseMedicineTypeList[1]["detail"].indexOf("请选择") !=-1
+          ||chineseMedicineTypeList[2]["detail"].indexOf("请选择") !=-1
           ||_editingController1.text.isEmpty){
 
         Fluttertoast.showToast(msg: "请选择或输入用法用量", gravity: ToastGravity.CENTER);
@@ -167,10 +171,10 @@ class _MakePrescriptionState extends State<MakePrescription> {
     if(tab1Active){
       map = {
         "registerId" : 2,
-        "name" : rpTypeName,
+        "name" : rpTypeName, //处方类型
         "type" : 1, //模块（recipe-处方，register-挂号，logistics-物流，text-图文，video-视频）
-        "roomId" : 3696, //药房id
-        "category" : tab1Active ? 1 : 2, //处方类别（1-西药/中成药，2-中药）
+        "roomId" : pharmacyId, //药房id
+        "category" : 1, //处方类别（1-西药/中成药，2-中药）
         "diagnosisParams" : diagnosisParams,
         "medicineParams"  : medicineParams,
       };
@@ -178,26 +182,19 @@ class _MakePrescriptionState extends State<MakePrescription> {
 
       map = {
         "registerId" : 5,
-        "name" : rpTypeName,
+        "name" : rpTypeName, //处方类型
         "type" : 1, //模块（recipe-处方，register-挂号，logistics-物流，text-图文，video-视频）
-        "roomId" : 3696, //药房id
+        "roomId" : pharmacyId, //药房id
         "useType" : chineseMedicineTypeList[1]["detail"], //用法
         "freq" : chineseMedicineTypeList[2]["detail"], //频次
         "remarks" : _editingController2.text.isEmpty ?"" :_editingController2.text, //备注
         "countNum" : _editingController1.text, //副数、贴数（中药）
-        "category" : tab1Active ? 1 : 2, //处方类别（1-西药/中成药，2-中药）
+        "category" : 2, //处方类别（1-西药/中成药，2-中药）
         "diagnosisParams" : diagnosisParams,
         "medicineParams"  : medicineParams,
       };
     }
-
     print(map);
-    // HttpRequest? request = HttpRequest.getInstance();
-    // var res = await request?.post(Api.createPrescriptionUrl,map);
-    // print(res);
-    // if (res['code'] == 200) {
-    //
-    // }
 
     SharedPreferences perfer = await SharedPreferences.getInstance();
     String? tokenValueStr = perfer.getString("tokenValue");
@@ -213,6 +210,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
     if(response.data['code'] == 200){
       //请求成功
       Fluttertoast.showToast(msg: "新增处方成功", gravity: ToastGravity.CENTER);
+      getNet_userSignature();
 
     }else{
       Fluttertoast.showToast(msg: response.data['msg'], gravity: ToastGravity.CENTER);
@@ -228,6 +226,34 @@ class _MakePrescriptionState extends State<MakePrescription> {
       diagnosisName = "";
       drugList.clear();
     });
+  }
+
+  //计算价格
+  void calculateThePrice(){
+
+  for(Map item in drugList){
+    String unitprice = item['unitprice'].toString();
+    String count = item['count'].toString();
+    double price = double.parse(unitprice) *double.parse(count);
+    totalPrice += price;
+    print("-----------totalPrice" +totalPrice.toString());
+  }
+  }
+
+  //电子签名接口
+  void getNet_userSignature()async {
+
+    HttpRequest? request = HttpRequest.getInstance();
+    var res = await request?.get(Api.userSignatureUrl +"?userId=123124");
+    print("getNet_userSignature------" +res.toString());
+    Map data = res['data'];
+    if (res['code'] == 200) {
+      String url = data["data"]["oauthURL"];
+      Navigator.push(context, MaterialPageRoute(builder: (context)=> WebviewVC(url: url,)));
+
+    }else{
+      Fluttertoast.showToast(msg: data['message'], gravity: ToastGravity.CENTER);
+    }
   }
 
   //初始化加载处方类型列表
@@ -252,31 +278,20 @@ class _MakePrescriptionState extends State<MakePrescription> {
   //初始化加载药房名称列表
   loadtDataForPharmacy() async {
 
-    // HttpRequest? request = HttpRequest.getInstance();
-    // var res = await request?.get(Api.pharmacyListUrl);
-    // print("loadtDataForPharmacy------" +res.toString());
-    // if (res['code'] == 200) {
-    //   List data = res['data'];
-    //   List<String> pickerData = [];
-    //   for (var item in data) {
-    //     pickerData.add(item['name']);
-    //   }
-    //   setState(() {
-    //     pharmacyNameList = pickerData;
-    //     pharmacyList =data;
-    //   });
-    // }
-
-    SharedPreferences perfer = await SharedPreferences.getInstance();
-    String? tokenValueStr = perfer.getString("tokenValue");
-    var dio = new Dio();
-    dio.options.headers = {
-      "token": tokenValueStr,
-    };
-    String url = Api.BASE_URL +Api.pharmacyListUrl;
-    print("url------" +url);
-    var response = await dio.get(url);
-    print("loadtDataForPharmacy------" +response.data);
+    HttpRequest? request = HttpRequest.getInstance();
+    var res = await request?.get(Api.pharmacyListUrl);
+    print("loadtDataForPharmacy------" +res.toString());
+    if (res['code'] == 200) {
+      List data = res['data'];
+      List<String> pickerData = [];
+      for (var item in data) {
+        pickerData.add(item['name']);
+      }
+      setState(() {
+        pharmacyNameList = pickerData;
+        pharmacyList =data;
+      });
+    }
   }
 
   //初始化药品用法列表
@@ -771,7 +786,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
                             "baseUnit" : baseUnitList,
                           };
 
-                          Navigator.push(
+                          Navigator.push( //中药药品选择
                               context,
                               MaterialPageRoute(
                                   builder: (context) => tab1Active ? AddDrugList(instructionsMap: map,) : AddChineseMedicineList(selectedDrugList: drugList,))).then((value){
@@ -780,6 +795,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
                                     if(tab2Active){ //中药处方
                                       setState(() {
                                         drugList =value;
+                                        calculateThePrice();
                                       });
                                     }
                           });
@@ -798,7 +814,26 @@ class _MakePrescriptionState extends State<MakePrescription> {
                     children: drugList
                         .asMap()
                         .keys
-                        .map((index) => Container(
+                        .map((index) => Slidable(
+                        endActionPane:  ActionPane(
+                          motion: const ScrollMotion(),
+                          children: [
+                            SlidableAction(
+                              // An action can be bigger than the others.
+                              // flex: 2,
+                              onPressed: (BuildContext context){
+                                setState(() {
+                                  drugList.removeAt(index);
+                                });
+                              },
+                              backgroundColor: const Color(0xFFFE4A49),
+                              foregroundColor: Colors.white,
+                              icon: Icons.delete,
+                              label: '删除',
+                            ),
+                          ],
+                        ),
+                        child: Container(
                         decoration: BoxDecoration(
                             color: Colors.white,
                             border: Border(
@@ -825,7 +860,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
                                     CrossAxisAlignment.start,
                                     children: <Widget>[
                                       Text(
-                                        drugList[index]['medicinename'],
+                                        drugList[index]['medicinename'] +" " +drugList[index]["specification"] +"/" +drugList[index]["packageUnitid_dictValue"],
                                         style: GSYConstant.textStyle(
                                             color: '#333333'),
                                       ),
@@ -890,7 +925,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
                             )
                                 : Container()
                           ],
-                        )))
+                        ))))
                         .toList()) //西药处方
                     : ListView(
                     shrinkWrap: true,
@@ -932,7 +967,8 @@ class _MakePrescriptionState extends State<MakePrescription> {
                                         height: 4.0,
                                       ),
                                       Text(
-                                        "用量：" +drugList[index]['specification'],
+                                        drugList[index]['count'] =="1" ?
+                                        "用量：${drugList[index]['specification']}" :"用量：" +drugList[index]['specification'] +"*" +drugList[index]['count'],
                                         style: GSYConstant.textStyle(
                                             fontSize: 13.0,
                                             color: '#999999'),
@@ -1029,7 +1065,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
                                     fontSize: 13.0, color: '#333333'),
                               ),
                               Text(
-                                '¥ ${50.30}',
+                                '¥ ' +totalPrice.toString(),
                                 style: GSYConstant.textStyle(
                                     fontFamily: 'Medium',
                                     fontSize: 16.0,
@@ -1047,6 +1083,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
                 child: SafeAreaButton(text: '电子签名', onPressed: () {
 
                   // getNet_createPrescription();
+                  // getNet_userSignature();
                   Navigator.push(context, MaterialPageRoute(builder: (context)=>const PrescriptDetail()));
 
                 }),
@@ -1054,8 +1091,6 @@ class _MakePrescriptionState extends State<MakePrescription> {
             ],
           ),
         ));
-
-
-
   }
+
 }

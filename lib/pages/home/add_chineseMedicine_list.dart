@@ -28,7 +28,7 @@ class _AddChineseMedicineListState extends State<AddChineseMedicineList> {
   List selectedDrugList ;
   _AddChineseMedicineListState({required this.selectedDrugList});
 
-  final TextEditingController _editingController = TextEditingController();
+  final TextEditingController _editingController1 = TextEditingController(); //搜索关键词TF
   final FocusNode _contentFocusNode = FocusNode();
   final ScrollController _scrollController = ScrollController(); //listview的控制器
 
@@ -80,7 +80,7 @@ class _AddChineseMedicineListState extends State<AddChineseMedicineList> {
       "token": tokenValueStr,
     };
 
-    String urlStr = "https://interhospital.youjiankang.net/doctor/dr-service/herbalMedicine/getList?keyword=" + _editingController.text + "&type=" +type.toString() +"&page=" +_page.toString() + "&size=" +pageSize.toString();
+    String urlStr = "https://interhospital.youjiankang.net/doctor/dr-service/herbalMedicine/getList?keyword=" + _editingController1.text + "&type=" +type.toString() +"&page=" +_page.toString() + "&size=" +pageSize.toString();
     var response = await dio.get(urlStr);
 
     if(response.data['code'] == 200){
@@ -199,7 +199,7 @@ class _AddChineseMedicineListState extends State<AddChineseMedicineList> {
                         tab1Active = true;
                         tab2Active = false;
                         type = 1;
-                        _editingController.text = "";
+                        _editingController1.text = "";
                         detailDataList.clear();
                         commonlyUsedIsHidden = false;
                         drugListIsHidden = true;
@@ -240,7 +240,7 @@ class _AddChineseMedicineListState extends State<AddChineseMedicineList> {
                             tab2Active = true;
                             tab1Active = false;
                             type = 2;
-                            _editingController.text = "";
+                            _editingController1.text = "";
                             detailDataList.clear();
                             commonlyUsedIsHidden = false;
                             drugListIsHidden = true;
@@ -299,13 +299,13 @@ class _AddChineseMedicineListState extends State<AddChineseMedicineList> {
                       borderRadius: BorderRadius.circular(19.0),
                     ),
                     child: TextField(
-                      controller: _editingController,
+                      controller: _editingController1,
                       focusNode: _contentFocusNode,
                       inputFormatters: <TextInputFormatter>[
                         LengthLimitingTextInputFormatter(20) //限制长度
                       ],
                       onChanged: (value) =>
-                      {print(_editingController.text.isNotEmpty)},
+                      {print(_editingController1.text.isNotEmpty)},
                       onEditingComplete: (){
 
                         _contentFocusNode.unfocus();
@@ -325,7 +325,7 @@ class _AddChineseMedicineListState extends State<AddChineseMedicineList> {
                         isCollapsed: true,
                         prefixIcon: SvgUtil.svg('search.svg'),
 
-                        suffixIcon: _editingController.text.isNotEmpty
+                        suffixIcon: _editingController1.text.isNotEmpty
                             ? SvgUtil.svg('delete.svg')
                             : null,
                         hintStyle: GSYConstant.textStyle(color: '#888888'),
@@ -380,28 +380,7 @@ class _AddChineseMedicineListState extends State<AddChineseMedicineList> {
                     itemBuilder: (BuildContext context, int index) {
 
                       GlobalKey key = GlobalKey();
-                      return Slidable(
-                        endActionPane:  ActionPane(
-                          motion: const ScrollMotion(),
-                          children: [
-                            SlidableAction(
-                              // An action can be bigger than the others.
-                              // flex: 2,
-                              onPressed: (BuildContext context){
-
-                                print("123456");
-                                setState(() {
-                                  commonlyUsedList.removeAt(index);
-                                });
-                              },
-                              backgroundColor: const Color(0xFFFE4A49),
-                              foregroundColor: Colors.white,
-                              icon: Icons.delete,
-                              label: '删除',
-                            ),
-                          ],
-                        ),
-                      child: Container(
+                      return Container(
                         height: 68.0,
                         width: double.infinity,
                         padding: const EdgeInsets.only(left: 16.0),
@@ -416,7 +395,7 @@ class _AddChineseMedicineListState extends State<AddChineseMedicineList> {
                             color: Colors.white,
                             border: Border(bottom: BorderSide(width: 1.0,color: ColorsUtil.hexStringColor('#cccccc',alpha: 0.3)))
                         ),
-                      ),);
+                      );
                     }),
               ),
             ),
@@ -435,7 +414,7 @@ class _AddChineseMedicineListState extends State<AddChineseMedicineList> {
                           return GestureDetector(
                             onTap: (){
                               setState(() {
-                                detailDataList[index]["count"] = 1;
+                                detailDataList[index]["count"] = "1";
                                 selectedDrugList.add(detailDataList[index]);
                                 commonlyUsedIsHidden = true ;
                                 drugListIsHidden = true;
@@ -480,7 +459,31 @@ class _AddChineseMedicineListState extends State<AddChineseMedicineList> {
                   child: ListView.builder(
                       itemCount: selectedDrugList.length,
                       itemBuilder: (BuildContext context, int index){
-                        return Container(
+                        return Slidable(
+                            endActionPane:  ActionPane(
+                              motion: const ScrollMotion(),
+                              children: [
+                                SlidableAction(
+                                  // An action can be bigger than the others.
+                                  // flex: 2,
+                                  onPressed: (BuildContext context){
+                                    setState(() {
+                                      selectedDrugList.removeAt(index);
+                                      if(selectedDrugList.isEmpty){
+                                        commonlyUsedIsHidden = false ;
+                                        drugListIsHidden = true ;
+                                        selectedDrugIsHidden = true ;
+                                      }
+                                    });
+                                  },
+                                  backgroundColor: const Color(0xFFFE4A49),
+                                  foregroundColor: Colors.white,
+                                  icon: Icons.delete,
+                                  label: '删除',
+                                ),
+                              ],
+                            ),
+                            child: Container(
                           margin: const EdgeInsets.only(bottom: 1.0),
                           padding: const EdgeInsets.only(
                               top: 10, bottom: 14.0, left: 16.0, right: 16.0),
@@ -519,8 +522,8 @@ class _AddChineseMedicineListState extends State<AddChineseMedicineList> {
                                 children: [
                                   Container(
                                     transform: Matrix4.translationValues(0, -3.0, 0),
-                                    width: 80,
-                                    height: 20,
+                                    width: 90,
+                                    height: 25,
                                     margin: const EdgeInsets.only(bottom: 7.0),
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(2.0),
@@ -542,8 +545,8 @@ class _AddChineseMedicineListState extends State<AddChineseMedicineList> {
                                           child: SvgUtil.svg('minus.svg'),
                                         ),
                                         Container(
-                                          width: 26.0,
-                                          height: 20.0,
+                                          width: 35.0,
+                                          height: 25.0,
                                           decoration: BoxDecoration(
                                               border: Border(
                                                   right: BorderSide(
@@ -558,20 +561,36 @@ class _AddChineseMedicineListState extends State<AddChineseMedicineList> {
                                               FilteringTextInputFormatter.allow(
                                                   RegExp("[0-9]")), //数字包括小数
                                             ],
-                                            textAlignVertical: TextAlignVertical.center,
+                                            textAlignVertical: TextAlignVertical.bottom,
                                             decoration: InputDecoration(
                                                 isDense: true,
-                                                contentPadding: EdgeInsets.zero,
+                                                contentPadding: EdgeInsets.all(2),
                                                 fillColor: Colors.transparent,
                                                 filled: true,
-                                                hintText: '2',
+                                                hintText: "1",
                                                 hintStyle: TextStyle(
                                                     fontFamily: 'Medium',
                                                     fontSize: 12.0,
                                                     fontWeight: FontWeight.w500,
                                                     color: ColorsUtil.hexStringColor(
                                                         '#333333')),
-                                                border: InputBorder.none),
+                                                border: InputBorder.none,),
+
+                                            onChanged: (value){
+
+                                              if(value.isNotEmpty){
+                                                setState(() {
+                                                  selectedDrugList[index]["count"] = value;
+                                                });
+                                              }
+                                            },
+                                            onSubmitted: (value){
+                                              if(value.isNotEmpty){
+                                                setState(() {
+                                                  selectedDrugList[index]["count"] = value;
+                                                });
+                                              }
+                                            },
                                           ),
                                         ),
                                         Container(
@@ -591,7 +610,7 @@ class _AddChineseMedicineListState extends State<AddChineseMedicineList> {
                               )
                             ],
                           ),
-                        );
+                        ));
                       }),
                 ),),
 
