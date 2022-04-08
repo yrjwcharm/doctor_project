@@ -1,5 +1,6 @@
 import 'package:doctor_project/common/local/local_storage.dart';
 import 'package:doctor_project/pages/login/login.dart';
+import 'package:doctor_project/pages/splash_screen.dart';
 import 'package:doctor_project/pages/tabs/main.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
@@ -26,17 +27,8 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     initJpush();
-    getLoginState();
+  }
 
-  }
-  getLoginState(){
-    String token= LocalStorage.get('tokenValue');
-    if(token.isNotEmpty){
-      setState(() {
-        isLogin = true;
-      });
-    }
-  }
 
   // getLoginState() async{
   //   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
@@ -112,7 +104,7 @@ class _MyAppState extends State<MyApp> {
       ],
       debugShowCheckedModeBanner: false,
       // 设置这一属性即可
-      home: isLogin?LoginPage():Main(),
+      home: SplashScreen(),
       builder: EasyLoading.init(),
       // home:MakePrescription(),
       routes: routes,
