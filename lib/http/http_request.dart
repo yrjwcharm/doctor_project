@@ -25,8 +25,12 @@ class HttpRequest {
     return _instance;
   }
 
+  Future<String?> getToken() async {
+    String? token = await LocalStorage.get('tttt');
+    return token;
+  }
+
   HttpRequest() {
-    String token = LocalStorage.get('tokenValue');
     options = BaseOptions(
       //请求基地址,可以包含子路径
       baseUrl: Api.BASE_URL,
@@ -38,15 +42,12 @@ class HttpRequest {
       headers: {
         //do something
         "version": "1.0.0",
-        "token": token
       },
       //请求的Content-Type，默认值是"application/json; charset=utf-8",Headers.formUrlEncodedContentType会自动编码请求体.
       contentType: Headers.formUrlEncodedContentType,
       //表示期望以那种格式(方式)接受响应数据。接受四种类型 `json`, `stream`, `plain`, `bytes`. 默认值是 `json`,
       // responseType: ResponseType.json
     );
-    dio = Dio(options);
-
     //Cookie管理
     // dio.interceptors.add(CookieManager(CookieJar()));
 
@@ -70,46 +71,45 @@ class HttpRequest {
     }));
   }
 
-  Future<dynamic> get(String url, data,
+  Future<dynamic> get(String url, Map<String, dynamic>? data,
       {bool isHideLoading = false,
-      Options? options,
+      Options? option,
       CancelToken? cancelToken}) async {
+    String? token = await LocalStorage.get('tokenValue');
+    print('11111,$token');
+    options?.headers = {'token': token ?? ''};
+    dio = Dio(options);
     if (!isHideLoading) EasyLoading.show(status: '加载中...', dismissOnTap: false);
-
     try {
       Response? response = await dio?.get(url,
-          queryParameters: data, options: options, cancelToken: cancelToken);
-      // http.Response response = await http.get(Uri.parse(uri),
-      //     headers: {...?headers, 'token': token});
-      final statusCode = response?.statusCode;
-      if (isHideLoading) EasyLoading.dismiss();
-      // final body = response.body;
-      // var result = Convert.jsonDecode(utf8.decode(response.bodyBytes));
-      return response;
+          queryParameters: data, options: option, cancelToken: cancelToken);
+      if (!isHideLoading) EasyLoading.dismiss();
+      var result =response?.data;
+      return result;
     } on DioError catch (e) {
       formatError(e);
-      if (isHideLoading) EasyLoading.dismiss();
+      if (!isHideLoading) EasyLoading.dismiss();
       return null;
     }
   }
 
-  Future<dynamic> post(String url, data,
+  Future<dynamic> post(String url, Map<String, dynamic>? data,
       {bool isHideLoading = false,
-      Options? options,
+      Options? option,
       CancelToken? cancelToken}) async {
+    String? token = await LocalStorage.get('tokenValue');
+    options?.headers = {'token': token ?? ''};
+    dio = Dio(options);
     if (!isHideLoading) EasyLoading.show(status: '加载中...', dismissOnTap: false);
 
     try {
-      Response? response = await dio?.get(url,
-          queryParameters: data, options: options, cancelToken: cancelToken);
-      final statusCode = response?.statusCode;
-      if (isHideLoading) EasyLoading.dismiss();
-      var result = response?.data;
-      // var result = Convert.jsonDecode(responseBody);
-      // var result = Convert.jsonDecode(utf8.decode(response.bodyBytes));
+      Response? response = await dio?.post(url,
+          queryParameters: data, options: option, cancelToken: cancelToken);
+      if (!isHideLoading) EasyLoading.dismiss();
+      var result =response?.data;
       return result;
     } on DioError catch (e) {
-      if (isHideLoading) EasyLoading.dismiss();
+      if (!isHideLoading) EasyLoading.dismiss();
       formatError(e);
       return null;
     }
@@ -130,7 +130,7 @@ class HttpRequest {
       print('downloadFile error---------$e');
       formatError(e);
     }
-    if (isHideLoading) EasyLoading.dismiss();
+    if (!isHideLoading) EasyLoading.dismiss();
     return response?.data;
   }
 
@@ -141,27 +141,21 @@ class HttpRequest {
     String msg;
     if (e.type == DioErrorType.connectTimeout) {
       // It occurs when url is opened timeout.
-      print("连接超时");
       msg = '连接超时';
     } else if (e.type == DioErrorType.sendTimeout) {
       // It occurs when url is sent timeout.
-      print("请求超时");
       msg = '请求超时';
     } else if (e.type == DioErrorType.receiveTimeout) {
       //It occurs when receiving timeout
-      print("响应超时");
       msg = '响应超时';
     } else if (e.type == DioErrorType.response) {
       // When the server response, but with a incorrect status, such as 404, 503...
-      print("出现异常");
       msg = '出现异常';
     } else if (e.type == DioErrorType.cancel) {
       // When the request is cancelled, dio will throw a error with this type.
-      print("请求取消");
       msg = '请求取消';
     } else {
       //DEFAULT Default error type, Some other Error. In this case, you can read the DioError.error if it is not null.
-      print("未知错误");
       msg = '未知错误';
     }
     ToastUtil.showToast(msg: msg);

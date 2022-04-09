@@ -7,5 +7,6 @@ class Api {
   static const userSignatureUrl = "/doctor/dr-service/buYxq/userSignature"; //电子签名
   static const prescriptionDetailUrl = "/doctor/dr-service/recipe/queryByRegisterId"; //查看中医处方、西医处方
   static const getReceiveConsultList= "/doctor/dr-service/register/getList" ; //获取接诊列表
+  static const getReceiveConsultCount = "/doctor/dr-service/register/getCount"; //获取接诊与待接诊数量
 
 }

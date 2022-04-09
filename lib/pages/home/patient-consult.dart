@@ -114,7 +114,7 @@ class _PatientConsultState extends State<PatientConsult> {
               color: Colors.white, borderRadius: BorderRadius.circular(5.0)),
           child:GestureDetector(
               onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>const OrderDetail()));
+                // Navigator.push(context, MaterialPageRoute(builder: (context)=>const OrderDetail()));
               },
               child:Column(
             children: [

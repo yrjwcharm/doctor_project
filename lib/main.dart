@@ -1,7 +1,4 @@
-import 'package:doctor_project/common/local/local_storage.dart';
-import 'package:doctor_project/pages/login/login.dart';
-import 'package:doctor_project/pages/splash_screen.dart';
-import 'package:doctor_project/pages/tabs/main.dart';
+import 'package:doctor_project/pages/splash/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'routes/routes.dart';

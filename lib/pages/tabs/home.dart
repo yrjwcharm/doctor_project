@@ -2,6 +2,9 @@ import 'package:doctor_project/pages/home/add_multi_diagnosis.dart';
 import 'package:doctor_project/pages/home/chat_room.dart';
 import 'package:doctor_project/pages/home/make_prescription.dart';
 import 'package:doctor_project/pages/home/use_drug_info.dart';
+import 'package:doctor_project/utils/image_network_err.dart';
+import 'package:doctor_project/utils/svg_utils.dart';
+import 'package:doctor_project/utils/toast_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -16,6 +19,7 @@ import '../home/open_service.dart';
 import '../home/order_detail.dart';
 import '../home/patient-consult.dart';
 import '../../http/http_request.dart';
+
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
 
@@ -26,15 +30,18 @@ class Home extends StatefulWidget {
 class HomeState extends State<Home> {
   bool tab1Active = true;
   bool tab2Active = false;
-  List list = [];
+  List<dynamic> list = [];
   int status = 0;
   final ScrollController _scrollController = ScrollController(); //listview的控制器
   int _page = 1; //加载的页数
-  bool isLoading = false; //是否正在加载数据
+  bool isMore= true; //是否正在加载数据
+  int receiving=0;
+  int waitReceive =0;
   @override
   void initState() {
     super.initState();
     getData();
+    getCount();
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
@@ -43,34 +50,42 @@ class HomeState extends State<Home> {
       }
     });
   }
+  getCount() async{
+    var request = HttpRequest.getInstance();
+    var res = await request?.get(Api.getReceiveConsultCount, {'type':''});
+    if(res['code']==200){
+      setState(() {
+        receiving=res['data']['receiving'];
+        waitReceive=res['data']['waitReceive'];
+      });
+    }
+  }
 
   /**
    * 初始化list数据 加延时模仿网络请求
    */
   Future getData() async {
-    // await Future.delayed(const Duration(seconds: 2), () {
-    //   setState(() {
-    //     list = List.generate(15, (i) => '哈喽,我是原始数据 $i');
-    //   });
-    // });
-    // var request = HttpRequest.getInstance();
-    // var res = await request?.get(Api.getReceiveConsultList+'?status=$status&page=$_page&size=10');
-    // if(res['code']==200){
-    //
-    // }
-
+    var request = HttpRequest.getInstance();
+    var res = await request?.get(
+        Api.getReceiveConsultList + '?status=$status&page=$_page&size=10', {});
+    if (res['code'] == 200) {
+      setState(() {
+        list = res['data']['records'];
+        isMore=true;
+      });
+    } else {
+      ToastUtil.showToast(msg: res['msg']);
+    }
   }
 
   /**
    * 下拉刷新方法,为list重新赋值
    */
   Future<void> _onRefresh() async {
-    await Future.delayed(const Duration(seconds: 3), () {
-      print('refresh');
-      setState(() {
-        list = List.generate(20, (i) => '哈喽,我是新刷新的 $i');
-      });
+    setState(() {
+      _page = 1;
     });
+    getData();
   }
 
   /**
@@ -98,18 +113,28 @@ class HomeState extends State<Home> {
   }
 
   Future _getMore() async {
-    if (!isLoading) {
-      setState(() {
-        isLoading = true;
-      });
-      await Future.delayed(const Duration(seconds: 1), () {
-        print('加载更多');
-        setState(() {
-          list.addAll(List.generate(5, (i) => '第$_page次上拉来的数据'));
-          _page++;
-          isLoading = false;
-        });
-      });
+    if (isMore) {
+       _page += 1;
+      var request = HttpRequest.getInstance();
+      var res = await request?.get(
+          Api.getReceiveConsultList + '?status=$status&page=$_page&size=10',
+          {});
+      if (res['code'] == 200) {
+        var total = res['data']['total'];
+        var size = res['data']['size'];
+        int totalPage = (total / size).ceil();
+        if (_page <= totalPage) {
+          setState(() {
+            list.addAll(res['data']['records']);
+            isMore = true;
+            _page;
+          });
+        } else {
+          setState(() {
+            isMore = false;
+          });
+        }
+      }
     }
   }
 
@@ -120,143 +145,139 @@ class HomeState extends State<Home> {
     _scrollController.dispose();
   }
 
+  // {orderType: 0, sex_dictText: 未知字典, sex: 10, photo: , type_dictText: 图文问诊, type: 0, diseaseTime_dictText: 未知字典, orderType_dictText: 复诊拿药, times: 56299, diseaseTime: , diseaseData: [], name: 病人姓名, id: 432413381564170241, age: 22, diseaseDesc: }
   Widget _renderRow(BuildContext context, int index) {
     if (index < list.length) {
-      int status =1;
+      // int status =1;
+      var item = list[index];
       return GestureDetector(
-          onTap: (){
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const OrderDetail()));
+          onTap: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => OrderDetail(map: list[index])));
           },
           child: Container(
-          margin: const EdgeInsets.fromLTRB(16.0, 10.0, 16.0, 0),
-          decoration: BoxDecoration(
-              color: Colors.white, borderRadius: BorderRadius.circular(5.0)),
-          child: Column(
-            children: [
-              ListTile(
-                onTap: null,
-                contentPadding: const EdgeInsets.symmetric(horizontal: 8.0),
-                subtitle: Text(
-                  '健康咨询',
-                  style:
-                      GSYConstant.textStyle(fontSize: 13.0, color: '#666666'),
-                ),
-                title: Row(mainAxisSize: MainAxisSize.max, children: [
-                  Expanded(
-                    child: Row(
-                      children: [
-                        Text(
-                          '张可可',
-                          style: GSYConstant.textStyle(
-                              color: '#333333', fontSize: 15.0),
+              margin: const EdgeInsets.fromLTRB(16.0, 10.0, 16.0, 0),
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(5.0)),
+              child: Column(
+                children: [
+                  ListTile(
+                    onTap: null,
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    subtitle: Text(
+                      item['type_dictText'],
+                      style: GSYConstant.textStyle(
+                          fontSize: 13.0, color: '#666666'),
+                    ),
+                    title: Row(mainAxisSize: MainAxisSize.max, children: [
+                      Expanded(
+                        child: Row(
+                          children: [
+                            Text(
+                              item['name'],
+                              style: GSYConstant.textStyle(
+                                  color: '#333333', fontSize: 15.0),
+                            ),
+                            const SizedBox(
+                              width: 16,
+                            ),
+                            Text(
+                              item['sex_dictText'],
+                              style: GSYConstant.textStyle(
+                                  fontSize: 13.0, color: '#666666'),
+                            ),
+                            Text(
+                              '｜',
+                              style: GSYConstant.textStyle(
+                                  fontSize: 13.0, color: '#666666'),
+                            ),
+                            Text(
+                              item['age'].toString() + '岁',
+                              style: GSYConstant.textStyle(
+                                  fontSize: 13.0, color: '#666666'),
+                            ),
+                          ],
                         ),
-                        const SizedBox(
-                          width: 16,
-                        ),
-                        Text(
-                          '男',
-                          style: GSYConstant.textStyle(
-                              fontSize: 13.0, color: '#666666'),
-                        ),
-                        Text(
-                          '｜',
-                          style: GSYConstant.textStyle(
-                              fontSize: 13.0, color: '#666666'),
-                        ),
-                        Text(
-                          '43岁',
-                          style: GSYConstant.textStyle(
-                              fontSize: 13.0, color: '#666666'),
-                        ),
-                      ],
+                      ),
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                         SvgUtil.svg(item['type']==2?'video_interrogation.svg':'photo.svg'),
+                          const SizedBox(
+                            width: 4,
+                          ),
+                          Text(
+                            status == 1 ? '接诊中' : '待接诊',
+                            style: GSYConstant.textStyle(color: '#F94C26'),
+                          )
+                        ],
+                      )
+                    ]),
+                    leading:  CircleAvatar(
+                      backgroundColor: Colors.transparent,
+                      backgroundImage:NetworkImage(item['photo']),
                     ),
                   ),
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Image.asset(
-                        'assets/images/home/photograph.png',
-                        fit: BoxFit.cover,
-                      ),
-                      const SizedBox(
-                        width: 4,
-                      ),
+                  Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 7.0),
+                    child: Row(children: [
                       Text(
-                        status==1?'接诊中':'待接诊',
-                        style: GSYConstant.textStyle(color: '#F94C26'),
-                      )
-                    ],
-                  )
-                ]),
-                leading: const CircleAvatar(
-                  backgroundColor: Colors.transparent,
-                  backgroundImage: AssetImage('assets/images/home/avatar1.png'),
-                ),
-              ),
-              Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 7.0),
-                  child: RichText(
-                    // textScaleFactor: 5,
-                    // overflow: TextOverflow.fade,
-                    textDirection: TextDirection.ltr,
-                    textAlign: TextAlign.left,
-                    text: TextSpan(children: [
-                      TextSpan(
-                        text: '病情描述：',
+                        '病情描述：',
                         style: GSYConstant.textStyle(
                             fontFamily: 'Medium',
                             fontSize: 13.0,
                             color: '#333333'),
                       ),
-                      TextSpan(
-                        text: '最近一个月总是头晕、头痛、疲劳、心悸等，有时还会出现注意力不集中，记忆力减退等现象。',
+                      Text(
+                        item['diseaseDesc'] ?? '',
                         style: GSYConstant.textStyle(
                             fontSize: 13.0, color: '#666666'),
                       )
                     ]),
-                  )),
-              const SizedBox(
-                height: 9.0,
-              ),
-              Divider(
-                height: 1,
-                color: ColorsUtil.hexStringColor('#cccccc', alpha: 0.3),
-              ),
-              Container(
-                height: 47,
-                margin: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      '2分钟前',
-                      style: GSYConstant.textStyle(color: '#888888'),
-                    ),
-                    Container(
-                      // width: 77,
-                      height: 28,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            primary: ColorsUtil.shallowColor,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(14.0))),
-                        onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>const ChatRoom()));
-                        },
-                        child: Text(
-                          status==1?'继续交流':'接诊',
-                          style: GSYConstant.textStyle(fontSize: 13.0),
+                  ),
+                  const SizedBox(
+                    height: 9.0,
+                  ),
+                  Divider(
+                    height: 1,
+                    color: ColorsUtil.hexStringColor('#cccccc', alpha: 0.3),
+                  ),
+                  Container(
+                    height: 47,
+                    margin: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          item['times'],
+                          style: GSYConstant.textStyle(color: '#888888'),
                         ),
-                      ),
-                    )
-                  ],
-                ),
-              )
-            ],
-          )));
+                        SizedBox(
+                          // width: 77,
+                          height: 28,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                primary: ColorsUtil.shallowColor,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(14.0))),
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const ChatRoom()));
+                            },
+                            child: Text(
+                              status == 1 ? '继续交流' : '接诊',
+                              style: GSYConstant.textStyle(fontSize: 13.0),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  )
+                ],
+              )));
     }
     return _getMoreWidget();
   }
@@ -285,34 +306,36 @@ class HomeState extends State<Home> {
       );
     }
 
-    Widget buildButtonColumn(String assetName, String label,GestureTapCallback onTap) {
+    Widget buildButtonColumn(
+        String assetName, String label, GestureTapCallback onTap) {
       Color color = ColorsUtil.hexStringColor('#333333');
 
       return Expanded(
-          child: GestureDetector(onTap: onTap, child:Column(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image(
-                image: AssetImage(assetName),
-                fit: BoxFit.cover,
-              ),
-              Container(
-                margin: const EdgeInsets.only(top: 7.0),
-                child: Text(
-                  label,
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontFamily: 'PingFangSC-Regular, PingFang SC',
-                    fontWeight: FontWeight.w400,
-                    color: color,
-                  ),
+          child: GestureDetector(
+        onTap: onTap,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image(
+              image: AssetImage(assetName),
+              fit: BoxFit.cover,
+            ),
+            Container(
+              margin: const EdgeInsets.only(top: 7.0),
+              child: Text(
+                label,
+                style: TextStyle(
+                  fontSize: 14,
+                  fontFamily: 'PingFangSC-Regular, PingFang SC',
+                  fontWeight: FontWeight.w400,
+                  color: color,
                 ),
               ),
-            ],
-          ),)
-
-      );
+            ),
+          ],
+        ),
+      ));
     }
 
     Widget buildBg = Container(
@@ -439,6 +462,7 @@ class HomeState extends State<Home> {
         print(e.toString());
       }
     }
+
     Widget buttonSection = Container(
       margin: const EdgeInsets.only(
           left: 16.0, right: 16.0, bottom: 8.0, top: 17.0),
@@ -447,13 +471,21 @@ class HomeState extends State<Home> {
           color: Colors.white, borderRadius: BorderRadius.circular(5.0)),
       child: Row(
         children: [
-          buildButtonColumn('assets/images/home/consult1.png', '患者咨询',(){
-            Navigator.push(context, MaterialPageRoute(builder: (context)=> const PatientConsult(type: '1')));
+          buildButtonColumn('assets/images/home/consult1.png', '患者咨询', () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const PatientConsult(type: '1')));
           }),
-          buildButtonColumn('assets/images/home/picture1.png', '图文问诊',(){
-            Navigator.push(context, MaterialPageRoute(builder: (context)=> const PatientConsult(type: '2',)));
+          buildButtonColumn('assets/images/home/picture1.png', '图文问诊', () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const PatientConsult(
+                          type: '2',
+                        )));
           }),
-          buildButtonColumn('assets/images/home/video1.png', '视频问诊',(){
+          buildButtonColumn('assets/images/home/video1.png', '视频问诊', () {
             _goToHealthHutModular();
           }),
         ],
@@ -625,14 +657,17 @@ class HomeState extends State<Home> {
       backgroundColor: ColorsUtil.bgColor,
       body: Column(
         children: [
-          buildBg,
-          buttonSection,
-          GestureDetector(
-            onTap: (){
-              Navigator.push(context,MaterialPageRoute(builder: (context)=>const NoticeDetail()));
-            },
-            child:noticeSection,
-          ),
+          // buildBg,
+          // buttonSection,
+          // GestureDetector(
+          //   onTap: () {
+          //     Navigator.push(
+          //         context,
+          //         MaterialPageRoute(
+          //             builder: (context) => const NoticeDetail()));
+          //   },
+          //   child: noticeSection,
+          // ),
           Container(
             margin: const EdgeInsets.only(top: 10.0),
             child: Row(
@@ -643,12 +678,15 @@ class HomeState extends State<Home> {
                     setState(() {
                       tab1Active = true;
                       tab2Active = false;
+                      status = 1;
+                      _page=1;
                     });
+                    getData();
                   },
                   child: Column(
                     children: [
                       Text(
-                        '接诊中(10)',
+                        '接诊中($receiving)',
                         style: GSYConstant.textStyle(color: '#333333'),
                       ),
                       const SizedBox(
@@ -672,12 +710,15 @@ class HomeState extends State<Home> {
                     setState(() {
                       tab2Active = true;
                       tab1Active = false;
+                      status = 0;
+                      _page=1;
                     });
+                    getData();
                   },
                   child: Column(
                     children: [
                       Text(
-                        '待接诊(9)',
+                        '待接诊($waitReceive)',
                         style: GSYConstant.textStyle(color: '#333333'),
                       ),
                       const SizedBox(
