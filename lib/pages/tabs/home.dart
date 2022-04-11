@@ -166,7 +166,7 @@ class HomeState extends State<Home> {
                     onTap: null,
                     contentPadding: const EdgeInsets.symmetric(horizontal: 8.0),
                     subtitle: Text(
-                      item['type_dictText'],
+                      item['type_dictText']??'',
                       style: GSYConstant.textStyle(
                           fontSize: 13.0, color: '#666666'),
                     ),
@@ -175,7 +175,7 @@ class HomeState extends State<Home> {
                         child: Row(
                           children: [
                             Text(
-                              item['name'],
+                              item['name']??'',
                               style: GSYConstant.textStyle(
                                   color: '#333333', fontSize: 15.0),
                             ),
@@ -183,7 +183,7 @@ class HomeState extends State<Home> {
                               width: 16,
                             ),
                             Text(
-                              item['sex_dictText'],
+                              item['sex_dictText']??'',
                               style: GSYConstant.textStyle(
                                   fontSize: 13.0, color: '#666666'),
                             ),
@@ -214,9 +214,13 @@ class HomeState extends State<Home> {
                         ],
                       )
                     ]),
-                    leading:  CircleAvatar(
-                      backgroundColor: Colors.transparent,
-                      backgroundImage:NetworkImage(item['photo']),
+                    leading:Container(
+                      width: 40.0,
+                      height: 40.0,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20.0)
+                      ),
+                      child: NetWorkImageUtil.buildImg(item['photo']),
                     ),
                   ),
                   Container(
@@ -250,7 +254,7 @@ class HomeState extends State<Home> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          item['times'],
+                    (int.parse(item['times'])/1000/60/60).toStringAsFixed(0)+'小时前',
                           style: GSYConstant.textStyle(color: '#888888'),
                         ),
                         SizedBox(
@@ -261,11 +265,21 @@ class HomeState extends State<Home> {
                                 primary: ColorsUtil.shallowColor,
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(14.0))),
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => const ChatRoom()));
+                            onPressed: () async{
+                              print('$item');
+                              if(status==0){
+                                var request = HttpRequest.getInstance();
+                                Map<String,dynamic> map = {};
+                                map['registerId']=item['id'];
+                                var res = await request?.post(Api.getReceiveConsultApi,map);
+                                if(res['code']==200){
+
+                                }
+                              }
+                              // Navigator.push(
+                              //     context,
+                              //     MaterialPageRoute(
+                              //         builder: (context) => const ChatRoom()));
                             },
                             child: Text(
                               status == 1 ? '继续交流' : '接诊',
@@ -486,7 +500,12 @@ class HomeState extends State<Home> {
                         )));
           }),
           buildButtonColumn('assets/images/home/video1.png', '视频问诊', () {
-            _goToHealthHutModular();
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const PatientConsult(
+                      type: '3',
+                    )));
           }),
         ],
       ),
@@ -657,17 +676,17 @@ class HomeState extends State<Home> {
       backgroundColor: ColorsUtil.bgColor,
       body: Column(
         children: [
-          // buildBg,
-          // buttonSection,
-          // GestureDetector(
-          //   onTap: () {
-          //     Navigator.push(
-          //         context,
-          //         MaterialPageRoute(
-          //             builder: (context) => const NoticeDetail()));
-          //   },
-          //   child: noticeSection,
-          // ),
+          buildBg,
+          buttonSection,
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const NoticeDetail()));
+            },
+            child: noticeSection,
+          ),
           Container(
             margin: const EdgeInsets.only(top: 10.0),
             child: Row(

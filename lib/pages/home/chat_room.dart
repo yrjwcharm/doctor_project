@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:doctor_project/common/style/gsy_style.dart';
 import 'package:doctor_project/pages/home/make_prescription.dart';
+import 'package:doctor_project/pages/home/video_topic.dart';
 import 'package:doctor_project/pages/my/write-case.dart';
 import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:doctor_project/utils/svg_utils.dart';
@@ -275,7 +276,8 @@ class _ChatPageState extends State<ChatPage> {
                    children: <Widget>[
                      GestureDetector(
                        onTap: (){
-                         _goToHealthHutModular();
+                         // _goToHealthHutModular();
+                         Navigator.push(context, MaterialPageRoute(builder: (context)=>VideoTopic()));
                        },
                        child: SvgUtil.svg('rp.svg'),),
                      const SizedBox(height: 9.0,),
