@@ -15,19 +15,21 @@ import 'dart:math' as math;
 import '../../widget/custom_input_widget.dart';
 
 class PrescriptDetail extends StatefulWidget {
-  Map userInfoMap ;
+  String registeredId ; //挂号Id
+  String category ; //处方类别（1-西药/中成药，2-中药）
   String imageStr ;
-  PrescriptDetail({Key? key, required this.userInfoMap,required this.imageStr}) : super(key: key);
+  PrescriptDetail({Key? key, required this.registeredId,required this.category, required this.imageStr}) : super(key: key);
 
   @override
-  _PrescriptDetailState createState() => _PrescriptDetailState(userInfoMap: this.userInfoMap, imageStr: imageStr);
+  _PrescriptDetailState createState() => _PrescriptDetailState(registeredId: this.registeredId, category: this.category, imageStr: imageStr);
 }
 
 class _PrescriptDetailState extends State<PrescriptDetail> {
 
-  Map userInfoMap ;
+  String registeredId ; //挂号Id
+  String category ; //处方类别（1-西药/中成药，2-中药）
   String imageStr ;
-  _PrescriptDetailState({required this.userInfoMap, required this.imageStr});
+  _PrescriptDetailState({required this.registeredId, required this.category, required this.imageStr});
 
   // List list = [
   //   {'label': '甘草', 'detail': '2000g'},
@@ -41,10 +43,8 @@ class _PrescriptDetailState extends State<PrescriptDetail> {
     {'label': '频次', 'detail': ''},
     {'label': '备注：', 'detail': ''}];
 
-  String registerId ="2";
-  String category = "2";
-
-  Map dataMap = new Map();
+  Map patientInfoMap = new Map(); //患者信息map
+  Map dataMap = new Map(); //处方详情map
   String diagnosisName = "";
   List medicineList = [];
 
@@ -52,7 +52,28 @@ class _PrescriptDetailState extends State<PrescriptDetail> {
   void initState() {
     // TODO: implement initState
     super.initState();
+
+    getNet_PatientInfo();
     getNet_PrescriptionDetail();
+  }
+
+  //获取患者信息接口
+  void getNet_PatientInfo()async{
+    // registeredId = "433777030165823488";
+
+    HttpRequest? request = HttpRequest.getInstance();
+    //registerId 挂号id
+    var res = await request?.get(Api.patientInfoUrl +"?registerId=" +registeredId ,{});
+
+    print("getNet_PatientInfo------" +res.toString());
+    if (res['code'] == 200) {
+      setState(() {
+        patientInfoMap = res['data'];
+      });
+
+    }else{
+      Fluttertoast.showToast(msg: res['msg'], gravity: ToastGravity.CENTER);
+    }
   }
 
   //获取处方详情接口
@@ -60,7 +81,7 @@ class _PrescriptDetailState extends State<PrescriptDetail> {
 
     HttpRequest? request = HttpRequest.getInstance();
     //registerId 挂号id  category  处方类别（1-西药/中成药，2-中药）
-    var res = await request?.get(Api.prescriptionDetailUrl +"?registerId=" +registerId +"&category=" +category,{});
+    var res = await request?.get(Api.prescriptionDetailUrl +"?registerId=" +registeredId +"&category=" +category,{});
     print("getNet_PrescriptionDetail------" +res.toString());
     if (res['code'] == 200) {
       dataMap = res['data'];
@@ -199,7 +220,7 @@ class _PrescriptDetailState extends State<PrescriptDetail> {
                               style: GSYConstant.textStyle(color: '#333333'),
                             ),
                             Text(
-                              userInfoMap["name"],
+                              patientInfoMap.isEmpty ?"" :patientInfoMap["name"],
                               style: GSYConstant.textStyle(color: '#666666'),
                             )
                           ],
@@ -208,7 +229,7 @@ class _PrescriptDetailState extends State<PrescriptDetail> {
                           children: <Widget>[
                             Text('性别：',
                                 style: GSYConstant.textStyle(color: '#333333')),
-                            Text(userInfoMap["sex_dictText"],
+                            Text(patientInfoMap.isEmpty ?"" :patientInfoMap["sex_dictText"],
                                 style: GSYConstant.textStyle(color: '#666666'))
                           ],
                         ),
@@ -216,7 +237,7 @@ class _PrescriptDetailState extends State<PrescriptDetail> {
                           children: <Widget>[
                             Text('年龄：',
                                 style: GSYConstant.textStyle(color: '#333333')),
-                            Text(userInfoMap["age"].toString() +'岁',
+                            Text(patientInfoMap.isEmpty ?"" :patientInfoMap["age"].toString() +'岁',
                                 style: GSYConstant.textStyle(color: '#666666')),
                             SizedBox(
                               width: 16.0,
@@ -240,7 +261,7 @@ class _PrescriptDetailState extends State<PrescriptDetail> {
                               style: GSYConstant.textStyle(color: '#333333'),
                             ),
                             Text(
-                              '医保',
+                              patientInfoMap.isEmpty ?"" :patientInfoMap["payType_dictText"].toString(),
                               style: GSYConstant.textStyle(color: '#666666'),
                             ),
                           ],
@@ -260,7 +281,7 @@ class _PrescriptDetailState extends State<PrescriptDetail> {
                                           color: '#333333'),
                                     ),
                                     Text(
-                                      '心内科门诊',
+                                      patientInfoMap.isEmpty ?"" :patientInfoMap["deptName"],
                                       style: GSYConstant.textStyle(
                                           color: '#666666'),
                                     ),
@@ -289,7 +310,7 @@ class _PrescriptDetailState extends State<PrescriptDetail> {
                             style: GSYConstant.textStyle(color: '#333333'),
                           ),
                           Text(
-                            '9899008766',
+                            dataMap["id"].toString(),
                             style: GSYConstant.textStyle(color: '#666666'),
                           ),
                           SizedBox(
@@ -394,7 +415,7 @@ class _PrescriptDetailState extends State<PrescriptDetail> {
                                       const EdgeInsets.only(
                                           top: 3.0),
                                       child: Text(
-                                          '备注：${medicineList[index]['remark']}',
+                                          '备注：${medicineList[index]['remarks']}',
                                           // '备注：感冒感冒感冒感冒感冒感冒感冒感冒感冒感冒感冒感冒感冒感冒感冒',
                                           style: GSYConstant
                                               .textStyle(

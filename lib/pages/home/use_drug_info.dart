@@ -483,7 +483,8 @@ class _UseDrugInfoState extends State<UseDrugInfo> {
 
                 setState(() {
                   Map item = list[1];
-                  drugInfoMap.update("frequency", (value) => _editingController1.text +item["placeholder"]);
+                  drugInfoMap["frequency"] = _editingController1.text +item["placeholder"];
+                  // drugInfoMap.update("frequency", (value) => _editingController1.text +item["placeholder"]);
                 });
 
                 /* 新增字段：

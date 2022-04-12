@@ -33,7 +33,7 @@ class HomeState extends State<Home> {
   bool tab1Active = true;
   bool tab2Active = false;
   List<dynamic> list = [];
-  int status = 0;
+  int status = 1;
   final ScrollController _scrollController = ScrollController(); //listview的控制器
   int _page = 1; //加载的页数
   bool isMore = true; //是否正在加载数据
@@ -467,7 +467,7 @@ class HomeState extends State<Home> {
             Row(
               // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                buildColumn('26', '今日已接诊'),
+                buildColumn(receiving.toString(), '今日已接诊'),
                 Container(
                   width: 1,
                   height: 20,
@@ -477,7 +477,7 @@ class HomeState extends State<Home> {
                           width: 1,
                           style: BorderStyle.solid)),
                 ),
-                buildColumn('26', '今日待接诊'),
+                buildColumn(waitReceive.toString(), '今日待接诊'),
                 Container(
                   width: 1,
                   height: 20,
