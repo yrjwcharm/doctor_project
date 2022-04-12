@@ -265,7 +265,7 @@ class HomeState extends State<Home> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => const ChatRoom()));
+                                      builder: (context) => ChatRoom(userInfoMap: item,)));
                             },
                             child: Text(
                               status == 1 ? '继续交流' : '接诊',

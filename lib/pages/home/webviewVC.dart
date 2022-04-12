@@ -62,8 +62,9 @@ class _WebviewVCState extends State<WebviewVC> {
         // _toasterJavascriptChannel(context),
       },
       navigationDelegate: (NavigationRequest request) {
-        if (request.url.startsWith('https://www.youtube.com/')) {
-          print('blocking navigation to $request}');
+        if (request.url.startsWith('MyAPP:')) {
+        // if (request.url.startsWith('https://dev-yxqv2.linksign.cn')) {
+          Navigator.of(context).pop();
           return NavigationDecision.prevent;
         }
         print('allowing navigation to $request');
@@ -79,6 +80,16 @@ class _WebviewVCState extends State<WebviewVC> {
       gestureNavigationEnabled: true,
       backgroundColor: ColorsUtil.bgColor,
     );
+  }
+
+  JavascriptChannel _toasterJavascriptChannel(BuildContext context) {
+    return JavascriptChannel(
+        name: 'Toaster',
+        onMessageReceived: (JavascriptMessage message) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(message.message)),
+          );
+        });
   }
 
 }

@@ -222,7 +222,7 @@ class _PatientConsultState extends State<PatientConsult> {
                             primary: ColorsUtil.shallowColor,
                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14.0))
                         ), onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=> const ChatRoom()));
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>  ChatRoom(userInfoMap: {},)));
                       }, child: Text('继续交流',style: GSYConstant.textStyle(fontSize: 13.0),),
                       ),
                     )

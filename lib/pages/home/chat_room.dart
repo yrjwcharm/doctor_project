@@ -22,7 +22,8 @@ import 'package:uuid/uuid.dart';
 import '../../utils/svg_utils.dart';
 
 class ChatRoom extends StatelessWidget {
-  const ChatRoom({Key? key}) : super(key: key);
+  Map userInfoMap ; //患者信息map
+  ChatRoom({Key? key, required this.userInfoMap}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -34,20 +35,24 @@ class ChatRoom extends StatelessWidget {
             Navigator.pop(context);
           },
         ),
-        body: const ChatPage(),
+        body: ChatPage(userInfoMap: this.userInfoMap,),
       ),
     );
   }
 }
 
 class ChatPage extends StatefulWidget {
-  const ChatPage({Key? key}) : super(key: key);
+  Map userInfoMap ;
+  ChatPage({Key? key, required this.userInfoMap}) : super(key: key);
 
   @override
-  _ChatPageState createState() => _ChatPageState();
+  _ChatPageState createState() => _ChatPageState(userInfoMap: this.userInfoMap);
 }
 
 class _ChatPageState extends State<ChatPage> {
+  Map userInfoMap ;
+  _ChatPageState({required this.userInfoMap});
+
   List<types.Message> _messages = [];
   final _user = const types.User(id: '06c33e8b-e835-4736-80f4-63f44b66666c');
   bool _isVoice = false;
@@ -286,7 +291,7 @@ class _ChatPageState extends State<ChatPage> {
                    children: <Widget>[
                      GestureDetector(
                        onTap: (){
-                         Navigator.push(context, MaterialPageRoute(builder: (context)=>const MakePrescription()));
+                         Navigator.push(context, MaterialPageRoute(builder: (context)=> MakePrescription(userInfoMap: userInfoMap,)));
                        },
                       child: SvgUtil.svg('rp.svg'),),
                      const SizedBox(height: 9.0,),

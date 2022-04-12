@@ -9,17 +9,26 @@ import '../../http/http_request.dart';
 import '../../http/api.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:doctor_project/widget/safe_area_button.dart';
+import 'dart:convert';
+import 'dart:math' as math;
 
 import '../../widget/custom_input_widget.dart';
 
 class PrescriptDetail extends StatefulWidget {
-  const PrescriptDetail({Key? key}) : super(key: key);
+  Map userInfoMap ;
+  String imageStr ;
+  PrescriptDetail({Key? key, required this.userInfoMap,required this.imageStr}) : super(key: key);
 
   @override
-  _PrescriptDetailState createState() => _PrescriptDetailState();
+  _PrescriptDetailState createState() => _PrescriptDetailState(userInfoMap: this.userInfoMap, imageStr: imageStr);
 }
 
 class _PrescriptDetailState extends State<PrescriptDetail> {
+
+  Map userInfoMap ;
+  String imageStr ;
+  _PrescriptDetailState({required this.userInfoMap, required this.imageStr});
+
   // List list = [
   //   {'label': '甘草', 'detail': '2000g'},
   //   {'label': '陈皮', 'detail': '2000g'},
@@ -190,7 +199,7 @@ class _PrescriptDetailState extends State<PrescriptDetail> {
                               style: GSYConstant.textStyle(color: '#333333'),
                             ),
                             Text(
-                              '王建国',
+                              userInfoMap["name"],
                               style: GSYConstant.textStyle(color: '#666666'),
                             )
                           ],
@@ -199,7 +208,7 @@ class _PrescriptDetailState extends State<PrescriptDetail> {
                           children: <Widget>[
                             Text('性别：',
                                 style: GSYConstant.textStyle(color: '#333333')),
-                            Text('男',
+                            Text(userInfoMap["sex_dictText"],
                                 style: GSYConstant.textStyle(color: '#666666'))
                           ],
                         ),
@@ -207,7 +216,7 @@ class _PrescriptDetailState extends State<PrescriptDetail> {
                           children: <Widget>[
                             Text('年龄：',
                                 style: GSYConstant.textStyle(color: '#333333')),
-                            Text('38岁',
+                            Text(userInfoMap["age"].toString() +'岁',
                                 style: GSYConstant.textStyle(color: '#666666')),
                             SizedBox(
                               width: 16.0,
@@ -478,21 +487,30 @@ class _PrescriptDetailState extends State<PrescriptDetail> {
                         Row(
                           children: <Widget>[
                             Text('处方医师',style: GSYConstant.textStyle(color: '#333333'),),
-                            SizedBox(width: 15.0,),
-                            Text('张望国',style: GSYConstant.textStyle(fontSize:18.0,color: '#666666',fontFamily: 'ShouShuti'),)
+                            // SizedBox(width: 15.0,),
+                            Container(
+                              color: Colors.white,
+                              width: 80,
+                              height: 55,
+                              child: Transform.rotate(
+                                angle: math.pi /-2,
+                                child: Image.memory(
+                                  Base64Decoder().convert(imageStr),
+                                ),),
+                            ),
                           ],
                         ),
-                        SizedBox(height: 25.0,),
-                        Row(
-                          children: <Widget>[
-                            Text('审方医师',style: GSYConstant.textStyle(color: '#333333'),),
-                            SizedBox(width: 15.0,),
-                            Text('苏山寒',style: GSYConstant.textStyle(fontSize:18.0,color: '#666666',fontFamily: 'ShouShuti'),)
-                          ],
-                        )
+                        // SizedBox(height: 25.0,),
+                        // Row(
+                        //   children: <Widget>[
+                        //     Text('审方医师',style: GSYConstant.textStyle(color: '#333333'),),
+                        //     SizedBox(width: 15.0,),
+                        //     Text('苏山寒',style: GSYConstant.textStyle(fontSize:18.0,color: '#666666',fontFamily: 'ShouShuti'),)
+                        //   ],
+                        // )
                       ],
                     ),
-                    Image.asset('assets/images/chapter.png')
+                    // Image.asset('assets/images/chapter.png')
                   ],
                 ),
               ),

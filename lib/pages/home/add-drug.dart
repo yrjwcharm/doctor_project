@@ -170,7 +170,7 @@ class _AddDrugState extends State<AddDrug> {
               children: <Widget>[
                 ListTile(
                   onTap:(){
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>const PrescriptDetail()));
+                    // Navigator.push(context, MaterialPageRoute(builder: (context)=>const PrescriptDetail()));
                   },
                   contentPadding: const EdgeInsets.only(top:10.0,left: 16.0,right: 16.0,bottom: 14.0),
                   tileColor: Colors.white,
