@@ -215,7 +215,7 @@ class _PatientConsultState extends State<PatientConsult> {
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20.0)
                       ),
-                      child: Image.network(item['photo']),
+                      child: Image.network(item['photo']??''),
                     ),
                   ),
                   Container(

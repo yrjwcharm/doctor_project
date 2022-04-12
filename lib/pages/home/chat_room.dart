@@ -23,19 +23,20 @@ import 'package:uuid/uuid.dart';
 import '../../utils/svg_utils.dart';
 
 class ChatRoom extends StatelessWidget {
-  const ChatRoom({Key? key}) : super(key: key);
-
+  const ChatRoom({Key? key, required this.userName}) : super(key: key);
+  final String userName;
   @override
   Widget build(BuildContext context) {
+    print('患者名称$userName');
     return MaterialApp(
       home: Scaffold(
         appBar: CustomAppBar(
-          '刘猛患者',
+          userName,
           onBackPressed: () {
             Navigator.pop(context);
           },
         ),
-        body: const ChatPage(),
+        body: const  ChatPage(),
       ),
     );
   }
@@ -43,7 +44,6 @@ class ChatRoom extends StatelessWidget {
 
 class ChatPage extends StatefulWidget {
   const ChatPage({Key? key}) : super(key: key);
-
   @override
   _ChatPageState createState() => _ChatPageState();
 }
@@ -56,7 +56,6 @@ class _ChatPageState extends State<ChatPage> {
   double keyboardHeight = 270.0;
   bool _emojiState = false;
   FocusNode _focusNode = new FocusNode();
-
   @override
   void initState() {
     super.initState();

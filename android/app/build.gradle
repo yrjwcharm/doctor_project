@@ -27,7 +27,6 @@ apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 def keystorePropertiesFile = rootProject.file("key.properties")
 def keystoreProperties = new Properties()
 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
-
 android {
     compileSdkVersion 31
 
@@ -61,8 +60,6 @@ android {
                 JPUSH_CHANNEL: "developer-default", //暂时填写默认值即可.
         ]
     }
-
-
     signingConfigs {
         release {
             keyAlias keystoreProperties['keyAlias']

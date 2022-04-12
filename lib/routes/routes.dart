@@ -12,5 +12,4 @@ final routes={
   '/register':(context)=>RegisterContent(),
   // '/registerSuccess':(context)=> const RegisterSuccess(),
   '/TabHome':(context)=> Main(),
-  '/chatRoom':(context)=> const ChatRoom(),
 };

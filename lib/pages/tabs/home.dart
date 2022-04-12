@@ -227,7 +227,7 @@ class HomeState extends State<Home> {
                       height: 40.0,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20.0)),
-                      child: Image.network(item['photo']),
+                      child: Image.network(item['photo']??''),
                     ),
                   ),
                   Container(
@@ -303,7 +303,8 @@ class HomeState extends State<Home> {
                                     }
                                   }
                                 }
-                                // var res2 = await request?.get(Api.getToken, {'roomId':})
+                              }else{
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=> ChatRoom(userName: item['name'])));
                               }
                               // }
                             },

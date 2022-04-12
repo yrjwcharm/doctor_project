@@ -81,7 +81,7 @@ class _OrderDetailState extends State<OrderDetail> {
                   DesensitizationUtil.desensitizationMobile('18311410379')),
               // leading:_map['photo'].isEmpty?Image.network(_map['photo']):Image.asset('assets/images/home/avatar.png'),
               leading: SizedBox(
-                  height: 40, width: 40, child:Image.network(_map['photo'])),
+                  height: 40, width: 40, child:Image.network(_map['photo']??'')),
               trailing: Image.asset(
                 'assets/images/my/more.png',
                 fit: BoxFit.cover,
