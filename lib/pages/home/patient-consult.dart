@@ -261,7 +261,6 @@ class _PatientConsultState extends State<PatientConsult> {
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(14.0))),
                             onPressed: () async{
-                              // if(status==0){
                               if (item['type'] == '2') {
                                 var request = HttpRequest.getInstance();
                                 Map<String, dynamic> map = {};
@@ -277,7 +276,7 @@ class _PatientConsultState extends State<PatientConsult> {
                                   });
                                   if(res1['code']==200){
                                     ZegoConfig.instance.userID =
-                                    res1['data']['userId'];
+                                        res1['data']['userId'].toString();
                                     ZegoConfig.instance.userName =
                                     res1['data']['userName'];
                                     ZegoConfig.instance.roomID =
