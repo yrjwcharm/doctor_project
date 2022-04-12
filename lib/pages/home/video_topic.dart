@@ -20,10 +20,10 @@ import 'package:zego_express_engine/zego_express_engine.dart';
 import '../../config/zego_config.dart';
 
 class VideoTopic extends StatefulWidget {
-  VideoTopic({Key? key}) : super(key: key);
-
+  VideoTopic({Key? key, required this.userName}) : super(key: key);
+  final String userName;
   @override
-  _VideoTopicState createState() => _VideoTopicState();
+  _VideoTopicState createState() => _VideoTopicState(userName);
 }
 
 class _VideoTopicState extends State<VideoTopic> {
@@ -55,6 +55,8 @@ class _VideoTopicState extends State<VideoTopic> {
 
   final TextEditingController _publishingStreamIDController = TextEditingController();
   final TextEditingController _playingStreamIDController = TextEditingController();
+  String userName;
+  _VideoTopicState(this.userName);
 
   @override
   void initState() {
@@ -558,7 +560,7 @@ class _VideoTopicState extends State<VideoTopic> {
                     color: ColorsUtil.hexStringColor('#000000', alpha: 0.6)
                 ),
                 child: Text(
-                  '医师 王建国', style: GSYConstant.textStyle(fontSize: 12.0),),
+                  '医师 $userName', style: GSYConstant.textStyle(fontSize: 12.0),),
               ))
         ]),);
   }

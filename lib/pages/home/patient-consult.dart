@@ -1,12 +1,14 @@
 
 import 'package:doctor_project/common/style/gsy_style.dart';
 import 'package:doctor_project/http/http_request.dart';
+import 'package:doctor_project/pages/home/video_topic.dart';
 import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:doctor_project/widget/custom_app_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import '../../config/zego_config.dart';
 import '../../http/api.dart';
-import '../../utils/image_network_err.dart';
+import '../../utils/image_network_catch.dart';
 import '../../utils/svg_utils.dart';
 import '../../utils/toast_utils.dart';
 import 'chat_room.dart';
@@ -213,7 +215,7 @@ class _PatientConsultState extends State<PatientConsult> {
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20.0)
                       ),
-                      child: NetWorkImageUtil.buildImg(item['photo']),
+                      child: Image.network(item['photo']),
                     ),
                   ),
                   Container(
@@ -258,11 +260,36 @@ class _PatientConsultState extends State<PatientConsult> {
                                 primary: ColorsUtil.shallowColor,
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(14.0))),
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => const ChatRoom()));
+                            onPressed: () async{
+                              if (item['type'] == '2') {
+                                var request = HttpRequest.getInstance();
+                                Map<String, dynamic> map = {};
+                                map['registerId'] = item['id'];
+                                var res = await request?.post(
+                                    Api.getReceiveConsultApi, map);
+                                if (res['code'] == 200) {
+                                  var res1 = await request?.get(
+                                      Api.createRoomApi, {
+                                    'orderId': item['id'],
+                                    'roomType': 1,
+                                    'patientId': item['patientId']
+                                  });
+                                  if(res1['code']==200){
+                                    ZegoConfig.instance.userID=res1['data']['userId'];
+                                    ZegoConfig.instance.userName=res1['data']['userName'];
+                                    ZegoConfig.instance.roomID =res1['data']['roomId'];
+                                    var res2 = await request?.get(Api.getToken, {'roomId':res1['data']['roomId']});
+                                    if(res2['code']==200){
+                                      ZegoConfig.instance.token= res2['data']['token'];
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => VideoTopic(userName: res1['data']['userName'],)));
+                                    }
+                                  }
+                                }
+                                // var res2 = await request?.get(Api.getToken, {'roomId':})
+                              }
                             },
                             child: Text(
                               status == 1 ? '继续交流' : '接诊',

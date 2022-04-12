@@ -9,4 +9,6 @@ class Api {
   static const getReceiveConsultList= "/doctor/dr-service/register/getList" ; //获取接诊列表
   static const getReceiveConsultCount = "/doctor/dr-service/register/getCount"; //获取接诊与待接诊数量
   static const getReceiveConsultApi = '/doctor/dr-service/register/receive';
+  static const createRoomApi= '/doctor/dr-service/order-room/openRoom';
+  static const getToken = '/doctor/dr-service/order-room/getToken';
 }

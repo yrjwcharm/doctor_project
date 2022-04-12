@@ -277,7 +277,7 @@ class _ChatPageState extends State<ChatPage> {
                      GestureDetector(
                        onTap: (){
                          // _goToHealthHutModular();
-                         Navigator.push(context, MaterialPageRoute(builder: (context)=>VideoTopic()));
+                         // Navigator.push(context, MaterialPageRoute(builder: (context)=>VideoTopic()));
                        },
                        child: SvgUtil.svg('rp.svg'),),
                      const SizedBox(height: 9.0,),
