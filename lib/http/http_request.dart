@@ -43,8 +43,7 @@ class HttpRequest {
         //do something
         "version": "1.0.0",
       },
-      //请求的Content-Type，默认值是"application/json; charset=utf-8",Headers.formUrlEncodedContentType会自动编码请求体.
-      contentType: Headers.formUrlEncodedContentType,
+      contentType: Headers.jsonContentType,
       //表示期望以那种格式(方式)接受响应数据。接受四种类型 `json`, `stream`, `plain`, `bytes`. 默认值是 `json`,
       // responseType: ResponseType.json
     );
@@ -104,7 +103,7 @@ class HttpRequest {
 
     try {
       Response? response = await dio?.post(url,
-          queryParameters: data, options: option, cancelToken: cancelToken);
+          data: data, options: option, cancelToken: cancelToken);
       if (!isHideLoading) EasyLoading.dismiss();
       var result =response?.data;
       return result;

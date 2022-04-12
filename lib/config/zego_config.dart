@@ -15,9 +15,9 @@ class ZegoConfig {
 
   bool enablePlatformView = false;
 
-  String userID = "123";
-  String userName = "闫瑞锋";
-  String token='03AAAAAGI64McAEDdvZ3JkcGFxYXJpcTRnZ2cAoNXS8s222fs6FXrMlJId9JNu7bKKT/rx+SsfbW55vBc2uDLrlHu6nLakbyPGcXfZ1hCCiSMBCwnzwIk8c2FbPg78TIjCxXk2LMIz1AoySEFNB6xvfzb1f63lDjVjHE7PQnd61dA3tNMu9aP03Ntgc6KsPobgQUndqEzIJvaAD+dMqO8EBUFEN7QUWj22IMefhfyKAFqanTMkg5qEs2nyD9w=';
+  String userID = "";
+  String userName = "";
+  String token='';
   String roomID = "123";
   String streamID = "";
 

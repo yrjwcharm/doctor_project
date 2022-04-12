@@ -2,7 +2,8 @@ import 'package:doctor_project/pages/home/add_multi_diagnosis.dart';
 import 'package:doctor_project/pages/home/chat_room.dart';
 import 'package:doctor_project/pages/home/make_prescription.dart';
 import 'package:doctor_project/pages/home/use_drug_info.dart';
-import 'package:doctor_project/utils/image_network_err.dart';
+import 'package:doctor_project/pages/home/video_topic.dart';
+import 'package:doctor_project/utils/image_network_catch.dart';
 import 'package:doctor_project/utils/svg_utils.dart';
 import 'package:doctor_project/utils/toast_utils.dart';
 import 'package:flutter/cupertino.dart';
@@ -10,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import '../../common/style/gsy_style.dart';
+import '../../config/zego_config.dart';
 import '../../http/api.dart';
 import '../../utils/colors_utils.dart';
 import '../../utils/platform_utils.dart';
@@ -34,9 +36,10 @@ class HomeState extends State<Home> {
   int status = 0;
   final ScrollController _scrollController = ScrollController(); //listview的控制器
   int _page = 1; //加载的页数
-  bool isMore= true; //是否正在加载数据
-  int receiving=0;
-  int waitReceive =0;
+  bool isMore = true; //是否正在加载数据
+  int receiving = 0;
+  int waitReceive = 0;
+
   @override
   void initState() {
     super.initState();
@@ -50,13 +53,14 @@ class HomeState extends State<Home> {
       }
     });
   }
-  getCount() async{
+
+  getCount() async {
     var request = HttpRequest.getInstance();
-    var res = await request?.get(Api.getReceiveConsultCount, {'type':''});
-    if(res['code']==200){
+    var res = await request?.get(Api.getReceiveConsultCount, {'type': ''});
+    if (res['code'] == 200) {
       setState(() {
-        receiving=res['data']['receiving'];
-        waitReceive=res['data']['waitReceive'];
+        receiving = res['data']['receiving'];
+        waitReceive = res['data']['waitReceive'];
       });
     }
   }
@@ -71,7 +75,7 @@ class HomeState extends State<Home> {
     if (res['code'] == 200) {
       setState(() {
         list = res['data']['records'];
-        isMore=true;
+        isMore = true;
       });
     } else {
       ToastUtil.showToast(msg: res['msg']);
@@ -114,7 +118,7 @@ class HomeState extends State<Home> {
 
   Future _getMore() async {
     if (isMore) {
-       _page += 1;
+      _page += 1;
       var request = HttpRequest.getInstance();
       var res = await request?.get(
           Api.getReceiveConsultList + '?status=$status&page=$_page&size=10',
@@ -152,8 +156,10 @@ class HomeState extends State<Home> {
       var item = list[index];
       return GestureDetector(
           onTap: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => OrderDetail(map: list[index])));
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => OrderDetail(map: list[index])));
           },
           child: Container(
               margin: const EdgeInsets.fromLTRB(16.0, 10.0, 16.0, 0),
@@ -166,7 +172,7 @@ class HomeState extends State<Home> {
                     onTap: null,
                     contentPadding: const EdgeInsets.symmetric(horizontal: 8.0),
                     subtitle: Text(
-                      item['type_dictText'],
+                      item['type_dictText'] ?? '',
                       style: GSYConstant.textStyle(
                           fontSize: 13.0, color: '#666666'),
                     ),
@@ -175,7 +181,7 @@ class HomeState extends State<Home> {
                         child: Row(
                           children: [
                             Text(
-                              item['name'],
+                              item['name'] ?? '',
                               style: GSYConstant.textStyle(
                                   color: '#333333', fontSize: 15.0),
                             ),
@@ -183,7 +189,7 @@ class HomeState extends State<Home> {
                               width: 16,
                             ),
                             Text(
-                              item['sex_dictText'],
+                              item['sex_dictText'] ?? '',
                               style: GSYConstant.textStyle(
                                   fontSize: 13.0, color: '#666666'),
                             ),
@@ -203,7 +209,9 @@ class HomeState extends State<Home> {
                       Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                         SvgUtil.svg(item['type']==2?'video_interrogation.svg':'photo.svg'),
+                          SvgUtil.svg(item['type'] == 2
+                              ? 'video_interrogation.svg'
+                              : 'photo.svg'),
                           const SizedBox(
                             width: 4,
                           ),
@@ -214,9 +222,12 @@ class HomeState extends State<Home> {
                         ],
                       )
                     ]),
-                    leading:  CircleAvatar(
-                      backgroundColor: Colors.transparent,
-                      backgroundImage:NetworkImage(item['photo']),
+                    leading: Container(
+                      width: 40.0,
+                      height: 40.0,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20.0)),
+                      child: Image.network(item['photo']),
                     ),
                   ),
                   Container(
@@ -250,7 +261,9 @@ class HomeState extends State<Home> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          item['times'],
+                          (int.parse(item['times']) / 1000 / 60 / 60)
+                                  .toStringAsFixed(0) +
+                              '小时前',
                           style: GSYConstant.textStyle(color: '#888888'),
                         ),
                         SizedBox(
@@ -261,11 +274,38 @@ class HomeState extends State<Home> {
                                 primary: ColorsUtil.shallowColor,
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(14.0))),
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => ChatRoom(userInfoMap: item,)));
+                            onPressed: () async {
+                              // if(status==0){
+                              if (item['type'] == '2') {
+                                var request = HttpRequest.getInstance();
+                                Map<String, dynamic> map = {};
+                                map['registerId'] = item['id'];
+                                var res = await request?.post(
+                                    Api.getReceiveConsultApi, map);
+                                if (res['code'] == 200) {
+                                  var res1 = await request?.get(
+                                      Api.createRoomApi, {
+                                    'orderId': item['id'],
+                                    'roomType': 1,
+                                    'patientId': item['patientId']
+                                  });
+                                  if(res1['code']==200){
+                                    ZegoConfig.instance.userID=res1['data']['userId'];
+                                    ZegoConfig.instance.userName=res1['data']['userName'];
+                                    ZegoConfig.instance.roomID =res1['data']['roomId'];
+                                    var res2 = await request?.get(Api.getToken, {'roomId':res1['data']['roomId']});
+                                    if(res2['code']==200){
+                                      ZegoConfig.instance.token= res2['data']['token'];
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => VideoTopic(userName: res1['data']['userName'],)));
+                                    }
+                                  }
+                                }
+                                // var res2 = await request?.get(Api.getToken, {'roomId':})
+                              }
+                              // }
                             },
                             child: Text(
                               status == 1 ? '继续交流' : '接诊',
@@ -486,7 +526,12 @@ class HomeState extends State<Home> {
                         )));
           }),
           buildButtonColumn('assets/images/home/video1.png', '视频问诊', () {
-            _goToHealthHutModular();
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const PatientConsult(
+                          type: '3',
+                        )));
           }),
         ],
       ),
@@ -657,17 +702,17 @@ class HomeState extends State<Home> {
       backgroundColor: ColorsUtil.bgColor,
       body: Column(
         children: [
-          // buildBg,
-          // buttonSection,
-          // GestureDetector(
-          //   onTap: () {
-          //     Navigator.push(
-          //         context,
-          //         MaterialPageRoute(
-          //             builder: (context) => const NoticeDetail()));
-          //   },
-          //   child: noticeSection,
-          // ),
+          buildBg,
+          buttonSection,
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const NoticeDetail()));
+            },
+            child: noticeSection,
+          ),
           Container(
             margin: const EdgeInsets.only(top: 10.0),
             child: Row(
@@ -679,7 +724,7 @@ class HomeState extends State<Home> {
                       tab1Active = true;
                       tab2Active = false;
                       status = 1;
-                      _page=1;
+                      _page = 1;
                     });
                     getData();
                   },
@@ -711,7 +756,7 @@ class HomeState extends State<Home> {
                       tab2Active = true;
                       tab1Active = false;
                       status = 0;
-                      _page=1;
+                      _page = 1;
                     });
                     getData();
                   },

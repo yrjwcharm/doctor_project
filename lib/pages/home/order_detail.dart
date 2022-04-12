@@ -1,7 +1,7 @@
 import 'package:doctor_project/common/style/gsy_style.dart';
 import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:doctor_project/utils/desensitization_utils.dart';
-import 'package:doctor_project/utils/image_network_err.dart';
+import 'package:doctor_project/utils/image_network_catch.dart';
 import 'package:doctor_project/widget/custom_app_bar.dart';
 import 'package:doctor_project/widget/custom_app_bar.dart';
 import 'package:doctor_project/widget/custom_elevated_button.dart';
@@ -81,7 +81,7 @@ class _OrderDetailState extends State<OrderDetail> {
                   DesensitizationUtil.desensitizationMobile('18311410379')),
               // leading:_map['photo'].isEmpty?Image.network(_map['photo']):Image.asset('assets/images/home/avatar.png'),
               leading: SizedBox(
-                  height: 40, width: 40, child:NetWorkImageUtil.buildImg(_map['photo'])),
+                  height: 40, width: 40, child:Image.network(_map['photo'])),
               trailing: Image.asset(
                 'assets/images/my/more.png',
                 fit: BoxFit.cover,
