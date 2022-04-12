@@ -93,7 +93,7 @@ class _WriteCaseDetailState extends State<WriteCaseDetail> {
             Spacer(),
             SafeArea(child:
             Container(
-              margin: const EdgeInsets.only(bottom: 0.0),
+              margin: const EdgeInsets.only(bottom: 10.0),
               width: double.infinity,
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               height: 40.0,

@@ -304,7 +304,7 @@ class HomeState extends State<Home> {
                                   }
                                 }
                               }else{
-                                Navigator.push(context, MaterialPageRoute(builder: (context)=> ChatRoom(userName: item['name'])));
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=> ChatRoom(userInfoMap: item,)));
                               }
                               // }
                             },

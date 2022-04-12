@@ -103,7 +103,6 @@ class _MyAppState extends State<MyApp> {
       // 设置这一属性即可
       home: SplashScreen(),
       builder: EasyLoading.init(),
-      // home:MakePrescription(),
       routes: routes,
     );
   }

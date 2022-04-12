@@ -300,6 +300,7 @@ class _PatientConsultState extends State<PatientConsult> {
                       ],
                     ),
                   )
+
                 ],
               )));
     }
