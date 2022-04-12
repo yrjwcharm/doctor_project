@@ -154,6 +154,9 @@ class _VideoTopicState extends State<VideoTopic> {
   // MARK: - Step 1: CreateEngine
 
   void createEngine() {
+    print('roomID,${ZegoConfig.instance.roomID}');
+    print('userId,${ZegoConfig.instance.userID}');
+    print('token,${ZegoConfig.instance.token}');
     ZegoEngineProfile profile = ZegoEngineProfile(
         ZegoConfig.instance.appID, ZegoConfig.instance.scenario,
         appSign: ZegoConfig.instance.token,
@@ -187,13 +190,13 @@ class _VideoTopicState extends State<VideoTopic> {
       print("1111$e");
     }
 
-    print('🚪 Start login room, roomID: $_roomID');
+    print('🚪 Start login room, roomID: ${ZegoConfig.instance.userID}');
     if (_publisherState == ZegoPublisherState.NoPublish) {
       double pixelRatio = MediaQuery
           .of(context)
           .devicePixelRatio;
       Size? widgetSize = _previewViewContainerKey.currentContext?.size;
-      startPublishingStream(_publishingStreamIDController.text.trim(),
+      startPublishingStream(ZegoConfig.instance.userID,
           width: widgetSize!.width * pixelRatio,
           height: widgetSize.height * pixelRatio);
     } else {
@@ -204,11 +207,11 @@ class _VideoTopicState extends State<VideoTopic> {
           .of(context)
           .devicePixelRatio;
       Size? widgetSize = _playViewContainerKey.currentContext?.size;
-      startPlayingStream(_playingStreamIDController.text.trim(),
+      startPlayingStream(ZegoConfig.instance.userID,
           width: widgetSize!.width * pixelRatio,
           height: widgetSize.height * pixelRatio);
     } else {
-      stopPlayingStream(_playingStreamIDController.text.trim());
+      stopPlayingStream(ZegoConfig.instance.userID);
     }
   }
 
@@ -750,12 +753,12 @@ class _VideoTopicState extends State<VideoTopic> {
                   .devicePixelRatio;
               Size? widgetSize =
                   _playViewContainerKey.currentContext?.size;
-              startPlayingStream(_playingStreamIDController.text.trim(),
+              startPlayingStream(ZegoConfig.instance.userID,
                   width: widgetSize!.width * pixelRatio,
                   height: widgetSize.height * pixelRatio);
             }
                 : () {
-              stopPlayingStream(_playingStreamIDController.text.trim());
+              stopPlayingStream(ZegoConfig.instance.userID);
             },
             padding: EdgeInsets.all(10.0),
           ),

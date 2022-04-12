@@ -18,7 +18,7 @@ class ZegoConfig {
   String userID = "";
   String userName = "";
   String token='';
-  String roomID = "123";
+  String roomID = "";
   String streamID = "";
 
   // ----- Short-term params -----
