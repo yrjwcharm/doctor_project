@@ -159,7 +159,7 @@ class _VideoTopicState extends State<VideoTopic> {
     print('token,${ZegoConfig.instance.token}');
     ZegoEngineProfile profile = ZegoEngineProfile(
         ZegoConfig.instance.appID, ZegoConfig.instance.scenario,
-        appSign: ZegoConfig.instance.token,
+        // appSign: ZegoConfig.instance.token,
         enablePlatformView: ZegoConfig.instance.enablePlatformView);
     ZegoExpressEngine.createEngineWithProfile(profile);
 

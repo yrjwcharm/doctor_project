@@ -299,7 +299,7 @@ class HomeState extends State<Home> {
                                     var res2 = await request?.get(Api.getToken,
                                         {'roomId': res1['data']['roomId']});
                                     if (res2['code'] == 200) {
-                                      ZegoConfig.instance.token ='03AAAAAGJWsZMAEG0wMzQyM20wYXRjbXVubWkAsDQnDJe6ymxOTzaOCET2YsujLidrfm/O99/lxExvuj5ynD3dS/Ps5567l9t4Lb+YNYs2e3N+ytzXJ/bLcuqv/CABNuJjRjhC0F9pXkeglAKdSFX2VITyIUazv5QxTTkGjaxvcToBHnXHaBTmSZvQyUxMj3cwS++JdqVGhNje54r+FugkQ2RsSmdmVx8lgA2MHXP65GpA5ev6P06IJl5SJBjF0s2aW1yqBfjJQCO1ipEX';
+                                      ZegoConfig.instance.token = res2['data']['token'];
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
