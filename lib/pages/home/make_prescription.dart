@@ -28,17 +28,17 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter/services.dart';
 
 class MakePrescription extends StatefulWidget {
-  Map userInfoMap ; //患者信息map
-  MakePrescription({Key? key, required this.userInfoMap}) : super(key: key);
+  String registeredId ; //挂号Id
+  MakePrescription({Key? key, required this.registeredId}) : super(key: key);
 
   @override
-  _MakePrescriptionState createState() => _MakePrescriptionState(userInfoMap: this.userInfoMap);
+  _MakePrescriptionState createState() => _MakePrescriptionState(registeredId: this.registeredId);
 }
 
 class _MakePrescriptionState extends State<MakePrescription> {
 
-  Map userInfoMap ; //患者信息map
-  _MakePrescriptionState({required this.userInfoMap});
+  String registeredId ; //挂号Id
+  _MakePrescriptionState({required this.registeredId});
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final TextEditingController _editingController1 = TextEditingController();
@@ -65,18 +65,19 @@ class _MakePrescriptionState extends State<MakePrescription> {
   ]; //选中的药品数组
   List<String> rpData = <String>[];
   List rpList = [];
-  String rpTypeId = '1';
-  String rpTypeName = '普通处方';
+  String rpTypeId = ''; //处方类型id
+  String rpTypeName = ''; //处方类型
 
   String diagnosisName='';
 
   List pharmacyList = []; //药房数据源
   List pharmacyNameList = []; //药房名称数据源
-  String pharmacyName='';
-  String pharmacyId='';
+  String pharmacyName=''; //药房类型
+  String pharmacyId=''; //药房id
   bool tab1Active = true;
   bool tab2Active = false;
   double totalPrice =0 ; //药品总价格
+  String prescriptionId = ""; //处方id
 
   List<String> useTypeList = [];
   List<String> freqTypeList = [];
@@ -86,7 +87,6 @@ class _MakePrescriptionState extends State<MakePrescription> {
   void initState() {
     super.initState();
 
-    print("userInfoMap-------" +this.userInfoMap.toString());
     loadtDataForRP();
     loadtDataForPharmacy();
     loadDataForUseType();
@@ -177,9 +177,9 @@ class _MakePrescriptionState extends State<MakePrescription> {
     if(tab1Active){
       map = {
         // "registerId" : 2,
-        "registerId" : userInfoMap["id"].toString(), //挂号id
+        "registerId" : registeredId, //挂号id
         "name" : rpTypeName, //处方类型
-        "type" : 1, //模块（recipe-处方，register-挂号，logistics-物流，text-图文，video-视频）
+        "type" : rpTypeId, //处方id
         "roomId" : pharmacyId, //药房id
         "category" : 1, //处方类别（1-西药/中成药，2-中药）
         "diagnosisParams" : diagnosisParams,
@@ -189,9 +189,9 @@ class _MakePrescriptionState extends State<MakePrescription> {
 
       map = {
         // "registerId" : 5,
-        "registerId" : userInfoMap["id"].toString(), //挂号id
+        "registerId" : registeredId, //挂号id
         "name" : rpTypeName, //处方类型
-        "type" : 1, //模块（recipe-处方，register-挂号，logistics-物流，text-图文，video-视频）
+        "type" : rpTypeId, //处方id
         "roomId" : pharmacyId, //药房id
         "useType" : chineseMedicineTypeList[1]["detail"], //用法
         "freq" : chineseMedicineTypeList[2]["detail"], //频次
@@ -218,6 +218,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
     if(response.data['code'] == 200){
       //请求成功
       // Fluttertoast.showToast(msg: "新增处方成功", gravity: ToastGravity.CENTER);
+      prescriptionId = response.data["data"].toString();
       getNet_userSignature();
 
     }else{
@@ -258,7 +259,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
     Map data = res['data'];
     if (res['code'] == 200) {
       if(data["signatureImg"] !=null){
-        Navigator.push(context, MaterialPageRoute(builder: (context)=> electronicSignaturePage(YXQDataMap: data,userInfoMap: userInfoMap,),));
+        Navigator.push(context, MaterialPageRoute(builder: (context)=> electronicSignaturePage(YXQDataMap: data,registeredId: registeredId,category: tab1Active ?"1" :"2", prescriptionId: prescriptionId),));
 
       }else{
         String url = data["data"]["oauthURL"];
@@ -286,6 +287,8 @@ class _MakePrescriptionState extends State<MakePrescription> {
       setState(() {
         rpData = pickerData;
         rpList =data;
+        rpTypeId = rpList[0]['detailValue'].toString();
+        rpTypeName = rpList[0]['detailName'];
       });
     }
   }
@@ -521,7 +524,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
                       pickerData: rpData,
                       confirmCallback: (Picker picker, List<int> selected) {
                     setState(() {
-                       rpTypeId = rpList[selected[0]]['detailValue'];
+                       rpTypeId = rpList[selected[0]]['detailValue'].toString();
                        rpTypeName = rpList[selected[0]]['detailName'];
                     });
                   });

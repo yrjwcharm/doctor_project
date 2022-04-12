@@ -11,13 +11,18 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dio/dio.dart';
 
 class WriteCase extends StatefulWidget {
-  const WriteCase({Key? key}) : super(key: key);
+  String registeredId ; //挂号Id
+  WriteCase({Key? key, required this.registeredId}) : super(key: key);
 
   @override
-  _WriteCaseState createState() => _WriteCaseState();
+  _WriteCaseState createState() => _WriteCaseState(registeredId: this.registeredId);
 }
 
 class _WriteCaseState extends State<WriteCase> {
+
+  String registeredId ; //挂号Id
+  _WriteCaseState({required this.registeredId});
+
   List list = [
     {'label':'就诊卡类型','value':'身份证','disabled':true,'isArrow':false},
     {'label':'就诊卡号码','value':'3714**********6578','disabled':false,'isArrow':false},
@@ -42,8 +47,8 @@ class _WriteCaseState extends State<WriteCase> {
   loadtDataForWriteCase() async {
 
     Map params = {
-      "billid"          : "1", //病历Id
-      "registerid"      : "1", //挂号Id
+      // "billid"          : "1", //病历Id  非必填
+      "registerid"      : registeredId, //挂号Id
       "extend8"         : list[6]["value"].indexOf("请输入") !=-1 ? "" : list[6]["value"] , //主诉
       "extend9"         : list[7]["value"].indexOf("请输入") !=-1 ? "" : list[7]["value"], //病史描述
       "hpi"             : list[8]["value"].indexOf("请输入") !=-1 ? "" : list[8]["value"], //现病史

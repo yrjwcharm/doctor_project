@@ -65,6 +65,9 @@ class _ChatPageState extends State<ChatPage> {
   @override
   void initState() {
     super.initState();
+
+    print("userInfoMap-------" +this.userInfoMap.toString());
+
     _loadMessages();
     _focusNode.addListener(() {
       if (_focusNode.hasFocus) _emojiState = false;
@@ -293,7 +296,7 @@ class _ChatPageState extends State<ChatPage> {
                    children: <Widget>[
                      GestureDetector(
                        onTap: (){
-                         Navigator.push(context, MaterialPageRoute(builder: (context)=> MakePrescription(userInfoMap: userInfoMap,)));
+                         Navigator.push(context, MaterialPageRoute(builder: (context)=> MakePrescription(registeredId: userInfoMap["id"].toString(),)));
                        },
                       child: SvgUtil.svg('rp.svg'),),
                      const SizedBox(height: 9.0,),
@@ -304,7 +307,7 @@ class _ChatPageState extends State<ChatPage> {
                    children: <Widget>[
                      GestureDetector(
                        onTap: (){
-                         Navigator.push(context, MaterialPageRoute(builder: (context)=>const WriteCase()));
+                         Navigator.push(context, MaterialPageRoute(builder: (context)=> WriteCase(registeredId: userInfoMap["id"].toString(),)));
                        },
                       child: SvgUtil.svg('case.svg'),),
                      const SizedBox(height: 9.0,),
