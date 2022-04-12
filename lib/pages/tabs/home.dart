@@ -209,7 +209,7 @@ class HomeState extends State<Home> {
                       Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          SvgUtil.svg(item['type'] == 2
+                          SvgUtil.svg(item['type'] == '2'
                               ? 'video_interrogation.svg'
                               : 'photo.svg'),
                           const SizedBox(
@@ -283,16 +283,19 @@ class HomeState extends State<Home> {
                                 var res = await request?.post(
                                     Api.getReceiveConsultApi, map);
                                 if (res['code'] == 200) {
-                                  var res1 = await request?.get(
+                                  var res1 = await request?.post(
                                       Api.createRoomApi, {
                                     'orderId': item['id'],
                                     'roomType': 1,
                                     'patientId': item['patientId']
                                   });
                                   if(res1['code']==200){
-                                    ZegoConfig.instance.userID=res1['data']['userId'];
-                                    ZegoConfig.instance.userName=res1['data']['userName'];
-                                    ZegoConfig.instance.roomID =res1['data']['roomId'];
+                                      ZegoConfig.instance.userID =
+                                      res1['data']['userId'];
+                                      ZegoConfig.instance.userName =
+                                      res1['data']['userName'];
+                                      ZegoConfig.instance.roomID =
+                                      res1['data']['roomId'];
                                     var res2 = await request?.get(Api.getToken, {'roomId':res1['data']['roomId']});
                                     if(res2['code']==200){
                                       ZegoConfig.instance.token= res2['data']['token'];

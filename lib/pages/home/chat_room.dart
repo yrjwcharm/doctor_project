@@ -31,7 +31,7 @@ class ChatRoom extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         appBar: CustomAppBar(
-          '刘猛患者',
+          '患者',
           onBackPressed: () {
             Navigator.pop(context);
           },

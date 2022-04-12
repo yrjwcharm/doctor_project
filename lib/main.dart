@@ -1,6 +1,8 @@
-import 'package:doctor_project/pages/splash/splash_screen.dart';
+import 'package:doctor_project/pages/login/login.dart';
+import 'package:doctor_project/pages/tabs/main.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
+import 'common/local/local_storage.dart';
 import 'routes/routes.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:jpush_flutter/jpush_flutter.dart';
@@ -20,10 +22,19 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   bool isLogin = false;
+  String? token;
   @override
   void initState() {
     super.initState();
     initJpush();
+    getLoginState();
+  }
+  getLoginState() async {
+    String? token = await LocalStorage.get('tokenValue');
+     setState(() {
+       this.token = token;
+     });
+
   }
 
 
@@ -101,7 +112,7 @@ class _MyAppState extends State<MyApp> {
       ],
       debugShowCheckedModeBanner: false,
       // 设置这一属性即可
-      home: SplashScreen(),
+      home: token==null?LoginPage():Main(),
       builder: EasyLoading.init(),
       routes: routes,
     );
