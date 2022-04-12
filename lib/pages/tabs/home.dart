@@ -209,7 +209,7 @@ class HomeState extends State<Home> {
                       Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          SvgUtil.svg(item['type'] == 2
+                          SvgUtil.svg(item['type'] == '2'
                               ? 'video_interrogation.svg'
                               : 'photo.svg'),
                           const SizedBox(
@@ -227,7 +227,7 @@ class HomeState extends State<Home> {
                       height: 40.0,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20.0)),
-                      child: Image.network(item['photo']??''),
+                      child: Image.network(item['photo'] ?? ''),
                     ),
                   ),
                   Container(
@@ -283,30 +283,42 @@ class HomeState extends State<Home> {
                                 var res = await request?.post(
                                     Api.getReceiveConsultApi, map);
                                 if (res['code'] == 200) {
-                                  var res1 = await request?.get(
+                                  var res1 = await request?.post(
                                       Api.createRoomApi, {
                                     'orderId': item['id'],
                                     'roomType': 1,
                                     'patientId': item['patientId']
                                   });
-                                  if(res1['code']==200){
-                                    ZegoConfig.instance.userID=res1['data']['userId'];
-                                    ZegoConfig.instance.userName=res1['data']['userName'];
-                                    ZegoConfig.instance.roomID =res1['data']['roomId'];
-                                    var res2 = await request?.get(Api.getToken, {'roomId':res1['data']['roomId']});
-                                    if(res2['code']==200){
-                                      ZegoConfig.instance.token= res2['data']['token'];
+                                  if (res1['code'] == 200) {
+                                    ZegoConfig.instance.userID =
+                                        res1['data']['userId'].toString();
+                                    ZegoConfig.instance.userName =
+                                        res1['data']['userName'];
+                                    ZegoConfig.instance.roomID =
+                                        res1['data']['roomId'];
+                                    var res2 = await request?.get(Api.getToken,
+                                        {'roomId': res1['data']['roomId']});
+                                    if (res2['code'] == 200) {
+                                      ZegoConfig.instance.token =
+                                          res2['data']['token'];
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                              builder: (context) => VideoTopic(userName: res1['data']['userName'],)));
+                                              builder: (context) => VideoTopic(
+                                                    userName: res1['data']
+                                                        ['userName'],
+                                                  )));
                                     }
                                   }
                                 }
-                              }else{
-                                Navigator.push(context, MaterialPageRoute(builder: (context)=> ChatRoom(userInfoMap: item,)));
+                              } else {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => ChatRoom(
+                                              userInfoMap: item,
+                                            )));
                               }
-                              // }
                             },
                             child: Text(
                               status == 1 ? '继续交流' : '接诊',
@@ -725,6 +737,7 @@ class HomeState extends State<Home> {
                       tab1Active = true;
                       tab2Active = false;
                       status = 1;
+                      list = [];
                       _page = 1;
                     });
                     getData();
@@ -757,6 +770,7 @@ class HomeState extends State<Home> {
                       tab2Active = true;
                       tab1Active = false;
                       status = 0;
+                      list = [];
                       _page = 1;
                     });
                     getData();
