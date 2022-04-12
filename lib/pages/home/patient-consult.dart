@@ -261,6 +261,7 @@ class _PatientConsultState extends State<PatientConsult> {
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(14.0))),
                             onPressed: () async{
+                              // if(status==0){
                               if (item['type'] == '2') {
                                 var request = HttpRequest.getInstance();
                                 Map<String, dynamic> map = {};
@@ -268,16 +269,19 @@ class _PatientConsultState extends State<PatientConsult> {
                                 var res = await request?.post(
                                     Api.getReceiveConsultApi, map);
                                 if (res['code'] == 200) {
-                                  var res1 = await request?.get(
+                                  var res1 = await request?.post(
                                       Api.createRoomApi, {
                                     'orderId': item['id'],
                                     'roomType': 1,
                                     'patientId': item['patientId']
                                   });
                                   if(res1['code']==200){
-                                    ZegoConfig.instance.userID=res1['data']['userId'];
-                                    ZegoConfig.instance.userName=res1['data']['userName'];
-                                    ZegoConfig.instance.roomID =res1['data']['roomId'];
+                                    ZegoConfig.instance.userID =
+                                    res1['data']['userId'];
+                                    ZegoConfig.instance.userName =
+                                    res1['data']['userName'];
+                                    ZegoConfig.instance.roomID =
+                                    res1['data']['roomId'];
                                     var res2 = await request?.get(Api.getToken, {'roomId':res1['data']['roomId']});
                                     if(res2['code']==200){
                                       ZegoConfig.instance.token= res2['data']['token'];
@@ -288,7 +292,8 @@ class _PatientConsultState extends State<PatientConsult> {
                                     }
                                   }
                                 }
-                                // var res2 = await request?.get(Api.getToken, {'roomId':})
+                              }else{
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=> ChatRoom(userInfoMap: item,)));
                               }
                             },
                             child: Text(
@@ -326,6 +331,7 @@ class _PatientConsultState extends State<PatientConsult> {
                           tab1Active = true;
                           tab2Active = false;
                           status = 1;
+                          list=[];
                           _page=1;
                         });
                         getData();
@@ -358,6 +364,7 @@ class _PatientConsultState extends State<PatientConsult> {
                           tab2Active = true;
                           tab1Active = false;
                           status = 0;
+                          list=[];
                           _page=1;
                         });
                         getData();

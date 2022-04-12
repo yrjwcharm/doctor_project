@@ -728,6 +728,7 @@ class HomeState extends State<Home> {
                       tab1Active = true;
                       tab2Active = false;
                       status = 1;
+                      list=[];
                       _page = 1;
                     });
                     getData();
@@ -760,6 +761,7 @@ class HomeState extends State<Home> {
                       tab2Active = true;
                       tab1Active = false;
                       status = 0;
+                      list =[];
                       _page = 1;
                     });
                     getData();
