@@ -321,7 +321,7 @@ class _PrescriptDetailState extends State<PrescriptDetail> {
                             style: GSYConstant.textStyle(color: '#333333'),
                           ),
                           Text(
-                            '2021-07-29 10:56',
+                            dataMap["repictDate"] ==null ?"" : dataMap["repictDate"].toString(),
                             style: GSYConstant.textStyle(color: '#666666'),
                           ),
                         ],
@@ -390,8 +390,8 @@ class _PrescriptDetailState extends State<PrescriptDetail> {
                                       height: 6.0,
                                     ),
                                     Text(
-                                      "规格：500mgx12粒",
-                                      // medicineList[index]["specification"] +"/" +medicineList[index]["packageUnitid_dictValue"],
+                                      medicineList[index]["specification"] ==null ?"" :
+                                      medicineList[index]["specification"] +"/" +medicineList[index]["packageUnitid_dictValue"],
                                       style: GSYConstant.textStyle(
                                           fontSize: 13.0,
                                           color: '#666666'),
