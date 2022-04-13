@@ -5,6 +5,7 @@
 //  Created by Patrick Fu on 2020/12/04.
 //  Copyright © 2020 Zego. All rights reserved.
 //
+import 'package:doctor_project/pages/home/make_prescription.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:doctor_project/common/style/gsy_style.dart';
 import 'package:doctor_project/utils/colors_utils.dart';
@@ -20,10 +21,10 @@ import 'package:zego_express_engine/zego_express_engine.dart';
 import '../../config/zego_config.dart';
 
 class VideoTopic extends StatefulWidget {
-  VideoTopic({Key? key, required this.userName}) : super(key: key);
-  final String userName;
+  VideoTopic({Key? key, required this.regId}) : super(key: key);
+  final String regId;
   @override
-  _VideoTopicState createState() => _VideoTopicState(userName);
+  _VideoTopicState createState() => _VideoTopicState(regId);
 }
 
 class _VideoTopicState extends State<VideoTopic> {
@@ -54,8 +55,8 @@ class _VideoTopicState extends State<VideoTopic> {
   String _streamID='';
   final TextEditingController _publishingStreamIDController = TextEditingController();
   final TextEditingController _playingStreamIDController = TextEditingController();
-  String userName;
-  _VideoTopicState(this.userName);
+  String regId;
+  _VideoTopicState(this.regId);
 
   @override
   void initState() {
@@ -468,7 +469,9 @@ class _VideoTopicState extends State<VideoTopic> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             GestureDetector(
-              onTap: () {},
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>MakePrescription(registeredId:regId )));
+              },
               child: Column(
                 children: <Widget>[
                   SvgUtil.svg('m_rp.svg'),
