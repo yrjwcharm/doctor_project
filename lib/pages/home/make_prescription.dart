@@ -1128,8 +1128,11 @@ class _MakePrescriptionState extends State<MakePrescription> {
                 alignment: Alignment.bottomCenter,
                 child: SafeAreaButton(text: '电子签名', onPressed: () {
 
-                  getNet_createPrescription();
-                  // getNet_userSignature();
+                  if(prescriptionId.isEmpty){
+                    getNet_createPrescription();
+                  }else{ //从授权界面返回，直接签名
+                    getNet_userSignature();
+                  }
 
                 }),
               )

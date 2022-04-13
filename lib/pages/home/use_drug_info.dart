@@ -39,6 +39,7 @@ class _UseDrugInfoState extends State<UseDrugInfo> {
   Map instructionsMap ; //药品使用方法列表（用量、服药单位、用法等）
   _UseDrugInfoState({required this.drugInfoMap, required this.instructionsMap});
 
+  bool isHaveData = false ; //是否是点击确认返回的
   final TextEditingController _editingController1 = TextEditingController();
   final TextEditingController _editingController2 = TextEditingController();
   final TextEditingController _editingController3 = TextEditingController();
@@ -505,8 +506,9 @@ class _UseDrugInfoState extends State<UseDrugInfo> {
                   Fluttertoast.showToast(msg: '请选择或输入用法用量', gravity: ToastGravity.CENTER);
                   return ;
                 }
-                EventBusUtil.getInstance().fire(drugInfoMap);
-                Navigator.of(context).pop();
+                // EventBusUtil.getInstance().fire(drugInfoMap);
+                isHaveData = true;
+                Navigator.pop(context);
 
                 // Navigator.popUntil(context, ModalRoute.withName('/makePrescription'));
                 // Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => MakePrescription(),), ModalRoute.withName('chatRoom'));
@@ -518,5 +520,15 @@ class _UseDrugInfoState extends State<UseDrugInfo> {
         ],
       ),
     );
+  }
+
+  @override
+  void deactivate(){
+    super.deactivate();
+    if(isHaveData ==true){
+      print("通知传值成功");
+      EventBusUtil.getInstance().fire(drugInfoMap);
+    }
+
   }
 }

@@ -34,8 +34,10 @@ class _SettingsState extends State<Settings> {
       "token"   : tokenValueStr,
     });
     print("getNet_signOut------" +res.toString());
-    if (res['code'] == 200) {
-      perfer.clear();//清空键值对
+    if (res['code'] == 200 ||res['code'] == 900) {
+      // perfer.clear();//清空键值对
+      perfer.remove("phone");
+      perfer.remove("tokenValue");
       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> LoginPage()), (route) => false);
 
     }else{
