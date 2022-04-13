@@ -276,7 +276,7 @@ class HomeState extends State<Home> {
                                     borderRadius: BorderRadius.circular(14.0))),
                             onPressed: () async {
                               // if(status==0){
-                              if (item['type'] == '2') {
+                              // if (item['type'] == '2') {
                                 var request = HttpRequest.getInstance();
                                 Map<String, dynamic> map = {};
                                 map['registerId'] = item['id'];
@@ -285,7 +285,7 @@ class HomeState extends State<Home> {
                                 if (res['code'] == 200) {
                                   var res1 = await request?.post(
                                       Api.createRoomApi, {
-                                    'orderId': item['id'],
+                                    'orderId': item['orderId'],
                                     'roomType': 1,
                                     'patientId': item['patientId']
                                   });
@@ -310,14 +310,14 @@ class HomeState extends State<Home> {
                                     }
                                   }
                                 }
-                              } else {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => ChatRoom(
-                                              userInfoMap: item,
-                                            )));
-                              }
+                              // } else {
+                              //   Navigator.push(
+                              //       context,
+                              //       MaterialPageRoute(
+                              //           builder: (context) => ChatRoom(
+                              //                 userInfoMap: item,
+                              //               )));
+                              // }
                             },
                             child: Text(
                               status == 1 ? '继续交流' : '接诊',

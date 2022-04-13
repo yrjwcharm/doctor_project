@@ -270,7 +270,7 @@ class _PatientConsultState extends State<PatientConsult> {
                                 if (res['code'] == 200) {
                                   var res1 = await request?.post(
                                       Api.createRoomApi, {
-                                    'orderId': item['id'],
+                                    'orderId': item['orderId'],
                                     'roomType': 1,
                                     'patientId': item['patientId']
                                   });

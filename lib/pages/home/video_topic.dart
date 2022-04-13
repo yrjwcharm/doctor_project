@@ -37,7 +37,6 @@ class _VideoTopicState extends State<VideoTopic> {
   bool isMuteMicrophone = false; //设置是否静音（关闭麦克风）
   bool isMuteSpeaker = false; //  bool muteSpeaker = false; 设置是否静音（关闭音频输出）。
   final String _roomID = ZegoConfig.instance.roomID;
-
   int _previewViewID = -1;
   int _playViewID = -1;
   Widget? _previewViewWidget;
@@ -52,7 +51,7 @@ class _VideoTopicState extends State<VideoTopic> {
   ZegoRoomState _roomState = ZegoRoomState.Disconnected;
   ZegoPublisherState _publisherState = ZegoPublisherState.NoPublish;
   ZegoPlayerState _playerState = ZegoPlayerState.NoPlay;
-
+  String _streamID='';
   final TextEditingController _publishingStreamIDController = TextEditingController();
   final TextEditingController _playingStreamIDController = TextEditingController();
   String userName;
@@ -196,7 +195,7 @@ class _VideoTopicState extends State<VideoTopic> {
           .of(context)
           .devicePixelRatio;
       Size? widgetSize = _previewViewContainerKey.currentContext?.size;
-      startPublishingStream(ZegoConfig.instance.userID,
+      startPublishingStream('1111',
           width: widgetSize!.width * pixelRatio,
           height: widgetSize.height * pixelRatio);
     } else {
@@ -207,11 +206,11 @@ class _VideoTopicState extends State<VideoTopic> {
           .of(context)
           .devicePixelRatio;
       Size? widgetSize = _playViewContainerKey.currentContext?.size;
-      startPlayingStream(ZegoConfig.instance.userID,
+      startPlayingStream(_streamID,
           width: widgetSize!.width * pixelRatio,
           height: widgetSize.height * pixelRatio);
     } else {
-      stopPlayingStream(ZegoConfig.instance.userID);
+      stopPlayingStream(_streamID);
     }
   }
 
@@ -350,7 +349,14 @@ class _VideoTopicState extends State<VideoTopic> {
           '🚩 🚪 Room state update, state: $state, errorCode: $errorCode, roomID: $roomID');
       setState(() => _roomState = state);
     };
-
+    ZegoExpressEngine.onRoomStreamUpdate=(String roomID, ZegoUpdateType updateType, List<ZegoStream> streamList, Map<String, dynamic> extendedData){
+      if(updateType==ZegoUpdateType.Add){
+         setState(() {
+            _streamID = streamList[0].streamID;
+         });
+         startPlayingStream(_streamID);
+      }
+    };
     ZegoExpressEngine.onPublisherStateUpdate = (String streamID,
         ZegoPublisherState state,
         int errorCode,
@@ -416,7 +422,7 @@ class _VideoTopicState extends State<VideoTopic> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-        '刘猛患者',
+        '视频通话',
         onBackPressed: () {
           Navigator.pop(context);
         },
@@ -563,7 +569,7 @@ class _VideoTopicState extends State<VideoTopic> {
                     color: ColorsUtil.hexStringColor('#000000', alpha: 0.6)
                 ),
                 child: Text(
-                  '医师 $userName', style: GSYConstant.textStyle(fontSize: 12.0),),
+                  '医师', style: GSYConstant.textStyle(fontSize: 12.0),),
               ))
         ]),);
   }
