@@ -305,8 +305,7 @@ class HomeState extends State<Home> {
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) => VideoTopic(
-                                                    userName: res1['data']
-                                                        ['userName'],
+                                                    regId: item['id'],
                                                   )));
                                     }
                                   }

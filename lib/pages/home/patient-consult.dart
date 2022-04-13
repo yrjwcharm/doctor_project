@@ -287,7 +287,7 @@ class _PatientConsultState extends State<PatientConsult> {
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                              builder: (context) => VideoTopic(userName: res1['data']['userName'],)));
+                                              builder: (context) => VideoTopic(regId: item['id'],)));
                                     }
                                   }
                                 }
