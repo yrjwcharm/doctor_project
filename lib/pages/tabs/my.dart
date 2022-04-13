@@ -1,4 +1,7 @@
 import 'dart:io';
+import '../../http/http_request.dart';
+import '../../http/api.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:doctor_project/common/style/gsy_style.dart';
 import 'package:doctor_project/pages/my/my_income.dart';
@@ -11,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../my/basic_info.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class My extends StatefulWidget {
   const My({Key? key}) : super(key: key);
@@ -19,8 +23,29 @@ class My extends StatefulWidget {
 }
 
 class MyState extends State<My> {
+
   late File _image;
    List<Widget> items = [];
+   Map doctorInfoMap = new Map();
+   String phoneStr ="" ;
+
+  //获取医生信息
+  getNet_doctorInfo() async {
+
+    SharedPreferences perfer = await SharedPreferences.getInstance();
+    phoneStr = (perfer.getString("phone") ?? "");
+
+    HttpRequest? request = HttpRequest.getInstance();
+    var res = await request?.get(Api.getDoctorInfoUrl, {});
+    print("getNet_doctorInfo------" +res.toString());
+
+    if (res['code'] == 200) {
+      setState(() {
+        doctorInfoMap = res['data'];
+      });
+    }
+  }
+
    @override
     initState(){
         super.initState();
@@ -41,7 +66,9 @@ class MyState extends State<My> {
             Navigator.push(context, MaterialPageRoute(builder: (context)=>const TemplateCreate()));
           }),
         ];
-     }
+
+        getNet_doctorInfo();
+   }
    _buildListTile({required int id,required String icon,required String title,required GestureTapCallback onTap}){
      return Container(
         decoration:  BoxDecoration(
@@ -146,20 +173,27 @@ class MyState extends State<My> {
                 onTap:(){
                   _handleClickMe(context);
                 },
-                child:const Image(image: AssetImage('assets/images/home/avatar.png'),fit: BoxFit.cover,width: 55.0,height: 55.0,),
-
+                // child:const Image(image: AssetImage('assets/images/home/avatar.png'),fit: BoxFit.cover,width: 55.0,height: 55.0,),
+                // child:Image.network(doctorInfoMap.isEmpty ?"" :doctorInfoMap["photoUrl"],fit: BoxFit.cover,width: 55.0,height: 55.0,),
+                child: CachedNetworkImage(
+                // 加载网络图片过程中显示的内容 , 这里显示进度条
+                  placeholder: (context, url)=>CircularProgressIndicator(),
+                // 网络图片地址
+                  imageUrl: doctorInfoMap.isEmpty ?"" :doctorInfoMap["photoUrl"],
+                  fit: BoxFit.cover,width: 55.0,height: 55.0,
+                ),
               ),
               const SizedBox(width: 15.0,),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children:  const [
-                  Text('刘玉春',style: TextStyle(
+                children: [
+                  Text(doctorInfoMap.isEmpty ?"" :doctorInfoMap["realName"],style: const TextStyle(
                       fontSize:20.0,
                       fontWeight: FontWeight.w500,
                       fontFamily: 'Medium',
                       color: Colors.white,
                   ),),
-                  Text('18311410379',style: TextStyle(
+                  Text(phoneStr,style: const TextStyle(
                     fontSize:14.0,
                     fontWeight: FontWeight.w400,
                     fontFamily: 'PingFangSC-Regular-Medium, PingFang SC',

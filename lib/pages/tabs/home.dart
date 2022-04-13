@@ -21,6 +21,7 @@ import '../home/open_service.dart';
 import '../home/order_detail.dart';
 import '../home/patient-consult.dart';
 import '../../http/http_request.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -39,10 +40,12 @@ class HomeState extends State<Home> {
   bool isMore = true; //是否正在加载数据
   int receiving = 0;
   int waitReceive = 0;
+  Map doctorInfoMap = new Map();
 
   @override
   void initState() {
     super.initState();
+    getNet_doctorInfo();
     getData();
     getCount();
     _scrollController.addListener(() {
@@ -52,6 +55,20 @@ class HomeState extends State<Home> {
         _getMore();
       }
     });
+  }
+
+  //获取医生信息
+   getNet_doctorInfo() async {
+
+    HttpRequest? request = HttpRequest.getInstance();
+    var res = await request?.get(Api.getDoctorInfoUrl, {});
+    print("getNet_doctorInfo------" +res.toString());
+
+    if (res['code'] == 200) {
+      setState(() {
+        doctorInfoMap = res['data'];
+      });
+    }
   }
 
   getCount() async {
@@ -417,10 +434,13 @@ class HomeState extends State<Home> {
               child: Row(children: <Widget>[
                 Container(
                   margin: const EdgeInsets.only(right: 16),
-                  child: const Image(
-                    image: AssetImage('assets/images/home/avatar.png'),
-                    width: 43,
-                    height: 43,
+                  // child: Image(image: AssetImage('assets/images/home/avatar.png'), width: 43, height: 43,),
+                  child: CachedNetworkImage(
+                    // 加载网络图片过程中显示的内容 , 这里显示进度条
+                    placeholder: (context, url)=>CircularProgressIndicator(),
+                    // 网络图片地址
+                    imageUrl: doctorInfoMap.isEmpty ?"" :doctorInfoMap["photoUrl"],
+                    width: 43,height: 43,fit: BoxFit.cover,
                   ),
                 ),
                 Expanded(
@@ -429,7 +449,7 @@ class HomeState extends State<Home> {
                       Expanded(
                         child: Row(
                           children: <Widget>[
-                            Text('王建国',
+                            Text(doctorInfoMap.isEmpty ?"" :doctorInfoMap["realName"],
                                 style: TextStyle(
                                     fontFamily: 'Medium',
                                     fontSize: 18,
@@ -449,7 +469,7 @@ class HomeState extends State<Home> {
                                         color: ColorsUtil.hexStringColor(
                                             '#06B48D')),
                                     borderRadius: BorderRadius.circular(9.0)),
-                                child: Text('主任医师',
+                                child: Text(doctorInfoMap.isEmpty ?"" :doctorInfoMap["protitle_dictText"],
                                     style: TextStyle(
                                         color: ColorsUtil.hexStringColor(
                                             '#06B48D'),
@@ -462,12 +482,12 @@ class HomeState extends State<Home> {
                       ),
                       Container(
                         margin: const EdgeInsets.only(top: 9),
-                        child: Row(children: const <Widget>[
-                          Text('北京朝阳医院'),
+                        child: Row(children:  <Widget>[
+                          Text(doctorInfoMap.isEmpty ?"" :doctorInfoMap["orgName"]),
                           SizedBox(
                             width: 8,
                           ),
-                          Text('呼吸内科')
+                          Text(doctorInfoMap.isEmpty ?"" :doctorInfoMap["deptName"])
                         ]),
                       )
                     ],

@@ -9,6 +9,7 @@ import '../../http/http_request.dart';
 import '../../http/api.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:doctor_project/widget/safe_area_button.dart';
+import '../../utils/svg_utils.dart';
 import 'dart:convert';
 import 'dart:math' as math;
 
@@ -199,7 +200,8 @@ class _PrescriptDetailState extends State<PrescriptDetail> {
                           Container(
                             margin:
                             const EdgeInsets.only(left: 23.0, right: 19.0),
-                            child: Image.asset('assets/images/audit_pass.png'),
+                            // child: Image.asset('assets/images/audit_pass.png'),
+                            child: SvgUtil.svg("auditing.svg"),
                           )
                         ],
                       ),

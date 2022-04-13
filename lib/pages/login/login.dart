@@ -51,6 +51,7 @@ class RegisterContentStates extends State<LoginPage> {
 
       String tokenValueStr = response.data['data']['tokenValue'];
       SharedPreferences perfer = await SharedPreferences.getInstance();
+      perfer.setString('phone', loginStr);
       bool isSuccess = await perfer.setString(
           'tokenValue', tokenValueStr);
       print(

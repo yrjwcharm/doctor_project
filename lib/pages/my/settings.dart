@@ -1,3 +1,8 @@
+import 'package:fluttertoast/fluttertoast.dart';
+import '../../http/http_request.dart';
+import '../../http/api.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:doctor_project/common/style/gsy_style.dart';
 import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:doctor_project/widget/custom_app_bar.dart';
@@ -6,6 +11,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../widget/safe_area_button.dart';
+import 'package:doctor_project/pages/login/login.dart';
 
 class Settings extends StatefulWidget {
   const Settings({Key? key}) : super(key: key);
@@ -16,6 +22,27 @@ class Settings extends StatefulWidget {
 
 class _SettingsState extends State<Settings> {
   List list =[{'title':'修改密码'},{'title':'隐私政策'}];
+
+
+  //退出登录接口
+  void getNet_signOut() async{
+
+    SharedPreferences perfer = await SharedPreferences.getInstance();
+    String? tokenValueStr = perfer.getString("tokenValue");
+    HttpRequest? request = HttpRequest.getInstance();
+    var res = await request?.post(Api.signOutUrl,{
+      "token"   : tokenValueStr,
+    });
+    print("getNet_signOut------" +res.toString());
+    if (res['code'] == 200) {
+      perfer.clear();//清空键值对
+      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> LoginPage()), (route) => false);
+
+    }else{
+      Fluttertoast.showToast(msg: res['msg'], gravity: ToastGravity.CENTER);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,7 +77,10 @@ class _SettingsState extends State<Settings> {
                         ),
                     ).toList()
           ),
-          SafeAreaButton(text: '安全退出', onPressed: () {  },)
+          SafeAreaButton(text: '安全退出', onPressed: () {
+
+            getNet_signOut();
+          },)
         ]
       ),
     );
