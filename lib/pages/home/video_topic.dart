@@ -102,20 +102,21 @@ class _VideoTopicState extends State<VideoTopic> {
     createEngine();
   }
 
-  Future<void> muteMicrophone(bool mute) async {
-    return await ZegoExpressEngine.instance.muteMicrophone(mute);
+  bool _isEnableCamera = true;
+  isEnableCamera() {
+    ZegoExpressEngine.instance.enableCamera(_isEnableCamera);
   }
 
-  //关闭麦克风
-  Future<void> muteSpeaker(bool mute) async {
-    return await ZegoExpressEngine.instance.muteSpeaker(mute);
+  bool _isEnableMic = true;
+  isEnableMic() {
+    ZegoExpressEngine.instance.muteMicrophone(!_isEnableMic);
   }
 
-  Future<void> useFrontCamera(bool enable,
-      {ZegoPublishChannel? channel}) async {
-    return await ZegoExpressEngine.instance.useFrontCamera(
-        enable, channel: channel);
+  bool _isEnableSpeaker = true;
+  isEnableSpeaker() {
+    ZegoExpressEngine.instance.muteSpeaker(!_isEnableSpeaker);
   }
+
 
   Future<void> requestPermission() async {
     PermissionStatus cameraStatus = await Permission.camera.request();
@@ -439,28 +440,6 @@ class _VideoTopicState extends State<VideoTopic> {
   Widget mainContent() {
     return Column(children: [
             viewsWidget(),
-            // SizedBox(
-            //   height: 240.0,
-            //   child: Stack(children: [
-            //     Container(
-            //       child: _previewViewWidget,
-            //       key: _previewViewContainerKey,
-            //     ),
-            //   ], alignment: Alignment.topCenter),
-            // )
-      // stepOneCreateEngineWidget(),
-      // stepTwoLoginRoomWidget(),
-      // stepThreeStartPublishingStreamWidget(),
-      // stepFourStartPlayingStreamWidget(),
-      // Padding(padding: const EdgeInsets.only(bottom: 20.0)),
-      // CupertinoButton.filled(
-      //   child: Text(
-      //     'DestroyEngine',
-      //     style: TextStyle(fontSize: 18.0),
-      //   ),
-      //   onPressed: destroyEngine,
-      //   padding: EdgeInsets.symmetric(vertical: 10, horizontal: 50),
-      // )
       SafeArea(child: Container(
         decoration: BoxDecoration(color: ColorsUtil.hexStringColor('#333333')),
         padding: const EdgeInsets.only(
@@ -486,7 +465,12 @@ class _VideoTopicState extends State<VideoTopic> {
               ),
             ),
             GestureDetector(
-              onTap: () {},
+              onTap: () {
+                setState(() {
+                  _isEnableCamera = !_isEnableCamera;
+                });
+                isEnableCamera();
+              },
               child: Column(
                 children: <Widget>[
                   SvgUtil.svg('video_.svg'),
@@ -509,7 +493,12 @@ class _VideoTopicState extends State<VideoTopic> {
               child: SvgUtil.svg('close.svg'),
             ),
             GestureDetector(
-              onTap: () {},
+              onTap: () {
+                setState(() {
+                  _isEnableMic = !_isEnableMic;
+                });
+                isEnableMic();
+              },
               child: Column(
                 children: <Widget>[
                   SvgUtil.svg('close_speaker.svg'),
@@ -524,7 +513,13 @@ class _VideoTopicState extends State<VideoTopic> {
               ),
             ),
             GestureDetector(
-              onTap: () {},
+              onTap: () {
+                setState(() {
+                  _isEnableSpeaker = !_isEnableSpeaker;
+
+                });
+                isEnableSpeaker();
+              },
               child: Column(
                 children: <Widget>[
                   SvgUtil.svg('more.svg'),

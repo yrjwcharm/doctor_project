@@ -1,4 +1,3 @@
-
 import 'package:doctor_project/common/style/gsy_style.dart';
 import 'package:doctor_project/http/http_request.dart';
 import 'package:doctor_project/pages/home/video_topic.dart';
@@ -15,8 +14,9 @@ import 'chat_room.dart';
 import 'order_detail.dart';
 
 class PatientConsult extends StatefulWidget {
-   const PatientConsult({Key? key, required this.type}) : super(key: key);
-   final String type;
+  const PatientConsult({Key? key, required this.type}) : super(key: key);
+  final String type;
+
   @override
   _PatientConsultState createState() => _PatientConsultState(type);
 }
@@ -28,10 +28,11 @@ class _PatientConsultState extends State<PatientConsult> {
   final ScrollController _scrollController = ScrollController(); //listview的控制器
   int _page = 1; //加载的页数
   bool isMore = true;
-  int receiving=0;
-  int status = 0;
-  int waitReceive =0;
+  int receiving = 0;
+  int status = 1;
+  int waitReceive = 0;
   String type;
+
   _PatientConsultState(this.type);
 
   @override
@@ -47,13 +48,14 @@ class _PatientConsultState extends State<PatientConsult> {
       }
     });
   }
-  getCount() async{
+
+  getCount() async {
     var request = HttpRequest.getInstance();
-    var res = await request?.get(Api.getReceiveConsultCount, {'type':type});
-    if(res['code']==200){
+    var res = await request?.get(Api.getReceiveConsultCount, {'type': type});
+    if (res['code'] == 200) {
       setState(() {
-        receiving=res['data']['receiving'];
-        waitReceive=res['data']['waitReceive'];
+        receiving = res['data']['receiving'];
+        waitReceive = res['data']['waitReceive'];
       });
     }
   }
@@ -64,22 +66,26 @@ class _PatientConsultState extends State<PatientConsult> {
   Future getData() async {
     var request = HttpRequest.getInstance();
     var res = await request?.get(
-        Api.getReceiveConsultList + '?status=$status&page=$_page&size=10&type=$type', {});
+        Api.getReceiveConsultList +
+            '?status=$status&page=$_page&size=10&type=$type',
+        {});
     if (res['code'] == 200) {
       setState(() {
         list = res['data']['records'];
-        isMore=true;
+        isMore = true;
       });
     } else {
       ToastUtil.showToast(msg: res['msg']);
     }
   }
+
   Future _getMore() async {
     if (isMore) {
       _page += 1;
       var request = HttpRequest.getInstance();
       var res = await request?.get(
-          Api.getReceiveConsultList + '?status=$status&page=$_page&size=10&type=$type',
+          Api.getReceiveConsultList +
+              '?status=$status&page=$_page&size=10&type=$type',
           {});
       if (res['code'] == 200) {
         var total = res['data']['total'];
@@ -134,7 +140,6 @@ class _PatientConsultState extends State<PatientConsult> {
     );
   }
 
-
   @override
   void dispose() {
     // TODO: implement dispose
@@ -147,8 +152,10 @@ class _PatientConsultState extends State<PatientConsult> {
       var item = list[index];
       return GestureDetector(
           onTap: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => OrderDetail(map: list[index])));
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => OrderDetail(map: list[index])));
           },
           child: Container(
               margin: const EdgeInsets.fromLTRB(16.0, 10.0, 16.0, 0),
@@ -161,7 +168,7 @@ class _PatientConsultState extends State<PatientConsult> {
                     onTap: null,
                     contentPadding: const EdgeInsets.symmetric(horizontal: 8.0),
                     subtitle: Text(
-                      item['type_dictText']??'',
+                      item['type_dictText'] ?? '',
                       style: GSYConstant.textStyle(
                           fontSize: 13.0, color: '#666666'),
                     ),
@@ -170,7 +177,7 @@ class _PatientConsultState extends State<PatientConsult> {
                         child: Row(
                           children: [
                             Text(
-                              item['name']??'',
+                              item['name'] ?? '',
                               style: GSYConstant.textStyle(
                                   color: '#333333', fontSize: 15.0),
                             ),
@@ -178,7 +185,7 @@ class _PatientConsultState extends State<PatientConsult> {
                               width: 16,
                             ),
                             Text(
-                              item['sex_dictText']??'',
+                              item['sex_dictText'] ?? '',
                               style: GSYConstant.textStyle(
                                   fontSize: 13.0, color: '#666666'),
                             ),
@@ -198,7 +205,9 @@ class _PatientConsultState extends State<PatientConsult> {
                       Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          SvgUtil.svg(item['type']==2?'video_interrogation.svg':'photo.svg'),
+                          SvgUtil.svg(item['type'] == 2
+                              ? 'video_interrogation.svg'
+                              : 'photo.svg'),
                           const SizedBox(
                             width: 4,
                           ),
@@ -209,13 +218,12 @@ class _PatientConsultState extends State<PatientConsult> {
                         ],
                       )
                     ]),
-                    leading:Container(
+                    leading: Container(
                       width: 40.0,
                       height: 40.0,
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20.0)
-                      ),
-                      child: Image.network(item['photo']??''),
+                          borderRadius: BorderRadius.circular(20.0)),
+                      child: Image.network(item['photo'] ?? ''),
                     ),
                   ),
                   Container(
@@ -249,7 +257,9 @@ class _PatientConsultState extends State<PatientConsult> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          (int.parse(item['times'])/1000/60/60).toStringAsFixed(0)+'小时前',
+                          (int.parse(item['times']) / 1000 / 60 / 60)
+                                  .toStringAsFixed(0) +
+                              '小时前',
                           style: GSYConstant.textStyle(color: '#888888'),
                         ),
                         SizedBox(
@@ -260,39 +270,48 @@ class _PatientConsultState extends State<PatientConsult> {
                                 primary: ColorsUtil.shallowColor,
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(14.0))),
-                            onPressed: () async{
-                              if (item['type'] == '2') {
-                                var request = HttpRequest.getInstance();
-                                Map<String, dynamic> map = {};
-                                map['registerId'] = item['id'];
-                                var res = await request?.post(
-                                    Api.getReceiveConsultApi, map);
-                                if (res['code'] == 200) {
+                            onPressed: () async {
+                              var request = HttpRequest.getInstance();
+                              Map<String, dynamic> map = {};
+                              map['registerId'] = item['id'];
+                              var res = await request?.post(
+                                  Api.getReceiveConsultApi, map);
+                              if (res['code'] == 200) {
+                                if (item['type'] == '2') {
                                   var res1 = await request?.post(
                                       Api.createRoomApi, {
                                     'orderId': item['orderId'],
                                     'roomType': 1,
                                     'patientId': item['patientId']
                                   });
-                                  if(res1['code']==200){
+                                  if (res1['code'] == 200) {
                                     ZegoConfig.instance.userID =
                                         res1['data']['userId'].toString();
                                     ZegoConfig.instance.userName =
-                                    res1['data']['userName'];
+                                        res1['data']['userName'];
                                     ZegoConfig.instance.roomID =
-                                    res1['data']['roomId'];
-                                    var res2 = await request?.get(Api.getToken, {'roomId':res1['data']['roomId']});
-                                    if(res2['code']==200){
-                                      ZegoConfig.instance.token= res2['data']['token'];
+                                        res1['data']['roomId'];
+                                    var res2 = await request?.get(Api.getToken,
+                                        {'roomId': res1['data']['roomId']});
+                                    if (res2['code'] == 200) {
+                                      ZegoConfig.instance.token =
+                                          res2['data']['token'];
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                              builder: (context) => VideoTopic(regId: item['id'],)));
+                                              builder: (context) => VideoTopic(
+                                                    regId: item['id'],
+                                                  )));
                                     }
                                   }
+                                } else {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => ChatRoom(
+                                                userInfoMap: item,
+                                              )));
                                 }
-                              }else{
-                                Navigator.push(context, MaterialPageRoute(builder: (context)=> ChatRoom(userInfoMap: item,)));
                               }
                             },
                             child: Text(
@@ -304,91 +323,98 @@ class _PatientConsultState extends State<PatientConsult> {
                       ],
                     ),
                   )
-
                 ],
               )));
     }
     return _getMoreWidget();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorsUtil.bgColor,
       body: Column(
         children: [
-          CustomAppBar(type=='1'?'患者咨询':type=='2'?'图文问诊':'视频问诊',onBackPressed: (){
-            Navigator.pop(context);
-          },),
+          CustomAppBar(
+            type == '1'
+                ? '患者咨询'
+                : type == '0'
+                    ? '图文问诊'
+                    : '视频问诊',
+            onBackPressed: () {
+              Navigator.pop(context);
+            },
+          ),
           Container(
             margin: const EdgeInsets.only(top: 10.0),
             child: Row(
               children: <Widget>[
                 Expanded(
                     child: GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          tab1Active = true;
-                          tab2Active = false;
-                          status = 1;
-                          list=[];
-                          _page=1;
-                        });
-                        getData();
-                      },
-                      child: Column(
-                        children: [
-                          Text(
-                            '接诊中($receiving)',
-                            style: GSYConstant.textStyle(color: '#333333'),
-                          ),
-                          const SizedBox(
-                            height: 2,
-                          ),
-                          tab1Active
-                              ? Container(
-                            height: 2,
-                            width: 69,
-                            decoration: BoxDecoration(
-                                color: ColorsUtil.shallowColor,
-                                borderRadius: BorderRadius.circular(2.0)),
-                          )
-                              : const SizedBox()
-                        ],
+                  onTap: () {
+                    setState(() {
+                      tab1Active = true;
+                      tab2Active = false;
+                      status = 1;
+                      list = [];
+                      _page = 1;
+                    });
+                    getData();
+                  },
+                  child: Column(
+                    children: [
+                      Text(
+                        '接诊中($receiving)',
+                        style: GSYConstant.textStyle(color: '#333333'),
                       ),
-                    )),
+                      const SizedBox(
+                        height: 2,
+                      ),
+                      tab1Active
+                          ? Container(
+                              height: 2,
+                              width: 69,
+                              decoration: BoxDecoration(
+                                  color: ColorsUtil.shallowColor,
+                                  borderRadius: BorderRadius.circular(2.0)),
+                            )
+                          : const SizedBox()
+                    ],
+                  ),
+                )),
                 Expanded(
                     child: GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          tab2Active = true;
-                          tab1Active = false;
-                          status = 0;
-                          list=[];
-                          _page=1;
-                        });
-                        getData();
-                      },
-                      child: Column(
-                        children: [
-                          Text(
-                            '待接诊($waitReceive)',
-                            style: GSYConstant.textStyle(color: '#333333'),
-                          ),
-                          const SizedBox(
-                            height: 2,
-                          ),
-                          tab2Active
-                              ? Container(
-                            height: 2,
-                            width: 69,
-                            decoration: BoxDecoration(
-                                color: ColorsUtil.shallowColor,
-                                borderRadius: BorderRadius.circular(2.0)),
-                          )
-                              : const SizedBox()
-                        ],
+                  onTap: () {
+                    setState(() {
+                      tab2Active = true;
+                      tab1Active = false;
+                      status = 0;
+                      list = [];
+                      _page = 1;
+                    });
+                    getData();
+                  },
+                  child: Column(
+                    children: [
+                      Text(
+                        '待接诊($waitReceive)',
+                        style: GSYConstant.textStyle(color: '#333333'),
                       ),
-                    ))
+                      const SizedBox(
+                        height: 2,
+                      ),
+                      tab2Active
+                          ? Container(
+                              height: 2,
+                              width: 69,
+                              decoration: BoxDecoration(
+                                  color: ColorsUtil.shallowColor,
+                                  borderRadius: BorderRadius.circular(2.0)),
+                            )
+                          : const SizedBox()
+                    ],
+                  ),
+                ))
               ],
             ),
           ),
@@ -403,7 +429,6 @@ class _PatientConsultState extends State<PatientConsult> {
             ),
           )
         ],
-
       ),
     );
   }
