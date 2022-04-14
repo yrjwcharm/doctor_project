@@ -155,9 +155,6 @@ class _VideoTopicState extends State<VideoTopic> {
   // MARK: - Step 1: CreateEngine
 
   void createEngine() {
-    print('roomID,${ZegoConfig.instance.roomID}');
-    print('userId,${ZegoConfig.instance.userID}');
-    print('token,${ZegoConfig.instance.token}');
     ZegoEngineProfile profile = ZegoEngineProfile(
         ZegoConfig.instance.appID, ZegoConfig.instance.scenario,
         // appSign: ZegoConfig.instance.token,
@@ -382,6 +379,9 @@ class _VideoTopicState extends State<VideoTopic> {
     ZegoExpressEngine.onRoomStateUpdate = null;
     ZegoExpressEngine.onPublisherStateUpdate = null;
     ZegoExpressEngine.onPlayerStateUpdate = null;
+    ZegoExpressEngine.onIMRecvBroadcastMessage = null;
+    ZegoExpressEngine.onIMRecvCustomCommand = null;
+    ZegoExpressEngine.onIMRecvBarrageMessage = null;
   }
 
   void clearPreviewView() {

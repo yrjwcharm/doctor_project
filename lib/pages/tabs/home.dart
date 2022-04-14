@@ -299,7 +299,6 @@ class HomeState extends State<Home> {
                               var res = await request?.post(
                                   Api.getReceiveConsultApi, map);
                               if (res['code'] == 200) {
-                                if (item['type'] == '2') {
                                   var res1 = await request?.post(
                                       Api.createRoomApi, {
                                     'orderId': item['orderId'],
@@ -318,23 +317,25 @@ class HomeState extends State<Home> {
                                     if (res2['code'] == 200) {
                                       ZegoConfig.instance.token =
                                           res2['data']['token'];
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) => VideoTopic(
-                                                    regId: item['id'],
-                                                  )));
+                                       if(item['type']=='2'){
+                                         Navigator.push(
+                                             context,
+                                             MaterialPageRoute(
+                                                 builder: (context) => VideoTopic(
+                                                   regId: item['id'],
+                                                 )));
+
+                                       }else{
+                                         Navigator.push(
+                                             context,
+                                             MaterialPageRoute(
+                                                 builder: (context) => ChatRoom(
+                                                   userInfoMap: item,
+                                                 )));
+                                       }
                                     }
                                   }
-                                } else {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => ChatRoom(
-                                                userInfoMap: item,
-                                              )));
                                 }
-                              }
                             },
                             child: Text(
                               status == 1 ? '继续交流' : '接诊',
