@@ -78,7 +78,7 @@ class HttpRequest {
     print('11111,$token');
     options?.headers = {'token': token ?? ''};
     dio = Dio(options);
-    if (!isHideLoading) EasyLoading.show(status: '加载中...', dismissOnTap: false);
+    if (!isHideLoading) EasyLoading.show(status: '加载中...', dismissOnTap: false,maskType: EasyLoadingMaskType.black);
     try {
       Response? response = await dio?.get(url,
           queryParameters: data, options: option, cancelToken: cancelToken);
@@ -99,16 +99,16 @@ class HttpRequest {
     String? token = await LocalStorage.get('tokenValue');
     options?.headers = {'token': token ?? ''};
     dio = Dio(options);
-    if (!isHideLoading) EasyLoading.show(status: '加载中...', dismissOnTap: false);
+    if (!isHideLoading) EasyLoading.show(status: '加载中...', dismissOnTap: false,maskType: EasyLoadingMaskType.black);
 
     try {
       Response? response = await dio?.post(url,
           data: data, options: option, cancelToken: cancelToken);
-      if (!isHideLoading) EasyLoading.dismiss();
+      EasyLoading.dismiss();
       var result =response?.data;
       return result;
     } on DioError catch (e) {
-      if (!isHideLoading) EasyLoading.dismiss();
+     EasyLoading.dismiss();
       formatError(e);
       return null;
     }
@@ -116,7 +116,7 @@ class HttpRequest {
 
   Future<dynamic> downloadFile(urlPath, savePath,
       {bool isHideLoading = false}) async {
-    if (!isHideLoading) EasyLoading.show(status: '加载中...', dismissOnTap: false);
+    if (!isHideLoading) EasyLoading.show(status: '加载中...', dismissOnTap: false,maskType: EasyLoadingMaskType.black);
     Response? response;
     try {
       response = await dio?.download(urlPath, savePath,
@@ -129,7 +129,7 @@ class HttpRequest {
       print('downloadFile error---------$e');
       formatError(e);
     }
-    if (!isHideLoading) EasyLoading.dismiss();
+    EasyLoading.dismiss();
     return response?.data;
   }
 
@@ -157,7 +157,7 @@ class HttpRequest {
       //DEFAULT Default error type, Some other Error. In this case, you can read the DioError.error if it is not null.
       msg = '未知错误';
     }
-    ToastUtil.showToast(msg: msg);
+    print('messageError:$msg');
   }
 
   /*

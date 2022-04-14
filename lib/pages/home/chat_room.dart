@@ -11,8 +11,9 @@ import 'package:doctor_project/widget/custom_app_bar.dart';
 import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart' show MethodChannel, PlatformException, rootBundle;
+import 'package:flutter/services.dart' show MethodChannel, PlatformException, SystemChannels, rootBundle;
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
+import 'package:flutter_chat_types/flutter_chat_types.dart';
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -57,13 +58,14 @@ class _ChatPageState extends State<ChatPage> {
   _ChatPageState({required this.userInfoMap});
 
   List<types.Message> _messages = [];
-  final _user = const types.User(id: '06c33e8b-e835-4736-80f4-63f44b66666c');
+  // final _user = const types.User(id: '06c33e8b-e835-4736-80f4-63f44b66666c');
+  final _user = const types.User(id: '11111');
   bool _isVoice = false;
   bool _isMore = false;
   double keyboardHeight = 270.0;
   bool _emojiState = false;
   FocusNode _focusNode = new FocusNode();
-  final String _roomID = '0007';
+  final String _roomID = ZegoConfig.instance.roomID;
 
   String _messagesBuffer = '';
 
@@ -72,12 +74,13 @@ class _ChatPageState extends State<ChatPage> {
 
   List<ZegoUser> _allUsers = [];
   List<ZegoUser> _customCommandSelectedUsers = [];
+  TextEditingController _editingController = new TextEditingController();
   TextEditingController _broadcastMessageController = new TextEditingController();
   TextEditingController _customCommandController = new TextEditingController();
   TextEditingController _barrageMessageController = new TextEditingController();
   TextEditingController _roomExtraInfoKeyController = new TextEditingController();
   TextEditingController _roomExtraInfoValueController = new TextEditingController();
-
+  String msg ='';
   @override
   void initState() {
     super.initState();
@@ -92,7 +95,12 @@ class _ChatPageState extends State<ChatPage> {
 
     _loadMessages();
     _focusNode.addListener(() {
-      if (_focusNode.hasFocus) _emojiState = false;
+      if (_focusNode.hasFocus){
+        setState(() {
+          _emojiState =false;
+          _isMore = false;
+        });
+      }
     });
   }
   @override
@@ -101,7 +109,7 @@ class _ChatPageState extends State<ChatPage> {
     destroyEngine();
 
     clearZegoEventCallback();
-
+    _focusNode.dispose();
     super.dispose();
   }
 
@@ -169,30 +177,29 @@ class _ChatPageState extends State<ChatPage> {
 
     ZegoExpressEngine.onIMRecvBroadcastMessage = (String roomID, List<ZegoBroadcastMessageInfo> messageList) {
       for (ZegoBroadcastMessageInfo message in messageList) {
-        print('🚩 💬 Received broadcast message, ID: ${message.messageID}, fromUser: ${message.fromUser.userID}, sendTime: ${message.sendTime}, roomID: $roomID');
-        appendMessage('💬 ${message.message} [ID:${message.messageID}] [From:${message.fromUser.userName}]');
+
+        appendMessage(message);
       }
 
     };
 
     ZegoExpressEngine.onIMRecvCustomCommand = (String roomID, ZegoUser fromUser, String command) {
       print('🚩 💭 Received custom command, fromUser: ${fromUser.userID}, roomID: $roomID, command: $command');
-      appendMessage('💭 $command [From:${fromUser.userName}]');
     };
 
     ZegoExpressEngine.onIMRecvBarrageMessage = (String roomID, List<ZegoBarrageMessageInfo> messageList) {
-      for (ZegoBarrageMessageInfo message in messageList) {
-        print('🚩 🗯 Received barrage message, ID: ${message.messageID}, fromUser: ${message.fromUser.userID}, sendTime: ${message.sendTime}, roomID: $roomID');
-        appendMessage('🗯 ${message.message} [ID:${message.messageID}] [From:${message.fromUser.userName}]');
-      }
+      // for (ZegoBarrageMessageInfo message in messageList) {
+      //   print('🚩 🗯 Received barrage message, ID: ${message.messageID}, fromUser: ${message.fromUser.userID}, sendTime: ${message.sendTime}, roomID: $roomID');
+      //   appendMessage('🗯 ${message.message} [ID:${message.messageID}] [From:${message.fromUser.userName}]');
+      // }
     };
 
     ZegoExpressEngine.onRoomExtraInfoUpdate = (String roomID, List<ZegoRoomExtraInfo> roomExtraInfoList) {
       print('🚩 📢 Room extra info update');
-      for (ZegoRoomExtraInfo info in roomExtraInfoList) {
-        print('🚩 📢 --- Key: ${info.key}, Value: ${info.value}, Time: ${info.updateTime}, UserID: ${info.updateUser.userID}');
-        appendMessage('📢 RoomExtraInfo: Key: [${info.key}], Value: [${info.value}], From:${info.updateUser.userName}');
-      }
+      // for (ZegoRoomExtraInfo info in roomExtraInfoList) {
+      //   print('🚩 📢 --- Key: ${info.key}, Value: ${info.value}, Time: ${info.updateTime}, UserID: ${info.updateUser.userID}');
+      //   appendMessage('📢 RoomExtraInfo: Key: [${info.key}], Value: [${info.value}], From:${info.updateUser.userName}');
+      // }
     };
 
   }
@@ -207,11 +214,10 @@ class _ChatPageState extends State<ChatPage> {
 
   // MARK: - Message
 
-  void sendBroadcastMessage() {
-    String message = _broadcastMessageController.text.trim();
+  void sendBroadcastMessage(message) {
+    // String message = _broadcastMessageController.text.trim();
     ZegoExpressEngine.instance.sendBroadcastMessage(_roomID, message).then((value) {
       print('🚩 💬 Send broadcast message result, errorCode: ${value.errorCode}');
-      appendMessage('💬 📤 Sent: $message');
     });
 
   }
@@ -223,7 +229,6 @@ class _ChatPageState extends State<ChatPage> {
     String command = _customCommandController.text.trim();
     ZegoExpressEngine.instance.sendCustomCommand(_roomID, command, _customCommandSelectedUsers).then((value) {
       print('🚩 💭 Send custom command result, errorCode: ${value.errorCode}');
-      appendMessage('💭 📤 Sent: $command');
     });
   }
 
@@ -231,7 +236,6 @@ class _ChatPageState extends State<ChatPage> {
     String message = _barrageMessageController.text.trim();
     ZegoExpressEngine.instance.sendBarrageMessage(_roomID, message).then((value) {
       print('🚩 🗯 Send barrage message, errorCode: ${value.errorCode}');
-      appendMessage('🗯 📤 Sent: $message');
     });
   }
 
@@ -240,14 +244,29 @@ class _ChatPageState extends State<ChatPage> {
     String value = _roomExtraInfoValueController.text.trim();
     ZegoExpressEngine.instance.setRoomExtraInfo(_roomID, key, value).then((result) {
       print('🚩 📢 Set room extra info result, errorCode: ${result.errorCode}');
-      appendMessage('📢 📤 Set: key: $key, value: $value');
     });
   }
 
-  void appendMessage(String message) {
-    setState(() {
-      _messagesBuffer = '$_messagesBuffer[${DateTime.now().toLocal().toString()}] $message\n\n\n';
+  void appendMessage(ZegoBroadcastMessageInfo message) {
+    // appendMessage('💬 ${message.message} [ID:${message.messageID}] [From:${message.fromUser.userName}]');
+    List response = json.decode(message.message);
+    types.Message _message = types.Message.fromJson({
+      "author": {
+        "firstName": message.fromUser.userName,
+        "id": message.fromUser.userID.toString(),
+        "imageUrl": ''
+      },
+      "createdAt": message.sendTime,
+      "id": message.messageID.toString(),
+      "status": "seen",
+      "text":response[0]['text'],
+      "type": 'text'
     });
+    // setState(() {
+    //   _messagesBuffer = '$_messagesBuffer[${DateTime.now().toLocal().toString()}] $message\n\n\n';
+    // });
+    _addMessage(_message);
+
   }
 
   void _addMessage(types.Message message) {
@@ -333,6 +352,7 @@ class _ChatPageState extends State<ChatPage> {
       id: const Uuid().v4(),
       text: message.text,
     );
+    sendBroadcastMessage(message.text);
 
     _addMessage(textMessage);
   }
@@ -346,7 +366,6 @@ class _ChatPageState extends State<ChatPage> {
     }
   }
   void _loadMessages() async {
-    final response = await rootBundle.loadString('assets/messages.json');
     final messages = []
         .map((e) => types.Message.fromJson(e as Map<String, dynamic>))
         .toList();
@@ -359,6 +378,7 @@ class _ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
     return Chat(
+
       customBottomWidget: SafeArea(
         child: Column(
           children: <Widget>[
@@ -384,7 +404,17 @@ class _ChatPageState extends State<ChatPage> {
                               color: ColorsUtil.hexStringColor('#f8f8f8'),
                               borderRadius: BorderRadius.circular(5.0)),
                           child: TextField(
+                            controller: _editingController,
+                            textInputAction: TextInputAction.send,
+                            focusNode: _focusNode,
                             inputFormatters: [],
+                            onChanged: (value){
+
+                            },
+                            onSubmitted: (value){
+                              _handleSendPressed(PartialText( text: value));
+                              _editingController.clear();
+                            },
                             cursorColor: ColorsUtil.hexStringColor('#666666'),
                             style: GSYConstant.textStyle(
                                 fontSize: 13.0, color: '#666666'),
@@ -406,6 +436,7 @@ class _ChatPageState extends State<ChatPage> {
                             _emojiState = !_emojiState;
                             _isMore = false;
                           });
+                          SystemChannels.textInput.invokeMethod('TextInput.hide');
                         },
                         child:SvgUtil.svg('smile.svg'),
                       ),
@@ -418,6 +449,7 @@ class _ChatPageState extends State<ChatPage> {
                             _isMore = !_isMore;
                             _emojiState = false;
                           });
+                          SystemChannels.textInput.invokeMethod('TextInput.hide');
                         },
                         child: SvgUtil.svg('add_.svg'),)
 
@@ -507,6 +539,7 @@ class _ChatPageState extends State<ChatPage> {
                   height: 250,
                   child: EmojiPicker(
                     onEmojiSelected: (category, emoji) {
+                      _handleSendPressed(PartialText( text: emoji.emoji));
                       // Do something when emoji is tapped
                     },
                     onBackspacePressed: () {
