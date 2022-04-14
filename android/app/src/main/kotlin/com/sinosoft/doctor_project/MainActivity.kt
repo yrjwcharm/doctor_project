@@ -1,4 +1,4 @@
-package com.sinosoft.wechat_flutter
+package com.sinosoft.doctor_project
 
 import io.flutter.embedding.android.FlutterActivity
 
