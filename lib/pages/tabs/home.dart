@@ -58,11 +58,10 @@ class HomeState extends State<Home> {
   }
 
   //获取医生信息
-   getNet_doctorInfo() async {
-
+  getNet_doctorInfo() async {
     HttpRequest? request = HttpRequest.getInstance();
     var res = await request?.get(Api.getDoctorInfoUrl, {});
-    print("getNet_doctorInfo------" +res.toString());
+    print("getNet_doctorInfo------" + res.toString());
 
     if (res['code'] == 200) {
       setState(() {
@@ -294,13 +293,12 @@ class HomeState extends State<Home> {
                                     borderRadius: BorderRadius.circular(14.0))),
                             onPressed: () async {
                               // if(status==0){
-                              // if (item['type'] == '2') {
-                                var request = HttpRequest.getInstance();
-                                Map<String, dynamic> map = {};
-                                map['registerId'] = item['id'];
-                                var res = await request?.post(
-                                    Api.getReceiveConsultApi, map);
-                                if (res['code'] == 200) {
+                              var request = HttpRequest.getInstance();
+                              Map<String, dynamic> map = {};
+                              map['registerId'] = item['id'];
+                              var res = await request?.post(
+                                  Api.getReceiveConsultApi, map);
+                              if (res['code'] == 200) {
                                   var res1 = await request?.post(
                                       Api.createRoomApi, {
                                     'orderId': item['orderId'],
@@ -317,24 +315,27 @@ class HomeState extends State<Home> {
                                     var res2 = await request?.get(Api.getToken,
                                         {'roomId': res1['data']['roomId']});
                                     if (res2['code'] == 200) {
-                                      ZegoConfig.instance.token = res2['data']['token'];
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) => VideoTopic(
-                                                    regId: item['id'],
-                                                  )));
+                                      ZegoConfig.instance.token =
+                                          res2['data']['token'];
+                                       if(item['type']=='2'){
+                                         Navigator.push(
+                                             context,
+                                             MaterialPageRoute(
+                                                 builder: (context) => VideoTopic(
+                                                   regId: item['id'],
+                                                 )));
+
+                                       }else{
+                                         Navigator.push(
+                                             context,
+                                             MaterialPageRoute(
+                                                 builder: (context) => ChatRoom(
+                                                   userInfoMap: item,
+                                                 )));
+                                       }
                                     }
                                   }
                                 }
-                              // } else {
-                              //   Navigator.push(
-                              //       context,
-                              //       MaterialPageRoute(
-                              //           builder: (context) => ChatRoom(
-                              //                 userInfoMap: item,
-                              //               )));
-                              // }
                             },
                             child: Text(
                               status == 1 ? '继续交流' : '接诊',
@@ -436,10 +437,13 @@ class HomeState extends State<Home> {
                   // child: Image(image: AssetImage('assets/images/home/avatar.png'), width: 43, height: 43,),
                   child: CachedNetworkImage(
                     // 加载网络图片过程中显示的内容 , 这里显示进度条
-                    placeholder: (context, url)=>CircularProgressIndicator(),
+                    placeholder: (context, url) => CircularProgressIndicator(),
                     // 网络图片地址
-                    imageUrl: doctorInfoMap.isEmpty ?"" :doctorInfoMap["photoUrl"],
-                    width: 43,height: 43,fit: BoxFit.cover,
+                    imageUrl:
+                        doctorInfoMap.isEmpty ? "" : doctorInfoMap["photoUrl"],
+                    width: 43,
+                    height: 43,
+                    fit: BoxFit.cover,
                   ),
                 ),
                 Expanded(
@@ -448,7 +452,10 @@ class HomeState extends State<Home> {
                       Expanded(
                         child: Row(
                           children: <Widget>[
-                            Text(doctorInfoMap.isEmpty ?"" :doctorInfoMap["realName"],
+                            Text(
+                                doctorInfoMap.isEmpty
+                                    ? ""
+                                    : doctorInfoMap["realName"],
                                 style: TextStyle(
                                     fontFamily: 'Medium',
                                     fontSize: 18,
@@ -468,7 +475,10 @@ class HomeState extends State<Home> {
                                         color: ColorsUtil.hexStringColor(
                                             '#06B48D')),
                                     borderRadius: BorderRadius.circular(9.0)),
-                                child: Text(doctorInfoMap.isEmpty ?"" :doctorInfoMap["protitle_dictText"],
+                                child: Text(
+                                    doctorInfoMap.isEmpty
+                                        ? ""
+                                        : doctorInfoMap["protitle_dictText"],
                                     style: TextStyle(
                                         color: ColorsUtil.hexStringColor(
                                             '#06B48D'),
@@ -481,12 +491,16 @@ class HomeState extends State<Home> {
                       ),
                       Container(
                         margin: const EdgeInsets.only(top: 9),
-                        child: Row(children:  <Widget>[
-                          Text(doctorInfoMap.isEmpty ?"" :doctorInfoMap["orgName"]),
+                        child: Row(children: <Widget>[
+                          Text(doctorInfoMap.isEmpty
+                              ? ""
+                              : doctorInfoMap["orgName"]),
                           SizedBox(
                             width: 8,
                           ),
-                          Text(doctorInfoMap.isEmpty ?"" :doctorInfoMap["deptName"])
+                          Text(doctorInfoMap.isEmpty
+                              ? ""
+                              : doctorInfoMap["deptName"])
                         ]),
                       )
                     ],
@@ -554,7 +568,7 @@ class HomeState extends State<Home> {
                 context,
                 MaterialPageRoute(
                     builder: (context) => const PatientConsult(
-                          type: '2',
+                          type: '0',
                         )));
           }),
           buildButtonColumn('assets/images/home/video1.png', '视频问诊', () {
@@ -562,7 +576,7 @@ class HomeState extends State<Home> {
                 context,
                 MaterialPageRoute(
                     builder: (context) => const PatientConsult(
-                          type: '3',
+                          type: '2',
                         )));
           }),
         ],

@@ -19,7 +19,9 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:mime/mime.dart';
 import 'package:open_file/open_file.dart';
 import 'package:uuid/uuid.dart';
+import 'package:zego_express_engine/zego_express_engine.dart';
 
+import '../../config/zego_config.dart';
 import '../../utils/svg_utils.dart';
 
 class ChatRoom extends StatelessWidget {
@@ -31,7 +33,7 @@ class ChatRoom extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         appBar: CustomAppBar(
-          '患者',
+          'IM聊天',
           onBackPressed: () {
             Navigator.pop(context);
           },
@@ -61,16 +63,190 @@ class _ChatPageState extends State<ChatPage> {
   double keyboardHeight = 270.0;
   bool _emojiState = false;
   FocusNode _focusNode = new FocusNode();
+  final String _roomID = '0007';
+
+  String _messagesBuffer = '';
+
+  bool _isEngineActive = false;
+  ZegoRoomState _roomState = ZegoRoomState.Disconnected;
+
+  List<ZegoUser> _allUsers = [];
+  List<ZegoUser> _customCommandSelectedUsers = [];
+  TextEditingController _broadcastMessageController = new TextEditingController();
+  TextEditingController _customCommandController = new TextEditingController();
+  TextEditingController _barrageMessageController = new TextEditingController();
+  TextEditingController _roomExtraInfoKeyController = new TextEditingController();
+  TextEditingController _roomExtraInfoValueController = new TextEditingController();
 
   @override
   void initState() {
     super.initState();
+    ZegoExpressEngine.getVersion().then((value) => print('🌞 SDK Version: $value'));
 
+    createEngine();
+
+    loginRoom();
+
+    setZegoEventCallback();
     print("userInfoMap-------" +this.userInfoMap.toString());
 
     _loadMessages();
     _focusNode.addListener(() {
       if (_focusNode.hasFocus) _emojiState = false;
+    });
+  }
+  @override
+  void dispose() {
+
+    destroyEngine();
+
+    clearZegoEventCallback();
+
+    super.dispose();
+  }
+
+
+  void createEngine() {
+    ZegoEngineProfile profile = ZegoEngineProfile(
+        ZegoConfig.instance.appID,
+        ZegoConfig.instance.scenario,
+        enablePlatformView: ZegoConfig.instance.enablePlatformView);
+    ZegoExpressEngine.createEngineWithProfile(profile);
+
+    // Notify View that engine state changed
+    setState(() => _isEngineActive = true);
+
+    print('🚀 Create ZegoExpressEngine');
+  }
+
+
+  void loginRoom() {
+    // Instantiate a ZegoUser object
+    ZegoUser user = ZegoUser(ZegoConfig.instance.userID, ZegoConfig.instance.userName);
+
+    ZegoRoomConfig roomConfig = ZegoRoomConfig.defaultConfig();
+    roomConfig.token = ZegoConfig.instance.token;
+    // Login Room
+    ZegoExpressEngine.instance.loginRoom(_roomID, user, config: roomConfig);
+
+    print('🚪 Start login room, roomID: $_roomID');
+  }
+
+  // MARK: - Exit
+
+  void destroyEngine() async {
+
+    // Can destroy the engine when you don't need audio and video calls
+    //
+    // Destroy engine will automatically logout room and stop publishing/playing stream.
+    ZegoExpressEngine.destroyEngine();
+
+    print('🏳️ Destroy ZegoExpressEngine');
+  }
+
+  // MARK: - Event
+
+  void setZegoEventCallback() {
+    ZegoExpressEngine.onRoomStateUpdate = (String roomID, ZegoRoomState state, int errorCode, Map<String, dynamic> extendedData) {
+      print('🚩 🚪 Room state update, roomID: $roomID, state: $state, errorCode: $errorCode');
+      setState(() => _roomState = state);
+    };
+
+    ZegoExpressEngine.onRoomUserUpdate = (String roomID, ZegoUpdateType updateType, List<ZegoUser> userList) {
+      print('🚩 🕺 Room user update, roomID: $roomID, type: ${updateType.toString()}, count: ${userList.length}');
+      if (updateType == ZegoUpdateType.Add) {
+        setState(() => _allUsers.addAll(userList));
+      } else if (updateType == ZegoUpdateType.Delete) {
+        for (ZegoUser removedUser in userList) {
+          for (ZegoUser user in _allUsers) {
+            if (user.userID == removedUser.userID && user.userName == removedUser.userName) {
+              setState(() => _allUsers.remove(user));
+            }
+          }
+        }
+      }
+    };
+
+    ZegoExpressEngine.onIMRecvBroadcastMessage = (String roomID, List<ZegoBroadcastMessageInfo> messageList) {
+      for (ZegoBroadcastMessageInfo message in messageList) {
+        print('🚩 💬 Received broadcast message, ID: ${message.messageID}, fromUser: ${message.fromUser.userID}, sendTime: ${message.sendTime}, roomID: $roomID');
+        appendMessage('💬 ${message.message} [ID:${message.messageID}] [From:${message.fromUser.userName}]');
+      }
+
+    };
+
+    ZegoExpressEngine.onIMRecvCustomCommand = (String roomID, ZegoUser fromUser, String command) {
+      print('🚩 💭 Received custom command, fromUser: ${fromUser.userID}, roomID: $roomID, command: $command');
+      appendMessage('💭 $command [From:${fromUser.userName}]');
+    };
+
+    ZegoExpressEngine.onIMRecvBarrageMessage = (String roomID, List<ZegoBarrageMessageInfo> messageList) {
+      for (ZegoBarrageMessageInfo message in messageList) {
+        print('🚩 🗯 Received barrage message, ID: ${message.messageID}, fromUser: ${message.fromUser.userID}, sendTime: ${message.sendTime}, roomID: $roomID');
+        appendMessage('🗯 ${message.message} [ID:${message.messageID}] [From:${message.fromUser.userName}]');
+      }
+    };
+
+    ZegoExpressEngine.onRoomExtraInfoUpdate = (String roomID, List<ZegoRoomExtraInfo> roomExtraInfoList) {
+      print('🚩 📢 Room extra info update');
+      for (ZegoRoomExtraInfo info in roomExtraInfoList) {
+        print('🚩 📢 --- Key: ${info.key}, Value: ${info.value}, Time: ${info.updateTime}, UserID: ${info.updateUser.userID}');
+        appendMessage('📢 RoomExtraInfo: Key: [${info.key}], Value: [${info.value}], From:${info.updateUser.userName}');
+      }
+    };
+
+  }
+
+  void clearZegoEventCallback() {
+    ZegoExpressEngine.onRoomStateUpdate = null;
+    ZegoExpressEngine.onRoomUserUpdate = null;
+    ZegoExpressEngine.onIMRecvBroadcastMessage = null;
+    ZegoExpressEngine.onIMRecvCustomCommand = null;
+    ZegoExpressEngine.onIMRecvBarrageMessage = null;
+  }
+
+  // MARK: - Message
+
+  void sendBroadcastMessage() {
+    String message = _broadcastMessageController.text.trim();
+    ZegoExpressEngine.instance.sendBroadcastMessage(_roomID, message).then((value) {
+      print('🚩 💬 Send broadcast message result, errorCode: ${value.errorCode}');
+      appendMessage('💬 📤 Sent: $message');
+    });
+
+  }
+
+  void sendCustomCommand() {
+    // TODO: Support selecting users
+    _customCommandSelectedUsers = _allUsers;
+
+    String command = _customCommandController.text.trim();
+    ZegoExpressEngine.instance.sendCustomCommand(_roomID, command, _customCommandSelectedUsers).then((value) {
+      print('🚩 💭 Send custom command result, errorCode: ${value.errorCode}');
+      appendMessage('💭 📤 Sent: $command');
+    });
+  }
+
+  void sendBarrageMessage() {
+    String message = _barrageMessageController.text.trim();
+    ZegoExpressEngine.instance.sendBarrageMessage(_roomID, message).then((value) {
+      print('🚩 🗯 Send barrage message, errorCode: ${value.errorCode}');
+      appendMessage('🗯 📤 Sent: $message');
+    });
+  }
+
+  void setRoomExtraInfo() {
+    String key = _roomExtraInfoKeyController.text.trim();
+    String value = _roomExtraInfoValueController.text.trim();
+    ZegoExpressEngine.instance.setRoomExtraInfo(_roomID, key, value).then((result) {
+      print('🚩 📢 Set room extra info result, errorCode: ${result.errorCode}');
+      appendMessage('📢 📤 Set: key: $key, value: $value');
+    });
+  }
+
+  void appendMessage(String message) {
+    setState(() {
+      _messagesBuffer = '$_messagesBuffer[${DateTime.now().toLocal().toString()}] $message\n\n\n';
     });
   }
 
@@ -171,7 +347,7 @@ class _ChatPageState extends State<ChatPage> {
   }
   void _loadMessages() async {
     final response = await rootBundle.loadString('assets/messages.json');
-    final messages = (jsonDecode(response) as List)
+    final messages = []
         .map((e) => types.Message.fromJson(e as Map<String, dynamic>))
         .toList();
 

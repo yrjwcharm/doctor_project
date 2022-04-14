@@ -294,7 +294,7 @@ packages:
       name: file_picker
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "4.5.0"
+    version: "4.5.1"
   fl_chart:
     dependency: "direct main"
     description:

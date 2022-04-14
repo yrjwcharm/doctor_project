@@ -55,6 +55,7 @@ dependencies:
   path_provider: 2.0.8
   webview_flutter: 3.0.2
   provider: 6.0.1
+  file_picker: ^4.5.1
   permission_handler: ^8.2.0
   json_annotation: 4.4.0
   package_info: 2.0.2
@@ -74,7 +75,6 @@ dependencies:
   #   path: /Users/xingchenhe/Documents/work/TPNS-Flutter-Plugin
   localstorage: ^4.0.0+1
   adaptive_dialog: ^0.10.0+5
-  file_picker: ^4.2.1
   #  provider: ^5.0.0 #Flutter2用这个
   #  cached_network_image: 1.1.1 # 1.9版本flutter
   #  cached_network_image: 2.0.0 #1.22.5版本Flutter用这个
