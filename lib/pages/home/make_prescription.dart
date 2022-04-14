@@ -244,7 +244,6 @@ class _MakePrescriptionState extends State<MakePrescription> {
       String unitprice = item['unitprice'].toString();
       String count = item['count'].toString();
       double price = double.parse(unitprice) *double.parse(count);
-      print(price);
       totalPrice += price;
       print("-----------totalPrice" +totalPrice.toString());
   }
