@@ -233,7 +233,7 @@ class RegisterContentStates extends State<RegisterContent>
                                   isCollapsed: true,
                                   contentPadding: const EdgeInsets.only(left: 10.0),
                                   border: InputBorder.none,
-                                  hintText: '请输入登录密码（6-16位数字字母组合密码）',
+                                  hintText: '请输入登录密码（6-20位数字大小写字母符号组合）',
                                   hintStyle: TextStyle(
                                     fontSize: 14,
                                     color: Color.fromARGB(255, 183, 183, 183),
