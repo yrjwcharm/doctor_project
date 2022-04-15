@@ -9,7 +9,7 @@ import '../../http/http_request.dart';
 import '../../http/api.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:doctor_project/widget/safe_area_button.dart';
-import '../../utils/svg_utils.dart';
+import '../../utils/svg_util.dart';
 import 'dart:convert';
 import 'dart:math' as math;
 

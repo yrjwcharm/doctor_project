@@ -1,7 +1,5 @@
 import 'dart:convert';
-
-///isolate 的 compute 需要静态方法
-class CodeUtils {
+class JSONUtil {
   static List<dynamic> decodeListResult(String data) {
     return json.decode(data);
   }

@@ -1,8 +1,8 @@
 import 'dart:async';
 
-import 'package:doctor_project/utils/regex_util.dart';
-import 'package:doctor_project/utils/svg_utils.dart';
-import 'package:doctor_project/utils/toast_utils.dart';
+import 'package:doctor_project/utils/reg_util.dart';
+import 'package:doctor_project/utils/svg_util.dart';
+import 'package:doctor_project/utils/toast_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/cupertino.dart';

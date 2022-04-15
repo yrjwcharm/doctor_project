@@ -3,7 +3,7 @@ import 'package:doctor_project/widget/custom_app_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../utils/svg_utils.dart';
+import '../../utils/svg_util.dart';
 
 class IdentityChoice extends StatefulWidget {
   const IdentityChoice({Key? key}) : super(key: key);

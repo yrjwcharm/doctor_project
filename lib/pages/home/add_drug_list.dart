@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../http/api.dart';
 import '../../utils/colors_utils.dart';
-import '../../utils/svg_utils.dart';
+import '../../utils/svg_util.dart';
 import 'dart:ui';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dio/dio.dart';

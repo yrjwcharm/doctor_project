@@ -6,7 +6,7 @@ import 'package:doctor_project/pages/home/make_prescription.dart';
 import 'package:doctor_project/pages/home/video_topic.dart';
 import 'package:doctor_project/pages/my/write-case.dart';
 import 'package:doctor_project/utils/colors_utils.dart';
-import 'package:doctor_project/utils/svg_utils.dart';
+import 'package:doctor_project/utils/svg_util.dart';
 import 'package:doctor_project/widget/custom_app_bar.dart';
 import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:file_picker/file_picker.dart';
@@ -23,7 +23,7 @@ import 'package:uuid/uuid.dart';
 import 'package:zego_express_engine/zego_express_engine.dart';
 
 import '../../config/zego_config.dart';
-import '../../utils/svg_utils.dart';
+import '../../utils/svg_util.dart';
 
 class ChatRoom extends StatelessWidget {
   Map userInfoMap ; //患者信息map

@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:doctor_project/common/style/gsy_style.dart';
 import 'package:doctor_project/http/api.dart';
 import 'package:doctor_project/pages/login/verify_mobile.dart';
-import 'package:doctor_project/utils/svg_utils.dart';
+import 'package:doctor_project/utils/svg_util.dart';
 import 'package:doctor_project/widget/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';

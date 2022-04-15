@@ -1,4 +1,4 @@
-import 'package:doctor_project/utils/svg_utils.dart';
+import 'package:doctor_project/utils/svg_util.dart';
 import 'package:flutter/cupertino.dart';
 
 class ImageNetWorkCatchUtil{

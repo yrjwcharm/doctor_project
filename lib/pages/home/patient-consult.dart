@@ -8,8 +8,8 @@ import 'package:flutter/material.dart';
 import '../../config/zego_config.dart';
 import '../../http/api.dart';
 import '../../utils/image_network_catch.dart';
-import '../../utils/svg_utils.dart';
-import '../../utils/toast_utils.dart';
+import '../../utils/svg_util.dart';
+import '../../utils/toast_util.dart';
 import 'chat_room.dart';
 import 'order_detail.dart';
 

@@ -1,10 +1,10 @@
 import 'package:doctor_project/common/style/gsy_style.dart';
 import 'package:doctor_project/pages/login/verify_code.dart';
 import 'package:doctor_project/utils/colors_utils.dart';
-import 'package:doctor_project/utils/regex_util.dart';
-import 'package:doctor_project/utils/svg_utils.dart';
-import 'package:doctor_project/utils/text_utils.dart';
-import 'package:doctor_project/utils/toast_utils.dart';
+import 'package:doctor_project/utils/reg_util.dart';
+import 'package:doctor_project/utils/svg_util.dart';
+import 'package:doctor_project/utils/text_util.dart';
+import 'package:doctor_project/utils/toast_util.dart';
 import 'package:doctor_project/widget/custom_app_bar.dart';
 import 'package:doctor_project/widget/custom_elevated_button.dart';
 import 'package:flutter/cupertino.dart';

@@ -10,7 +10,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_picker/flutter_picker.dart';
-import '../../utils/svg_utils.dart';
+import '../../utils/svg_util.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:doctor_project/utils/EventBus_Utils.dart';
 

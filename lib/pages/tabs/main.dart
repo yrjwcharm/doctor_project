@@ -3,8 +3,8 @@ import 'package:doctor_project/pages/tabs/message.dart';
 import 'package:doctor_project/pages/tabs/my.dart';
 import 'package:doctor_project/pages/tabs/patient.dart';
 import 'package:doctor_project/utils/colors_utils.dart';
-import 'package:doctor_project/utils/svg_utils.dart';
-import 'package:doctor_project/utils/toast_utils.dart';
+import 'package:doctor_project/utils/svg_util.dart';
+import 'package:doctor_project/utils/toast_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 

@@ -1,4 +1,4 @@
-import 'package:doctor_project/utils/regex_util.dart';
+import 'package:doctor_project/utils/reg_util.dart';
 
 class DesensitizationUtil {
 

@@ -2,7 +2,7 @@ import 'dart:collection';
 
 import 'package:doctor_project/common/style/gsy_style.dart';
 import 'package:doctor_project/utils/colors_utils.dart';
-import 'package:doctor_project/utils/text_utils.dart';
+import 'package:doctor_project/utils/text_util.dart';
 import 'package:doctor_project/widget/custom_app_bar.dart';
 import 'package:doctor_project/widget/safe_area_button.dart';
 import 'package:flutter/cupertino.dart';
