@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:doctor_project/common/style/gsy_style.dart';
+import 'package:doctor_project/http/api.dart';
 import 'package:doctor_project/pages/login/verify_mobile.dart';
 import 'package:doctor_project/utils/svg_utils.dart';
 import 'package:doctor_project/widget/custom_app_bar.dart';
@@ -38,7 +39,7 @@ class RegisterContentStates extends State<LoginPage> {
     // loginPas = "aB123456?";
     var dio = new Dio();
     var response = await dio.post(
-        'https://interhospital.youjiankang.net/doctor/dr-service/ba-doctor-user/doLogin',
+        Api.BASE_URL+'/doctor/dr-service/ba-doctor-user/doLogin',
         data: {
           "key": loginStr,
           "password": loginPas,
@@ -81,7 +82,7 @@ class RegisterContentStates extends State<LoginPage> {
 
     print(1111111);
     var response = await dio.post(
-        'https://interhospital.youjiankang.net/doctor/dr-service/push/test',
+        Api.BASE_URL+'/doctor/dr-service/push/test',
         data: {
           "jigId":"141fe1da9e5fd9aea7e",
           "channel" : Platform.isAndroid ? "Android" : "iOS",
@@ -106,7 +107,7 @@ void postNet_bindRid () async{
       "token": tokenValueStr,
     };
     var response = await dio.post(
-        'https://interhospital.youjiankang.net/doctor/dr-service/jig/bindRid',
+        Api.BASE_URL+'/doctor/dr-service/jig/bindRid',
         data: {
           "jigId":jpushTokenStr,
           "channel" : Platform.isAndroid ? "Android" : "iOS",

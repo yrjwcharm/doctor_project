@@ -7,11 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/cupertino.dart';
 import '../../common/style/gsy_style.dart';
-import '../../routes/routes.dart';
 import 'package:dio/dio.dart';
-// import 'package:garbagecan/passwordCheck/setPassword.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-
+import '../../http/api.dart';
 import '../../widget/custom_app_bar.dart';
 
 
@@ -54,7 +52,7 @@ class RegisterContentStates extends State<RegisterContent>
        ToastUtil.showToast(msg: '密码必须包含字母和数字和特殊字符,6-20');
        return;
     }
-    var response = await dio.post('https://interhospital.youjiankang.net/doctor/dr-service/ba-doctor-user/register',data:{
+    var response = await dio.post(Api.BASE_URL+'/doctor/dr-service/ba-doctor-user/register',data:{
       "phone":iphoneStr,
       "password": loginPas,
       "code": code,
@@ -456,7 +454,7 @@ class sendIphoneCodeStates extends State<sendIphoneCode>
     setState(() {
       buttonDisabled = true;
     });
-    PostStr="https://interhospital.youjiankang.net/doctor/dr-service/verificationCode/get?phone="+widget.str1+'&type=register';
+    PostStr=Api.BASE_URL+"/doctor/dr-service/verificationCode/get?phone="+widget.str1+'&type=register';
 
     // FormData formData = new FormData.from({
     //   "username":'15038342183',

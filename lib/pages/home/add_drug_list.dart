@@ -3,6 +3,7 @@ import 'package:doctor_project/widget/custom_app_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../../http/api.dart';
 import '../../utils/colors_utils.dart';
 import '../../utils/svg_utils.dart';
 import 'dart:ui';
@@ -67,7 +68,7 @@ class _AddDrugListState extends State<AddDrugList> {
       "token": tokenValueStr,
     };
 
-    String urlStr = "https://interhospital.youjiankang.net/doctor/dr-service/medicine/getList?keyword=" + _editingController.text + "&type=" +type.toString() +"&page=" +_page.toString() + "&size=" +pageSize.toString();
+    String urlStr =Api.BASE_URL+ "/doctor/dr-service/medicine/getList?keyword=" + _editingController.text + "&type=" +type.toString() +"&page=" +_page.toString() + "&size=" +pageSize.toString();
     var response = await dio.get(urlStr);
 
     if(response.data['code'] == 200){

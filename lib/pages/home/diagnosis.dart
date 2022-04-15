@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:doctor_project/common/style/gsy_style.dart';
+import 'package:doctor_project/http/api.dart';
 import 'package:doctor_project/pages/home/add_multi_diagnosis.dart';
 import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:doctor_project/utils/svg_utils.dart';
@@ -69,7 +70,7 @@ void getNet_diagnosisList () async{
     "token": tokenValueStr,
   };
 
-  String urlStr = "https://interhospital.youjiankang.net/doctor/dr-service/diagnosis/getList?keyword=" + _editingController.text + "&type=" +type.toString() +"&page=" +_page.toString() + "&size=10";
+  String urlStr =Api.BASE_URL+ "/doctor/dr-service/diagnosis/getList?keyword=" + _editingController.text + "&type=" +type.toString() +"&page=" +_page.toString() + "&size=10";
   var response = await dio.get(urlStr);
 
   if(response.data['code'] == 200){
