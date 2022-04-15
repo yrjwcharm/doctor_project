@@ -347,6 +347,7 @@ class _PatientConsultState extends State<PatientConsult> {
           ),
           Container(
             margin: const EdgeInsets.only(top: 10.0),
+            height: 40.0,
             child: Row(
               children: <Widget>[
                 Expanded(

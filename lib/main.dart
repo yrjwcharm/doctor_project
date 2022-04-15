@@ -12,7 +12,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 void main() {
   runApp(const MyApp());
 }
-
+final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
 
@@ -31,10 +31,15 @@ class _MyAppState extends State<MyApp> {
   }
   getLoginState() async {
     String? token = await LocalStorage.get('tokenValue');
-     setState(() {
-       this.token = token;
-     });
-
+     if(token==null){
+       setState(() {
+         isLogin = false;
+       });
+     }else{
+       setState(() {
+         isLogin = true;
+       });
+     }
   }
 
 
@@ -69,9 +74,9 @@ class _MyAppState extends State<MyApp> {
     );
 
     // 设置别名实现指定用户推送
-    jpush.setAlias("jg6666").then((map) {
-      print("设置别名成功");
-    });
+    // jpush.setAlias("jg6666").then((map) {
+    //   print("设置别名成功");
+    // });
 
     // iOS10+ 可以通过此方法来设置推送是否前台展示，是否触发声音，是否设置应用角标 badge
     jpush.applyPushAuthority(
@@ -102,6 +107,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      navigatorKey: navigatorKey,
       localizationsDelegates: const [
         GlobalCupertinoLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
@@ -112,7 +118,7 @@ class _MyAppState extends State<MyApp> {
       ],
       debugShowCheckedModeBanner: false,
       // 设置这一属性即可
-      home: token==null?LoginPage():Main(),
+      home: isLogin?Main():LoginPage(),
       builder: EasyLoading.init(),
       routes: routes,
     );
