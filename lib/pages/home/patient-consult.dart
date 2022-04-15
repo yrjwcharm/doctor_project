@@ -51,7 +51,7 @@ class _PatientConsultState extends State<PatientConsult> {
 
   getCount() async {
     var request = HttpRequest.getInstance();
-    var res = await request?.get(Api.getReceiveConsultCount, {'type': type});
+    var res = await request.get(Api.getReceiveConsultCount, {'type': type});
     if (res['code'] == 200) {
       setState(() {
         receiving = res['data']['receiving'];
@@ -65,7 +65,7 @@ class _PatientConsultState extends State<PatientConsult> {
    */
   Future getData() async {
     var request = HttpRequest.getInstance();
-    var res = await request?.get(
+    var res = await request.get(
         Api.getReceiveConsultList +
             '?status=$status&page=$_page&size=10&type=$type',
         {});
@@ -83,7 +83,7 @@ class _PatientConsultState extends State<PatientConsult> {
     if (isMore) {
       _page += 1;
       var request = HttpRequest.getInstance();
-      var res = await request?.get(
+      var res = await request.get(
           Api.getReceiveConsultList +
               '?status=$status&page=$_page&size=10&type=$type',
           {});
@@ -274,11 +274,11 @@ class _PatientConsultState extends State<PatientConsult> {
                               var request = HttpRequest.getInstance();
                               Map<String, dynamic> map = {};
                               map['registerId'] = item['id'];
-                              var res = await request?.post(
+                              var res = await request.post(
                                   Api.getReceiveConsultApi, map);
                               if (res['code'] == 200) {
                                 if (item['type'] == '2') {
-                                  var res1 = await request?.post(
+                                  var res1 = await request.post(
                                       Api.createRoomApi, {
                                     'orderId': item['orderId'],
                                     'roomType': 1,
@@ -291,7 +291,7 @@ class _PatientConsultState extends State<PatientConsult> {
                                         res1['data']['userName'];
                                     ZegoConfig.instance.roomID =
                                         res1['data']['roomId'];
-                                    var res2 = await request?.get(Api.getToken,
+                                    var res2 = await request.get(Api.getToken,
                                         {'roomId': res1['data']['roomId']});
                                     if (res2['code'] == 200) {
                                       ZegoConfig.instance.token =

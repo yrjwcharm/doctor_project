@@ -17,21 +17,15 @@ typedef RequestCallBack = void Function(Map data);
 class HttpRequest {
   // 静态私有成员，没有初始化
   static HttpRequest? _instance;
-  CancelToken cancelToken = CancelToken();
-
   // 静态、同步、私有访问点
-  Dio? dio;
+  late Dio dio;
   BaseOptions? options;
 
-  static HttpRequest? getInstance() {
-    _instance ??= HttpRequest();
-    return _instance;
+  static HttpRequest getInstance() {
+    _instance = HttpRequest();
+    return _instance!;
   }
 
-  Future<String?> getToken() async {
-    String? token = await LocalStorage.get('tttt');
-    return token;
-  }
 
   HttpRequest()  {
     options = BaseOptions(
@@ -53,7 +47,7 @@ class HttpRequest {
     //Cookie管理
     dio = Dio(options);
     //添加拦截器
-    dio?.interceptors.add(InterceptorsWrapper(onRequest:
+    dio.interceptors.add(InterceptorsWrapper(onRequest:
         (RequestOptions options,
             RequestInterceptorHandler requestInterceptorHandler) async{
           String? token = await LocalStorage.get('tokenValue');
@@ -87,9 +81,9 @@ class HttpRequest {
   Future<dynamic> get(String url, Map<String, dynamic>? data,
       {Options? option}) async {
     try {
-      Response? response = await dio?.get(url,
+      Response? response = await dio.get(url,
           queryParameters: data, options: option);
-      var result =response?.data;
+      var result =response.data;
       return result;
     } on DioError catch (e) {
       return null;
@@ -99,9 +93,9 @@ class HttpRequest {
   Future<dynamic> post(String url, Map<String, dynamic>? data,
       {Options? option}) async {
     try {
-      Response? response = await dio?.post(url,
+      Response? response = await dio.post(url,
           data: data, options: option);
-      var result =response?.data;
+      var result =response.data;
       return result;
     } on DioError catch (e) {
       return null;
@@ -111,12 +105,11 @@ class HttpRequest {
   Future<dynamic> downloadFile(urlPath, savePath) async {
     Response? response;
     try {
-      response = await dio?.download(urlPath, savePath,
+      response = await dio.download(urlPath, savePath,
           onReceiveProgress: (int count, int total) {
         //进度
       });
-    } on DioError catch (e) {
-    }
+    } on DioError catch (e) {}
     return response?.data;
   }
 

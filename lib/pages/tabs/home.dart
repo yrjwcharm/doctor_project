@@ -59,8 +59,8 @@ class HomeState extends State<Home> {
 
   //获取医生信息
   getNet_doctorInfo() async {
-    HttpRequest? request = HttpRequest.getInstance();
-    var res = await request?.get(Api.getDoctorInfoUrl, {});
+    HttpRequest request = HttpRequest.getInstance();
+    var res = await request.get(Api.getDoctorInfoUrl, {});
     print("getNet_doctorInfo------" + res.toString());
 
     if (res['code'] == 200) {
@@ -72,7 +72,7 @@ class HomeState extends State<Home> {
 
   getCount() async {
     var request = HttpRequest.getInstance();
-    var res = await request?.get(Api.getReceiveConsultCount, {'type': ''});
+    var res = await request.get(Api.getReceiveConsultCount, {'type': ''});
     if (res['code'] == 200) {
       setState(() {
         receiving = res['data']['receiving'];
@@ -86,7 +86,7 @@ class HomeState extends State<Home> {
    */
   Future getData() async {
     var request = HttpRequest.getInstance();
-    var res = await request?.get(
+    var res = await request.get(
         Api.getReceiveConsultList + '?status=$status&page=$_page&size=10', {});
     if (res['code'] == 200) {
       setState(() {
@@ -137,7 +137,7 @@ class HomeState extends State<Home> {
     if (isMore) {
       _page += 1;
       var request = HttpRequest.getInstance();
-      var res = await request?.get(
+      var res = await request.get(
           Api.getReceiveConsultList + '?status=$status&page=$_page&size=10',
           {});
       if (res['code'] == 200) {
@@ -296,10 +296,10 @@ class HomeState extends State<Home> {
                               var request = HttpRequest.getInstance();
                               Map<String, dynamic> map = {};
                               map['registerId'] = item['id'];
-                              var res = await request?.post(
+                              var res = await request.post(
                                   Api.getReceiveConsultApi, map);
                               if (res['code'] == 200) {
-                                  var res1 = await request?.post(
+                                  var res1 = await request.post(
                                       Api.createRoomApi, {
                                     'orderId': item['orderId'],
                                     'roomType': item['type']=='2'?1:2,
@@ -312,7 +312,7 @@ class HomeState extends State<Home> {
                                         res1['data']['userName'];
                                     ZegoConfig.instance.roomID =
                                         res1['data']['roomId'];
-                                    var res2 = await request?.get(Api.getToken,
+                                    var res2 = await request.get(Api.getToken,
                                         {'roomId': res1['data']['roomId']});
                                     if (res2['code'] == 200) {
                                       ZegoConfig.instance.token =

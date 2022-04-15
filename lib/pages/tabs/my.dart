@@ -36,7 +36,7 @@ class MyState extends State<My> {
     phoneStr = (perfer.getString("phone") ?? "");
 
     HttpRequest? request = HttpRequest.getInstance();
-    var res = await request?.get(Api.getDoctorInfoUrl, {});
+    var res = await request.get(Api.getDoctorInfoUrl, {});
     print("getNet_doctorInfo------" +res.toString());
 
     if (res['code'] == 200) {

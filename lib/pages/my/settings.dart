@@ -30,7 +30,7 @@ class _SettingsState extends State<Settings> {
     SharedPreferences perfer = await SharedPreferences.getInstance();
     String? tokenValueStr = perfer.getString("tokenValue");
     HttpRequest? request = HttpRequest.getInstance();
-    var res = await request?.post(Api.signOutUrl,{
+    var res = await request.post(Api.signOutUrl,{
       "token"   : tokenValueStr,
     });
     print("getNet_signOut------" +res.toString());

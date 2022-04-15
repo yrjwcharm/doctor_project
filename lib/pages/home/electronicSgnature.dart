@@ -40,7 +40,7 @@ class _electronicSignaturePageState extends State<electronicSignaturePage> {
   void getNet_YXQSignData() async{
 
     HttpRequest? request = HttpRequest.getInstance();
-    var res = await request?.post(Api.YXQSignDataUrl,{
+    var res = await request.post(Api.YXQSignDataUrl,{
       // "userId"          : "123124", //医护人员userid   944241327611052102
       "transactionId"   : prescriptionId, //业务编号 处方id
       "authKey"         : YXQDataMap["authKEY"].toString(), //临时密钥
