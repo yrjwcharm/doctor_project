@@ -360,6 +360,7 @@ class _PatientConsultState extends State<PatientConsult> {
                       _page = 1;
                     });
                     getData();
+                    getCount();
                   },
                   child: Column(
                     children: [
@@ -393,6 +394,7 @@ class _PatientConsultState extends State<PatientConsult> {
                       _page = 1;
                     });
                     getData();
+                    getCount();
                   },
                   child: Column(
                     children: [

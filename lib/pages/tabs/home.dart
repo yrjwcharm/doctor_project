@@ -774,6 +774,7 @@ class HomeState extends State<Home> {
                       _page = 1;
                     });
                     getData();
+                    getCount();
                   },
                   child: Column(
                     children: [
@@ -807,6 +808,7 @@ class HomeState extends State<Home> {
                       _page = 1;
                     });
                     getData();
+                    getCount();
                   },
                   child: Column(
                     children: [
