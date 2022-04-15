@@ -58,12 +58,11 @@ class HttpRequest {
     }, onResponse: (Response response,
         ResponseInterceptorHandler responseInterceptorHandler) {
       //状态900 代表token有问题
-      print('走了${response.data}');
       if (response.data['code'] == 900) {
         BuildContext? context = navigatorKey.currentState?.overlay?.context;
         if(context!=null) {
           Navigator.of(context).pushNamedAndRemoveUntil(
-              '/loginP', ModalRoute.withName("/"));
+              '/login', ModalRoute.withName("/"));
         }
         //跳转登录逻辑
       }

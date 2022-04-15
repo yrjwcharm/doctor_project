@@ -7,7 +7,7 @@ import '../pages/tabs/main.dart';
 
 final routes={
 
-  '/loginP':(context)=>LoginPage(),
+  '/login':(context)=>LoginPage(),
   '/register':(context)=>RegisterContent(),
   // '/registerSuccess':(context)=> const RegisterSuccess(),
   '/TabHome':(context)=> Main(),
