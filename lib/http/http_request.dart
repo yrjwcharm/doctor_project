@@ -3,12 +3,9 @@ import 'dart:convert' as Convert;
 import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:doctor_project/common/local/local_storage.dart';
-import 'package:doctor_project/pages/login/login.dart';
-import 'package:doctor_project/utils/toast_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 import '../http/api.dart';
 import '../main.dart';
 
@@ -77,10 +74,10 @@ class HttpRequest {
   }
 
 
-  Future<dynamic> get(String url, Map<String, dynamic>? data,
+  Future<dynamic> get(String url, Map<String, dynamic> data,
       {Options? option}) async {
     try {
-      Response? response = await dio.get(url,
+      Response response = await dio.get(url,
           queryParameters: data, options: option);
       var result =response.data;
       return result;
@@ -89,10 +86,10 @@ class HttpRequest {
     }
   }
 
-  Future<dynamic> post(String url, Map<String, dynamic>? data,
+  Future<dynamic> post(String url, Map<String, dynamic> data,
       {Options? option}) async {
     try {
-      Response? response = await dio.post(url,
+      Response response = await dio.post(url,
           data: data, options: option);
       var result =response.data;
       return result;
@@ -102,14 +99,16 @@ class HttpRequest {
   }
 
   Future<dynamic> downloadFile(urlPath, savePath) async {
-    Response? response;
+    Response response;
     try {
       response = await dio.download(urlPath, savePath,
           onReceiveProgress: (int count, int total) {
         //进度
       });
-    } on DioError catch (e) {}
-    return response?.data;
+      return response.data;
+    } on DioError catch (e) {
+
+    }
   }
 
 }
