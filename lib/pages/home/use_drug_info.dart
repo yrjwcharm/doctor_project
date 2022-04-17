@@ -507,7 +507,8 @@ class _UseDrugInfoState extends State<UseDrugInfo> {
                   return ;
                 }
                 // EventBusUtil.getInstance().fire(drugInfoMap);
-                isHaveData = true;
+                EventBusUtil.getInstance().fire(drugInfoMap);
+                // isHaveData = true;
                 Navigator.pop(context);
 
                 // Navigator.popUntil(context, ModalRoute.withName('/makePrescription'));
@@ -520,15 +521,5 @@ class _UseDrugInfoState extends State<UseDrugInfo> {
         ],
       ),
     );
-  }
-
-  @override
-  void deactivate(){
-    super.deactivate();
-    if(isHaveData ==true){
-      print("通知传值成功");
-      EventBusUtil.getInstance().fire(drugInfoMap);
-    }
-
   }
 }
