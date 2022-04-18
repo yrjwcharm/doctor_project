@@ -440,7 +440,7 @@ class HomeState extends State<Home> {
                     placeholder: (context, url) => CircularProgressIndicator(),
                     // 网络图片地址
                     imageUrl:
-                        doctorInfoMap.isEmpty ? "" : doctorInfoMap["photoUrl"],
+                        doctorInfoMap.isEmpty ? "" : doctorInfoMap["photoUrl"]??'',
                     width: 43,
                     height: 43,
                     fit: BoxFit.cover,

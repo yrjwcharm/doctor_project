@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:doctor_project/pages/home/add-drug.dart';
@@ -17,7 +18,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../../http/http_request.dart';
 import '../../http/api.dart';
 import 'dart:ui';
-import 'package:doctor_project/utils/EventBus_Utils.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -26,6 +26,8 @@ import 'package:doctor_project/pages/home/webviewVC.dart';
 import 'package:doctor_project/pages/home/electronicSgnature.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter/services.dart';
+
+import '../../utils/event_bus_util.dart';
 
 class MakePrescription extends StatefulWidget {
   String registeredId ; //挂号Id
@@ -82,6 +84,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
   List<String> useTypeList = [];
   List<String> freqTypeList = [];
   List<String> baseUnitList = [];
+  StreamSubscription? stream;
 
   @override
   void initState() {
@@ -111,8 +114,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
         'isArrow': true,
       }
     ];
-
-    EventBusUtil.getInstance().on<Map>().listen((event) {
+    stream = EventBusUtil.getInstance().on<Map>().listen((event) {
       setState(() {
         drugList.add(event);
         calculateThePrice();
@@ -368,8 +370,11 @@ class _MakePrescriptionState extends State<MakePrescription> {
   @override
   void dispose() {
     super.dispose();
+    if (stream != null) {
+      stream!.cancel();
+      stream = null;
+    }
     //不用的时候记得关闭
-    EventBusUtil.getInstance().destroy();
   }
 
   /*

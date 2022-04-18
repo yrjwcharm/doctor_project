@@ -186,7 +186,7 @@ class MyState extends State<My> {
                 // 加载网络图片过程中显示的内容 , 这里显示进度条
                   placeholder: (context, url)=>CircularProgressIndicator(),
                 // 网络图片地址
-                  imageUrl: doctorInfoMap.isEmpty ?"" :doctorInfoMap["photoUrl"],
+                  imageUrl: doctorInfoMap.isEmpty ?"" :doctorInfoMap["photoUrl"]??'',
                   fit: BoxFit.cover,width: 55.0,height: 55.0,
                 ),
               ),

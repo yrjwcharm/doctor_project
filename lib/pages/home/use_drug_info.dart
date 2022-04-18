@@ -1,19 +1,18 @@
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:doctor_project/common/event/event_bus.dart';
 import 'package:doctor_project/common/style/gsy_style.dart';
 import 'package:doctor_project/utils/colors_utils.dart';
-import 'package:doctor_project/utils/picker_utils.dart';
 import 'package:doctor_project/widget/custom_app_bar.dart';
 import 'package:doctor_project/widget/safe_area_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:doctor_project/utils/event_bus_util.dart';
 import 'package:flutter_picker/flutter_picker.dart';
 import '../../utils/svg_util.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:doctor_project/utils/EventBus_Utils.dart';
-
 class UseDrugInfo extends StatefulWidget {
 
   Map drugInfoMap ; //药品信息
