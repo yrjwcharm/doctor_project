@@ -18,9 +18,8 @@ if (flutterVersionCode == null) {
 
 def flutterVersionName = localProperties.getProperty('flutter.versionName')
 if (flutterVersionName == null) {
-    flutterVersionName = '1.0'
+    flutterVersionName = '1.0.0'
 }
-
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
@@ -49,6 +48,7 @@ android {
         applicationId "com.sinosoft.doctor_project"
         minSdkVersion 21
         targetSdkVersion 31
+        multiDexEnabled true
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         ndk {
@@ -81,5 +81,8 @@ flutter {
 }
 
 dependencies {
+    implementation 'com.aliyun.ams:alicloud-android-hotfix:3.3.5'
+    implementation 'com.android.support:multidex:1.0.3'
+
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
