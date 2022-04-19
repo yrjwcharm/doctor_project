@@ -1,6 +1,7 @@
 import 'package:doctor_project/pages/login/login.dart';
 import 'package:doctor_project/pages/tabs/main.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'dart:io';
 import 'common/local/local_storage.dart';
 import 'routes/routes.dart';
@@ -65,42 +66,40 @@ class _MyAppState extends State<MyApp> {
     // 初始化
     jpush.setup(
       // 极光官方申请应用的APP KEY
-      appKey: Platform.isAndroid
-          ? "c1e6cf8c94f962091da3c2f2"
-          : "b9af57826f0f309d8535255a",
+      appKey: "b9af57826f0f309d8535255a",
       channel: "theChannel",
       production: false,
       debug: true,
     );
 
     // 设置别名实现指定用户推送
-    // jpush.setAlias("jg6666").then((map) {
-    //   print("设置别名成功");
-    // });
+    jpush.setAlias("1111").then((map) {
+      print("设置别名成功");
+    });
 
     // iOS10+ 可以通过此方法来设置推送是否前台展示，是否触发声音，是否设置应用角标 badge
     jpush.applyPushAuthority(
         const NotificationSettingsIOS(sound: true, alert: true, badge: true));
 
     try {
-      // 监听消息通知
       jpush.addEventHandler(
-        // 接收通知回调方法。
-        onReceiveNotification: (Map<String, dynamic> message) async {
-          print("flutter onReceiveNotification: $message");
-        },
-        // 点击通知回调方法。
-        onOpenNotification: (Map<String, dynamic> message) async {
-          // 当用户点击时，可以做一些路由跳转
-          print("flutter onOpenNotification: $message");
-        },
-        // 接收自定义消息回调方法。
-        onReceiveMessage: (Map<String, dynamic> message) async {
-          print("flutter onReceiveMessage: $message");
-        },
-      );
-    } catch (e) {
-      print('极光SDK配置异常');
+          onReceiveNotification: (Map<String, dynamic> message) async {
+            print("flutter onReceiveNotification: $message");
+          }, onOpenNotification: (Map<String, dynamic> message) async {
+        print("flutter onOpenNotification: $message");
+      }, onReceiveMessage: (Map<String, dynamic> message) async {
+        print("flutter onReceiveMessage: $message");
+      }, onReceiveNotificationAuthorization:
+          (Map<String, dynamic> message) async {
+        print("flutter onReceiveNotificationAuthorization: $message");
+        setState(() {
+        });
+      },onNotifyMessageUnShow:
+          (Map<String, dynamic> message) async {
+        print("flutter onNotifyMessageUnShow: $message");
+
+      });
+    } on PlatformException {
     }
   }
 

@@ -517,7 +517,7 @@ class HomeState extends State<Home> {
             Row(
               // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                buildColumn(receiving.toString(), '今日已接诊'),
+                buildColumn(doctorInfoMap['receiveNum'].toString(), '今日已接诊'),
                 Container(
                   width: 1,
                   height: 20,
@@ -527,7 +527,7 @@ class HomeState extends State<Home> {
                           width: 1,
                           style: BorderStyle.solid)),
                 ),
-                buildColumn(waitReceive.toString(), '今日待接诊'),
+                buildColumn(doctorInfoMap['waitReceiveNum'].toString(), '今日待接诊'),
                 Container(
                   width: 1,
                   height: 20,
@@ -537,7 +537,7 @@ class HomeState extends State<Home> {
                           width: 1,
                           style: BorderStyle.solid)),
                 ),
-                buildColumn('26', '视频预约'),
+                buildColumn(doctorInfoMap['videoRegisterNum'].toString(), '视频预约'),
               ],
             ),
           ],
