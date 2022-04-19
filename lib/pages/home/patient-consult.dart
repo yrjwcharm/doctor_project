@@ -224,7 +224,7 @@ class _PatientConsultState extends State<PatientConsult> {
                       clipBehavior: Clip.hardEdge,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20.0)),
-                      child:item['photo']!=null? Image.network(item['photo'] ?? '',fit: BoxFit.cover,):item['sex_dictText']=='男'?Image.asset('assets/images/boy.png'):Image.asset('assets/images/girl.png'),
+                      child:item['photo']!=null?Image.network(item['photo'] ?? '',fit: BoxFit.cover,):item['sex_dictText']=='男'?Image.asset('assets/images/boy.png'):Image.asset('assets/images/girl.png'),
                     ),
                   ),
                   Container(
