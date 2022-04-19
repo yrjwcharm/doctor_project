@@ -242,9 +242,10 @@ class HomeState extends State<Home> {
                     leading: Container(
                       width: 40.0,
                       height: 40.0,
+                      clipBehavior: Clip.hardEdge,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20.0)),
-                      child: Image.network(item['photo'] ?? ''),
+                      child:item['photo']!=null? Image.network(item['photo'] ?? '',fit: BoxFit.cover,):item['sex_dictText']=='男'?Image.asset('assets/images/boy.png'):Image.asset('assets/images/girl.png'),
                     ),
                   ),
                   Container(
@@ -257,11 +258,12 @@ class HomeState extends State<Home> {
                             fontSize: 13.0,
                             color: '#333333'),
                       ),
+                      Flexible(child:
                       Text(
                         item['diseaseDesc'] ?? '',
                         style: GSYConstant.textStyle(
                             fontSize: 13.0, color: '#666666'),
-                      )
+                      ))
                     ]),
                   ),
                   const SizedBox(
@@ -434,15 +436,18 @@ class HomeState extends State<Home> {
               child: Row(children: <Widget>[
                 Container(
                   margin: const EdgeInsets.only(right: 16),
-                  // child: Image(image: AssetImage('assets/images/home/avatar.png'), width: 43, height: 43,),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(27.5)
+                  ),
+                  width: 43,
+                  height: 43,
+                  clipBehavior: Clip.hardEdge,
                   child: CachedNetworkImage(
                     // 加载网络图片过程中显示的内容 , 这里显示进度条
-                    placeholder: (context, url) => CircularProgressIndicator(),
+                    placeholder: (context, url) => const CircularProgressIndicator(),
                     // 网络图片地址
                     imageUrl:
                         doctorInfoMap.isEmpty ? "" : doctorInfoMap["photoUrl"]??'',
-                    width: 43,
-                    height: 43,
                     fit: BoxFit.cover,
                   ),
                 ),
