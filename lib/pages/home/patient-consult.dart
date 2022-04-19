@@ -221,9 +221,10 @@ class _PatientConsultState extends State<PatientConsult> {
                     leading: Container(
                       width: 40.0,
                       height: 40.0,
+                      clipBehavior: Clip.hardEdge,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20.0)),
-                      child: Image.network(item['photo'] ?? ''),
+                      child:item['photo']!=null? Image.network(item['photo'] ?? '',fit: BoxFit.cover,):item['sex_dictText']=='男'?Image.asset('assets/images/boy.png'):Image.asset('assets/images/girl.png'),
                     ),
                   ),
                   Container(
@@ -236,11 +237,12 @@ class _PatientConsultState extends State<PatientConsult> {
                             fontSize: 13.0,
                             color: '#333333'),
                       ),
-                      Text(
+                      Flexible(
+                          child: Text(
                         item['diseaseDesc'] ?? '',
                         style: GSYConstant.textStyle(
                             fontSize: 13.0, color: '#666666'),
-                      )
+                      ))
                     ]),
                   ),
                   const SizedBox(

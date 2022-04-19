@@ -1,4 +1,5 @@
 import 'package:doctor_project/common/style/gsy_style.dart';
+import 'package:doctor_project/pages/home/video_topic.dart';
 import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:doctor_project/utils/desensitization_utils.dart';
 import 'package:doctor_project/utils/image_network_catch.dart';
@@ -9,6 +10,10 @@ import 'package:doctor_project/widget/custom_input_widget.dart';
 import 'package:doctor_project/widget/custom_outline_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import '../../http/http_request.dart';
+import '../../config/zego_config.dart';
+import '../../http/api.dart';
+import 'chat_room.dart';
 
 class OrderDetail extends StatefulWidget {
   const OrderDetail({Key? key, required this.map}) : super(key: key);
@@ -78,10 +83,10 @@ class _OrderDetailState extends State<OrderDetail> {
               ),
               tileColor: Colors.white,
               subtitle: Text(
-                  DesensitizationUtil.desensitizationMobile('18311410379')),
+                  DesensitizationUtil.desensitizationMobile(_map['phone'])),
               // leading:_map['photo'].isEmpty?Image.network(_map['photo']):Image.asset('assets/images/home/avatar.png'),
               leading: SizedBox(
-                  height: 40, width: 40, child:Image.network(_map['photo']??'')),
+                  height: 40, width: 40, child:_map['photo']!=null?Image.network(_map['photo']??''):_map['sex_dictText']=='男'?Image.asset('assets/images/boy.png'):Image.asset('assets/images/girl.png')),
               trailing: Image.asset(
                 'assets/images/my/more.png',
                 fit: BoxFit.cover,
@@ -361,8 +366,52 @@ class _OrderDetailState extends State<OrderDetail> {
                               primary: ColorsUtil.primaryColor,
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(0))),
-                          onPressed: () {
-                            // Navigator.push(context, MaterialPageRoute(builder: (context)=> ChatPage() ));
+                          onPressed: () async{
+                            print('111111${_map.toString()}');
+                            return;
+                            var request = HttpRequest.getInstance();
+                            Map<String, dynamic> map = {};
+                            map['registerId'] = _map['id'];
+                            var res = await request.post(
+                                Api.getReceiveConsultApi, map);
+                            if (res['code'] == 200) {
+                              var res1 = await request.post(
+                                  Api.createRoomApi, {
+                                'orderId': _map['orderId'],
+                                'roomType': _map['type']=='2'?1:2,
+                                'patientId': _map['patientId']
+                              });
+                              if (res1['code'] == 200) {
+                                ZegoConfig.instance.userID =
+                                    res1['data']['userId'].toString();
+                                ZegoConfig.instance.userName =
+                                res1['data']['userName'];
+                                ZegoConfig.instance.roomID =
+                                res1['data']['roomId'];
+                                var res2 = await request.get(Api.getToken,
+                                    {'roomId': res1['data']['roomId']});
+                                if (res2['code'] == 200) {
+                                  ZegoConfig.instance.token =
+                                  res2['data']['token'];
+                                  if(_map['type']=='2'){
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => VideoTopic(
+                                              regId: _map['id'],
+                                            )));
+
+                                  }else{
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => ChatRoom(
+                                              userInfoMap: _map,
+                                            )));
+                                  }
+                                }
+                              }
+                            }
                           },
                           child: Text(
                             '接诊',

@@ -295,49 +295,6 @@ class HomeState extends State<Home> {
                                     borderRadius: BorderRadius.circular(14.0))),
                             onPressed: () async {
                               // if(status==0){
-                              var request = HttpRequest.getInstance();
-                              Map<String, dynamic> map = {};
-                              map['registerId'] = item['id'];
-                              var res = await request.post(
-                                  Api.getReceiveConsultApi, map);
-                              if (res['code'] == 200) {
-                                  var res1 = await request.post(
-                                      Api.createRoomApi, {
-                                    'orderId': item['orderId'],
-                                    'roomType': item['type']=='2'?1:2,
-                                    'patientId': item['patientId']
-                                  });
-                                  if (res1['code'] == 200) {
-                                    ZegoConfig.instance.userID =
-                                        res1['data']['userId'].toString();
-                                    ZegoConfig.instance.userName =
-                                        res1['data']['userName'];
-                                    ZegoConfig.instance.roomID =
-                                        res1['data']['roomId'];
-                                    var res2 = await request.get(Api.getToken,
-                                        {'roomId': res1['data']['roomId']});
-                                    if (res2['code'] == 200) {
-                                      ZegoConfig.instance.token =
-                                          res2['data']['token'];
-                                       if(item['type']=='2'){
-                                         Navigator.push(
-                                             context,
-                                             MaterialPageRoute(
-                                                 builder: (context) => VideoTopic(
-                                                   regId: item['id'],
-                                                 )));
-
-                                       }else{
-                                         Navigator.push(
-                                             context,
-                                             MaterialPageRoute(
-                                                 builder: (context) => ChatRoom(
-                                                   userInfoMap: item,
-                                                 )));
-                                       }
-                                    }
-                                  }
-                                }
                             },
                             child: Text(
                               status == 1 ? '继续交流' : '接诊',
