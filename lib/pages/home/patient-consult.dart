@@ -259,9 +259,7 @@ class _PatientConsultState extends State<PatientConsult> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          (int.parse(item['times']) / 1000 / 60 / 60)
-                                  .toStringAsFixed(0) +
-                              '小时前',
+                          item['times']??'',
                           style: GSYConstant.textStyle(color: '#888888'),
                         ),
                         SizedBox(

@@ -3,6 +3,7 @@ import 'package:doctor_project/pages/home/video_topic.dart';
 import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:doctor_project/utils/desensitization_utils.dart';
 import 'package:doctor_project/utils/image_network_catch.dart';
+import 'package:doctor_project/utils/svg_util.dart';
 import 'package:doctor_project/widget/custom_app_bar.dart';
 import 'package:doctor_project/widget/custom_app_bar.dart';
 import 'package:doctor_project/widget/custom_elevated_button.dart';
@@ -85,14 +86,13 @@ class _OrderDetailState extends State<OrderDetail> {
               subtitle: Text(
                   DesensitizationUtil.desensitizationMobile(_map['phone'])),
               // leading:_map['photo'].isEmpty?Image.network(_map['photo']):Image.asset('assets/images/home/avatar.png'),
-              leading: SizedBox(
-                  height: 40, width: 40, child:_map['photo']!=null?Image.network(_map['photo']??''):_map['sex_dictText']=='男'?Image.asset('assets/images/boy.png'):Image.asset('assets/images/girl.png')),
-              trailing: Image.asset(
-                'assets/images/my/more.png',
-                fit: BoxFit.cover,
-                width: 8,
-                height: 14,
-              ),
+              leading: Container(
+                  clipBehavior: Clip.hardEdge,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20.0)
+                  ),
+                  height: 40.0, width: 40.0, child:_map['photo']!=null?Image.network(_map['photo']??''):_map['sex_dictText']=='男'?Image.asset('assets/images/boy.png'):Image.asset('assets/images/girl.png')),
+              trailing:SvgUtil.svg('arrow_right.svg')
             ),
           ),
           const SizedBox(
@@ -241,7 +241,7 @@ class _OrderDetailState extends State<OrderDetail> {
                 child: SafeArea(
                   child: Row(
                     children: <Widget>[
-                      Expanded(
+                     _map['status']=='1'?Container(): Expanded(
                           child: SizedBox(
                         height: 40,
                         child: ElevatedButton(
@@ -328,9 +328,9 @@ class _OrderDetailState extends State<OrderDetail> {
                                             textStyle: GSYConstant.textStyle(
                                                 fontSize: 15.0,
                                                 color: '#666666'),
-                                            borderRadius: BorderRadius.only(
+                                            borderRadius: const BorderRadius.only(
                                                 bottomRight:
-                                                    const Radius.circular(4.0)),
+                                                    Radius.circular(4.0)),
                                             borderColor:
                                                 ColorsUtil.hexStringColor(
                                                     '#cccccc'),
@@ -367,8 +367,6 @@ class _OrderDetailState extends State<OrderDetail> {
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(0))),
                           onPressed: () async{
-                            print('111111${_map.toString()}');
-                            return;
                             var request = HttpRequest.getInstance();
                             Map<String, dynamic> map = {};
                             map['registerId'] = _map['id'];
@@ -414,7 +412,7 @@ class _OrderDetailState extends State<OrderDetail> {
                             }
                           },
                           child: Text(
-                            '接诊',
+                            _map['status']=='1'?'继续交流':'接诊',
                             style: GSYConstant.textStyle(shadows: [
                               const Shadow(
                                   offset: Offset(0, -1.0),

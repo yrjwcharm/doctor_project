@@ -40,7 +40,7 @@ dependencies:
   fluttertoast: ^8.0.9
   share: ^2.0.4
   flutter_slidable: ^1.2.0
-  dio: 4.0.4
+  dio: ^4.0.6
   intl: ^0.17.0
   mime: ^1.0.1
   uuid: ^3.0.5
