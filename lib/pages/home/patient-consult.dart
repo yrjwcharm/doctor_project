@@ -158,7 +158,7 @@ class _PatientConsultState extends State<PatientConsult> {
                     builder: (context) => OrderDetail(map: list[index])));
           },
           child: Container(
-              margin: const EdgeInsets.fromLTRB(16.0, 10.0, 16.0, 0),
+              margin: const EdgeInsets.fromLTRB(16.0, 0, 16.0, 10.0),
               decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(5.0)),
@@ -346,8 +346,7 @@ class _PatientConsultState extends State<PatientConsult> {
             },
           ),
           Container(
-            margin: const EdgeInsets.only(top: 10.0),
-            height: 40.0,
+            margin: const EdgeInsets.only(top:10.0,bottom:14.0),
             child: Row(
               children: <Widget>[
                 Expanded(
@@ -423,8 +422,10 @@ class _PatientConsultState extends State<PatientConsult> {
           ),
           Expanded(
             child: RefreshIndicator(
+              displacement: 10.0,
               onRefresh: _onRefresh,
               child: ListView.builder(
+                padding:EdgeInsets.zero,
                 itemBuilder: _renderRow,
                 itemCount: list.length,
                 controller: _scrollController,
