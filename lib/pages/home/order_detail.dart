@@ -171,6 +171,7 @@ class _OrderDetailState extends State<OrderDetail> {
                       style: GSYConstant.textStyle(color: '#666666'),
                     )
                   ],
+
                 ),
                 const SizedBox(
                   height: 10.0,
