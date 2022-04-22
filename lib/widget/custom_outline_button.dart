@@ -11,7 +11,7 @@ class CustomOutlineButton extends StatelessWidget {
     required this.onPressed,
     this.primary = '#06B48D',
     required this.borderRadius,
-    required this.borderColor, this.padding, this.width,
+    required this.borderColor, this.padding=EdgeInsets.zero, this.width,
   }) : super(key: key);
   final String primary;
   final double height;
@@ -29,7 +29,7 @@ class CustomOutlineButton extends StatelessWidget {
         height: height,
         child: OutlinedButton(
           style: OutlinedButton.styleFrom(
-             padding:EdgeInsets.zero,
+             padding:padding,
               side: BorderSide(
                   width: 1, color: borderColor),
               primary: ColorsUtil.hexStringColor(primary),

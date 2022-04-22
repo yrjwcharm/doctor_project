@@ -17,6 +17,7 @@ class Api {
   static const getDoctorInfoUrl = "/doctor/dr-service/ba-doctor-user/getInfo"; //获取医生信息
   static const getMessageListApi = "/doctor/dr-service/push/getList"; //获取医生信息
   static const getMyPatientListApi = "/doctor/dr-service/patient/getList"; //获取患者列表
+  static const finishTopicApi = "/doctor/dr-service/register/finish";
 
 
 }

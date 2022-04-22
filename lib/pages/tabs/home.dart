@@ -6,6 +6,7 @@ import 'package:doctor_project/pages/home/video_topic.dart';
 import 'package:doctor_project/utils/image_network_catch.dart';
 import 'package:doctor_project/utils/svg_util.dart';
 import 'package:doctor_project/utils/toast_util.dart';
+import 'package:doctor_project/widget/custom_outline_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -284,10 +285,22 @@ class HomeState extends State<Home> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
+                      Expanded(child:
                       Text(
                         item['times'] ?? '',
                         style: GSYConstant.textStyle(color: '#888888'),
-                      ),
+                      )),
+                      status == 1?CustomOutlineButton(title: '结束问诊',textStyle: GSYConstant.textStyle(fontSize: 13.0,color: '#666666'), padding: const EdgeInsets.symmetric(horizontal: 13.0),height: 28.0, onPressed:() async{
+                        var request = HttpRequest.getInstance();
+                        Map<String, dynamic> map = {};
+                        map['registerId'] = item['id'];
+                        var res = await request.post(Api.finishTopicApi, map);
+                        if(res['code']==200){
+                          getData();
+                          getCount();
+                        }
+                      }, borderRadius: BorderRadius.circular(14.0), borderColor: ColorsUtil.hexStringColor('#06B48D')):Container(),
+                      const SizedBox(width: 10.0,),
                       SizedBox(
                         // width: 77,
                         height: 28,
