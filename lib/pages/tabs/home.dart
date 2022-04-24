@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:doctor_project/pages/home/add_multi_diagnosis.dart';
 import 'package:doctor_project/pages/home/chat_room.dart';
 import 'package:doctor_project/pages/home/make_prescription.dart';
@@ -15,6 +17,7 @@ import '../../common/style/gsy_style.dart';
 import '../../config/zego_config.dart';
 import '../../http/api.dart';
 import '../../utils/colors_utils.dart';
+import '../../utils/event_bus_util.dart';
 import '../../utils/platform_utils.dart';
 import '../home/add-drug.dart';
 import '../home/notice_detail.dart';
@@ -42,6 +45,7 @@ class HomeState extends State<Home> {
   int receiving = 0;
   int waitReceive = 0;
   Map doctorInfoMap = new Map();
+  StreamSubscription? stream;
 
   @override
   void initState() {
@@ -55,6 +59,10 @@ class HomeState extends State<Home> {
         print('滑动到了最底部');
         _getMore();
       }
+    });
+    stream = EventBusUtil.getInstance().on<Map>().listen((event) {
+       getData();
+       getCount();
     });
   }
 
@@ -109,31 +117,6 @@ class HomeState extends State<Home> {
     getData();
     getCount();
   }
-
-  /**
-   * 加载更多时显示的组件,给用户提示
-   */
-  Widget _getMoreWidget() {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: const <Widget>[
-            Text(
-              '加载中...',
-              style: TextStyle(fontSize: 16.0),
-            ),
-            CircularProgressIndicator(
-              strokeWidth: 1.0,
-            )
-          ],
-        ),
-      ),
-    );
-  }
-
   Future _getMore() async {
     if (isMore) {
       _page += 1;
@@ -164,7 +147,12 @@ class HomeState extends State<Home> {
   void dispose() {
     // TODO: implement dispose
     super.dispose();
+    if (stream != null) {
+      stream!.cancel();
+      stream = null;
+    }
     _scrollController.dispose();
+
   }
 
   // {orderType: 0, sex_dictText: 未知字典, sex: 10, photo: , type_dictText: 图文问诊, type: 0, diseaseTime_dictText: 未知字典, orderType_dictText: 复诊拿药, times: 56299, diseaseTime: , diseaseData: [], name: 病人姓名, id: 432413381564170241, age: 22, diseaseDesc: }

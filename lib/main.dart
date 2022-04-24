@@ -28,22 +28,7 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     initJpush();
-    getLoginState();
   }
-  getLoginState() async {
-    String? token = await LocalStorage.get('tokenValue');
-     if(token==null){
-       setState(() {
-         isLogin = false;
-       });
-     }else{
-       setState(() {
-         isLogin = true;
-       });
-     }
-  }
-
-
   // getLoginState() async{
   //   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   //   String isLogin = sharedPreferences.getString('tokenValue');
@@ -117,7 +102,7 @@ class _MyAppState extends State<MyApp> {
       ],
       debugShowCheckedModeBanner: false,
       // 设置这一属性即可
-      home: isLogin?Main():LoginPage(),
+      home: Main(),
       builder: EasyLoading.init(),
       routes: routes,
     );
