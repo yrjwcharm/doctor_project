@@ -448,7 +448,6 @@ class HomeState extends State<Home> {
                                             builder: (context) => VideoTopic(
                                                   regId: item['id'],
                                                 ))).then((value) => {
-                                          print('那你iiiii'),
                                           getData(),
                                           getCount()
                                         });
@@ -459,7 +458,10 @@ class HomeState extends State<Home> {
                                             builder: (context) => ChatRoom(
                                                   userInfoMap: item,
                                                 ))).then(
-                                        (value) => {getData(), getCount()});
+                                        (value) => {
+                                          getData(),
+                                          getCount()
+                                        });
                                   }
                                 }
                               }
