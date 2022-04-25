@@ -376,14 +376,128 @@ class _OrderDetailState extends State<OrderDetail> {
                                      },
                                    ).then((val) {});
                                  }else {
-                                   var request = HttpRequest.getInstance();
-                                   Map<String, dynamic> map = {};
-                                   map['registerId'] = _map['id'];
-                                   var res = await request.post(Api.finishTopicApi, map);
-                                   if(res['code']==200){
-                                      Navigator.of(context).pop();
-                                      EventBusUtil.getInstance().fire({'success':true});
-                                   }
+                                   // var request = HttpRequest.getInstance();
+                                   // Map<String, dynamic> map = {};
+                                   // map['registerId'] = _map['id'];
+                                   // var res = await request.post(Api.finishTopicApi, map);
+                                   // if(res['code']==200){
+                                   //    Navigator.of(context).pop();
+                                   //    EventBusUtil.getInstance().fire({'success':true});
+                                   // }
+                                   var result = await showDialog(
+                                       barrierDismissible: false,
+                                       context: context,
+                                       builder: (_) => WillPopScope(
+                                         onWillPop: () async {
+                                           return Future.value(false);
+                                         },
+                                         child: AlertDialog(
+                                           contentPadding:
+                                           const EdgeInsets.symmetric(
+                                               vertical: 45.0),
+                                           contentTextStyle: TextStyle(
+                                               fontSize: 16.0,
+                                               color:
+                                               ColorsUtil.hexStringColor(
+                                                   '#333333')),
+                                           // title: Text("提示信息"),
+                                           content: const Text(
+                                             "请确认是否结束问诊？",
+                                             textAlign: TextAlign.center,
+                                           ),
+                                           buttonPadding: EdgeInsets.zero,
+                                           actions: [
+                                             Row(
+                                               children: <Widget>[
+                                                 Expanded(
+                                                     child: GestureDetector(
+                                                         onTap: () {
+                                                           Navigator.pop(context);
+                                                         },
+                                                         child: Container(
+                                                           height: 40.0,
+                                                           alignment: Alignment
+                                                               .center,
+                                                           decoration: BoxDecoration(
+                                                               border: Border(
+                                                                   right: BorderSide(
+                                                                       width:
+                                                                       0.5,
+                                                                       color: ColorsUtil.hexStringColor(
+                                                                           '#cccccc',
+                                                                           alpha:
+                                                                           0.4)),
+                                                                   top: BorderSide(
+                                                                       width:
+                                                                       1.0,
+                                                                       color: ColorsUtil.hexStringColor(
+                                                                           '#cccccc',
+                                                                           alpha:
+                                                                           0.4)))),
+                                                           child: Text(
+                                                             '取消',
+                                                             style: GSYConstant
+                                                                 .textStyle(
+                                                                 fontSize:
+                                                                 16.0,
+                                                                 color:
+                                                                 '#333333'),
+                                                           ),
+                                                         ))),
+                                                 Expanded(
+                                                     child: GestureDetector(
+                                                       onTap: () async {
+                                                         var request = HttpRequest
+                                                             .getInstance();
+                                                         Map<String, dynamic> map =
+                                                         {};
+                                                         map['registerId'] =
+                                                         _map['id'];
+                                                         var res =
+                                                         await request.post(
+                                                             Api.finishTopicApi,
+                                                             map);
+                                                         if (res['code'] == 200) {
+                                                           EventBusUtil.getInstance().fire({'success':true});
+                                                           Navigator.of(context).pop();
+                                                           Navigator.of(context).pop();
+                                                         }
+                                                       },
+                                                       child: Container(
+                                                         alignment:
+                                                         Alignment.center,
+                                                         height: 40.0,
+                                                         decoration: BoxDecoration(
+                                                             border: Border(
+                                                                 left: BorderSide(
+                                                                     width: 0.5,
+                                                                     color: ColorsUtil
+                                                                         .hexStringColor(
+                                                                         '#cccccc',
+                                                                         alpha:
+                                                                         0.4)),
+                                                                 top: BorderSide(
+                                                                     width: 1.0,
+                                                                     color: ColorsUtil
+                                                                         .hexStringColor(
+                                                                         '#cccccc',
+                                                                         alpha:
+                                                                         0.4)))),
+                                                         child: Text(
+                                                           '确定',
+                                                           style: GSYConstant
+                                                               .textStyle(
+                                                               fontSize: 16.0,
+                                                               color:
+                                                               '#06B48D'),
+                                                         ),
+                                                       ),
+                                                     ))
+                                               ],
+                                             ),
+                                           ],
+                                         ),
+                                       ));
                                  }
                                 },
                                 child: Text(

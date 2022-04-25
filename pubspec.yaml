@@ -47,6 +47,9 @@ dependencies:
   diffutil_dart: ^3.0.0
   equatable: ^2.0.3
   flutter_chat_types: ^3.3.1
+
+  simple_logger: ^1.9.0
+
   flutter_link_previewer: ^2.6.3
   meta: ^1.7.0
   visibility_detector: ^0.2.2

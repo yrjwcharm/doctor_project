@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:doctor_project/pages/home/add_multi_diagnosis.dart';
 import 'package:doctor_project/pages/home/chat_room.dart';
 import 'package:doctor_project/pages/home/make_prescription.dart';
@@ -46,7 +47,6 @@ class HomeState extends State<Home> {
   int waitReceive = 0;
   Map doctorInfoMap = new Map();
   StreamSubscription? stream;
-
   @override
   void initState() {
     super.initState();
@@ -117,6 +117,7 @@ class HomeState extends State<Home> {
     getData();
     getCount();
   }
+
   Future _getMore() async {
     if (isMore) {
       _page += 1;
@@ -145,14 +146,12 @@ class HomeState extends State<Home> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     if (stream != null) {
       stream!.cancel();
       stream = null;
     }
     _scrollController.dispose();
-
   }
 
   // {orderType: 0, sex_dictText: 未知字典, sex: 10, photo: , type_dictText: 图文问诊, type: 0, diseaseTime_dictText: 未知字典, orderType_dictText: 复诊拿药, times: 56299, diseaseTime: , diseaseData: [], name: 病人姓名, id: 432413381564170241, age: 22, diseaseDesc: }
@@ -273,22 +272,142 @@ class HomeState extends State<Home> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Expanded(child:
-                      Text(
+                      Expanded(
+                          child: Text(
                         item['times'] ?? '',
                         style: GSYConstant.textStyle(color: '#888888'),
                       )),
-                      status == 1?CustomOutlineButton(title: '结束问诊',textStyle: GSYConstant.textStyle(fontSize: 13.0,color: '#666666'), padding: const EdgeInsets.symmetric(horizontal: 13.0),height: 28.0, onPressed:() async{
-                        var request = HttpRequest.getInstance();
-                        Map<String, dynamic> map = {};
-                        map['registerId'] = item['id'];
-                        var res = await request.post(Api.finishTopicApi, map);
-                        if(res['code']==200){
-                          getData();
-                          getCount();
-                        }
-                      }, borderRadius: BorderRadius.circular(14.0), borderColor: ColorsUtil.hexStringColor('#06B48D')):Container(),
-                      const SizedBox(width: 10.0,),
+                      status == 1
+                          ? CustomOutlineButton(
+                              title: '结束问诊',
+                              textStyle: GSYConstant.textStyle(
+                                  fontSize: 13.0, color: '#666666'),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 13.0),
+                              height: 28.0,
+                              onPressed: () async {
+                                var result = await showDialog(
+                                    barrierDismissible: false,
+                                    context: context,
+                                    builder: (_) => WillPopScope(
+                                          onWillPop: () async {
+                                            return Future.value(false);
+                                          },
+                                          child: AlertDialog(
+                                            contentPadding:
+                                                const EdgeInsets.symmetric(
+                                                    vertical: 45.0),
+                                            contentTextStyle: TextStyle(
+                                                fontSize: 16.0,
+                                                color:
+                                                    ColorsUtil.hexStringColor(
+                                                        '#333333')),
+                                            // title: Text("提示信息"),
+                                            content: const Text(
+                                              "请确认是否结束问诊？",
+                                              textAlign: TextAlign.center,
+                                            ),
+                                            buttonPadding: EdgeInsets.zero,
+                                            actions: [
+                                              Row(
+                                                children: <Widget>[
+                                                  Expanded(
+                                                      child: GestureDetector(
+                                                          onTap: () {
+                                                            Navigator.pop(context);
+                                                          },
+                                                          child: Container(
+                                                            height: 40.0,
+                                                            alignment: Alignment
+                                                                .center,
+                                                            decoration: BoxDecoration(
+                                                                border: Border(
+                                                                    right: BorderSide(
+                                                                        width:
+                                                                            0.5,
+                                                                        color: ColorsUtil.hexStringColor(
+                                                                            '#cccccc',
+                                                                            alpha:
+                                                                                0.4)),
+                                                                    top: BorderSide(
+                                                                        width:
+                                                                            1.0,
+                                                                        color: ColorsUtil.hexStringColor(
+                                                                            '#cccccc',
+                                                                            alpha:
+                                                                                0.4)))),
+                                                            child: Text(
+                                                              '取消',
+                                                              style: GSYConstant
+                                                                  .textStyle(
+                                                                      fontSize:
+                                                                          16.0,
+                                                                      color:
+                                                                          '#333333'),
+                                                            ),
+                                                          ))),
+                                                  Expanded(
+                                                      child: GestureDetector(
+                                                    onTap: () async {
+                                                      var request = HttpRequest
+                                                          .getInstance();
+                                                      Map<String, dynamic> map =
+                                                          {};
+                                                      map['registerId'] =
+                                                          item['id'];
+                                                      var res =
+                                                          await request.post(
+                                                              Api.finishTopicApi,
+                                                              map);
+                                                      if (res['code'] == 200) {
+                                                        getData();
+                                                        getCount();
+                                                        Navigator.pop(context);
+
+                                                      }
+                                                    },
+                                                    child: Container(
+                                                      alignment:
+                                                          Alignment.center,
+                                                      height: 40.0,
+                                                      decoration: BoxDecoration(
+                                                          border: Border(
+                                                              left: BorderSide(
+                                                                  width: 0.5,
+                                                                  color: ColorsUtil
+                                                                      .hexStringColor(
+                                                                          '#cccccc',
+                                                                          alpha:
+                                                                              0.4)),
+                                                              top: BorderSide(
+                                                                  width: 1.0,
+                                                                  color: ColorsUtil
+                                                                      .hexStringColor(
+                                                                          '#cccccc',
+                                                                          alpha:
+                                                                              0.4)))),
+                                                      child: Text(
+                                                        '确定',
+                                                        style: GSYConstant
+                                                            .textStyle(
+                                                                fontSize: 16.0,
+                                                                color:
+                                                                    '#06B48D'),
+                                                      ),
+                                                    ),
+                                                  ))
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ));
+                              },
+                              borderRadius: BorderRadius.circular(14.0),
+                              borderColor: ColorsUtil.hexStringColor('#06B48D'))
+                          : Container(),
+                      const SizedBox(
+                        width: 10.0,
+                      ),
                       SizedBox(
                         // width: 77,
                         height: 28,
@@ -328,14 +447,19 @@ class HomeState extends State<Home> {
                                         MaterialPageRoute(
                                             builder: (context) => VideoTopic(
                                                   regId: item['id'],
-                                                )));
+                                                ))).then((value) => {
+                                          print('那你iiiii'),
+                                          getData(),
+                                          getCount()
+                                        });
                                   } else {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) => ChatRoom(
                                                   userInfoMap: item,
-                                                )));
+                                                ))).then(
+                                        (value) => {getData(), getCount()});
                                   }
                                 }
                               }
@@ -461,7 +585,7 @@ class HomeState extends State<Home> {
                             Text(
                                 doctorInfoMap.isEmpty
                                     ? ""
-                                    : doctorInfoMap["realName"],
+                                    : doctorInfoMap["realName"]??'',
                                 style: TextStyle(
                                     fontFamily: 'Medium',
                                     fontSize: 18,
@@ -484,7 +608,7 @@ class HomeState extends State<Home> {
                                 child: Text(
                                     doctorInfoMap.isEmpty
                                         ? ""
-                                        : doctorInfoMap["protitle_dictText"],
+                                        : doctorInfoMap["protitle_dictText"]??'',
                                     style: TextStyle(
                                         color: ColorsUtil.hexStringColor(
                                             '#06B48D'),
@@ -500,13 +624,13 @@ class HomeState extends State<Home> {
                         child: Row(children: <Widget>[
                           Text(doctorInfoMap.isEmpty
                               ? ""
-                              : doctorInfoMap["orgName"]),
+                              : doctorInfoMap["orgName"]??''),
                           SizedBox(
                             width: 8,
                           ),
                           Text(doctorInfoMap.isEmpty
                               ? ""
-                              : doctorInfoMap["deptName"])
+                              : doctorInfoMap["deptName"]??'')
                         ]),
                       )
                     ],
@@ -769,7 +893,7 @@ class HomeState extends State<Home> {
           ),
           Container(
             // height: 44.0,
-            margin: const EdgeInsets.only(top: 10.0,bottom:13.0),
+            margin: const EdgeInsets.only(top: 10.0, bottom: 13.0),
             child: Row(
               children: <Widget>[
                 Expanded(
@@ -845,7 +969,7 @@ class HomeState extends State<Home> {
           ),
           Expanded(
             child: RefreshIndicator(
-              displacement:10.0,
+              displacement: 10.0,
               onRefresh: _onRefresh,
               child: ListView.builder(
                 padding: EdgeInsets.zero,

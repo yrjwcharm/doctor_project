@@ -276,7 +276,7 @@ class MyState extends State<My> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    doctorInfoMap.isEmpty ? "" : doctorInfoMap["realName"],
+                    doctorInfoMap.isEmpty ? "" : doctorInfoMap["realName"]??'',
                     style: const TextStyle(
                       fontSize: 20.0,
                       fontWeight: FontWeight.w500,
