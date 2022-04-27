@@ -20,6 +20,7 @@ import 'package:flutter_chat_types/flutter_chat_types.dart';
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:intl/intl.dart';
 import 'package:mime/mime.dart';
 import 'package:open_file/open_file.dart';
 import 'package:uuid/uuid.dart';
@@ -70,7 +71,7 @@ class _ChatPageState extends State<ChatPage> {
   bool _emojiState = false;
   FocusNode _focusNode = new FocusNode();
   final String _roomID = ZegoConfig.instance.roomID;
-
+  final  request = HttpRequest.getInstance();
   String _messagesBuffer = '';
 
   bool _isEngineActive = false;
@@ -86,6 +87,8 @@ class _ChatPageState extends State<ChatPage> {
   TextEditingController _roomExtraInfoValueController = new TextEditingController();
   String msg ='';
   // Map res['data'] =Map();
+   Map doctorMap ={};
+
   @override
   void initState() {
     super.initState();
@@ -98,7 +101,7 @@ class _ChatPageState extends State<ChatPage> {
     setZegoEventCallback();
     print("userInfoMap-------" +this.userInfoMap.toString());
 
-    _loadMessages();
+    // _loadMessages();
     _focusNode.addListener(() {
       if (_focusNode.hasFocus){
         setState(() {
@@ -108,6 +111,7 @@ class _ChatPageState extends State<ChatPage> {
       }
     });
     getNet_doctorInfo();
+    getRecordList();
   }
   @override
   void dispose() {
@@ -118,6 +122,32 @@ class _ChatPageState extends State<ChatPage> {
     _focusNode.dispose();
     super.dispose();
   }
+  getRecordList()async{
+    var res = await request.get(Api.getRecordListApi+'?roomId=${ZegoConfig.instance.roomID}', {});
+    if(res['code']==200){
+      print('聊天记录------${res['data']}');
+      List list = res['data']['record'];
+      list.forEach((item) {
+          if(item.type=='1'){
+            types.Message _message = types.Message.fromJson({
+              "author": {
+                "firstName": item['userName'],
+                "id": item['userId'],
+                "imageUrl":item['roleCode']=='2'?userInfoMap['photo']:doctorMap['photoUrl']??''
+              },
+              "createdAt": item['sendTime'],
+              "id": const Uuid().v4(),
+              "status":item['roleCode']=='2'?"seen":"sent",
+              "text": item.info,
+              "type": 'text'
+            });
+            _messages.add(_message);
+          }else{
+
+          }
+      });
+    }
+  }
   //获取医生信息
   getNet_doctorInfo() async {
     HttpRequest request = HttpRequest.getInstance();
@@ -126,6 +156,7 @@ class _ChatPageState extends State<ChatPage> {
 
     if (res['code'] == 200) {
       setState(() {
+        doctorMap= res['data'];
         _user =types.User(id:res['data']['userId'].toString(),firstName: res['data']['realName'],imageUrl:res['data']['photoUrl']??'');
       });
     }
@@ -272,7 +303,7 @@ class _ChatPageState extends State<ChatPage> {
       types.Message _message= types.Message.fromJson({
           "author": {
             "firstName": userInfoMap['name'],
-            "id": userInfoMap['userId'].toString(),
+            "id": userInfoMap['patientId'],
             "imageUrl": userInfoMap['photo']
           },
           "createdAt": DateTime.now().millisecondsSinceEpoch,
@@ -285,6 +316,7 @@ class _ChatPageState extends State<ChatPage> {
           "uri": message.message,
           "width": 0
         },);
+      saveRecord(message.message, '1',userInfoMap['patientId'],userInfoMap['name'],'2');
       _addMessage(_message);
     }else {
       // appendMessage('💬 ${message.message} [ID:${message.messageID}] [From:${message.fromUser.userName}]');
@@ -292,7 +324,7 @@ class _ChatPageState extends State<ChatPage> {
       types.Message _message = types.Message.fromJson({
         "author": {
           "firstName": userInfoMap['name'],
-          "id": userInfoMap['userId'].toString(),
+          "id": userInfoMap['patientId'],
           "imageUrl": userInfoMap['photo']
         },
         "createdAt": message.sendTime,
@@ -301,6 +333,7 @@ class _ChatPageState extends State<ChatPage> {
         "text": response[0]['text'],
         "type": 'text'
       });
+      saveRecord(response[0]['text'], '1',userInfoMap['patientId'],userInfoMap['name'],'2');
       _addMessage(_message);
 
     }
@@ -363,6 +396,7 @@ class _ChatPageState extends State<ChatPage> {
       var $result = await request.uploadFile(Api.uploadImgApi,formData);
       if($result['code']==200){
         sendBroadcastMessage($result['data']['url']);
+        saveRecord($result['data']['url'], '2',doctorMap['userId'].toString(),doctorMap['realName'],'1');
       }
       _addMessage(message);
     }
@@ -389,7 +423,7 @@ class _ChatPageState extends State<ChatPage> {
     });
   }
 
-  void _handleSendPressed(types.PartialText message) {
+  void _handleSendPressed(types.PartialText message) async{
     final textMessage = types.TextMessage(
       author: _user,
       createdAt: DateTime.now().millisecondsSinceEpoch,
@@ -397,8 +431,25 @@ class _ChatPageState extends State<ChatPage> {
       text: message.text,
     );
     sendBroadcastMessage(message.text);
-
+    saveRecord(message.text, '1',doctorMap['userId'].toString(),doctorMap['realName'],'1');
     _addMessage(textMessage);
+  }
+  void saveRecord(String info,String type,String userId,String userName,String roleCode) async{
+    var request = HttpRequest.getInstance();
+    Map<String,dynamic> map ={};
+    DateTime now = DateTime.now();//获取当前时间
+    String formattedDate = DateFormat('yyyy-MM-dd HH:mm:ss').format(now);//格式化日期
+    map['roomId'] = ZegoConfig.instance.roomID;
+    map['userId'] = userId;
+    map['userName'] = userName;
+    map['roleCode'] =roleCode;
+    map['info'] = info;
+    map['type'] = type;
+    map['sendTime'] =formattedDate;
+    var $res = await request.post(Api.saveChatRecordApi,map);
+    if($res.code==200){
+
+    }
   }
   void _goToHealthHutModular() async {
     const platform = const MethodChannel("flutterPrimordialBrige");
@@ -409,15 +460,15 @@ class _ChatPageState extends State<ChatPage> {
       print(e.toString());
     }
   }
-  void _loadMessages() async {
-    final messages = []
-        .map((e) => types.Message.fromJson(e as Map<String, dynamic>))
-        .toList();
-
-    setState(() {
-      _messages = messages;
-    });
-  }
+  // void _loadMessages() async {
+  //   final messages = []
+  //       .map((e) => types.Message.fromJson(e as Map<String, dynamic>))
+  //       .toList();
+  //
+  //   setState(() {
+  //     _messages = messages;
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {

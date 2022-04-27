@@ -427,7 +427,7 @@ class HomeState extends State<Home> {
                               var res1 = await request.post(Api.createRoomApi, {
                                 'orderId': item['orderId'],
                                 'roomType': item['type'] == '2' ? 1 : 2,
-                                'patientId': item['patientId']
+                                'patientId': item['patientId'],
                               });
                               if (res1['code'] == 200) {
                                 ZegoConfig.instance.userID =

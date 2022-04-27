@@ -164,20 +164,18 @@ class MyState extends State<My> {
   _takePhoto() async {
     var image = await ImagePicker()
         .getImage(source: ImageSource.camera, maxWidth: 150, maxHeight: 150);
-    // this._uploadImage(File(image.path));
-    // print(image.path);
-
-    _image = File((image?.path)!);
-    // print(_image);
-
-
-    var request = HttpRequest.getInstance();
-    Map<String,dynamic> map = {};
-    map['file']= File((image?.path)!);
-    // FormData formData = FormData();
+    setState(() {
+      _image = File((image?.path)!);
+    });
     String? path = image?.path;
+    _uploadAvatar(path!);
+
+
+  }
+  _uploadAvatar(String path) async{
+    var request = HttpRequest.getInstance();
     FormData formData =
-    FormData.fromMap({'file': await MultipartFile.fromFile(path!)});
+    FormData.fromMap({'file': await MultipartFile.fromFile(path)});
     var result = await request.uploadFile(Api.uploadImgApi,formData);
     var $result = await request.post(Api.updateAvatar, {'avatar':result['data']['url']});
     if($result['code']==200){
@@ -191,13 +189,11 @@ class MyState extends State<My> {
         .pickImage(source: ImageSource.gallery, maxWidth: 150, maxHeight: 150);
     _image = File((image?.path)!);
     setState(() {
-      this._image = File((image?.path)!);
+      _image = File((image?.path)!);
     });
-    var request = HttpRequest.getInstance();
-    Map<String,dynamic> map = {};
-    map['file']= image?.path;
-    var result = request.post(Api.uploadImgApi, map);
-    print('2333,$result');
+    String? path = image?.path;
+    _uploadAvatar(path!);
+
   }
 
   Future<void> _handleClickMe(BuildContext context) async {
