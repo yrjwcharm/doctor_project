@@ -6,6 +6,8 @@
 //  Copyright © 2020 Zego. All rights reserved.
 //
 import 'package:doctor_project/pages/home/make_prescription.dart';
+import 'package:doctor_project/pages/my/write-case.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:doctor_project/common/style/gsy_style.dart';
 import 'package:doctor_project/utils/colors_utils.dart';
@@ -23,12 +25,12 @@ import '../../config/zego_config.dart';
 class VideoTopic extends StatefulWidget {
   VideoTopic({Key? key, required this.regId}) : super(key: key);
   final String regId;
+
   @override
   _VideoTopicState createState() => _VideoTopicState(regId);
 }
 
 class _VideoTopicState extends State<VideoTopic> {
-
   String _version = "";
 
   ZegoScenario _scenario = ZegoScenario.General;
@@ -45,17 +47,20 @@ class _VideoTopicState extends State<VideoTopic> {
   final GlobalKey _playViewContainerKey = GlobalKey();
   final GlobalKey _previewViewContainerKey = GlobalKey();
   static const double viewRatio = 3.0 / 8.0;
-
+  bool _isVisibility = false;
   ZegoMediaPlayer? mediaPlayer;
 
   bool _isEngineActive = false;
   ZegoRoomState _roomState = ZegoRoomState.Disconnected;
   ZegoPublisherState _publisherState = ZegoPublisherState.NoPublish;
   ZegoPlayerState _playerState = ZegoPlayerState.NoPlay;
-  String _streamID='';
-  final TextEditingController _publishingStreamIDController = TextEditingController();
-  final TextEditingController _playingStreamIDController = TextEditingController();
+  String _streamID = '';
+  final TextEditingController _publishingStreamIDController =
+      TextEditingController();
+  final TextEditingController _playingStreamIDController =
+      TextEditingController();
   String regId;
+
   _VideoTopicState(this.regId);
 
   @override
@@ -82,11 +87,9 @@ class _VideoTopicState extends State<VideoTopic> {
     _enablePlatformView = ZegoConfig.instance.enablePlatformView;
 
     if (Platform.isAndroid || Platform.isIOS) {
-      Permission.camera.status.then((value) =>
-          setState(() =>
+      Permission.camera.status.then((value) => setState(() =>
           _isCameraPermissionGranted = value == PermissionStatus.granted));
-      Permission.microphone.status.then((value) =>
-          setState(() =>
+      Permission.microphone.status.then((value) => setState(() =>
           _isMicrophonePermissionGranted = value == PermissionStatus.granted));
     } else {
       _isCameraPermissionGranted = true;
@@ -103,29 +106,30 @@ class _VideoTopicState extends State<VideoTopic> {
   }
 
   bool _isEnableCamera = true;
+
   isEnableCamera() {
     ZegoExpressEngine.instance.enableCamera(_isEnableCamera);
   }
 
   bool _isEnableMic = true;
+
   isEnableMic() {
     ZegoExpressEngine.instance.muteMicrophone(!_isEnableMic);
   }
 
   bool _isEnableSpeaker = true;
+
   isEnableSpeaker() {
     ZegoExpressEngine.instance.muteSpeaker(!_isEnableSpeaker);
   }
 
-
   Future<void> requestPermission() async {
     PermissionStatus cameraStatus = await Permission.camera.request();
     PermissionStatus microphoneStatus = await Permission.microphone.request();
-    setState(() =>
-    {
-      _isCameraPermissionGranted = cameraStatus.isGranted,
-      _isMicrophonePermissionGranted = microphoneStatus.isGranted
-    });
+    setState(() => {
+          _isCameraPermissionGranted = cameraStatus.isGranted,
+          _isMicrophonePermissionGranted = microphoneStatus.isGranted
+        });
     if (_isCameraPermissionGranted && _isMicrophonePermissionGranted) {
       setZegoEventCallback();
       createEngine();
@@ -164,12 +168,12 @@ class _VideoTopicState extends State<VideoTopic> {
     // Notify View that engine state changed
     setState(() => _isEngineActive = true);
 
-    ZegoExpressEngine.instance.getAudioConfig().then((value) =>
-    {
-      if (_roomState == ZegoRoomState.Disconnected) {
-        loginRoom(),
-      }
-    });
+    ZegoExpressEngine.instance.getAudioConfig().then((value) => {
+          if (_roomState == ZegoRoomState.Disconnected)
+            {
+              loginRoom(),
+            }
+        });
   }
 
   // MARK: - Step 2: LoginRoom
@@ -177,7 +181,7 @@ class _VideoTopicState extends State<VideoTopic> {
   void loginRoom() {
     // Instantiate a ZegoUser object
     ZegoUser user =
-    ZegoUser(ZegoConfig.instance.userID, ZegoConfig.instance.userName);
+        ZegoUser(ZegoConfig.instance.userID, ZegoConfig.instance.userName);
 
     ZegoRoomConfig config = ZegoRoomConfig.defaultConfig();
     config.token = ZegoConfig.instance.token;
@@ -190,9 +194,7 @@ class _VideoTopicState extends State<VideoTopic> {
 
     print('🚪 Start login room, roomID: ${ZegoConfig.instance.userID}');
     if (_publisherState == ZegoPublisherState.NoPublish) {
-      double pixelRatio = MediaQuery
-          .of(context)
-          .devicePixelRatio;
+      double pixelRatio = MediaQuery.of(context).devicePixelRatio;
       Size? widgetSize = _previewViewContainerKey.currentContext?.size;
       startPublishingStream('1111',
           width: widgetSize!.width * pixelRatio,
@@ -201,9 +203,7 @@ class _VideoTopicState extends State<VideoTopic> {
       stopPublishingStream();
     }
     if (_playerState == ZegoPlayerState.NoPlay) {
-      double pixelRatio = MediaQuery
-          .of(context)
-          .devicePixelRatio;
+      double pixelRatio = MediaQuery.of(context).devicePixelRatio;
       Size? widgetSize = _playViewContainerKey.currentContext?.size;
       startPlayingStream(_streamID,
           width: widgetSize!.width * pixelRatio,
@@ -247,10 +247,10 @@ class _VideoTopicState extends State<VideoTopic> {
         setState(() {
           _previewViewWidget =
               ZegoExpressEngine.instance.createPlatformView((viewID) {
-                _previewViewID = viewID;
-                _startPreview(_previewViewID);
-                _startPublishingStream(streamID);
-              });
+            _previewViewID = viewID;
+            _startPreview(_previewViewID);
+            _startPublishingStream(streamID);
+          });
         });
       } else {
         // Render with TextureRenderer
@@ -291,9 +291,9 @@ class _VideoTopicState extends State<VideoTopic> {
         setState(() {
           _playViewWidget =
               ZegoExpressEngine.instance.createPlatformView((viewID) {
-                _playViewID = viewID;
-                _startPlayingStream(viewID, streamID);
-              });
+            _playViewID = viewID;
+            _startPlayingStream(viewID, streamID);
+          });
         });
       } else {
         // Render with TextureRenderer
@@ -348,12 +348,15 @@ class _VideoTopicState extends State<VideoTopic> {
           '🚩 🚪 Room state update, state: $state, errorCode: $errorCode, roomID: $roomID');
       setState(() => _roomState = state);
     };
-    ZegoExpressEngine.onRoomStreamUpdate=(String roomID, ZegoUpdateType updateType, List<ZegoStream> streamList, Map<String, dynamic> extendedData){
-      if(updateType==ZegoUpdateType.Add){
-         setState(() {
-            _streamID = streamList[0].streamID;
-         });
-         startPlayingStream(_streamID);
+    ZegoExpressEngine.onRoomStreamUpdate = (String roomID,
+        ZegoUpdateType updateType,
+        List<ZegoStream> streamList,
+        Map<String, dynamic> extendedData) {
+      if (updateType == ZegoUpdateType.Add) {
+        setState(() {
+          _streamID = streamList[0].streamID;
+        });
+        startPlayingStream(_streamID);
       }
     };
     ZegoExpressEngine.onPublisherStateUpdate = (String streamID,
@@ -439,8 +442,9 @@ class _VideoTopicState extends State<VideoTopic> {
 
   Widget mainContent() {
     return Column(children: [
-            viewsWidget(),
-      SafeArea(child: Container(
+      viewsWidget(),
+      SafeArea(
+          child: Container(
         decoration: BoxDecoration(color: ColorsUtil.hexStringColor('#333333')),
         padding: const EdgeInsets.only(
             top: 10.0, bottom: 7.0, left: 17.0, right: 23.0),
@@ -449,12 +453,16 @@ class _VideoTopicState extends State<VideoTopic> {
           children: <Widget>[
             GestureDetector(
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>MakePrescription(registeredId:regId )));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            MakePrescription(registeredId: regId)));
               },
               child: Column(
                 children: <Widget>[
                   SvgUtil.svg('m_rp.svg'),
-                  SizedBox(
+                  const SizedBox(
                     height: 8.0,
                   ),
                   Text(
@@ -474,7 +482,7 @@ class _VideoTopicState extends State<VideoTopic> {
               child: Column(
                 children: <Widget>[
                   SvgUtil.svg('video_.svg'),
-                  SizedBox(
+                  const SizedBox(
                     height: 8.0,
                   ),
                   Text(
@@ -516,7 +524,7 @@ class _VideoTopicState extends State<VideoTopic> {
               onTap: () {
                 setState(() {
                   _isEnableSpeaker = !_isEnableSpeaker;
-
+                  _isVisibility = !_isVisibility;
                 });
                 isEnableSpeaker();
               },
@@ -540,36 +548,96 @@ class _VideoTopicState extends State<VideoTopic> {
   }
 
   Widget viewsWidget() {
-    return Expanded(child: Stack(children: [
-          Container(
-            width: double.infinity,
-            height: double.infinity,
-            color: Colors.black,
-            child: _playViewWidget,
-            key:_playViewContainerKey,
+    return Expanded(
+      child: Stack(children: [
+        Container(
+          width: double.infinity,
+          height: double.infinity,
+          color: Colors.black,
+          child: _playViewWidget,
+          key: _playViewContainerKey,
+        ),
+        Positioned(
+          top: 0,
+          right: 0,
+          child: SizedBox(
+            width: 104.0,
+            height: 132.0,
+            child: _previewViewWidget,
+            key: _previewViewContainerKey,
           ),
-          Positioned(
-            top: 0,
-            right: 0,
-            child: SizedBox(
-              width: 104.0,
-              height: 132.0,
-              child: _previewViewWidget,
-              key: _previewViewContainerKey,
-            ),
-          ),
-          Positioned(
-              top: 115.0,
-              right: 26.0,
+        ),
+        Positioned(
+            top: 115.0,
+            right: 26.0,
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 7.0),
+              decoration: BoxDecoration(
+                  color: ColorsUtil.hexStringColor('#000000', alpha: 0.6)),
+              child: Text(
+                '医师',
+                style: GSYConstant.textStyle(fontSize: 12.0),
+              ),
+            )),
+        Positioned(
+            right: 8.0,
+            bottom:4.0,
+            child: Visibility(
+              visible: _isVisibility,
+              // maintainAnimation: true,
+              // maintainSize: true,
+              // maintainState: true,
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 7.0),
-                decoration: BoxDecoration(
-                    color: ColorsUtil.hexStringColor('#000000', alpha: 0.6)
+                width: 189.0,
+                height: 79.0,
+                padding: const EdgeInsets.only(left: 10.0,right: 17.0),
+                decoration: const BoxDecoration(
+                    image: DecorationImage(
+                        image: AssetImage('assets/images/video_more.png'))),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    GestureDetector(
+                      onTap: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>WriteCase(registeredId: regId)));
+                      },
+                      child:Column(
+                        //     font-size: 14px;
+                        // font-family: PingFangSC-Regular, PingFang SC;
+                        // font-weight: 400;
+                        // color: #FFFFFF;
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          SvgUtil.svg('write_case.svg'),
+                          const SizedBox(height: 6.0,),
+                          Text('写病历',style: GSYConstant.textStyle(),)
+                        ],
+                      ) ,
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+
+                      children: <Widget>[
+                        SvgUtil.svg('silence.svg'),
+                        const SizedBox(height: 7.0,),
+
+                        Text('免提',style: GSYConstant.textStyle(),)
+                      ],
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        SvgUtil.svg('transform.svg'),
+                        const SizedBox(height: 7.0,),
+                        Text('切换',style: GSYConstant.textStyle(),)
+                      ],
+                    ),
+                  ],
                 ),
-                child: Text(
-                  '医师', style: GSYConstant.textStyle(fontSize: 12.0),),
-              ))
-        ]),);
+              ),
+            ),),
+      ]),
+    );
   }
 
   Widget stepOneCreateEngineWidget() {
@@ -590,10 +658,7 @@ class _VideoTopicState extends State<VideoTopic> {
           ),
           Spacer(),
           Container(
-            width: MediaQuery
-                .of(context)
-                .size
-                .width / 2.5,
+            width: MediaQuery.of(context).size.width / 2.5,
             child: CupertinoButton.filled(
               child: Text(
                 _isEngineActive ? '✅ CreateEngine' : 'CreateEngine',
@@ -625,10 +690,7 @@ class _VideoTopicState extends State<VideoTopic> {
           crossAxisAlignment: CrossAxisAlignment.start,
         ),
         Container(
-          width: MediaQuery
-              .of(context)
-              .size
-              .width / 2.5,
+          width: MediaQuery.of(context).size.width / 2.5,
           child: CupertinoButton.filled(
             child: Text(
               _roomState == ZegoRoomState.Connected
@@ -655,10 +717,7 @@ class _VideoTopicState extends State<VideoTopic> {
       SizedBox(height: 10),
       Row(children: [
         Container(
-          width: MediaQuery
-              .of(context)
-              .size
-              .width / 2.5,
+          width: MediaQuery.of(context).size.width / 2.5,
           child: TextField(
             controller: _publishingStreamIDController,
             decoration: InputDecoration(
@@ -675,10 +734,7 @@ class _VideoTopicState extends State<VideoTopic> {
           ),
         ),
         Container(
-          width: MediaQuery
-              .of(context)
-              .size
-              .width / 2.5,
+          width: MediaQuery.of(context).size.width / 2.5,
           child: CupertinoButton.filled(
             child: Text(
               _publisherState == ZegoPublisherState.Publishing
@@ -688,19 +744,17 @@ class _VideoTopicState extends State<VideoTopic> {
             ),
             onPressed: _publisherState == ZegoPublisherState.NoPublish
                 ? () {
-              double pixelRatio = MediaQuery
-                  .of(context)
-                  .devicePixelRatio;
-              Size? widgetSize =
-                  _previewViewContainerKey.currentContext?.size;
-              startPublishingStream(
-                  _publishingStreamIDController.text.trim(),
-                  width: widgetSize!.width * pixelRatio,
-                  height: widgetSize.height * pixelRatio);
-            }
+                    double pixelRatio = MediaQuery.of(context).devicePixelRatio;
+                    Size? widgetSize =
+                        _previewViewContainerKey.currentContext?.size;
+                    startPublishingStream(
+                        _publishingStreamIDController.text.trim(),
+                        width: widgetSize!.width * pixelRatio,
+                        height: widgetSize.height * pixelRatio);
+                  }
                 : () {
-              stopPublishingStream();
-            },
+                    stopPublishingStream();
+                  },
             padding: EdgeInsets.all(10.0),
           ),
         )
@@ -718,10 +772,7 @@ class _VideoTopicState extends State<VideoTopic> {
       SizedBox(height: 10),
       Row(children: [
         Container(
-          width: MediaQuery
-              .of(context)
-              .size
-              .width / 2.5,
+          width: MediaQuery.of(context).size.width / 2.5,
           child: TextField(
             controller: _playingStreamIDController,
             decoration: InputDecoration(
@@ -739,10 +790,7 @@ class _VideoTopicState extends State<VideoTopic> {
         ),
         Spacer(),
         Container(
-          width: MediaQuery
-              .of(context)
-              .size
-              .width / 2.5,
+          width: MediaQuery.of(context).size.width / 2.5,
           child: CupertinoButton.filled(
             child: Text(
               _playerState == ZegoPlayerState.Playing
@@ -752,18 +800,16 @@ class _VideoTopicState extends State<VideoTopic> {
             ),
             onPressed: _playerState == ZegoPlayerState.NoPlay
                 ? () {
-              double pixelRatio = MediaQuery
-                  .of(context)
-                  .devicePixelRatio;
-              Size? widgetSize =
-                  _playViewContainerKey.currentContext?.size;
-              startPlayingStream(ZegoConfig.instance.userID,
-                  width: widgetSize!.width * pixelRatio,
-                  height: widgetSize.height * pixelRatio);
-            }
+                    double pixelRatio = MediaQuery.of(context).devicePixelRatio;
+                    Size? widgetSize =
+                        _playViewContainerKey.currentContext?.size;
+                    startPlayingStream(ZegoConfig.instance.userID,
+                        width: widgetSize!.width * pixelRatio,
+                        height: widgetSize.height * pixelRatio);
+                  }
                 : () {
-              stopPlayingStream(ZegoConfig.instance.userID);
-            },
+                    stopPlayingStream(ZegoConfig.instance.userID);
+                  },
             padding: EdgeInsets.all(10.0),
           ),
         )

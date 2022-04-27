@@ -2,10 +2,12 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:doctor_project/common/style/gsy_style.dart';
+import 'package:doctor_project/http/http_request.dart';
 import 'package:doctor_project/pages/home/make_prescription.dart';
 import 'package:doctor_project/pages/home/video_topic.dart';
 import 'package:doctor_project/pages/my/write-case.dart';
 import 'package:doctor_project/utils/colors_utils.dart';
+import 'package:doctor_project/utils/common_utils.dart';
 import 'package:doctor_project/utils/svg_util.dart';
 import 'package:doctor_project/widget/custom_app_bar.dart';
 import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
@@ -23,6 +25,7 @@ import 'package:uuid/uuid.dart';
 import 'package:zego_express_engine/zego_express_engine.dart';
 
 import '../../config/zego_config.dart';
+import '../../http/api.dart';
 import '../../utils/svg_util.dart';
 
 class ChatRoom extends StatelessWidget {
@@ -59,7 +62,7 @@ class _ChatPageState extends State<ChatPage> {
 
   List<types.Message> _messages = [];
   // final _user = const types.User(id: '06c33e8b-e835-4736-80f4-63f44b66666c');
-  final _user = const types.User(id: '11111');
+  types.User _user = const types.User(id: '');
   bool _isVoice = false;
   bool _isMore = false;
   double keyboardHeight = 270.0;
@@ -81,6 +84,7 @@ class _ChatPageState extends State<ChatPage> {
   TextEditingController _roomExtraInfoKeyController = new TextEditingController();
   TextEditingController _roomExtraInfoValueController = new TextEditingController();
   String msg ='';
+  // Map res['data'] =Map();
   @override
   void initState() {
     super.initState();
@@ -102,6 +106,7 @@ class _ChatPageState extends State<ChatPage> {
         });
       }
     });
+    getNet_doctorInfo();
   }
   @override
   void dispose() {
@@ -112,6 +117,19 @@ class _ChatPageState extends State<ChatPage> {
     _focusNode.dispose();
     super.dispose();
   }
+  //获取医生信息
+  getNet_doctorInfo() async {
+    HttpRequest request = HttpRequest.getInstance();
+    var res = await request.get(Api.getDoctorInfoUrl, {});
+    print("getNet_doctorInfo------" + res.toString());
+
+    if (res['code'] == 200) {
+      setState(() {
+        _user =types.User(id:res['data']['userId'].toString(),firstName: res['data']['realName'],imageUrl:res['data']['photoUrl']??'');
+      });
+    }
+  }
+
 
 
   void createEngine() {
@@ -248,24 +266,43 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   void appendMessage(ZegoBroadcastMessageInfo message) {
-    // appendMessage('💬 ${message.message} [ID:${message.messageID}] [From:${message.fromUser.userName}]');
-    List response = json.decode(message.message);
-    types.Message _message = types.Message.fromJson({
-      "author": {
-        "firstName": message.fromUser.userName,
-        "id": message.fromUser.userID.toString(),
-        "imageUrl": ''
-      },
-      "createdAt": message.sendTime,
-      "id": message.messageID.toString(),
-      "status": "seen",
-      "text":response[0]['text'],
-      "type": 'text'
-    });
-    // setState(() {
-    //   _messagesBuffer = '$_messagesBuffer[${DateTime.now().toLocal().toString()}] $message\n\n\n';
-    // });
-    _addMessage(_message);
+
+    if(CommonUtils.isImageEnd(message.message)){
+      types.Message _message= types.Message.fromJson({
+          "author": {
+            "firstName": userInfoMap['name'],
+            "id": userInfoMap['userId'].toString(),
+            "imageUrl": userInfoMap['photo']
+          },
+          "createdAt": DateTime.now().millisecondsSinceEpoch,
+          "height": 0,
+          "id": const Uuid().v4(),
+          "name": "image",
+          "size": 0,
+          "status": "seen",
+          "type": "image",
+          "uri": message.message,
+          "width": 0
+        },);
+      _addMessage(_message);
+    }else {
+      // appendMessage('💬 ${message.message} [ID:${message.messageID}] [From:${message.fromUser.userName}]');
+      List response = json.decode(message.message);
+      types.Message _message = types.Message.fromJson({
+        "author": {
+          "firstName": userInfoMap['name'],
+          "id": userInfoMap['userId'].toString(),
+          "imageUrl": userInfoMap['photo']
+        },
+        "createdAt": message.sendTime,
+        "id": const Uuid().v4(),
+        "status": "seen",
+        "text": response[0]['text'],
+        "type": 'text'
+      });
+      _addMessage(_message);
+
+    }
 
   }
 

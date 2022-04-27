@@ -1,7 +1,7 @@
 import 'dart:io';
+import 'package:dio/dio.dart';
 import 'package:doctor_project/pages/my/my_prescription.dart';
 import 'package:doctor_project/utils/svg_util.dart';
-
 import '../../http/http_request.dart';
 import '../../http/api.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -170,9 +170,19 @@ class MyState extends State<My> {
     _image = File((image?.path)!);
     // print(_image);
 
-    setState(() {
-      this._image = File((image?.path)!);
-    });
+
+    var request = HttpRequest.getInstance();
+    Map<String,dynamic> map = {};
+    map['file']= File((image?.path)!);
+    // FormData formData = FormData();
+    String? path = image?.path;
+    FormData formData =
+    FormData.fromMap({'file': await MultipartFile.fromFile(path!)});
+    var result = await request.uploadFile(Api.uploadImgApi,formData);
+    var $result = await request.post(Api.updateAvatar, {'avatar':result['data']['url']});
+    if($result['code']==200){
+      getNet_doctorInfo();
+    }
   }
 
   /*相册*/
@@ -183,6 +193,11 @@ class MyState extends State<My> {
     setState(() {
       this._image = File((image?.path)!);
     });
+    var request = HttpRequest.getInstance();
+    Map<String,dynamic> map = {};
+    map['file']= image?.path;
+    var result = request.post(Api.uploadImgApi, map);
+    print('2333,$result');
   }
 
   Future<void> _handleClickMe(BuildContext context) async {
@@ -259,7 +274,7 @@ class MyState extends State<My> {
                     child: CachedNetworkImage(
                       // 加载网络图片过程中显示的内容 , 这里显示进度条
                       placeholder: (context, url) =>
-                          CircularProgressIndicator(),
+                          const CircularProgressIndicator(),
                       // 网络图片地址
                       imageUrl: doctorInfoMap.isEmpty
                           ? ""

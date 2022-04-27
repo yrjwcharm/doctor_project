@@ -9,7 +9,6 @@ import '../../http/api.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dio/dio.dart';
-
 class WriteCase extends StatefulWidget {
   String registeredId ; //挂号Id
   WriteCase({Key? key, required this.registeredId}) : super(key: key);
@@ -25,10 +24,10 @@ class _WriteCaseState extends State<WriteCase> {
 
   List list = [
     {'label':'就诊卡类型','value':'身份证','disabled':true,'isArrow':false},
-    {'label':'就诊卡号码','value':'3714**********6578','disabled':false,'isArrow':false},
-    {'label':'患者姓名','value':'张可可','disabled':false,'isArrow':false},
-    {'label':'患者性别','value':'女','disabled':true,'isArrow':false},
-    {'label':'出生日期','value':'2022-02-11','disabled':true,'isArrow':false},
+    {'label':'就诊卡号码','value':'请输入','disabled':false,'isArrow':false},
+    {'label':'患者姓名','value':'请输入','disabled':false,'isArrow':false},
+    {'label':'患者性别','value':'请输入','disabled':true,'isArrow':false},
+    {'label':'出生日期','value':'请选择','disabled':true,'isArrow':false},
     {'label':'科室门诊','value':'呼吸内科','disabled':true,'isArrow':false},
     {'label':'主诉','value':'请输入疾病','disabled':true,'isArrow':true},
     {'label':'病史描述','value':'请输入疾病','disabled':true,'isArrow':true},
@@ -116,6 +115,8 @@ class _WriteCaseState extends State<WriteCase> {
                             });
                           }
                         });
+                      }else if(index==4){
+
                       }
                     },
                     child: Column(

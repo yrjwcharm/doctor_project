@@ -83,6 +83,6 @@ flutter {
 dependencies {
     implementation 'com.aliyun.ams:alicloud-android-hotfix:3.3.5'
     implementation 'com.android.support:multidex:1.0.3'
-
+//    implementation 'com.qcloud.cos:cos-android:5.7.+'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }

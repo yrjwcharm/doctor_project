@@ -96,7 +96,16 @@ class HttpRequest {
       return null;
     }
   }
-
+  Future<dynamic> uploadFile(String url, FormData data,
+      {Options? option}) async {
+    try {
+      Response response = await dio.post(url, data: data, options: option);
+      var result = response.data;
+      return result;
+    } on DioError catch (e) {
+      return null;
+    }
+  }
   Future<dynamic> downloadFile(urlPath, savePath) async {
     Response response;
     try {
