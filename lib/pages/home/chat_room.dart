@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:doctor_project/common/style/gsy_style.dart';
 import 'package:doctor_project/http/http_request.dart';
 import 'package:doctor_project/pages/home/make_prescription.dart';
@@ -356,7 +357,13 @@ class _ChatPageState extends State<ChatPage> {
         uri: result.path,
         width: image.width.toDouble(),
       );
-
+      FormData formData =
+      FormData.fromMap({'file': await MultipartFile.fromFile(result.path)});
+      var request = HttpRequest.getInstance();
+      var $result = await request.uploadFile(Api.uploadImgApi,formData);
+      if($result['code']==200){
+        sendBroadcastMessage($result['data']['url']);
+      }
       _addMessage(message);
     }
   }
