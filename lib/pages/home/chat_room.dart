@@ -123,28 +123,52 @@ class _ChatPageState extends State<ChatPage> {
     super.dispose();
   }
   getRecordList()async{
+    List<types.Message> messageList = [];
+
     var res = await request.get(Api.getRecordListApi+'?roomId=${ZegoConfig.instance.roomID}', {});
     if(res['code']==200){
-      print('聊天记录------${res['data']}');
-      List list = res['data']['record'];
+      List<dynamic> list = res['data']['record'];
       list.forEach((item) {
-          if(item.type=='1'){
+           print('${item.toString()}1111111');
+           if(item['type']=='1'){
             types.Message _message = types.Message.fromJson({
               "author": {
                 "firstName": item['userName'],
                 "id": item['userId'],
                 "imageUrl":item['roleCode']=='2'?userInfoMap['photo']:doctorMap['photoUrl']??''
               },
-              "createdAt": item['sendTime'],
+              "createdAt": DateTime.parse(item['sendTime']).millisecondsSinceEpoch,
               "id": const Uuid().v4(),
               "status":item['roleCode']=='2'?"seen":"sent",
-              "text": item.info,
+              "text": item['info'],
               "type": 'text'
             });
-            _messages.add(_message);
-          }else{
+            messageList.add(_message);
+          }else if(item['type']=='2'){
+            types.Message _message = types.Message.fromJson({
+              "author": {
+                "firstName": item['userName'],
+                "id": item['userId'],
+                "imageUrl":item['roleCode']=='2'?userInfoMap['photo']:doctorMap['photoUrl']??''
+              },
+              "createdAt": DateTime.parse(item['sendTime']).millisecondsSinceEpoch,
+              "height": 0,
+              "id": const Uuid().v4(),
+              "name": "image",
+              "size": 0,
+              "status":item['roleCode']=='2'?"seen":"sent",
+              "type": "image",
+              "uri": item['info'],
+              "width": 0
+            });
 
+            messageList.add(_message);
           }
+      });
+
+
+      setState(() {
+        _messages = messageList;
       });
     }
   }
