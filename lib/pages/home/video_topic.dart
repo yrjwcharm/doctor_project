@@ -23,11 +23,12 @@ import 'package:zego_express_engine/zego_express_engine.dart';
 import '../../config/zego_config.dart';
 
 class VideoTopic extends StatefulWidget {
-  VideoTopic({Key? key, required this.regId}) : super(key: key);
+  VideoTopic({Key? key, required this.regId,required this.userInfoMap}) : super(key: key);
   final String regId;
+  Map userInfoMap;
 
   @override
-  _VideoTopicState createState() => _VideoTopicState(regId);
+  _VideoTopicState createState() => _VideoTopicState(regId,userInfoMap);
 }
 
 class _VideoTopicState extends State<VideoTopic> {
@@ -60,8 +61,8 @@ class _VideoTopicState extends State<VideoTopic> {
   final TextEditingController _playingStreamIDController =
       TextEditingController();
   String regId;
-
-  _VideoTopicState(this.regId);
+  Map userInfoMap;
+  _VideoTopicState(this.regId,this.userInfoMap);
 
   @override
   void initState() {
@@ -599,7 +600,7 @@ class _VideoTopicState extends State<VideoTopic> {
                   children: <Widget>[
                     GestureDetector(
                       onTap: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>WriteCase(registeredId: regId)));
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>WriteCase(registeredId: regId,userInfoMap: userInfoMap,)));
                       },
                       child:Column(
                         //     font-size: 14px;

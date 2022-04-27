@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:doctor_project/common/local/local_storage.dart';
 import 'package:doctor_project/pages/home/add_multi_diagnosis.dart';
 import 'package:doctor_project/pages/home/chat_room.dart';
 import 'package:doctor_project/pages/home/make_prescription.dart';
@@ -14,6 +15,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../common/style/gsy_style.dart';
 import '../../config/zego_config.dart';
 import '../../http/api.dart';
@@ -447,11 +449,13 @@ class HomeState extends State<Home> {
                                         MaterialPageRoute(
                                             builder: (context) => VideoTopic(
                                                   regId: item['id'],
-                                                ))).then((value) => {
+                                                userInfoMap: item,
+                                            ))).then((value) => {
                                           getData(),
                                           getCount()
                                         });
                                   } else {
+                                    LocalStorage.save('patientInfo', item);
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(

@@ -530,6 +530,7 @@ class _OrderDetailState extends State<OrderDetail> {
                                     MaterialPageRoute(
                                         builder: (context) => VideoTopic(
                                               regId: _map['id'],
+                                              userInfoMap: _map,
                                             )));
                               } else {
                                 Navigator.push(

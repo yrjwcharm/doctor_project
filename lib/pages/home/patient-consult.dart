@@ -425,6 +425,7 @@ class _PatientConsultState extends State<PatientConsult> {
                                         MaterialPageRoute(
                                             builder: (context) => VideoTopic(
                                               regId: item['id'],
+                                              userInfoMap: item,
                                             ))).then((value) => {
                                       getData(),
                                       getCount()

@@ -115,12 +115,11 @@ class _ChatPageState extends State<ChatPage> {
   }
   @override
   void dispose() {
-
+    super.dispose();
     destroyEngine();
 
     clearZegoEventCallback();
     _focusNode.dispose();
-    super.dispose();
   }
   getRecordList()async{
     List<types.Message> messageList = [];
@@ -607,18 +606,18 @@ class _ChatPageState extends State<ChatPage> {
                      Text('拍摄',style: GSYConstant.textStyle(color: '#333333',fontSize: 12.0),)
                    ],
                  ),
-                 Column(
-                   children: <Widget>[
-                     GestureDetector(
-                       onTap: (){
-                         // _goToHealthHutModular();
-                         // Navigator.push(context, MaterialPageRoute(builder: (context)=>VideoTopic()));
-                       },
-                       child: SvgUtil.svg('rp.svg'),),
-                     const SizedBox(height: 9.0,),
-                     Text('视频通话',style: GSYConstant.textStyle(color: '#333333',fontSize: 12.0),)
-                   ],
-                 ),
+                 // Column(
+                 //   children: <Widget>[
+                 //     GestureDetector(
+                 //       onTap: (){
+                 //         // _goToHealthHutModular();
+                 //         // Navigator.push(context, MaterialPageRoute(builder: (context)=>VideoTopic()));
+                 //       },
+                 //       child: SvgUtil.svg('rp.svg'),),
+                 //     const SizedBox(height: 9.0,),
+                 //     Text('视频通话',style: GSYConstant.textStyle(color: '#333333',fontSize: 12.0),)
+                 //   ],
+                 // ),
                  Column(
                    children: <Widget>[
                      GestureDetector(
@@ -633,8 +632,8 @@ class _ChatPageState extends State<ChatPage> {
                  Column(
                    children: <Widget>[
                      GestureDetector(
-                       onTap: (){
-                         Navigator.push(context, MaterialPageRoute(builder: (context)=> WriteCase(registeredId: userInfoMap["id"].toString(),)));
+                       onTap: () async{
+                         Navigator.push(context, MaterialPageRoute(builder: (context)=> WriteCase(registeredId: userInfoMap["id"].toString(), userInfoMap: userInfoMap,)));
                        },
                       child: SvgUtil.svg('case.svg'),),
                      const SizedBox(height: 9.0,),

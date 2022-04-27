@@ -25,7 +25,6 @@ class _WriteCaseDetailState extends State<WriteCaseDetail> {
   @override
   void initState() {
     super.initState();
-    _editingController.text = dataMap["detail"].isNotEmpty ? dataMap["detail"] : "";
   }
   @override
   Widget build(BuildContext context) {
@@ -103,7 +102,8 @@ class _WriteCaseDetailState extends State<WriteCaseDetail> {
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25.0))
                 ),
                 onPressed: () {
-
+                  // Navigator.of(context).pop();
+                  // _editingController.text = dataMap["detail"].isNotEmpty ? dataMap["detail"] : "";
                   if(_editingController.text.isNotEmpty){
 
                     dataMap["detail"] = _editingController.text;
