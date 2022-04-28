@@ -23,6 +23,7 @@ class Api {
   static const updateAvatar = "/doctor/dr-service/ba-doctor-user/uploadAvatar";
   static const saveChatRecordApi = "/doctor/dr-service/order-room/record/save";
   static const getRecordListApi = "/doctor/dr-service/order-room/record/list";
+  static const getRpListApi = "/doctor/dr-service/order-room/record/list";
 
 
 }

@@ -364,6 +364,7 @@ class HomeState extends State<Home> {
                                                       if (res['code'] == 200) {
                                                         getData();
                                                         getCount();
+                                                        getNet_doctorInfo();
                                                         Navigator.pop(context);
 
                                                       }
