@@ -415,39 +415,53 @@ class _RecipeDetailState extends State<RecipeDetail> {
                       height: 0,
                       color: ColorsUtil.hexStringColor('#cccccc', alpha: 0.3),
                     ),
-                    Container(
-                      decoration: const BoxDecoration(color: Colors.white),
-                      padding: const EdgeInsets.only(
-                          left: 16.0, right: 16.0, top: 8.0, bottom: 8.0),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text(
-                                '胶体果胶铋胶囊',
-                                style: GSYConstant.textStyle(color: '#333333'),
-                              ),
-                              Text(
-                                '规格：50mgx12粒x2板',
-                                style: GSYConstant.textStyle(
-                                    fontSize: 13.0, color: '#666666'),
-                              ),
-                              Text(
-                                '口服：一次3粒，4次/天',
-                                style: GSYConstant.textStyle(
-                                    fontSize: 13.0, color: '#666666'),
-                              )
-                            ],
-                          ),
-                          Text(
-                            'x8',
-                            style: GSYConstant.textStyle(color: '#666666'),
-                          )
-                        ],
-                      ),
+                    Column(
+                      children:map['medicineVOS'].map<Widget>((item) =>Container(
+                        decoration: const BoxDecoration(color: Colors.white),
+                        padding: const EdgeInsets.only(
+                            left: 16.0, right: 16.0, top: 8.0, bottom: 8.0),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            // "medicineVOS": [
+                            //   {
+                            //   "manuname": "",
+                            //   "freq": "1片,1次/12h",
+                            //   "amt": "2.79",
+                            //   "dayNum": "1",
+                            //   "specification": "0.25g*6片",
+                            //   "id": 75776,
+                            //   "useType": "冲化",
+                            //   "remarks": "gvv",
+                            //   "medicineNum": 1
+                            //   }
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text(
+                                  item['manuname']??'',
+                                  style: GSYConstant.textStyle(color: '#333333'),
+                                ),
+                                Text(
+                                  '规格：${item['specification']}',
+                                  style: GSYConstant.textStyle(
+                                      fontSize: 13.0, color: '#666666'),
+                                ),
+                                Text(
+                                  '${item['useType']}：${item['freq']}',
+                                  style: GSYConstant.textStyle(
+                                      fontSize: 13.0, color: '#666666'),
+                                )
+                              ],
+                            ),
+                            Text(
+                              'x${item['medicineNum']}',
+                              style: GSYConstant.textStyle(color: '#666666'),
+                            )
+                          ],
+                        ),
+                      ), ).toList(),
                     ),
                     const SizedBox(
                       height: 10.0,
