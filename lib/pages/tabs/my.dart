@@ -83,7 +83,7 @@ class MyState extends State<My> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => const MyPrescription()));
+                    builder: (context) =>  MyPrescription(userId: doctorInfoMap['userId'].toString(),)));
           }),
       _buildListTile(
           id: 5,
