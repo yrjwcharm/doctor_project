@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:doctor_project/common/event/event_bus.dart';
 import 'package:doctor_project/common/style/gsy_style.dart';
 import 'package:doctor_project/utils/colors_utils.dart';
+import 'package:doctor_project/utils/toast_util.dart';
 import 'package:doctor_project/widget/custom_app_bar.dart';
 import 'package:doctor_project/widget/safe_area_button.dart';
 import 'package:flutter/cupertino.dart';
@@ -54,7 +55,7 @@ class _UseDrugInfoState extends State<UseDrugInfo> {
   void initState() {
     // TODO: implement initState
     super.initState();
-
+    print('1111,${this.drugInfoMap}');
     drugInfoMap['count'] = "1";
     drugInfoMap['dosage'] = "";
     drugInfoMap['frequency'] = "";
@@ -175,11 +176,14 @@ class _UseDrugInfoState extends State<UseDrugInfo> {
                           top: 10, bottom: 14.0, left: 16.0, right: 16.0),
                       decoration: const BoxDecoration(color: Colors.white),
                       child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
+                          Expanded(
+
+                            child:
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.start,
                             children: <Widget>[
                               const SizedBox(
                                 height: 3.0,
@@ -203,11 +207,13 @@ class _UseDrugInfoState extends State<UseDrugInfo> {
                                     fontSize: 13.0, color: '#888888'),
                               )
                             ],
-                          ),
+                          ),),
+                          Expanded(child:
                           Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
                               Container(
-                                transform: Matrix4.translationValues(0, -3.0, 0),
+                                // transform: Matrix4.translationValues(0, -3.0, 0),
                                 width: 90,
                                 height: 25,
                                 margin: const EdgeInsets.only(bottom: 7.0),
@@ -219,16 +225,28 @@ class _UseDrugInfoState extends State<UseDrugInfo> {
                                         ColorsUtil.hexStringColor('#cccccc'))),
                                 child: Row(
                                   children: <Widget>[
-                                    Container(
-                                      alignment: Alignment.center,
-                                      width: 26,
-                                      decoration: BoxDecoration(
-                                          border: Border(
-                                              right: BorderSide(
-                                                  width: 1.0,
-                                                  color: ColorsUtil.hexStringColor(
-                                                      '#cccccc')))),
-                                      child: SvgUtil.svg('minus.svg'),
+                                    GestureDetector(
+                                      onTap:(){
+                                        int count = int.parse(drugInfoMap['count']) ;
+                                        count -- ;
+                                        if(count<1){
+                                          return;
+                                        }
+                                        setState(() {
+                                          drugInfoMap['count']=count.toString();
+                                        });
+                                      },
+                                      child: Container(
+                                        alignment: Alignment.center,
+                                        width: 26,
+                                        decoration: BoxDecoration(
+                                            border: Border(
+                                                right: BorderSide(
+                                                    width: 1.0,
+                                                    color: ColorsUtil.hexStringColor(
+                                                        '#cccccc')))),
+                                        child: SvgUtil.svg('minus.svg'),
+                                      ),
                                     ),
                                     Container(
                                       width: 35.0,
@@ -250,10 +268,10 @@ class _UseDrugInfoState extends State<UseDrugInfo> {
                                         textAlignVertical: TextAlignVertical.center,
                                         decoration: InputDecoration(
                                             isDense: true,
-                                            contentPadding: EdgeInsets.all(2),
+                                            contentPadding: const EdgeInsets.all(2),
                                             fillColor: Colors.transparent,
                                             filled: true,
-                                            hintText: "1",
+                                            hintText: drugInfoMap["count"],
                                             hintStyle: TextStyle(
                                                 fontFamily: 'Medium',
                                                 fontSize: 12.0,
@@ -277,10 +295,23 @@ class _UseDrugInfoState extends State<UseDrugInfo> {
                                         },
                                       ),
                                     ),
-                                    Container(
-                                      alignment: Alignment.center,
-                                      width: 26,
-                                      child: SvgUtil.svg('increment_add.svg'),
+                                    GestureDetector(
+                                      onTap: (){
+                                        int count = int.parse(drugInfoMap['count']) ;
+                                        count ++ ;
+                                        if(count>200){
+                                          ToastUtil.showToast(msg: '数量不能超过200');
+                                          return;
+                                        }
+                                        setState(() {
+                                          drugInfoMap['count']=count.toString();
+                                        });
+                                      },
+                                      child: Container(
+                                        alignment: Alignment.center,
+                                        width: 26,
+                                        child: SvgUtil.svg('increment_add.svg'),
+                                      ) ,
                                     ),
                                   ],
                                 ),
@@ -291,7 +322,7 @@ class _UseDrugInfoState extends State<UseDrugInfo> {
                                     color: '#888888', fontSize: 13.0),
                               )
                             ],
-                          )
+                          ),)
                         ],
                       ),
                     ),
