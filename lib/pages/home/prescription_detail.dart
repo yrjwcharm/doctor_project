@@ -82,30 +82,30 @@ class _PrescriptDetailState extends State<PrescriptDetail> {
 
     HttpRequest? request = HttpRequest.getInstance();
     //registerId 挂号id  category  处方类别（1-西药/中成药，2-中药）
-    var res = await request.get(Api.prescriptionDetailUrl +"?registerId=" +registeredId +"&category=" +category,{});
+    var res = await request.get(Api.prescriptionListUrl +"?registerId=" +registeredId +"&category=" +category,{});
     print("getNet_PrescriptionDetail------" +res.toString());
     if (res['code'] == 200) {
-      dataMap = res['data'];
-      String str ="";
-      for(int i=0; i<dataMap["diagnosisVOS"].length; i++){
-        String str1 = str.isEmpty ? dataMap["diagnosisVOS"][i]["diagnosisName"] : "," +dataMap["diagnosisVOS"][i]["diagnosisName"];
-        str += str1;
-      }
-
-      setState(() {
-        diagnosisName = str ;
-        medicineList = category =="1" ? dataMap["medicineVOS"] :dataMap["herbalMedicineVOS"];
-        if(category =="2"){ //中药
-          list1[0]["detail"] = dataMap["countNum"].toString(); //服用帖数
-          list1[1]["detail"] = dataMap["useType"]; //用法
-          list1[2]["detail"] = dataMap["freq"].toString(); //频次
-          if(dataMap["remarks"].toString().isNotEmpty){
-            list1[3]["detail"] = dataMap["remarks"].toString(); //备注
-          }else{
-            list1.removeAt(3);
-          }
-        }
-      });
+      // dataMap = res['data'];
+      // String str ="";
+      // for(int i=0; i<dataMap["diagnosisVOS"].length; i++){
+      //   String str1 = str.isEmpty ? dataMap["diagnosisVOS"][i]["diagnosisName"] : "," +dataMap["diagnosisVOS"][i]["diagnosisName"];
+      //   str += str1;
+      // }
+      //
+      // setState(() {
+      //   diagnosisName = str ;
+      //   medicineList = category =="1" ? dataMap["medicineVOS"] :dataMap["herbalMedicineVOS"];
+      //   if(category =="2"){ //中药
+      //     list1[0]["detail"] = dataMap["countNum"].toString(); //服用帖数
+      //     list1[1]["detail"] = dataMap["useType"]; //用法
+      //     list1[2]["detail"] = dataMap["freq"].toString(); //频次
+      //     if(dataMap["remarks"].toString().isNotEmpty){
+      //       list1[3]["detail"] = dataMap["remarks"].toString(); //备注
+      //     }else{
+      //       list1.removeAt(3);
+      //     }
+      //   }
+      // });
 
     }else{
       Fluttertoast.showToast(msg: res['msg'], gravity: ToastGravity.CENTER);

@@ -232,8 +232,10 @@ class _UseDrugInfoState extends State<UseDrugInfo> {
                                         if(count<1){
                                           return;
                                         }
+                                        drugInfoMap['count']=count.toString();
+
                                         setState(() {
-                                          drugInfoMap['count']=count.toString();
+                                          drugInfoMap;
                                         });
                                       },
                                       child: Container(
@@ -258,6 +260,7 @@ class _UseDrugInfoState extends State<UseDrugInfo> {
                                                   color: ColorsUtil.hexStringColor(
                                                       '#cccccc')))),
                                       child: TextField(
+                                        keyboardType: TextInputType.number,
                                         style: GSYConstant.textStyle(
                                             fontSize: 12.0, color: '#333333'),
                                         textAlign: TextAlign.center,
@@ -281,15 +284,18 @@ class _UseDrugInfoState extends State<UseDrugInfo> {
                                             border: InputBorder.none),
                                         onChanged: (value){
                                           if(value.isNotEmpty){
+                                            drugInfoMap['count']=value;
+
                                             setState(() {
-                                              drugInfoMap["count"] = value;
+                                              drugInfoMap;
                                             });
                                           }
                                         },
                                         onSubmitted: (value){
                                           if(value.isNotEmpty){
+                                            drugInfoMap["count"] = value;
                                             setState(() {
-                                              drugInfoMap["count"] = value;
+                                              drugInfoMap;
                                             });
                                           }
                                         },
@@ -303,8 +309,10 @@ class _UseDrugInfoState extends State<UseDrugInfo> {
                                           ToastUtil.showToast(msg: '数量不能超过200');
                                           return;
                                         }
+                                        drugInfoMap['count']=count.toString();
+
                                         setState(() {
-                                          drugInfoMap['count']=count.toString();
+                                          drugInfoMap;
                                         });
                                       },
                                       child: Container(
@@ -382,6 +390,7 @@ class _UseDrugInfoState extends State<UseDrugInfo> {
                                       child: Expanded(
                                           flex: 3,
                                           child: TextField(
+                                            keyboardType:TextInputType.number,
                                             controller: _editingController1,
                                             cursorColor:
                                             ColorsUtil.hexStringColor('#666666'),
@@ -418,6 +427,7 @@ class _UseDrugInfoState extends State<UseDrugInfo> {
                                     Expanded(
                                         flex: 1,
                                         child: TextField(
+                                          keyboardType: TextInputType.number,
                                           controller: index ==3 ? _editingController2 : null,
                                           cursorColor:
                                           ColorsUtil.hexStringColor('#666666'),

@@ -416,65 +416,66 @@ class _RecipeDetailState extends State<RecipeDetail> {
                       color: ColorsUtil.hexStringColor('#cccccc', alpha: 0.3),
                     ),
                     Column(
-                      children: (medicineMap['herbalMedicineVOS'] ?? medicineMap['medicineVOS']?? []).map<Widget>(
-                                (item) => Container(
-                                  decoration:
-                                      const BoxDecoration(color: Colors.white),
-                                  padding: const EdgeInsets.only(
-                                      left: 16.0,
-                                      right: 16.0,
-                                      top: 8.0,
-                                      bottom: 8.0),
-                                  child: Row(
+                      children: (medicineMap['herbalMedicineVOS'] ??
+                              medicineMap['medicineVOS'] ??
+                              [])
+                          .map<Widget>(
+                            (item) => Container(
+                              decoration:
+                                  const BoxDecoration(color: Colors.white),
+                              padding: const EdgeInsets.only(
+                                  left: 16.0,
+                                  right: 16.0,
+                                  top: 8.0,
+                                  bottom: 8.0),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  // "medicineVOS": [
+                                  //   {
+                                  //   "manuname": "",
+                                  //   "freq": "1片,1次/12h",
+                                  //   "amt": "2.79",
+                                  //   "dayNum": "1",
+                                  //   "specification": "0.25g*6片",
+                                  //   "id": 75776,
+                                  //   "useType": "冲化",
+                                  //   "remarks": "gvv",
+                                  //   "medicineNum": 1
+                                  //   }
+                                  Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
                                     children: <Widget>[
-                                      // "medicineVOS": [
-                                      //   {
-                                      //   "manuname": "",
-                                      //   "freq": "1片,1次/12h",
-                                      //   "amt": "2.79",
-                                      //   "dayNum": "1",
-                                      //   "specification": "0.25g*6片",
-                                      //   "id": 75776,
-                                      //   "useType": "冲化",
-                                      //   "remarks": "gvv",
-                                      //   "medicineNum": 1
-                                      //   }
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          Text(
-                                            item['manuname'] ?? '',
-                                            style: GSYConstant.textStyle(
-                                                color: '#333333'),
-                                          ),
-                                          Text(
-                                            '规格：${item['specification']}',
-                                            style: GSYConstant.textStyle(
-                                                fontSize: 13.0,
-                                                color: '#666666'),
-                                          ),
-                                          Text(
-                                            '${medicineMap['herbalMedicineVOS']!=null?medicineMap['useType']:item['useType']}：${medicineMap['herbalMedicineVOS']!=null?medicineMap['freq']:item['freq']}',
-                                            style: GSYConstant.textStyle(
-                                                fontSize: 13.0,
-                                                color: '#666666'),
-                                          )
-                                        ],
+                                      Text(
+                                        item['manuname'] ?? '',
+                                        style: GSYConstant.textStyle(
+                                            color: '#333333'),
                                       ),
                                       Text(
-                                        'x${item['medicineNum']}',
+                                        '规格：${item['specification']}',
                                         style: GSYConstant.textStyle(
-                                            color: '#666666'),
+                                            fontSize: 13.0, color: '#666666'),
+                                      ),
+                                      Text(
+                                        '${medicineMap['herbalMedicineVOS'] != null ? medicineMap['useType'] : item['useType']}：${medicineMap['herbalMedicineVOS'] != null ? medicineMap['freq'] : item['freq']}',
+                                        style: GSYConstant.textStyle(
+                                            fontSize: 13.0, color: '#666666'),
                                       )
                                     ],
                                   ),
-                                ),
-                              ).toList(),
+                                  Text(
+                                    'x${item['medicineNum']}',
+                                    style:
+                                        GSYConstant.textStyle(color: '#666666'),
+                                  )
+                                ],
+                              ),
+                            ),
+                          )
+                          .toList(),
                     ),
                     const SizedBox(
                       height: 10.0,
@@ -496,13 +497,15 @@ class _RecipeDetailState extends State<RecipeDetail> {
                                     style:
                                         GSYConstant.textStyle(color: '#333333'),
                                   ),
-                                  const SizedBox(width: 15.0,),
+                                  const SizedBox(
+                                    width: 15.0,
+                                  ),
                                   medicineMap['doctorSign'] != null
                                       ? Transform.rotate(
                                           angle: 270.15,
                                           child: Image.memory(
-                                            const Base64Decoder()
-                                                .convert(medicineMap['doctorSign']),
+                                            const Base64Decoder().convert(
+                                                medicineMap['doctorSign']),
                                             scale: 1,
                                             width: 54.0,
                                             height: 18.0,
@@ -526,8 +529,8 @@ class _RecipeDetailState extends State<RecipeDetail> {
                                       ? Transform.rotate(
                                           angle: 270.15,
                                           child: Image.memory(
-                                            const Base64Decoder()
-                                                .convert(medicineMap['pharmacistSign']),
+                                            const Base64Decoder().convert(
+                                                medicineMap['pharmacistSign']),
                                             scale: 1,
                                             width: 54.0,
                                             height: 18.0,
@@ -659,7 +662,18 @@ class _RecipeDetailState extends State<RecipeDetail> {
                                                                     child:
                                                                         CustomElevatedButton(
                                                                   onPressed:
-                                                                      () {},
+                                                                      () async {
+                                                                    var request =
+                                                                        HttpRequest
+                                                                            .getInstance();
+                                                                    var res =
+                                                                        await request.get(
+                                                                            Api.revokeRpApi+'',
+                                                                            {'id':rpDetailItem['id']});
+                                                                    if(res['code']==200){
+                                                                      Navigator.pop(context);
+                                                                    }
+                                                                  },
                                                                   height: 40.0,
                                                                   title: '确定',
                                                                   borderRadius:

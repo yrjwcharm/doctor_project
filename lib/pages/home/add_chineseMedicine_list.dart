@@ -330,7 +330,7 @@ class _AddChineseMedicineListState extends State<AddChineseMedicineList> {
                             ? SvgUtil.svg('delete.svg')
                             : null,
                         hintStyle: GSYConstant.textStyle(color: '#888888'),
-                        hintText: '搜索ICD名称、拼音码',
+                        hintText: '搜索药品名称、拼音码',
                       ),
                     ),
                   ),
@@ -555,6 +555,7 @@ class _AddChineseMedicineListState extends State<AddChineseMedicineList> {
                                                       color: ColorsUtil.hexStringColor(
                                                           '#cccccc')))),
                                           child: TextField(
+                                            keyboardType: TextInputType.number,
                                             style: GSYConstant.textStyle(
                                                 fontSize: 12.0, color: '#333333'),
                                             textAlign: TextAlign.center,

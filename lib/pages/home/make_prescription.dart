@@ -82,6 +82,12 @@ class _MakePrescriptionState extends State<MakePrescription> {
   String prescriptionId = ""; //处方id
 
   List<String> useTypeList = [];
+  String usageId='';
+  String freqTypeId='';
+  List _freqTypeList =[];
+  List _useTypeList = [];
+  List _baseUnitList = [];
+
   List<String> freqTypeList = [];
   List<String> baseUnitList = [];
   StreamSubscription? stream;
@@ -102,16 +108,19 @@ class _MakePrescriptionState extends State<MakePrescription> {
         'subTitle': '(付/剂)',
         'detail': '请输入数量',
         'isArrow': false,
+        'value':''
       },
       {
         'title': '用法',
         'detail': '请选择用法',
         'isArrow': true,
+        'value':''
       },
       {
         'title': '频次',
         'detail': '请选择频次',
         'isArrow': true,
+        'value':''
       }
     ];
     stream = EventBusUtil.getInstance().on<Map>().listen((event) {
@@ -189,8 +198,8 @@ class _MakePrescriptionState extends State<MakePrescription> {
         "name": rpTypeName, //处方类型
         "type": rpTypeId, //处方id
         "roomId": pharmacyId, //药房id
-        "useType": chineseMedicineTypeList[1]["detail"], //用法
-        "freq": chineseMedicineTypeList[2]["detail"], //频次
+        "useType": chineseMedicineTypeList[1]["value"], //用法
+        "freq": chineseMedicineTypeList[2]["value"], //频次
         "remarks": _editingController2.text.isEmpty
             ? ""
             : _editingController2.text, //备注
@@ -200,7 +209,6 @@ class _MakePrescriptionState extends State<MakePrescription> {
         "medicineParams": medicineParams,
       };
     }
-    print(map);
 
     SharedPreferences perfer = await SharedPreferences.getInstance();
     String? tokenValueStr = perfer.getString("tokenValue");
@@ -262,7 +270,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
             ));
       } else {
         String url = data["data"]["oauthURL"];
-
+        print('1111$url');
         Navigator.push(
             context,
             MaterialPageRoute(
@@ -326,6 +334,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
       }
       setState(() {
         useTypeList = pickerData;
+        _useTypeList = data;
       });
     }
   }
@@ -343,6 +352,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
       }
       setState(() {
         freqTypeList = pickerData;
+        _freqTypeList = data;
       });
     }
   }
@@ -360,6 +370,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
       }
       setState(() {
         baseUnitList = pickerData;
+        _baseUnitList =data;
       });
     }
   }
@@ -378,16 +389,23 @@ class _MakePrescriptionState extends State<MakePrescription> {
   data 数据源数组
   item 需要改变的数据源
    */
-  List<Widget> dialogData(List<String> data, Map item) {
+  List<Widget> dialogData(List<String> data,List _data, Map item) {
+    print('1111111,${data.toString()}');
     List<Widget> widgetList = [];
     for (int i = 0; i < data.length; i++) {
       StatelessWidget dialog = SimpleDialogOption(
         child: Text(data[i]),
         onPressed: () {
           Navigator.of(context).pop();
+          item['detail'] = data[i];
+          item['value'] = _data[i]['detailValue'];
           setState(() {
-            item.update("detail", (value) => data[i]);
+            item;
           });
+          // setState(() {
+          //   item.update("detail", (value) => data[i]);
+          //   item.update("value",(value)=>_data[i]['detailValue']);
+          // });
         },
       );
 
@@ -408,7 +426,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
         builder: (context) {
           return SimpleDialog(
             // title:Text(""),
-            children: dialogData(useTypeList, chineseMedicineTypeList[1]),
+            children: dialogData(useTypeList,_useTypeList, chineseMedicineTypeList[1]),
           );
         });
   }
@@ -421,7 +439,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
         builder: (context) {
           return SimpleDialog(
             // title:Text(""),
-            children: dialogData(freqTypeList, chineseMedicineTypeList[2]),
+            children: dialogData(freqTypeList,_freqTypeList, chineseMedicineTypeList[2]),
           );
         });
   }
@@ -725,6 +743,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
                                           SizedBox(
                                             width: 250.0,
                                             child: TextField(
+                                              keyboardType: TextInputType.number,
                                               controller: !item['isArrow']
                                                   ? _editingController1
                                                   : null,

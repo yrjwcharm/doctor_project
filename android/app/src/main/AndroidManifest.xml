@@ -25,6 +25,7 @@
    <application
         android:label="通海医生端"
         android:allowBackup="false"
+        android:usesCleartextTraffic="true"
         android:requestLegacyExternalStorage="true"
         tools:replace="android:label,android:allowBackup"
         android:icon="@mipmap/ic_launcher">

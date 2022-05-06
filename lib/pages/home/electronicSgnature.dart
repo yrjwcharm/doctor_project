@@ -1,3 +1,4 @@
+import 'package:doctor_project/pages/home/Prescription_list.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import '../../http/http_request.dart';
 import '../../http/api.dart';
@@ -38,7 +39,8 @@ class _electronicSignaturePageState extends State<electronicSignaturePage> {
 
   //医信签提交数据电子签名
   void getNet_YXQSignData() async{
-
+    // print('111111111,${YXQDataMap.toString()}');
+    // return;
     HttpRequest? request = HttpRequest.getInstance();
     var res = await request.post(Api.YXQSignDataUrl,{
       // "userId"          : "123124", //医护人员userid   944241327611052102
@@ -50,7 +52,7 @@ class _electronicSignaturePageState extends State<electronicSignaturePage> {
     print("getNet_YXQSignData------" +res.toString());
     if (res['code'] == 200) {
 
-      Navigator.push(context, MaterialPageRoute(builder: (context)=> PrescriptDetail(registeredId: registeredId, category: category, imageStr: YXQDataMap["signatureImg"],)));
+      Navigator.push(context, MaterialPageRoute(builder: (context)=> PrescriptionList(registeredId: registeredId, category: category)));
 
     }else{
       Fluttertoast.showToast(msg: res['msg'], gravity: ToastGravity.CENTER);
@@ -76,15 +78,15 @@ class _electronicSignaturePageState extends State<electronicSignaturePage> {
         backgroundColor: ColorsUtil.bgColor, //Container
         body: Column(
           children: [
-            SizedBox(height: 10.0,),
+            const SizedBox(height: 10.0,),
             Container(
               color: Colors.white,
               width: double.infinity,
               height: 240,
               child: Transform.rotate(
-                angle: math.pi /-2,
+                angle: 270.17,
                 child: Image.memory(
-                  Base64Decoder().convert(YXQDataMap["signatureImg"]),
+                  const Base64Decoder().convert(YXQDataMap["signatureImg"]),
                 ),),
             ),
             Spacer(),
