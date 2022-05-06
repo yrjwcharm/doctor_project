@@ -29,7 +29,7 @@ class _RecipeDetailState extends State<RecipeDetail> {
   Map rpDetailItem;
   String diagnosis;
   List<dynamic> list = [];
-  Map<String, dynamic> map = {};
+  Map<String, dynamic> medicineMap = {};
 
   _RecipeDetailState(this.rpDetailItem, this.diagnosis);
 
@@ -47,7 +47,7 @@ class _RecipeDetailState extends State<RecipeDetail> {
     if (res['code'] == 200) {
       print('111111,${res['data']['doctorSign']}');
       setState(() {
-        map = res['data'];
+        medicineMap = res['data'];
       });
     }
   }
@@ -214,7 +214,7 @@ class _RecipeDetailState extends State<RecipeDetail> {
                             : rpDetailItem['status'] == 2
                                 ? 'in_pass.svg'
                                 : rpDetailItem['status'] == 3
-                                    ? 'audit.svg'
+                                    ? 'already_audit.svg'
                                     : rpDetailItem['status'] == 4
                                         ? 'audit.svg'
                                         : 'timeout.svg'),
@@ -416,9 +416,7 @@ class _RecipeDetailState extends State<RecipeDetail> {
                       color: ColorsUtil.hexStringColor('#cccccc', alpha: 0.3),
                     ),
                     Column(
-                      children: map['medicineVOS'] ??
-                          []
-                              .map<Widget>(
+                      children: (medicineMap['herbalMedicineVOS'] ?? medicineMap['medicineVOS']?? []).map<Widget>(
                                 (item) => Container(
                                   decoration:
                                       const BoxDecoration(color: Colors.white),
@@ -461,7 +459,7 @@ class _RecipeDetailState extends State<RecipeDetail> {
                                                 color: '#666666'),
                                           ),
                                           Text(
-                                            '${item['useType']}：${item['freq']}',
+                                            '${medicineMap['herbalMedicineVOS']!=null?medicineMap['useType']:item['useType']}：${medicineMap['herbalMedicineVOS']!=null?medicineMap['freq']:item['freq']}',
                                             style: GSYConstant.textStyle(
                                                 fontSize: 13.0,
                                                 color: '#666666'),
@@ -476,8 +474,7 @@ class _RecipeDetailState extends State<RecipeDetail> {
                                     ],
                                   ),
                                 ),
-                              )
-                              .toList(),
+                              ).toList(),
                     ),
                     const SizedBox(
                       height: 10.0,
@@ -500,12 +497,12 @@ class _RecipeDetailState extends State<RecipeDetail> {
                                         GSYConstant.textStyle(color: '#333333'),
                                   ),
                                   const SizedBox(width: 15.0,),
-                                  map['doctorSign'] != null
+                                  medicineMap['doctorSign'] != null
                                       ? Transform.rotate(
                                           angle: 270.15,
                                           child: Image.memory(
                                             const Base64Decoder()
-                                                .convert(map['doctorSign']),
+                                                .convert(medicineMap['doctorSign']),
                                             scale: 1,
                                             width: 54.0,
                                             height: 18.0,
@@ -525,12 +522,12 @@ class _RecipeDetailState extends State<RecipeDetail> {
                                     style:
                                         GSYConstant.textStyle(color: '#333333'),
                                   ),
-                                  map['pharmacistSign'] != null
+                                  medicineMap['pharmacistSign'] != null
                                       ? Transform.rotate(
                                           angle: 270.15,
                                           child: Image.memory(
                                             const Base64Decoder()
-                                                .convert(map['pharmacistSign']),
+                                                .convert(medicineMap['pharmacistSign']),
                                             scale: 1,
                                             width: 54.0,
                                             height: 18.0,
@@ -541,10 +538,10 @@ class _RecipeDetailState extends State<RecipeDetail> {
                               ),
                             ],
                           ),
-                          map['companySign'] != null
+                          medicineMap['companySign'] != null
                               ? Image.memory(
                                   const Base64Decoder()
-                                      .convert(map['companySign']),
+                                      .convert(medicineMap['companySign']),
                                   scale: 0.5,
                                   width: 54.0,
                                   height: 54.0,
@@ -677,7 +674,7 @@ class _RecipeDetailState extends State<RecipeDetail> {
                                                         ),
                                                       ));
                                               // var request = HttpRequest.getInstance();
-                                              // var res = await request.get(Api.revokeRpApi+'?orderId=${map['orderId']}', {});
+                                              // var res = await request.get(Api.revokeRpApi+'?orderId=${medicineMap['orderId']}', {});
                                               // if(res['code']==200){
                                               //   Navigator.pop(context);
                                               // }

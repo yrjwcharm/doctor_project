@@ -7,6 +7,7 @@ import 'package:doctor_project/utils/desensitization_utils.dart';
 import 'package:doctor_project/utils/event_bus_util.dart';
 import 'package:doctor_project/utils/image_network_catch.dart';
 import 'package:doctor_project/utils/svg_util.dart';
+import 'package:doctor_project/utils/toast_util.dart';
 import 'package:doctor_project/widget/custom_app_bar.dart';
 import 'package:doctor_project/widget/custom_app_bar.dart';
 import 'package:doctor_project/widget/custom_elevated_button.dart';
@@ -33,7 +34,8 @@ class OrderDetail extends StatefulWidget {
 
 class _OrderDetailState extends State<OrderDetail> {
   late Map<String, dynamic> _map;
-
+  String refuseReason='';
+  TextEditingController _textEditingController = TextEditingController();
   _OrderDetailState(map) {
     _map = map;
   }
@@ -260,26 +262,34 @@ class _OrderDetailState extends State<OrderDetail> {
                   ),
                 ),
                 GestureDetector(
-                  onTap: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>GSYWebView('https://interhospital.youjiankang.net/360view/#/?paId=000000563',)));
-                    // (context, 'https://interhospital.youjiankang.net/360view/#/?paId=000000563','ddd');
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => GSYWebView(
+                                  'https://interhospital.youjiankang.net/360view/#/?paId=000000563',
+                                )));
                   },
-                  child:
-                Container(
-                  height: 40.0,
-                  margin: const EdgeInsets.only(top: 10.0),
-                  padding:const EdgeInsets.only(left: 16.0,right: 16.0,),
-                  decoration: const BoxDecoration(
-                    color: Colors.white
+                  child: Container(
+                    height: 40.0,
+                    margin: const EdgeInsets.only(top: 10.0),
+                    padding: const EdgeInsets.only(
+                      left: 16.0,
+                      right: 16.0,
+                    ),
+                    decoration: const BoxDecoration(color: Colors.white),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text(
+                          '患者360视图',
+                          style: GSYConstant.textStyle(color: '#333333'),
+                        ),
+                        SvgUtil.svg('arrow_right.svg')
+                      ],
+                    ),
                   ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Text('患者360视图',style: GSYConstant.textStyle(color: '#333333'),),
-                      SvgUtil.svg('arrow_right.svg')
-                    ],
-                  ),
-                ),)
+                )
               ],
             ),
           )),
@@ -299,95 +309,120 @@ class _OrderDetailState extends State<OrderDetail> {
                       onPressed: () async {
                         if (_map['status'] == '0') {
                           showDialog<void>(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return SimpleDialog(
-                                contentPadding: const EdgeInsets.all(0),
-                                titlePadding: const EdgeInsets.only(
-                                    top: 14.0,
-                                    left: 16.0,
-                                    right: 16.0,
-                                    bottom: 13.0),
-                                title: Text(
-                                  '拒诊原因',
-                                  style: GSYConstant.textStyle(
-                                      fontSize: 15.0, color: '#333333'),
-                                ),
-                                children: <Widget>[
-                                  SimpleDialogOption(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 16.0),
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(5.0),
-                                          border: Border.all(
-                                              width: 1,
-                                              color: ColorsUtil.hexStringColor(
-                                                  '#cccccc'))),
-                                      height: 88,
-                                      child: TextField(
-                                        decoration: InputDecoration(
-                                          hintText: '',
-                                          border: InputBorder.none,
-                                          hintStyle: GSYConstant.textStyle(
-                                              color: '#999999'),
-                                        ),
-                                        style: GSYConstant.textStyle(
-                                            color: '#666666'),
-                                        cursorColor: ColorsUtil.hexStringColor(
-                                            '#666666'),
-                                      ),
+                              barrierDismissible: false,
+                              context: context,
+                              builder: (_) => WillPopScope(
+                                  onWillPop: () async {
+                                    return Future.value(false);
+                                  },
+                                  child: SimpleDialog(
+                                    contentPadding: const EdgeInsets.all(0),
+                                    titlePadding: const EdgeInsets.only(
+                                        top: 14.0,
+                                        left: 16.0,
+                                        right: 16.0,
+                                        bottom: 13.0),
+                                    title: Text(
+                                      '拒诊原因',
+                                      style: GSYConstant.textStyle(
+                                          fontSize: 15.0, color: '#333333'),
                                     ),
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                  ),
-                                  SimpleDialogOption(
-                                    padding: const EdgeInsets.only(
-                                        top: 31.0, left: 0),
-                                    child: Row(
-                                      children: [
-                                        Expanded(
-                                            child: CustomElevatedButton(
-                                          title: '确认',
-                                          onPressed: () {
-                                            Navigator.pop(context);
-                                          },
-                                          height: 48,
-                                          textStyle: GSYConstant.textStyle(
-                                            fontSize: 15.0,
+                                    children: <Widget>[
+                                      SimpleDialogOption(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 16.0),
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(5.0),
+                                              border: Border.all(
+                                                  width: 1,
+                                                  color:
+                                                      ColorsUtil.hexStringColor(
+                                                          '#cccccc'))),
+                                          height: 88,
+                                          child: TextField(
+                                            controller: _textEditingController,
+                                            onChanged: (value){
+                                              setState(() {
+                                                refuseReason = value;
+                                              });
+                                            },
+                                            decoration: InputDecoration(
+                                              hintText: '请输入拒诊原因',
+                                              border: InputBorder.none,
+                                              contentPadding: const EdgeInsets.only(left: 16.0),
+                                              hintStyle: GSYConstant.textStyle(
+                                                  color: '#999999'),
+                                            ),
+                                            style: GSYConstant.textStyle(
+                                                color: '#666666'),
+                                            cursorColor:
+                                                ColorsUtil.hexStringColor(
+                                                    '#666666'),
                                           ),
-                                          borderRadius: const BorderRadius.only(
-                                              bottomLeft: Radius.circular(4.0)),
-                                        )),
-                                        Expanded(
-                                            child: CustomOutlineButton(
-                                          height: 48.0,
-                                          title: '取消',
-                                          onPressed: () {
-                                            Navigator.pop(context);
-                                          },
-                                          primary: '#ffffff',
-                                          textStyle: GSYConstant.textStyle(
-                                              fontSize: 15.0, color: '#666666'),
-                                          borderRadius: const BorderRadius.only(
-                                              bottomRight:
-                                                  Radius.circular(4.0)),
-                                          borderColor:
-                                              ColorsUtil.hexStringColor(
-                                                  '#cccccc'),
-                                        ))
-                                      ],
-                                    ),
-                                    // onPressed: () {
-                                    //   Navigator.of(context).pop();
-                                    // },
-                                  ),
-                                ],
-                              );
-                            },
-                          ).then((val) {});
+                                        ),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                      SimpleDialogOption(
+                                        padding: const EdgeInsets.only(
+                                            top: 31.0, left: 0),
+                                        child: Row(
+                                          children: [
+                                            Expanded(
+                                                child: CustomOutlineButton(
+                                                  height: 48.0,
+                                                  title: '取消',
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                  primary: '#ffffff',
+                                                  textStyle: GSYConstant.textStyle(
+                                                      fontSize: 15.0,
+                                                      color: '#666666'),
+                                                  borderRadius:
+                                                  const BorderRadius.only(
+                                                      bottomLeft:
+                                                      Radius.circular(4.0)),
+                                                  borderColor:
+                                                  ColorsUtil.hexStringColor(
+                                                      '#cccccc'),
+                                                )),
+                                            Expanded(
+                                                child: CustomElevatedButton(
+                                              title: '确认',
+                                              onPressed: () async{
+                                                if(_textEditingController.text.isEmpty){
+                                                  ToastUtil.showToast(msg: '请填写拒诊原因');
+                                                  return;
+                                                }
+                                                var request = HttpRequest.getInstance();
+                                                var res = await  request.post(Api.refuseReceiveConsultApi,
+                                                    {'registerId':_map['id'],'unReceiveDesc':refuseReason});
+                                                if(res['code']==200){
+                                                   Navigator.pop(context);
+                                                   Navigator.pop(context);
+                                                }
+                                              },
+                                              height: 48,
+                                              textStyle: GSYConstant.textStyle(
+                                                fontSize: 15.0,
+                                              ),
+                                              borderRadius:
+                                                  const BorderRadius.only(
+                                                      bottomRight:
+                                                          Radius.circular(4.0)),
+                                            )),
+                                          ],
+                                        ),
+                                        // onPressed: () {
+                                        //   Navigator.of(context).pop();
+                                        // },
+                                      ),
+                                    ],
+                                  )));
                         } else {
                           // var request = HttpRequest.getInstance();
                           // Map<String, dynamic> map = {};
@@ -397,7 +432,7 @@ class _OrderDetailState extends State<OrderDetail> {
                           //    Navigator.of(context).pop();
                           //    EventBusUtil.getInstance().fire({'success':true});
                           // }
-                          var result = await showDialog(
+                          await showDialog(
                               barrierDismissible: false,
                               context: context,
                               builder: (_) => WillPopScope(

@@ -263,7 +263,7 @@ class _MyPrescriptionState extends State<MyPrescription> {
                                         : item['status'] == 2
                                             ? '未通过'
                                             : item['status'] == 3
-                                                ? '已通过'
+                                                ? '已审核'
                                                 : item['status'] == 4
                                                     ? '审核中'
                                                     : item['status'] == 5
