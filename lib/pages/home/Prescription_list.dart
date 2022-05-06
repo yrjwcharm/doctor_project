@@ -105,6 +105,17 @@ class _PrescriptionListState extends State<PrescriptionList> {
                     itemCount: list.length,
                     itemBuilder: (BuildContext context, int index) {
                       var item = list[index];
+                      var patientVO = item['patientVO'];
+                      // var patientVO = {
+                      // "deptName": "测试科室",
+                      // "payType": "04",
+                      // "patientId": "432383826652692480",
+                      // "sex": "1",
+                      // "name": "亦龙龙",
+                      // "photo": "https://thirdwx.qlogo.cn/mmopen/vi_32/uia6ZBhiaIv3coqYOZiabCCViaWVOeqANTBfbC8eY5l5lDBPnPXQGE4jd32VNfQvJSlkyGtB15EXoHuaSynbreu4UQ/132",
+                      // "userId": "10616",
+                      // "age": "20"
+                      // };
                       List<String> diagnosis = [];
                       (item['diagnosisVOS'] ?? []).forEach((element) {
                         diagnosis.add(element['diagnosisName']);
@@ -121,7 +132,7 @@ class _PrescriptionListState extends State<PrescriptionList> {
 
                       return GestureDetector(
                           onTap: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context)=>RecipeDetail(rpDetailItem: item, diagnosis: str))).then((value) => initData());
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>RecipeDetail(rpDetailItem: {...item,...patientVO}, diagnosis: str))).then((value) => initData());
                           },
                           child: Column(
                             children: [
@@ -134,13 +145,13 @@ class _PrescriptionListState extends State<PrescriptionList> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     ClipOval(
-                                        child: item['photo']!=null
+                                        child: patientVO['photo']!=null
                                             ? Image.network(
-                                                item['photo'],
+                                          patientVO['photo'],
                                                 width: 40.0,
                                                 height: 40.0,
                                               )
-                                            : (item['sex'] == '1'
+                                            : (patientVO['sex'] == '1'
                                                 ? Image.asset(
                                                     'assets/images/boy.png')
                                                 : Image.asset(
@@ -156,7 +167,7 @@ class _PrescriptionListState extends State<PrescriptionList> {
                                         children: <Widget>[
                                           Row(
                                             children: [
-                                              Text(item['name'] ?? '',
+                                              Text(patientVO['name'] ?? '',
                                                   style: TextStyle(
                                                       fontSize: 14.0,
                                                       fontFamily: 'Medium',
@@ -169,7 +180,7 @@ class _PrescriptionListState extends State<PrescriptionList> {
                                                 width: 16.0,
                                               ),
                                               Text(
-                                                '${item['sex'] == '1' ? '男' : '女'} | ${item['age']}岁 | ${item['deptName']}',
+                                                '${patientVO['sex'] == '1' ? '男' : '女'} | ${patientVO['age']}岁 | ${patientVO['deptName']}',
                                                 style: GSYConstant.textStyle(
                                                     color: '#666666'),
                                               ),

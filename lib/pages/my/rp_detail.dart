@@ -668,7 +668,7 @@ class _RecipeDetailState extends State<RecipeDetail> {
                                                                         HttpRequest
                                                                             .getInstance();
                                                                     var res =
-                                                                        await request.get(
+                                                                        await request.post(
                                                                             Api.revokeRpApi+'',
                                                                             {'id':rpDetailItem['id']});
                                                                     if(res['code']==200){
