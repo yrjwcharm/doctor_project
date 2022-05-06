@@ -304,7 +304,7 @@ class _RecipeDetailState extends State<RecipeDetail> {
                                       GSYConstant.textStyle(color: '#333333'),
                                 ),
                                 Text(
-                                  rpDetailItem['deptName'],
+                                  rpDetailItem['deptName']??'',
                                   style: GSYConstant.textStyle(
                                       fontSize: 14.0, color: '#666666'),
                                 )
@@ -382,10 +382,11 @@ class _RecipeDetailState extends State<RecipeDetail> {
                               '诊断：',
                               style: GSYConstant.textStyle(color: '#333333'),
                             ),
+                            Flexible(child:
                             Text(
                               diagnosis,
                               style: GSYConstant.textStyle(color: '#666666'),
-                            ),
+                            ),),
                           ],
                         ),
                       )
