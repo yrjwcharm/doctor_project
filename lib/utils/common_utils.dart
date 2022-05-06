@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:device_info/device_info.dart';
+import 'package:doctor_project/utils/custom_flex_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -10,6 +11,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../common/style/gsy_style.dart';
 
 /**
  * 通用逻辑
@@ -155,7 +157,11 @@ class CommonUtils {
     }
     return fullName;
   }
-
+  // static copy(String? data, BuildContext context) {
+  //   Clipboard.setData(new ClipboardData(text: data));
+  //   Fluttertoast.showToast(
+  //       msg: GSYLocalizations.i18n(context)!.option_share_copy_success);
+  // }
   static getThemeData(Color color) {
     return ThemeData(
       primarySwatch: color as MaterialColor?,
@@ -201,4 +207,14 @@ class CommonUtils {
     }
     return image;
   }
+  // static launchOutURL(String? url, BuildContext context) async {
+  //   if (url != null && await canLaunch(url)) {
+  //     await launch(url);
+  //   } else {
+  //     Fluttertoast.showToast(
+  //         msg: GSYLocalizations.i18n(context)!.option_web_launcher_error +
+  //             ": " +
+  //             (url ?? ""));
+  //   }
+  // }
 }

@@ -25,7 +25,7 @@ class Api {
   static const getRecordListApi = "/doctor/dr-service/order-room/record/list";
   static const getRpListApi = "/doctor/dr-service/recipe/getList";
   static const getRpDetailApi = "/doctor/dr-service/recipe/queryRecipe";
-  static const  revokeRpApi = '/doctor/dr-service/trade/refund';
+  static const  revokeRpApi = '/doctor/dr-service/recipe/cancel';
 
 
 }

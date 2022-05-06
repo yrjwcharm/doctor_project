@@ -1,5 +1,6 @@
 import 'package:doctor_project/common/style/gsy_style.dart';
 import 'package:doctor_project/pages/home/video_topic.dart';
+import 'package:doctor_project/pages/home/webviewVC.dart';
 import 'package:doctor_project/pages/photoview_page.dart';
 import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:doctor_project/utils/desensitization_utils.dart';
@@ -11,6 +12,7 @@ import 'package:doctor_project/widget/custom_app_bar.dart';
 import 'package:doctor_project/widget/custom_elevated_button.dart';
 import 'package:doctor_project/widget/custom_input_widget.dart';
 import 'package:doctor_project/widget/custom_outline_button.dart';
+import 'package:doctor_project/widget/custom_webview.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../http/http_request.dart';
@@ -257,6 +259,27 @@ class _OrderDetailState extends State<OrderDetail> {
                     ],
                   ),
                 ),
+                GestureDetector(
+                  onTap: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>GSYWebView('https://interhospital.youjiankang.net/360view/#/?paId=000000563',)));
+                    // (context, 'https://interhospital.youjiankang.net/360view/#/?paId=000000563','ddd');
+                  },
+                  child:
+                Container(
+                  height: 40.0,
+                  margin: const EdgeInsets.only(top: 10.0),
+                  padding:const EdgeInsets.only(left: 16.0,right: 16.0,),
+                  decoration: const BoxDecoration(
+                    color: Colors.white
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Text('患者360视图',style: GSYConstant.textStyle(color: '#333333'),),
+                      SvgUtil.svg('arrow_right.svg')
+                    ],
+                  ),
+                ),)
               ],
             ),
           )),

@@ -416,52 +416,68 @@ class _RecipeDetailState extends State<RecipeDetail> {
                       color: ColorsUtil.hexStringColor('#cccccc', alpha: 0.3),
                     ),
                     Column(
-                      children:map['medicineVOS'].map<Widget>((item) =>Container(
-                        decoration: const BoxDecoration(color: Colors.white),
-                        padding: const EdgeInsets.only(
-                            left: 16.0, right: 16.0, top: 8.0, bottom: 8.0),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            // "medicineVOS": [
-                            //   {
-                            //   "manuname": "",
-                            //   "freq": "1片,1次/12h",
-                            //   "amt": "2.79",
-                            //   "dayNum": "1",
-                            //   "specification": "0.25g*6片",
-                            //   "id": 75776,
-                            //   "useType": "冲化",
-                            //   "remarks": "gvv",
-                            //   "medicineNum": 1
-                            //   }
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Text(
-                                  item['manuname']??'',
-                                  style: GSYConstant.textStyle(color: '#333333'),
+                      children: map['medicineVOS'] ??
+                          []
+                              .map<Widget>(
+                                (item) => Container(
+                                  decoration:
+                                      const BoxDecoration(color: Colors.white),
+                                  padding: const EdgeInsets.only(
+                                      left: 16.0,
+                                      right: 16.0,
+                                      top: 8.0,
+                                      bottom: 8.0),
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      // "medicineVOS": [
+                                      //   {
+                                      //   "manuname": "",
+                                      //   "freq": "1片,1次/12h",
+                                      //   "amt": "2.79",
+                                      //   "dayNum": "1",
+                                      //   "specification": "0.25g*6片",
+                                      //   "id": 75776,
+                                      //   "useType": "冲化",
+                                      //   "remarks": "gvv",
+                                      //   "medicineNum": 1
+                                      //   }
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          Text(
+                                            item['manuname'] ?? '',
+                                            style: GSYConstant.textStyle(
+                                                color: '#333333'),
+                                          ),
+                                          Text(
+                                            '规格：${item['specification']}',
+                                            style: GSYConstant.textStyle(
+                                                fontSize: 13.0,
+                                                color: '#666666'),
+                                          ),
+                                          Text(
+                                            '${item['useType']}：${item['freq']}',
+                                            style: GSYConstant.textStyle(
+                                                fontSize: 13.0,
+                                                color: '#666666'),
+                                          )
+                                        ],
+                                      ),
+                                      Text(
+                                        'x${item['medicineNum']}',
+                                        style: GSYConstant.textStyle(
+                                            color: '#666666'),
+                                      )
+                                    ],
+                                  ),
                                 ),
-                                Text(
-                                  '规格：${item['specification']}',
-                                  style: GSYConstant.textStyle(
-                                      fontSize: 13.0, color: '#666666'),
-                                ),
-                                Text(
-                                  '${item['useType']}：${item['freq']}',
-                                  style: GSYConstant.textStyle(
-                                      fontSize: 13.0, color: '#666666'),
-                                )
-                              ],
-                            ),
-                            Text(
-                              'x${item['medicineNum']}',
-                              style: GSYConstant.textStyle(color: '#666666'),
-                            )
-                          ],
-                        ),
-                      ), ).toList(),
+                              )
+                              .toList(),
                     ),
                     const SizedBox(
                       height: 10.0,
@@ -483,15 +499,16 @@ class _RecipeDetailState extends State<RecipeDetail> {
                                     style:
                                         GSYConstant.textStyle(color: '#333333'),
                                   ),
+                                  const SizedBox(width: 15.0,),
                                   map['doctorSign'] != null
                                       ? Transform.rotate(
-                                          angle: -89.5,
+                                          angle: 270.15,
                                           child: Image.memory(
                                             const Base64Decoder()
                                                 .convert(map['doctorSign']),
                                             scale: 1,
-                                            width: 100.0,
-                                            height: 80.0,
+                                            width: 54.0,
+                                            height: 18.0,
                                           ),
                                         )
                                       : Container()
@@ -510,13 +527,13 @@ class _RecipeDetailState extends State<RecipeDetail> {
                                   ),
                                   map['pharmacistSign'] != null
                                       ? Transform.rotate(
-                                          angle: -89.5,
+                                          angle: 270.15,
                                           child: Image.memory(
                                             const Base64Decoder()
                                                 .convert(map['pharmacistSign']),
                                             scale: 1,
-                                            width: 100.0,
-                                            height: 80.0,
+                                            width: 54.0,
+                                            height: 18.0,
                                           ),
                                         )
                                       : Container()
@@ -588,43 +605,77 @@ class _RecipeDetailState extends State<RecipeDetail> {
                                     child: Expanded(
                                         child: CustomOutlineButton(
                                             title: '撤销',
-                                            onPressed: () async{
-                                              showDialog(context: context, builder: (_) => WillPopScope(
-                                                  onWillPop: () async {
-                                                    return Future.value(false);
-                                                  }, child:AlertDialog(
-                                                contentPadding:
-                                                const EdgeInsets.only(
-                                                    top: 27.0,bottom: 28.0),
-                                                contentTextStyle: TextStyle(
-                                                    fontSize: 16.0,
-                                                    color:
-                                                    ColorsUtil.hexStringColor(
-                                                        '#333333')),
-                                                content: const Text(
-                                                  "请确认是否撤单\n撤单后将自动退款给患者",
-                                                  textAlign: TextAlign.center,
-                                                ),
-                                                buttonPadding: const EdgeInsets.all(16.0),
-                                                actions: [
-                                                  Row(
-                                                              children:<Widget>[
-                                                                Expanded(child: CustomOutlineButton(
+                                            onPressed: () async {
+                                              showDialog(
+                                                  context: context,
+                                                  builder: (_) => WillPopScope(
+                                                        onWillPop: () async {
+                                                          return Future.value(
+                                                              false);
+                                                        },
+                                                        child: AlertDialog(
+                                                          contentPadding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  top: 27.0,
+                                                                  bottom: 28.0),
+                                                          contentTextStyle: TextStyle(
+                                                              fontSize: 16.0,
+                                                              color: ColorsUtil
+                                                                  .hexStringColor(
+                                                                      '#333333')),
+                                                          content: const Text(
+                                                            "请确认是否撤单\n撤单后将自动退款给患者",
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                          ),
+                                                          buttonPadding:
+                                                              const EdgeInsets
+                                                                  .all(16.0),
+                                                          actions: [
+                                                            Row(
+                                                              children: <
+                                                                  Widget>[
+                                                                Expanded(
+                                                                    child:
+                                                                        CustomOutlineButton(
                                                                   height: 40.0,
-                                                                  borderColor: ColorsUtil.hexStringColor('#06B48D'),
-                                                                  borderRadius: BorderRadius.circular(5.0), title: '取消', onPressed: () {
-                                                                    Navigator.pop(context);
-                                                                },
+                                                                  borderColor:
+                                                                      ColorsUtil
+                                                                          .hexStringColor(
+                                                                              '#06B48D'),
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              5.0),
+                                                                  title: '取消',
+                                                                  onPressed:
+                                                                      () {
+                                                                    Navigator.pop(
+                                                                        context);
+                                                                  },
                                                                 )),
-                                                                const SizedBox(width: 8.0,),
-                                                                Expanded(child: CustomElevatedButton(onPressed: () {
-
-                                                                },height: 40.0, title: '确定', borderRadius: BorderRadius.circular(5.0),))
+                                                                const SizedBox(
+                                                                  width: 8.0,
+                                                                ),
+                                                                Expanded(
+                                                                    child:
+                                                                        CustomElevatedButton(
+                                                                  onPressed:
+                                                                      () {},
+                                                                  height: 40.0,
+                                                                  title: '确定',
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              5.0),
+                                                                ))
                                                               ],
                                                             ),
                                                           ],
-                                                // title: Text("请确认是否撤单")
-                                              ) ,));
+                                                          // title: Text("请确认是否撤单")
+                                                        ),
+                                                      ));
                                               // var request = HttpRequest.getInstance();
                                               // var res = await request.get(Api.revokeRpApi+'?orderId=${map['orderId']}', {});
                                               // if(res['code']==200){

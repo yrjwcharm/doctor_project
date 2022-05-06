@@ -606,6 +606,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
                                 TextUtil.isEmpty(diagnosisName)
                                     ? '请选择诊断'
                                     : diagnosisName,
+                                textAlign: TextAlign.right,
                                 style: GSYConstant.textStyle(
                                     color: TextUtil.isEmpty(diagnosisName)
                                         ? '#999999'
