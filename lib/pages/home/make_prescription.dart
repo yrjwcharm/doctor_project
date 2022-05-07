@@ -82,7 +82,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
   String prescriptionId = ""; //处方id
 
   List<String> useTypeList = [];
-  List _freqTypeList =[];
+  List _freqTypeList = [];
   List _useTypeList = [];
   List _baseUnitList = [];
 
@@ -106,20 +106,10 @@ class _MakePrescriptionState extends State<MakePrescription> {
         'subTitle': '(付/剂)',
         'detail': '请输入数量',
         'isArrow': false,
-        'value':''
+        'value': ''
       },
-      {
-        'title': '用法',
-        'detail': '请选择用法',
-        'isArrow': true,
-        'value':''
-      },
-      {
-        'title': '频次',
-        'detail': '请选择频次',
-        'isArrow': true,
-        'value':''
-      }
+      {'title': '用法', 'detail': '请选择用法', 'isArrow': true, 'value': ''},
+      {'title': '频次', 'detail': '请选择频次', 'isArrow': true, 'value': ''}
     ];
     stream = EventBusUtil.getInstance().on<Map>().listen((event) {
       setState(() {
@@ -341,7 +331,8 @@ class _MakePrescriptionState extends State<MakePrescription> {
   //初始化药品频次列表
   loadDataForFreqTYpe() async {
     HttpRequest? request = HttpRequest.getInstance();
-    var res = await request.get(Api.dataDicUrl + '?dictId=${tab1Active?16:21}', {});
+    var res = await request
+        .get(Api.dataDicUrl + '?dictId=${tab1Active ? 16 : 21}', {});
     if (res['code'] == 200) {
       List data = res['data'];
       print("loadDataForFreqTYpe------" + data.toString());
@@ -369,7 +360,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
       }
       setState(() {
         baseUnitList = pickerData;
-        _baseUnitList =data;
+        _baseUnitList = data;
       });
     }
   }
@@ -388,7 +379,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
   data 数据源数组
   item 需要改变的数据源
    */
-  List<Widget> dialogData(List<String> data,List _data, Map item) {
+  List<Widget> dialogData(List<String> data, List _data, Map item) {
     print('1111111,${data.toString()}');
     List<Widget> widgetList = [];
     for (int i = 0; i < data.length; i++) {
@@ -425,7 +416,8 @@ class _MakePrescriptionState extends State<MakePrescription> {
         builder: (context) {
           return SimpleDialog(
             // title:Text(""),
-            children: dialogData(useTypeList,_useTypeList, chineseMedicineTypeList[1]),
+            children: dialogData(
+                useTypeList, _useTypeList, chineseMedicineTypeList[1]),
           );
         });
   }
@@ -438,7 +430,8 @@ class _MakePrescriptionState extends State<MakePrescription> {
         builder: (context) {
           return SimpleDialog(
             // title:Text(""),
-            children: dialogData(freqTypeList,_freqTypeList, chineseMedicineTypeList[2]),
+            children: dialogData(
+                freqTypeList, _freqTypeList, chineseMedicineTypeList[2]),
           );
         });
   }
@@ -446,191 +439,130 @@ class _MakePrescriptionState extends State<MakePrescription> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        key: _scaffoldKey,
-        appBar: CustomAppBar(
-          '开处方',
-          isBack: true,
-          onBackPressed: () {
-            Navigator.of(context).pop(this);
-          },
-        ),
-        backgroundColor: ColorsUtil.bgColor,
-        body: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              Container(
-                margin: const EdgeInsets.only(top: 14.0),
-                child: Row(
-                  children: <Widget>[
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          tab1Active = true;
-                          tab2Active = false;
-                          loadDataForFreqTYpe();
-                          resetData();
-                        });
-                      },
-                      child: Stack(
-                        children: [
-                          Image.asset(
-                            tab1Active
-                                ? 'assets/images/self_mention.png'
-                                : 'assets/images/self_mention1.png',
-                            width: screenWidth / ratio / 2,
-                            height: 44,
-                            fit: BoxFit.cover,
-                          ),
-                          Positioned(
-                              width: screenWidth / ratio / 2,
-                              height: 44,
-                              child: Center(
-                                  child: Text(
-                                '西药/中成药处方',
-                                style: GSYConstant.textStyle(
-                                    fontSize: 17.0,
-                                    color: tab1Active ? '#06B48D' : '#333333'),
-                              ))),
-                        ],
-                      ),
-                    ),
-                    Flexible(
-                        child: GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          tab2Active = true;
-                          tab1Active = false;
-                          loadDataForFreqTYpe();
-                          resetData();
-                        });
-                      },
-                      child: Stack(
-                        children: [
-                          Image.asset(
-                            tab2Active
-                                ? 'assets/images/express_delivery1.png'
-                                : 'assets/images/express_delivery.png',
-                            fit: BoxFit.cover,
-                            width: screenWidth / ratio / 2,
-                            height: 44,
-                          ),
-                          Positioned(
-                              width: screenWidth / ratio / 2,
-                              height: 44,
-                              child: Center(
-                                child: Text(
-                                  '中药处方',
-                                  style: GSYConstant.textStyle(
-                                      fontSize: 16.0,
-                                      color:
-                                          tab2Active ? '#06B48D' : '#333333'),
-                                ),
-                              )),
-                        ],
-                      ),
-                    ))
-                  ],
-                ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  PickerUtil.showPicker(context, _scaffoldKey,
-                      pickerData: rpData,
-                      confirmCallback: (Picker picker, List<int> selected) {
-                    setState(() {
-                      rpTypeId = rpList[selected[0]]['detailValue'].toString();
-                      rpTypeName = rpList[selected[0]]['detailName'];
-                    });
-                  });
-                },
-                child: Container(
-                  height: 44.0,
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border(
-                          bottom: BorderSide(
-                        width: 1.0,
-                        color: ColorsUtil.hexStringColor('#cccccc', alpha: 0.3),
-                      ))),
+      key: _scaffoldKey,
+      appBar: CustomAppBar(
+        '开处方',
+        isBack: true,
+        onBackPressed: () {
+          Navigator.of(context).pop(this);
+        },
+      ),
+      backgroundColor: ColorsUtil.bgColor,
+      body: Column(children: <Widget>[
+        Expanded(
+          child: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                Container(
+                  margin: const EdgeInsets.only(top: 14.0),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Text(
-                        '处方类型',
-                        style: GSYConstant.textStyle(color: '#333333'),
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            tab1Active = true;
+                            tab2Active = false;
+                            loadDataForFreqTYpe();
+                            resetData();
+                          });
+                        },
+                        child: Stack(
+                          children: [
+                            Image.asset(
+                              tab1Active
+                                  ? 'assets/images/self_mention.png'
+                                  : 'assets/images/self_mention1.png',
+                              width: screenWidth / ratio / 2,
+                              height: 44,
+                              fit: BoxFit.cover,
+                            ),
+                            Positioned(
+                                width: screenWidth / ratio / 2,
+                                height: 44,
+                                child: Center(
+                                    child: Text(
+                                  '西药/中成药处方',
+                                  style: GSYConstant.textStyle(
+                                      fontSize: 17.0,
+                                      color:
+                                          tab1Active ? '#06B48D' : '#333333'),
+                                ))),
+                          ],
+                        ),
                       ),
-                      Row(
-                        children: <Widget>[
-                          Text(
-                            rpTypeName,
-                            style: GSYConstant.textStyle(color: '#666666'),
-                          ),
-                          const SizedBox(
-                            width: 10.0,
-                          ),
-                          SvgUtil.svg('arrow_rp.svg')
-                        ],
-                      ),
+                      Flexible(
+                          child: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            tab2Active = true;
+                            tab1Active = false;
+                            loadDataForFreqTYpe();
+                            resetData();
+                          });
+                        },
+                        child: Stack(
+                          children: [
+                            Image.asset(
+                              tab2Active
+                                  ? 'assets/images/express_delivery1.png'
+                                  : 'assets/images/express_delivery.png',
+                              fit: BoxFit.cover,
+                              width: screenWidth / ratio / 2,
+                              height: 44,
+                            ),
+                            Positioned(
+                                width: screenWidth / ratio / 2,
+                                height: 44,
+                                child: Center(
+                                  child: Text(
+                                    '中药处方',
+                                    style: GSYConstant.textStyle(
+                                        fontSize: 16.0,
+                                        color:
+                                            tab2Active ? '#06B48D' : '#333333'),
+                                  ),
+                                )),
+                          ],
+                        ),
+                      ))
                     ],
                   ),
                 ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => Diagnosis(
-                                type: tab1Active ? 1 : 0,
-                                checkedDataList: checkDataList,
-                              ))).then((value) {
-                    checkDataList = value;
-                    print(value);
-                    String str = "";
-
-                    for (int i = 0; i < value.length; i++) {
-                      String str1 = str.isEmpty
-                          ? value[i]["diadesc"]
-                          : "," + value[i]["diadesc"];
-                      str += str1;
-                    }
-                    setState(() {
-                      diagnosisName = str;
+                GestureDetector(
+                  onTap: () {
+                    PickerUtil.showPicker(context, _scaffoldKey,
+                        pickerData: rpData,
+                        confirmCallback: (Picker picker, List<int> selected) {
+                      setState(() {
+                        rpTypeId =
+                            rpList[selected[0]]['detailValue'].toString();
+                        rpTypeName = rpList[selected[0]]['detailName'];
+                      });
                     });
-                  }); //type 诊断类（0-中医，1-西医）
-                },
-                child: Container(
-                  height: 44.0,
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border(
-                          bottom: BorderSide(
-                        width: 1.0,
-                        color: ColorsUtil.hexStringColor('#cccccc', alpha: 0.3),
-                      ))),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Text(
-                        '诊断',
-                        style: GSYConstant.textStyle(color: '#333333'),
-                      ),
-                      Expanded(
-                        child: Row(
+                  },
+                  child: Container(
+                    height: 44.0,
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border(
+                            bottom: BorderSide(
+                          width: 1.0,
+                          color:
+                              ColorsUtil.hexStringColor('#cccccc', alpha: 0.3),
+                        ))),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text(
+                          '处方类型',
+                          style: GSYConstant.textStyle(color: '#333333'),
+                        ),
+                        Row(
                           children: <Widget>[
-                            Expanded(
-                              child: Text(
-                                TextUtil.isEmpty(diagnosisName)
-                                    ? '请选择诊断'
-                                    : diagnosisName,
-                                textAlign: TextAlign.right,
-                                style: GSYConstant.textStyle(
-                                    color: TextUtil.isEmpty(diagnosisName)
-                                        ? '#999999'
-                                        : '#666666'),
-                              ),
+                            Text(
+                              rpTypeName,
+                              style: GSYConstant.textStyle(color: '#666666'),
                             ),
                             const SizedBox(
                               width: 10.0,
@@ -638,318 +570,534 @@ class _MakePrescriptionState extends State<MakePrescription> {
                             SvgUtil.svg('arrow_rp.svg')
                           ],
                         ),
-                      )
-                    ],
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  PickerUtil.showPicker(context, _scaffoldKey,
-                      pickerData: pharmacyNameList,
-                      confirmCallback: (Picker picker, List<int> selected) {
-                    setState(() {
-                      pharmacyId = pharmacyList[selected[0]]['id'];
-                      pharmacyName = pharmacyList[selected[0]]['name'];
-                    });
-                  });
-                },
-                child: Container(
-                  height: 44.0,
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border(
-                          bottom: BorderSide(
-                        width: 1.0,
-                        color: ColorsUtil.hexStringColor('#cccccc', alpha: 0.3),
-                      ))),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Text(
-                        '药房',
-                        style: GSYConstant.textStyle(color: '#333333'),
-                      ),
-                      Row(
-                        children: <Widget>[
-                          Text(
-                            TextUtil.isEmpty(pharmacyId)
-                                ? '请选择药房'
-                                : pharmacyName,
-                            style: GSYConstant.textStyle(
-                                color: TextUtil.isEmpty(pharmacyId)
-                                    ? '#999999'
-                                    : '#666666'),
-                          ),
-                          const SizedBox(
-                            width: 10.0,
-                          ),
-                          SvgUtil.svg('arrow_rp.svg')
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 8.0,
-              ),
-              Offstage(
-                offstage: !tab2Active,
-                child: Column(
-                  children: chineseMedicineTypeList
-                      .map(
-                        (item) => GestureDetector(
-                          onTap: () {
-                            if (item['title'] == "用法") {
-                              _showSimpleDialog1();
-                            } else if (item['title'] == "频次") {
-                              _showSimpleDialog2();
-                            }
-                          },
-                          child: Column(
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => Diagnosis(
+                                  type: tab1Active ? 1 : 0,
+                                  checkedDataList: checkDataList,
+                                ))).then((value) {
+                      checkDataList = value;
+                      print(value);
+                      String str = "";
+
+                      for (int i = 0; i < value.length; i++) {
+                        String str1 = str.isEmpty
+                            ? value[i]["diadesc"]
+                            : "," + value[i]["diadesc"];
+                        str += str1;
+                      }
+                      setState(() {
+                        diagnosisName = str;
+                      });
+                    }); //type 诊断类（0-中医，1-西医）
+                  },
+                  child: Container(
+                    height: 44.0,
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border(
+                            bottom: BorderSide(
+                          width: 1.0,
+                          color:
+                              ColorsUtil.hexStringColor('#cccccc', alpha: 0.3),
+                        ))),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text(
+                          '诊断',
+                          style: GSYConstant.textStyle(color: '#333333'),
+                        ),
+                        Expanded(
+                          child: Row(
                             children: <Widget>[
-                              Container(
-                                height: 44.0,
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 16.0),
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    border: Border(
-                                        bottom: BorderSide(
-                                      width: 1.0,
-                                      color: ColorsUtil.hexStringColor(
-                                          '#cccccc',
-                                          alpha: 0.3),
-                                    ))),
-                                // margin: const EdgeInsets.only(top: 8.0),
-                                child: Row(
-                                  children: <Widget>[
-                                    Row(
-                                      children: <Widget>[
-                                        Text(
-                                          item['title'],
-                                          style: GSYConstant.textStyle(
-                                              color: '#333333'),
-                                        ),
-                                        // Text('(付/剂)',style: GSYConstant.textStyle(color: '#999999'),)
-                                      ],
-                                    ),
-                                    Expanded(
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        children: <Widget>[
-                                          SizedBox(
-                                            width: 250.0,
-                                            child: TextField(
-                                              keyboardType: TextInputType.number,
-                                              controller: !item['isArrow']
-                                                  ? _editingController1
-                                                  : null,
-                                              enabled: !item['isArrow'],
-                                              textAlign: TextAlign.right,
-                                              inputFormatters: !item['isArrow']
-                                                  ? [
-                                                      FilteringTextInputFormatter
-                                                          .allow(RegExp(
-                                                              "[0-9]")), //数字包括小数
-                                                    ]
-                                                  : [],
-                                              textAlignVertical:
-                                                  TextAlignVertical.center,
-                                              style: GSYConstant.textStyle(
-                                                  color: '#999999'),
-                                              decoration: InputDecoration(
-                                                  hintText: item['detail'],
-                                                  isCollapsed: true,
-                                                  contentPadding:
-                                                      EdgeInsets.zero,
-                                                  // suffixIcon: Image.asset('assets/images/home/arrow_right.png'),
-                                                  border: InputBorder.none,
-                                                  // isCollapsed: true,
-                                                  hintStyle:
-                                                      GSYConstant.textStyle(
-                                                          color: '#999999')),
-                                            ),
-                                          ),
-                                          const SizedBox(
-                                            width: 8.0,
-                                          ),
-                                          item['isArrow']
-                                              ? Image.asset(
-                                                  'assets/images/home/arrow_right.png')
-                                              : Container()
-                                        ],
-                                      ),
-                                    )
-                                  ],
+                              Expanded(
+                                child: Text(
+                                  TextUtil.isEmpty(diagnosisName)
+                                      ? '请选择诊断'
+                                      : diagnosisName,
+                                  textAlign: TextAlign.right,
+                                  style: GSYConstant.textStyle(
+                                      color: TextUtil.isEmpty(diagnosisName)
+                                          ? '#999999'
+                                          : '#666666'),
                                 ),
                               ),
-                              Divider(
-                                height: 0,
-                                color: ColorsUtil.hexStringColor('#cccccc',
-                                    alpha: 0.3),
-                              )
+                              const SizedBox(
+                                width: 10.0,
+                              ),
+                              SvgUtil.svg('arrow_rp.svg')
                             ],
                           ),
-                        ),
-                      )
-                      .toList(),
+                        )
+                      ],
+                    ),
+                  ),
                 ),
-              ),
-              Offstage(
-                offstage: !tab2Active,
-                child: Container(
-                  padding: const EdgeInsets.only(left: 16.0, top: 9.0),
-                  constraints: const BoxConstraints(minHeight: 80.0),
-                  alignment: Alignment.topLeft,
-                  decoration: const BoxDecoration(color: Colors.white),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                GestureDetector(
+                  onTap: () {
+                    PickerUtil.showPicker(context, _scaffoldKey,
+                        pickerData: pharmacyNameList,
+                        confirmCallback: (Picker picker, List<int> selected) {
+                      setState(() {
+                        pharmacyId = pharmacyList[selected[0]]['id'];
+                        pharmacyName = pharmacyList[selected[0]]['name'];
+                      });
+                    });
+                  },
+                  child: Container(
+                    height: 44.0,
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border(
+                            bottom: BorderSide(
+                          width: 1.0,
+                          color:
+                              ColorsUtil.hexStringColor('#cccccc', alpha: 0.3),
+                        ))),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text(
+                          '药房',
+                          style: GSYConstant.textStyle(color: '#333333'),
+                        ),
+                        Row(
+                          children: <Widget>[
+                            Text(
+                              TextUtil.isEmpty(pharmacyId)
+                                  ? '请选择药房'
+                                  : pharmacyName,
+                              style: GSYConstant.textStyle(
+                                  color: TextUtil.isEmpty(pharmacyId)
+                                      ? '#999999'
+                                      : '#666666'),
+                            ),
+                            const SizedBox(
+                              width: 10.0,
+                            ),
+                            SvgUtil.svg('arrow_rp.svg')
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 8.0,
+                ),
+                Offstage(
+                  offstage: !tab2Active,
+                  child: Column(
+                    children: chineseMedicineTypeList
+                        .map(
+                          (item) => GestureDetector(
+                            onTap: () {
+                              if (item['title'] == "用法") {
+                                _showSimpleDialog1();
+                              } else if (item['title'] == "频次") {
+                                _showSimpleDialog2();
+                              }
+                            },
+                            child: Column(
+                              children: <Widget>[
+                                Container(
+                                  height: 44.0,
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 16.0),
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      border: Border(
+                                          bottom: BorderSide(
+                                        width: 1.0,
+                                        color: ColorsUtil.hexStringColor(
+                                            '#cccccc',
+                                            alpha: 0.3),
+                                      ))),
+                                  // margin: const EdgeInsets.only(top: 8.0),
+                                  child: Row(
+                                    children: <Widget>[
+                                      Row(
+                                        children: <Widget>[
+                                          Text(
+                                            item['title'],
+                                            style: GSYConstant.textStyle(
+                                                color: '#333333'),
+                                          ),
+                                          // Text('(付/剂)',style: GSYConstant.textStyle(color: '#999999'),)
+                                        ],
+                                      ),
+                                      Expanded(
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: <Widget>[
+                                            SizedBox(
+                                              width: 250.0,
+                                              child: TextField(
+                                                keyboardType:
+                                                    TextInputType.number,
+                                                controller: !item['isArrow']
+                                                    ? _editingController1
+                                                    : null,
+                                                enabled: !item['isArrow'],
+                                                textAlign: TextAlign.right,
+                                                inputFormatters:
+                                                    !item['isArrow']
+                                                        ? [
+                                                            FilteringTextInputFormatter
+                                                                .allow(RegExp(
+                                                                    "[0-9]")), //数字包括小数
+                                                          ]
+                                                        : [],
+                                                textAlignVertical:
+                                                    TextAlignVertical.center,
+                                                style: GSYConstant.textStyle(
+                                                    color: '#999999'),
+                                                decoration: InputDecoration(
+                                                    hintText: item['detail'],
+                                                    isCollapsed: true,
+                                                    contentPadding:
+                                                        EdgeInsets.zero,
+                                                    // suffixIcon: Image.asset('assets/images/home/arrow_right.png'),
+                                                    border: InputBorder.none,
+                                                    // isCollapsed: true,
+                                                    hintStyle:
+                                                        GSYConstant.textStyle(
+                                                            color: '#999999')),
+                                              ),
+                                            ),
+                                            const SizedBox(
+                                              width: 8.0,
+                                            ),
+                                            item['isArrow']
+                                                ? Image.asset(
+                                                    'assets/images/home/arrow_right.png')
+                                                : Container()
+                                          ],
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                Divider(
+                                  height: 0,
+                                  color: ColorsUtil.hexStringColor('#cccccc',
+                                      alpha: 0.3),
+                                )
+                              ],
+                            ),
+                          ),
+                        )
+                        .toList(),
+                  ),
+                ),
+                Offstage(
+                  offstage: !tab2Active,
+                  child: Container(
+                    padding: const EdgeInsets.only(left: 16.0, top: 9.0),
+                    constraints: const BoxConstraints(minHeight: 80.0),
+                    alignment: Alignment.topLeft,
+                    decoration: const BoxDecoration(color: Colors.white),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          '备注：',
+                          style: GSYConstant.textStyle(color: '#333333'),
+                        ),
+                        const SizedBox(
+                          width: 6.0,
+                        ),
+                        Expanded(
+                            child: TextField(
+                          controller: _editingController2,
+                          inputFormatters: [],
+                          maxLines: 3,
+                          textInputAction: TextInputAction.done,
+                          cursorColor: ColorsUtil.hexStringColor('#666666'),
+                          style: GSYConstant.textStyle(color: '#666666'),
+                          decoration: InputDecoration(
+                              hintText: '请输入...',
+                              isCollapsed: true,
+                              hintStyle:
+                                  GSYConstant.textStyle(color: '#999999'),
+                              border: InputBorder.none,
+                              contentPadding: EdgeInsets.zero),
+                        )),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 8.0,
+                ),
+                ListTile(
+                  tileColor: Colors.white,
+                  title: const Text('RP'),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      Text(
-                        '备注：',
-                        style: GSYConstant.textStyle(color: '#333333'),
+                      SvgUtil.svg(
+                        'increment.svg',
                       ),
-                      const SizedBox(
-                        width: 6.0,
-                      ),
-                      Expanded(
-                          child: TextField(
-                        controller: _editingController2,
-                        inputFormatters: [],
-                        maxLines: 3,
-                        textInputAction: TextInputAction.done,
-                        cursorColor: ColorsUtil.hexStringColor('#666666'),
-                        style: GSYConstant.textStyle(color: '#666666'),
-                        decoration: InputDecoration(
-                            hintText: '请输入...',
-                            isCollapsed: true,
-                            hintStyle: GSYConstant.textStyle(color: '#999999'),
-                            border: InputBorder.none,
-                            contentPadding: EdgeInsets.zero),
-                      )),
+                      TextButton(
+                          onPressed: () {
+                            Map map = {
+                              "useType": useTypeList,
+                              "_useType": _useTypeList,
+                              "freqType": freqTypeList,
+                              "_freqType": _freqTypeList,
+                              "baseUnit": baseUnitList,
+                              "_baseUnit": _baseUnitList,
+                            };
+
+                            Navigator.push(
+                                //中药药品选择
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => tab1Active
+                                        ? AddDrugList(
+                                            instructionsMap: map,
+                                          )
+                                        : AddChineseMedicineList(
+                                            selectedDrugList: [],
+                                          ))).then((value) {
+                              print(value);
+                              if (tab2Active) {
+                                //中药处方
+                                setState(() {
+                                  drugList.addAll(value);
+                                  calculateThePrice();
+                                });
+                              }
+                            });
+                          },
+                          child: Text(
+                            '添加药品',
+                            style: GSYConstant.textStyle(color: '#06B48D'),
+                          ))
                     ],
                   ),
                 ),
-              ),
-              const SizedBox(
-                height: 8.0,
-              ),
-              ListTile(
-                tileColor: Colors.white,
-                title: const Text('RP'),
-                trailing: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    SvgUtil.svg(
-                      'increment.svg',
-                    ),
-                    TextButton(
-                        onPressed: () {
-                          Map map = {
-                            "useType": useTypeList,
-                            "_useType": _useTypeList,
-                            "freqType": freqTypeList,
-                            "_freqType": _freqTypeList,
-                            "baseUnit": baseUnitList,
-                            "_baseUnit": _baseUnitList,
-                          };
-
-                          Navigator.push(
-                              //中药药品选择
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => tab1Active
-                                      ? AddDrugList(
-                                          instructionsMap: map,
-                                        )
-                                      : AddChineseMedicineList(
-                                          selectedDrugList: [],
-                                        ))).then((value) {
-                            print(value);
-                            if (tab2Active) {
-                              //中药处方
-                              setState(() {
-                                drugList.addAll(value);
-                                calculateThePrice();
-                              });
-                            }
-                          });
-                        },
-                        child: Text(
-                          '添加药品',
-                          style: GSYConstant.textStyle(color: '#06B48D'),
-                        ))
-                  ],
-                ),
-              ),
-              Offstage(
-                offstage: !drugList.isNotEmpty,
-                child: tab1Active
-                    ? ListView(
-                        shrinkWrap: true,
-                        children: drugList
-                            .asMap()
-                            .keys
-                            .map((index) => Slidable(
-                                endActionPane: ActionPane(
-                                  motion: const ScrollMotion(),
-                                  children: [
-                                    SlidableAction(
-                                      // An action can be bigger than the others.
-                                      // flex: 2,
-                                      onPressed: (BuildContext context) {
-                                        setState(() {
-                                          drugList.removeAt(index);
-                                        });
-                                      },
-                                      backgroundColor: const Color(0xFFFE4A49),
-                                      foregroundColor: Colors.white,
-                                      icon: Icons.delete,
-                                      label: '删除',
-                                    ),
-                                  ],
-                                ),
-                                child: Container(
-                                    decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        border: Border(
-                                            bottom: BorderSide(
-                                          width: 1.0,
-                                          color: ColorsUtil.hexStringColor(
-                                              '#cccccc',
-                                              alpha: 0.3),
-                                        ))),
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 16.0),
-                                    child: Column(
-                                      children: <Widget>[
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              top: 11.0, bottom: 14.0),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: <Widget>[
-                                              Expanded(
-                                                child: Column(
+                Offstage(
+                  offstage: !drugList.isNotEmpty,
+                  child: tab1Active
+                      ? ListView(
+                          shrinkWrap: true,
+                          children: drugList
+                              .asMap()
+                              .keys
+                              .map((index) => Slidable(
+                                  endActionPane: ActionPane(
+                                    motion: const ScrollMotion(),
+                                    children: [
+                                      SlidableAction(
+                                        // An action can be bigger than the others.
+                                        // flex: 2,
+                                        onPressed: (BuildContext context) {
+                                          setState(() {
+                                            drugList.removeAt(index);
+                                          });
+                                        },
+                                        backgroundColor:
+                                            const Color(0xFFFE4A49),
+                                        foregroundColor: Colors.white,
+                                        icon: Icons.delete,
+                                        label: '删除',
+                                      ),
+                                    ],
+                                  ),
+                                  child: Container(
+                                      decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          border: Border(
+                                              bottom: BorderSide(
+                                            width: 1.0,
+                                            color: ColorsUtil.hexStringColor(
+                                                '#cccccc',
+                                                alpha: 0.3),
+                                          ))),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 16.0),
+                                      child: Column(
+                                        children: <Widget>[
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                top: 11.0, bottom: 14.0),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: <Widget>[
+                                                Expanded(
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: <Widget>[
+                                                      Text(
+                                                        drugList[index][
+                                                                'medicinename'] +
+                                                            " " +
+                                                            drugList[index][
+                                                                "specification"] +
+                                                            "/" +
+                                                            drugList[index][
+                                                                "packageUnitid_dictValue"],
+                                                        style: GSYConstant
+                                                            .textStyle(
+                                                                color:
+                                                                    '#333333'),
+                                                      ),
+                                                      const SizedBox(
+                                                        height: 4.0,
+                                                      ),
+                                                      Text(
+                                                        drugList[index]
+                                                                ['usage'] +
+                                                            "：" +
+                                                            drugList[index]
+                                                                ['frequency'] +
+                                                            "," +
+                                                            drugList[index]
+                                                                ['dosage'] +
+                                                            drugList[index]
+                                                                ['baseUnit'],
+                                                        style: GSYConstant
+                                                            .textStyle(
+                                                                fontSize: 13.0,
+                                                                color:
+                                                                    '#666666'),
+                                                      ),
+                                                      (drugList[index]['remark']
+                                                                      ?.toString() ??
+                                                                  '')
+                                                              .isNotEmpty
+                                                          ? Container(
+                                                              margin:
+                                                                  const EdgeInsets
+                                                                          .only(
+                                                                      top: 4.0),
+                                                              child: Text(
+                                                                  '备注：${drugList[index]['remark']}',
+                                                                  style: GSYConstant.textStyle(
+                                                                      fontSize:
+                                                                          13.0,
+                                                                      color:
+                                                                          '#666666')),
+                                                            )
+                                                          : Container()
+                                                    ],
+                                                  ),
+                                                ),
+                                                Expanded(
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment.end,
+                                                    children: <Widget>[
+                                                      Text(
+                                                        '¥${drugList[index]['unitprice']}',
+                                                        style: GSYConstant
+                                                            .textStyle(
+                                                                fontSize: 10.0,
+                                                                color:
+                                                                    '#333333'),
+                                                      ),
+                                                      const SizedBox(
+                                                        height: 5.0,
+                                                      ),
+                                                      Text(
+                                                        'x ${drugList[index]['count'].toString()}',
+                                                        style: GSYConstant
+                                                            .textStyle(
+                                                                fontSize: 12.0,
+                                                                color:
+                                                                    '#888888'),
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          index != drugList.length - 1
+                                              ? Divider(
+                                                  height: 0,
+                                                  color:
+                                                      ColorsUtil.hexStringColor(
+                                                          '#cccccc',
+                                                          alpha: 0.3),
+                                                )
+                                              : Container()
+                                        ],
+                                      ))))
+                              .toList()) //西药处方
+                      : ListView(
+                          shrinkWrap: true,
+                          children: drugList
+                              .asMap()
+                              .keys
+                              .map((index) => Slidable(
+                                  endActionPane: ActionPane(
+                                    motion: const ScrollMotion(),
+                                    children: [
+                                      SlidableAction(
+                                        onPressed: (BuildContext context) {
+                                          setState(() {
+                                            drugList.removeAt(index);
+                                          });
+                                        },
+                                        backgroundColor:
+                                            const Color(0xFFFE4A49),
+                                        foregroundColor: Colors.white,
+                                        icon: Icons.delete,
+                                        label: '删除',
+                                      ),
+                                    ],
+                                  ),
+                                  child: Container(
+                                      decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          border: Border(
+                                              bottom: BorderSide(
+                                            width: 1.0,
+                                            color: ColorsUtil.hexStringColor(
+                                                '#cccccc',
+                                                alpha: 0.3),
+                                          ))),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 16.0),
+                                      child: Column(
+                                        children: <Widget>[
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                top: 11.0, bottom: 14.0),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: <Widget>[
+                                                Column(
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.start,
                                                   children: <Widget>[
                                                     Text(
                                                       drugList[index]
-                                                              ['medicinename'] +
-                                                          " " +
-                                                          drugList[index][
-                                                              "specification"] +
-                                                          "/" +
-                                                          drugList[index][
-                                                              "packageUnitid_dictValue"],
+                                                          ['medicinename'],
                                                       style:
                                                           GSYConstant.textStyle(
                                                               color: '#333333'),
@@ -958,17 +1106,11 @@ class _MakePrescriptionState extends State<MakePrescription> {
                                                       height: 4.0,
                                                     ),
                                                     Text(
-                                                      drugList[index]['usage'] +
-                                                          "：" +
-                                                          drugList[index]
-                                                              ['frequency'] +
-                                                          "," +
-                                                          drugList[index]
-                                                              ['dosage']+drugList[index]['baseUnit'],
+                                                      "用量：${drugList[index]['specification']}",
                                                       style:
                                                           GSYConstant.textStyle(
                                                               fontSize: 13.0,
-                                                              color: '#666666'),
+                                                              color: '#999999'),
                                                     ),
                                                     (drugList[index]['remark']
                                                                     ?.toString() ??
@@ -986,22 +1128,20 @@ class _MakePrescriptionState extends State<MakePrescription> {
                                                                         fontSize:
                                                                             13.0,
                                                                         color:
-                                                                            '#666666')),
+                                                                            '#999999')),
                                                           )
                                                         : Container()
                                                   ],
                                                 ),
-                                              ),
-                                              Expanded(
-                                                child: Column(
+                                                Column(
                                                   crossAxisAlignment:
-                                                      CrossAxisAlignment.end,
+                                                      CrossAxisAlignment.start,
                                                   children: <Widget>[
                                                     Text(
                                                       '¥${drugList[index]['unitprice']}',
                                                       style:
                                                           GSYConstant.textStyle(
-                                                              fontSize: 10.0,
+                                                              fontSize: 12.0,
                                                               color: '#333333'),
                                                     ),
                                                     const SizedBox(
@@ -1016,219 +1156,97 @@ class _MakePrescriptionState extends State<MakePrescription> {
                                                     )
                                                   ],
                                                 ),
-                                              ),
-                                            ],
+                                              ],
+                                            ),
                                           ),
-                                        ),
-                                        index != drugList.length - 1
-                                            ? Divider(
-                                                height: 0,
-                                                color:
-                                                    ColorsUtil.hexStringColor(
-                                                        '#cccccc',
-                                                        alpha: 0.3),
-                                              )
-                                            : Container()
-                                      ],
-                                    ))))
-                            .toList()) //西药处方
-                    : ListView(
-                        shrinkWrap: true,
-                        children: drugList
-                            .asMap()
-                            .keys
-                            .map((index) => Slidable(
-                                endActionPane: ActionPane(
-                                  motion: const ScrollMotion(),
-                                  children: [
-                                    SlidableAction(
-                                      onPressed: (BuildContext context) {
-                                        setState(() {
-                                          drugList.removeAt(index);
-                                        });
-                                      },
-                                      backgroundColor: const Color(0xFFFE4A49),
-                                      foregroundColor: Colors.white,
-                                      icon: Icons.delete,
-                                      label: '删除',
-                                    ),
-                                  ],
-                                ),
-                                child: Container(
-                                    decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        border: Border(
-                                            bottom: BorderSide(
-                                          width: 1.0,
-                                          color: ColorsUtil.hexStringColor(
-                                              '#cccccc',
-                                              alpha: 0.3),
-                                        ))),
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 16.0),
-                                    child: Column(
-                                      children: <Widget>[
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              top: 11.0, bottom: 14.0),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: <Widget>[
-                                              Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: <Widget>[
-                                                  Text(
-                                                    drugList[index]
-                                                        ['medicinename'],
-                                                    style:
-                                                        GSYConstant.textStyle(
-                                                            color: '#333333'),
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 4.0,
-                                                  ),
-                                                  Text(
-                                                    "用量：${drugList[index]['specification']}",
-                                                    style:
-                                                        GSYConstant.textStyle(
-                                                            fontSize: 13.0,
-                                                            color: '#999999'),
-                                                  ),
-                                                  (drugList[index]['remark']
-                                                                  ?.toString() ??
-                                                              '')
-                                                          .isNotEmpty
-                                                      ? Container(
-                                                          margin:
-                                                              const EdgeInsets
-                                                                      .only(
-                                                                  top: 4.0),
-                                                          child: Text(
-                                                              '备注：${drugList[index]['remark']}',
-                                                              style: GSYConstant
-                                                                  .textStyle(
-                                                                      fontSize:
-                                                                          13.0,
-                                                                      color:
-                                                                          '#999999')),
-                                                        )
-                                                      : Container()
-                                                ],
-                                              ),
-                                              Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: <Widget>[
-                                                  Text(
-                                                    '¥${drugList[index]['unitprice']}',
-                                                    style:
-                                                        GSYConstant.textStyle(
-                                                            fontSize: 12.0,
-                                                            color: '#333333'),
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 5.0,
-                                                  ),
-                                                  Text(
-                                                    'x ${drugList[index]['count'].toString()}',
-                                                    style:
-                                                        GSYConstant.textStyle(
-                                                            fontSize: 12.0,
-                                                            color: '#888888'),
-                                                  )
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        index != drugList.length - 1
-                                            ? Divider(
-                                                height: 0,
-                                                color:
-                                                    ColorsUtil.hexStringColor(
-                                                        '#cccccc',
-                                                        alpha: 0.3),
-                                              )
-                                            : Container()
-                                      ],
-                                    ))))
-                            .toList()), //中药处方
-              ),
-              Offstage(
-                offstage: drugList.isNotEmpty,
-                child: Container(
-                  width: double.infinity,
-                  alignment: Alignment.center,
-                  padding: const EdgeInsets.only(top: 25.0, bottom: 31.0),
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                  ),
-                  child: Text(
-                    '暂时还没有药品添加',
-                    style:
-                        GSYConstant.textStyle(fontSize: 13.0, color: '#666666'),
+                                          index != drugList.length - 1
+                                              ? Divider(
+                                                  height: 0,
+                                                  color:
+                                                      ColorsUtil.hexStringColor(
+                                                          '#cccccc',
+                                                          alpha: 0.3),
+                                                )
+                                              : Container()
+                                        ],
+                                      ))))
+                              .toList()), //中药处方
+                ),
+                Offstage(
+                  offstage: drugList.isNotEmpty,
+                  child: Container(
+                    width: double.infinity,
+                    alignment: Alignment.center,
+                    padding: const EdgeInsets.only(top: 25.0, bottom: 31.0),
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                    ),
+                    child: Text(
+                      '暂时还没有药品添加',
+                      style: GSYConstant.textStyle(
+                          fontSize: 13.0, color: '#666666'),
+                    ),
                   ),
                 ),
-              ),
-              drugList.isNotEmpty
-                  ? Divider(
-                      height: 0,
-                      color: ColorsUtil.hexStringColor('#cccccc', alpha: 0.3),
-                    )
-                  : Container(),
-              drugList.isNotEmpty
-                  ? Container(
-                      height: 40.0,
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      decoration: const BoxDecoration(color: Colors.white),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text(
-                            '共${drugList.length}件',
-                            style: GSYConstant.textStyle(
-                                fontSize: 13.0, color: '#999999'),
-                          ),
-                          Row(
-                            children: <Widget>[
-                              Text(
-                                '合计:',
-                                style: GSYConstant.textStyle(
-                                    fontSize: 13.0, color: '#333333'),
-                              ),
-                              Text(
-                                '¥ ' + totalPrice.toStringAsFixed(2),
-                                style: GSYConstant.textStyle(
-                                    fontFamily: 'Medium',
-                                    fontSize: 16.0,
-                                    color: '#06B48D'),
-                              )
-                            ],
-                          ),
-                        ],
-                      ),
-                    )
-                  : Container(),
-              Container(
-                margin: const EdgeInsets.only(top: 30.0),
-                alignment: Alignment.bottomCenter,
-                child: SafeAreaButton(
-                    text: '电子签名',
-                    onPressed: () {
-                      if (prescriptionId.isEmpty) {
-                        getNet_createPrescription();
-                      } else {
-                        //从授权界面返回，直接签名
-                        getNet_userSignature();
-                      }
-                    }),
-              )
-            ],
+                drugList.isNotEmpty
+                    ? Divider(
+                        height: 0,
+                        color: ColorsUtil.hexStringColor('#cccccc', alpha: 0.3),
+                      )
+                    : Container(),
+                drugList.isNotEmpty
+                    ? Container(
+                        height: 40.0,
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        decoration: const BoxDecoration(color: Colors.white),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Text(
+                              '共${drugList.length}件',
+                              style: GSYConstant.textStyle(
+                                  fontSize: 13.0, color: '#999999'),
+                            ),
+                            Row(
+                              children: <Widget>[
+                                Text(
+                                  '合计:',
+                                  style: GSYConstant.textStyle(
+                                      fontSize: 13.0, color: '#333333'),
+                                ),
+                                Text(
+                                  '¥ ' + totalPrice.toStringAsFixed(2),
+                                  style: GSYConstant.textStyle(
+                                      fontFamily: 'Medium',
+                                      fontSize: 16.0,
+                                      color: '#06B48D'),
+                                )
+                              ],
+                            ),
+                          ],
+                        ),
+                      )
+                    : Container(),
+              ],
+            ),
           ),
-        ));
+        ),
+        Container(
+          margin:const EdgeInsets.only(bottom: 16.0),
+          // margin: const EdgeInsets.only(top: 30.0),
+          alignment: Alignment.bottomCenter,
+          child: SafeAreaButton(
+              text: '电子签名',
+              onPressed: () {
+                if (prescriptionId.isEmpty) {
+                  getNet_createPrescription();
+                } else {
+                  //从授权界面返回，直接签名
+                  getNet_userSignature();
+                }
+              }),
+        )
+      ]),
+    );
   }
 }

@@ -2,8 +2,11 @@ import 'dart:io';
 
 import 'package:doctor_project/common/style/gsy_style.dart';
 import 'package:doctor_project/http/api.dart';
+import 'package:doctor_project/http/http_request.dart';
 import 'package:doctor_project/pages/login/verify_mobile.dart';
+import 'package:doctor_project/utils/common_utils.dart';
 import 'package:doctor_project/utils/svg_util.dart';
+import 'package:doctor_project/utils/toast_util.dart';
 import 'package:doctor_project/widget/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
@@ -33,45 +36,27 @@ class RegisterContentStates extends State<LoginPage> {
 
   @override
   void postNet_Login() async {
-
-    // loginStr = "15038342183";
-    // loginPas = "aB123456?";
-    var dio = new Dio();
-    var response = await dio.post(
-        Api.BASE_URL+'/doctor/dr-service/ba-doctor-user/doLogin',
-        data: {
-          "key": loginStr,
-          "password": loginPas,
-        });
-    String mess = response.data['msg'];
-
-    if (response.data['code'] != 200) {
-      Fluttertoast.showToast(msg: mess, gravity: ToastGravity.CENTER);
-    } else {
-
-      String tokenValueStr = response.data['data']['tokenValue'];
+    var request = HttpRequest.getInstance();
+    var res = await request.post(Api.loginApi, {'key':loginStr,'password':loginPas});
+    if(res['code']==200){
+      String tokenValueStr = res['data']['tokenValue'];
       SharedPreferences perfer = await SharedPreferences.getInstance();
       perfer.setString('phone', loginStr);
-      bool isSuccess = await perfer.setString(
+      perfer.setString(
           'tokenValue', tokenValueStr);
-      print(
-          'SharedPreferences$isSuccess' + tokenValueStr);
-      postNet_bindRid();
-
-      // Fluttertoast.showToast(msg: '登录成功', gravity: ToastGravity.CENTER);
-      //
-      // SharedPreferences perfer = await SharedPreferences.getInstance();
-      // bool isSuccess = await perfer.setString(
-      //     'tokenValue', response.data['data']['tokenValue']);
-      // print(
-      //     'SharedPreferences$isSuccess' + response.data['data']['tokenValue']);
-      // Navigator.pushNamed(context, '/TabHome');
+      String? jpushTokenStr = perfer.getString("jpushToken");
+      var result = await request.post(Api.bindJG, { "jigId":jpushTokenStr,
+        "channel" : Platform.isAndroid ? "Android" : "iOS"});
+      if(result['code']==200){
+        ToastUtil.showToast(msg: '登录成功');
+        Navigator.pushNamed(context, '/TabHome');
+      }else{
+        ToastUtil.showToast(msg: result['msg']);
+      }
+    }else{
+      ToastUtil.showToast(msg: res['msg']);
     }
 
-    // _content = response.data.toString();
-    print(response.data.toString() + "" + loginStr + loginPas);
-
-    // Navigator.pushNamed(context, '/registerSuccess');
   }
 
   //测试代码
@@ -92,42 +77,10 @@ class RegisterContentStates extends State<LoginPage> {
     print("data= " + response.data.toString() + "----url= " + response.realUri.toString());
   }
 
-@override
-//用户绑定极光推送 接口
-void postNet_bindRid () async{
-
-    SharedPreferences perfer = await SharedPreferences.getInstance();
-    String? tokenValueStr = perfer.getString("tokenValue");
-    String? jpushTokenStr = perfer.getString("jpushToken");
-    print("取出储存的jPush注册id:$jpushTokenStr  ----isAndroid" + Platform.isAndroid.toString());
-
-    var dio = new Dio();
-    dio.options.headers = {
-      "token": tokenValueStr,
-    };
-    var response = await dio.post(
-        Api.BASE_URL+'/doctor/dr-service/jig/bindRid',
-        data: {
-          "jigId":jpushTokenStr,
-          "channel" : Platform.isAndroid ? "Android" : "iOS",
-        });
-    String mess = response.data['msg'];
-    print("data= " + response.data.toString() + "url= " + response.realUri.toString());
-
-    if(response.data['code']!=200)
-    {
-      Fluttertoast.showToast(msg: mess,gravity: ToastGravity.CENTER);
-      return;
-    }else
-    {
-      Fluttertoast.showToast(msg: '登录成功', gravity: ToastGravity.CENTER);
-      Navigator.pushNamed(context, '/TabHome');
-    }
-  }
-
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: CustomAppBar(
         '',
         onBackPressed: () {
@@ -136,6 +89,7 @@ void postNet_bindRid () async{
           SystemChannels.platform.invokeMethod('SystemNavigator.pop');
         },
       ),
+      backgroundColor: Colors.white,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
@@ -327,8 +281,7 @@ void postNet_bindRid () async{
                                   msg: '请勾选服务', gravity: ToastGravity.CENTER);
                               return;
                             }
-
-                            postNet_Login();
+                            CommonUtils.throttle(postNet_Login,durationTime: 500);
                             // showDialog(context: context, builder: (BuildContext context) {
                             //   return DialogPage();
                             // });

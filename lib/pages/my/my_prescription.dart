@@ -30,12 +30,12 @@ class _MyPrescriptionState extends State<MyPrescription> {
   String status = '';
   List tabList = [
     {'label': '全部', 'checked': true, 'value': ''},
-    {'label': '已撤销', 'checked': false, 'value': '1'},
-    {'label': '未通过', 'checked': false, 'value': '2'},
-    {'label': '已审核', 'checked': false, 'value': '3'},
     {'label': '审核中', 'checked': false, 'value': '4'},
-    {'label':'审核超时','checked':false,'value':'5'},
-    {'label': '已取消', 'checked': false, 'value': '6'},
+    {'label': '已审核', 'checked': false, 'value': '3'},
+    {'label': '未通过', 'checked': false, 'value': '2'},
+    {'label': '已撤销', 'checked': false, 'value': '1'},
+    {'label':'已失效','checked':false,'value':'5'},
+    // {'label': '已取消', 'checked': false, 'value': '6'},
   ];
   String userId;
 

@@ -288,7 +288,7 @@ class HomeState extends State<Home> {
                                   const EdgeInsets.symmetric(horizontal: 13.0),
                               height: 28.0,
                               onPressed: () async {
-                                var result = await showDialog(
+                                showDialog(
                                     barrierDismissible: false,
                                     context: context,
                                     builder: (_) => WillPopScope(
