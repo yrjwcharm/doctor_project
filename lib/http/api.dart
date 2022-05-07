@@ -27,6 +27,7 @@ class Api {
   static const getRpListApi = "/doctor/dr-service/recipe/getList";
   static const getRpDetailApi = "/doctor/dr-service/recipe/queryRecipe";
   static const  revokeRpApi = '/doctor/dr-service/recipe/cancel';
+  static const  view360Api ='https://interhospital.youjiankang.net/360view/#/?paId=202208018';
 
 
 }

@@ -1,4 +1,4 @@
-import 'package:doctor_project/pages/home/Prescription_list.dart';
+import 'package:doctor_project/pages/my/rp_detail.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import '../../http/http_request.dart';
 import '../../http/api.dart';
@@ -51,8 +51,28 @@ class _electronicSignaturePageState extends State<electronicSignaturePage> {
     });
     print("getNet_YXQSignData------" +res.toString());
     if (res['code'] == 200) {
-
-      Navigator.push(context, MaterialPageRoute(builder: (context)=> PrescriptionList(registeredId: registeredId, category: category)));
+       var request = HttpRequest.getInstance();
+       var result = await request.get(Api.prescriptionListUrl+'?registerId=$registeredId&category=$category', {});
+        Map<String,dynamic> patientVO={},item={};
+       if(result['code']==200){
+         print('11111${result['data']}');
+         patientVO = result['data'][0]['patientVO'];
+         item= result['data'][0];
+       }
+       List<String>  diagnosis = [];
+       (item['diagnosisVOS']??[]).forEach((element) {
+         diagnosis.add(element['diagnosisName']);
+       });
+       print('111111111$diagnosis');
+       String str = '';
+       diagnosis.forEach((f){
+         if(str == ''){
+           str = "$f";
+         }else {
+           str = "$str"",""$f";
+         }
+       });
+      Navigator.push(context, MaterialPageRoute(builder: (context)=> RecipeDetail(rpDetailItem: {...item,...patientVO}, diagnosis: str,)));
 
     }else{
       Fluttertoast.showToast(msg: res['msg'], gravity: ToastGravity.CENTER);

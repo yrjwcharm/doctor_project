@@ -133,6 +133,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
 
   //新建处方接口
   void getNet_createPrescription() async {
+    print('55555555,${drugList.toString()}');
     if (pharmacyId.isEmpty) {
       Fluttertoast.showToast(msg: "请选择药房", gravity: ToastGravity.CENTER);
       return;

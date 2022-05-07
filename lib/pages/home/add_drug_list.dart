@@ -63,11 +63,11 @@ class _AddDrugListState extends State<AddDrugList> {
     String? tokenValueStr = perfer.getString("tokenValue");
     print("111111" + tokenValueStr.toString());
 
-    var dio = new Dio();
+    var dio = Dio();
     dio.options.headers = {
       "token": tokenValueStr,
     };
-
+    print('54689,${type}');
     String urlStr =Api.BASE_URL+ "/doctor/dr-service/medicine/getList?keyword=" + _editingController.text + "&type=" +type.toString() +"&page=" +_page.toString() + "&size=" +pageSize.toString();
     var response = await dio.get(urlStr);
 

@@ -267,7 +267,7 @@ class _OrderDetailState extends State<OrderDetail> {
                         context,
                         MaterialPageRoute(
                             builder: (context) => GSYWebView(
-                                  'https://interhospital.youjiankang.net/360view/#/?paId=000000563',
+                                  Api.view360Api,
                                 )));
                   },
                   child: Container(

@@ -5,6 +5,7 @@ import 'package:doctor_project/common/style/gsy_style.dart';
 import 'package:doctor_project/http/http_request.dart';
 import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:doctor_project/utils/svg_util.dart';
+import 'package:doctor_project/utils/toast_util.dart';
 import 'package:doctor_project/widget/custom_app_bar.dart';
 import 'package:doctor_project/widget/custom_elevated_button.dart';
 import 'package:doctor_project/widget/custom_outline_button.dart';
@@ -36,7 +37,7 @@ class _RecipeDetailState extends State<RecipeDetail> {
   @override
   void initState() {
     super.initState();
-    print('${this.rpDetailItem}');
+    print('5555,${this.rpDetailItem['status']}');
     initData();
   }
 
@@ -45,7 +46,7 @@ class _RecipeDetailState extends State<RecipeDetail> {
     var res = await request
         .get(Api.getRpDetailApi + '?recipeId=${rpDetailItem['id']}', {});
     if (res['code'] == 200) {
-      print('111111,${res['data']['doctorSign']}');
+      print('111111,${res['data']}');
       setState(() {
         medicineMap = res['data'];
       });
@@ -451,7 +452,7 @@ class _RecipeDetailState extends State<RecipeDetail> {
                                         CrossAxisAlignment.start,
                                     children: <Widget>[
                                       Text(
-                                        item['manuname'] ?? '',
+                                        item['medicineName'] ?? '',
                                         style: GSYConstant.textStyle(
                                             color: '#333333'),
                                       ),
@@ -635,8 +636,7 @@ class _RecipeDetailState extends State<RecipeDetail> {
                                                                   .all(16.0),
                                                           actions: [
                                                             Row(
-                                                              children: <
-                                                                  Widget>[
+                                                              children: <Widget>[
                                                                 Expanded(
                                                                     child:
                                                                         CustomOutlineButton(
@@ -652,8 +652,7 @@ class _RecipeDetailState extends State<RecipeDetail> {
                                                                   title: '取消',
                                                                   onPressed:
                                                                       () {
-                                                                    Navigator.pop(
-                                                                        context);
+                                                                    Navigator.pop(context);
                                                                   },
                                                                 )),
                                                                 const SizedBox(
@@ -672,7 +671,10 @@ class _RecipeDetailState extends State<RecipeDetail> {
                                                                             Api.revokeRpApi+'',
                                                                             {'id':rpDetailItem['id']});
                                                                     if(res['code']==200){
-                                                                      Navigator.pop(context);
+                                                                      // Navigator.pop(context);
+                                                                    }else{
+                                                                      // Navigator.pop(context);
+                                                                      ToastUtil.showToast(msg: res['msg']);
                                                                     }
                                                                   },
                                                                   height: 40.0,
