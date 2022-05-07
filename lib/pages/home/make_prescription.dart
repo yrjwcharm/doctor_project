@@ -168,8 +168,8 @@ class _MakePrescriptionState extends State<MakePrescription> {
 
       //中药无这几项值
       if (tab1Active) {
-        item["useType"] = drugList[j]["usage"];
-        item["freq"] = drugList[j]["frequency"] + "," + drugList[j]["dosage"];
+        item["useType"] = drugList[j]["_usage"];
+        item["freq"] = drugList[j]["_frequency"];
         item["dayNum"] = drugList[j]["medicationDays"];
         if (drugList[j]["remark"].isNotEmpty) {
           item["remarks"] = drugList[j]["remark"];
@@ -851,8 +851,11 @@ class _MakePrescriptionState extends State<MakePrescription> {
                         onPressed: () {
                           Map map = {
                             "useType": useTypeList,
+                            "_useType": _useTypeList,
                             "freqType": freqTypeList,
+                            "_freqType": _freqTypeList,
                             "baseUnit": baseUnitList,
+                            "_baseUnit": _baseUnitList,
                           };
 
                           Navigator.push(
@@ -961,7 +964,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
                                                               ['frequency'] +
                                                           "," +
                                                           drugList[index]
-                                                              ['dosage'],
+                                                              ['dosage']+drugList[index]['baseUnit'],
                                                       style:
                                                           GSYConstant.textStyle(
                                                               fontSize: 13.0,

@@ -14,18 +14,20 @@ import 'package:doctor_project/utils/event_bus_util.dart';
 import 'package:flutter_picker/flutter_picker.dart';
 import '../../utils/svg_util.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-class UseDrugInfo extends StatefulWidget {
 
-  Map drugInfoMap ; //药品信息
-  Map instructionsMap ; //药品使用方法列表（用量、服药单位、用法等）
-  UseDrugInfo({Key? key,required this.drugInfoMap, required this.instructionsMap}) : super(key: key);
+class UseDrugInfo extends StatefulWidget {
+  Map drugInfoMap; //药品信息
+  Map instructionsMap; //药品使用方法列表（用量、服药单位、用法等）
+  UseDrugInfo(
+      {Key? key, required this.drugInfoMap, required this.instructionsMap})
+      : super(key: key);
 
   @override
-  _UseDrugInfoState createState() => _UseDrugInfoState(drugInfoMap: this.drugInfoMap, instructionsMap: this.instructionsMap);
+  _UseDrugInfoState createState() => _UseDrugInfoState(
+      drugInfoMap: this.drugInfoMap, instructionsMap: this.instructionsMap);
 }
 
 class _UseDrugInfoState extends State<UseDrugInfo> {
-
   /* 药品信息
   新增字段：
      count 个数
@@ -35,11 +37,12 @@ class _UseDrugInfoState extends State<UseDrugInfo> {
      medicationDays 用药天数
      remark 备注
   */
-  Map drugInfoMap ;
-  Map instructionsMap ; //药品使用方法列表（用量、服药单位、用法等）
+  Map drugInfoMap;
+
+  Map instructionsMap; //药品使用方法列表（用量、服药单位、用法等）
   _UseDrugInfoState({required this.drugInfoMap, required this.instructionsMap});
 
-  bool isHaveData = false ; //是否是点击确认返回的
+  bool isHaveData = false; //是否是点击确认返回的
   final TextEditingController _editingController1 = TextEditingController();
   final TextEditingController _editingController2 = TextEditingController();
   final TextEditingController _editingController3 = TextEditingController();
@@ -59,10 +62,12 @@ class _UseDrugInfoState extends State<UseDrugInfo> {
     drugInfoMap['count'] = "1";
     drugInfoMap['dosage'] = "";
     drugInfoMap['frequency'] = "";
+    drugInfoMap['_frequency'] = "";
+    drugInfoMap['baseUnit'] = "";
     drugInfoMap['usage'] = "";
+    drugInfoMap['_usage'] = "";
     drugInfoMap['medicationDays'] = "";
     drugInfoMap['remark'] = "";
-
   }
 
   /*
@@ -70,76 +75,79 @@ class _UseDrugInfoState extends State<UseDrugInfo> {
   item 需要改变的数据源
   index 索引，用于区分需要改变的数据源参数为哪个
    */
-  List<Widget> dialogData(List<String> data, Map item, int index)
-  {
-    List <Widget> widgetList = [];
-    for(int i=0; i<data.length; i++){
-
+  List<Widget> dialogData(List<String> data, List _data, Map item, int index) {
+    List<Widget> widgetList = [];
+    for (int i = 0; i < data.length; i++) {
       StatelessWidget dialog = SimpleDialogOption(
         child: Text(data[i]),
-        onPressed: (){
+        onPressed: () {
           Navigator.of(context).pop();
+          item['placeholder'] = data[i];
+          if (index == 0) {
+            // drugInfoMap.update("dosage", (value) => item["placeholder"]);
+            drugInfoMap['_frequency'] = _data[i]['detailValue'];
+            drugInfoMap['frequency'] = data[i];
+          } else if (index == 1) {
+            drugInfoMap['_baseUnit'] = _data[i]['detailValue'];
+            drugInfoMap['baseUnit'] = data[i];
+          } else if (index == 2) {
+            drugInfoMap['_usage'] = _data[i]['detailValue'];
+            drugInfoMap['usage'] = data[i];
+            // drugInfoMap.update("usage", (value) => item["placeholder"]);
+          }
           setState(() {
-
-            item.update("placeholder", (value) => data[i]);
-            if(index ==0){
-              drugInfoMap.update("dosage", (value) => item["placeholder"]);
-            }else if(index ==2){
-
-              drugInfoMap.update("usage", (value) => item["placeholder"]);
-            }
+            // item.update("placeholder", (value) => data[i]);
           });
         },
       );
 
       widgetList.add(dialog);
-      widgetList.add(const Divider(),);
+      widgetList.add(
+        const Divider(),
+      );
     }
 
-    return widgetList ;
+    return widgetList;
   }
 
-  void _showSimpleDialog1() async{
-
-    var result=await showDialog(
-        useRootNavigator:false,
-        barrierDismissible:true,   //表示点击灰色背景的时候是否消失弹出框
-        context:context,
-        builder: (context){
+  void _showSimpleDialog1() async {
+    var result = await showDialog(
+        useRootNavigator: false,
+        barrierDismissible: true, //表示点击灰色背景的时候是否消失弹出框
+        context: context,
+        builder: (context) {
           return SimpleDialog(
             // title:Text(""),
-            children: dialogData(instructionsMap["freqType"], list[0], 0),
+            children: dialogData(instructionsMap["freqType"],
+                instructionsMap["_freqType"], list[0], 0),
           );
-        }
-    );
+        });
   }
 
-  void _showSimpleDialog2() async{
-
-    var result=await showDialog(
-        useRootNavigator:false,
-        barrierDismissible:true,   //表示点击灰色背景的时候是否消失弹出框
-        context:context,
-        builder: (context){
+  void _showSimpleDialog2() async {
+    var result = await showDialog(
+        useRootNavigator: false,
+        barrierDismissible: true, //表示点击灰色背景的时候是否消失弹出框
+        context: context,
+        builder: (context) {
           return SimpleDialog(
-            children: dialogData(instructionsMap["baseUnit"], list[1], 1),
+            children: dialogData(instructionsMap["baseUnit"],
+                instructionsMap["_baseUnit"], list[1], 1),
           );
-        }
-    );
+        });
   }
 
-  void _showSimpleDialog3() async{
-
-    var result=await showDialog(
-        useRootNavigator:false,
-        barrierDismissible:true,   //表示点击灰色背景的时候是否消失弹出框
-        context:context,
-        builder: (context){
+  void _showSimpleDialog3() async {
+    var result = await showDialog(
+        useRootNavigator: false,
+        barrierDismissible: true, //表示点击灰色背景的时候是否消失弹出框
+        context: context,
+        builder: (context) {
           return SimpleDialog(
-            children: dialogData(instructionsMap["useType"], list[2], 2),
+            children: dialogData(instructionsMap["useType"],
+                instructionsMap["_useType"], list[2], 2),
           );
-        }
-    );
+        });
   }
 
   @override
@@ -157,205 +165,216 @@ class _UseDrugInfoState extends State<UseDrugInfo> {
         children: <Widget>[
           Expanded(
               child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Container(
-                      height: 40.0,
-                      padding: const EdgeInsets.only(left: 16.0),
-                      alignment: Alignment.centerLeft,
-                      decoration: const BoxDecoration(color: Colors.white),
-                      child: Text(
-                        '请依据上传的病历/疾病资料，选择准确的药品名称、剂量和规格',
-                        style:
+            child: Column(
+              children: [
+                Container(
+                  height: 40.0,
+                  padding: const EdgeInsets.only(left: 16.0),
+                  alignment: Alignment.centerLeft,
+                  decoration: const BoxDecoration(color: Colors.white),
+                  child: Text(
+                    '请依据上传的病历/疾病资料，选择准确的药品名称、剂量和规格',
+                    style:
                         GSYConstant.textStyle(fontSize: 12.0, color: '#EC605D'),
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.only(top: 10.0),
+                  padding: const EdgeInsets.only(
+                      top: 10, bottom: 14.0, left: 16.0, right: 16.0),
+                  decoration: const BoxDecoration(color: Colors.white),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            const SizedBox(
+                              height: 3.0,
+                            ),
+                            Text(
+                              drugInfoMap["medicinename"],
+                              style: GSYConstant.textStyle(
+                                  fontSize: 15.0, color: '#333333'),
+                            ),
+                            const SizedBox(
+                              height: 6.0,
+                            ),
+                            Text(
+                              //packageUnitid_dictText
+                              '规格：' +
+                                  drugInfoMap["specification"] +
+                                  "/" +
+                                  drugInfoMap["packageUnitid_dictValue"],
+                              style: GSYConstant.textStyle(
+                                  fontSize: 13.0, color: '#888888'),
+                            ),
+                            Text(
+                              drugInfoMap["manuname"],
+                              style: GSYConstant.textStyle(
+                                  fontSize: 13.0, color: '#888888'),
+                            )
+                          ],
+                        ),
                       ),
-                    ),
-                    Container(
-                      margin: const EdgeInsets.only(top: 10.0),
-                      padding: const EdgeInsets.only(
-                          top: 10, bottom: 14.0, left: 16.0, right: 16.0),
-                      decoration: const BoxDecoration(color: Colors.white),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Expanded(
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Container(
+                              // transform: Matrix4.translationValues(0, -3.0, 0),
+                              width: 90,
+                              height: 25,
+                              margin: const EdgeInsets.only(bottom: 7.0),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(2.0),
+                                  border: Border.all(
+                                      width: 1.0,
+                                      color: ColorsUtil.hexStringColor(
+                                          '#cccccc'))),
+                              child: Row(
+                                children: <Widget>[
+                                  GestureDetector(
+                                    onTap: () {
+                                      int count =
+                                          int.parse(drugInfoMap['count']);
+                                      count--;
+                                      if (count < 1) {
+                                        return;
+                                      }
+                                      drugInfoMap['count'] = count.toString();
 
-                            child:
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              const SizedBox(
-                                height: 3.0,
-                              ),
-                              Text(
-                                drugInfoMap["medicinename"],
-                                style: GSYConstant.textStyle(
-                                    fontSize: 15.0, color: '#333333'),
-                              ),
-                              const SizedBox(
-                                height: 6.0,
-                              ),
-                              Text( //packageUnitid_dictText
-                                '规格：' +drugInfoMap["specification"] +"/" +drugInfoMap["packageUnitid_dictValue"],
-                                style: GSYConstant.textStyle(
-                                    fontSize: 13.0, color: '#888888'),
-                              ),
-                              Text(
-                                drugInfoMap["manuname"],
-                                style: GSYConstant.textStyle(
-                                    fontSize: 13.0, color: '#888888'),
-                              )
-                            ],
-                          ),),
-                          Expanded(child:
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Container(
-                                // transform: Matrix4.translationValues(0, -3.0, 0),
-                                width: 90,
-                                height: 25,
-                                margin: const EdgeInsets.only(bottom: 7.0),
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(2.0),
-                                    border: Border.all(
-                                        width: 1.0,
-                                        color:
-                                        ColorsUtil.hexStringColor('#cccccc'))),
-                                child: Row(
-                                  children: <Widget>[
-                                    GestureDetector(
-                                      onTap:(){
-                                        int count = int.parse(drugInfoMap['count']) ;
-                                        count -- ;
-                                        if(count<1){
-                                          return;
-                                        }
-                                        drugInfoMap['count']=count.toString();
-
-                                        setState(() {
-                                          drugInfoMap;
-                                        });
-                                      },
-                                      child: Container(
-                                        alignment: Alignment.center,
-                                        width: 26,
-                                        decoration: BoxDecoration(
-                                            border: Border(
-                                                right: BorderSide(
-                                                    width: 1.0,
-                                                    color: ColorsUtil.hexStringColor(
-                                                        '#cccccc')))),
-                                        child: SvgUtil.svg('minus.svg'),
-                                      ),
-                                    ),
-                                    Container(
-                                      width: 35.0,
-                                      height: 25.0,
+                                      setState(() {
+                                        drugInfoMap;
+                                      });
+                                    },
+                                    child: Container(
+                                      alignment: Alignment.center,
+                                      width: 26,
                                       decoration: BoxDecoration(
                                           border: Border(
                                               right: BorderSide(
                                                   width: 1.0,
-                                                  color: ColorsUtil.hexStringColor(
-                                                      '#cccccc')))),
-                                      child: TextField(
-                                        keyboardType: TextInputType.number,
-                                        style: GSYConstant.textStyle(
-                                            fontSize: 12.0, color: '#333333'),
-                                        textAlign: TextAlign.center,
-                                        inputFormatters: [
-                                          FilteringTextInputFormatter.allow(
-                                              RegExp("[0-9]")), //数字包括小数
-                                        ],
-                                        textAlignVertical: TextAlignVertical.center,
-                                        decoration: InputDecoration(
-                                            isDense: true,
-                                            contentPadding: const EdgeInsets.all(2),
-                                            fillColor: Colors.transparent,
-                                            filled: true,
-                                            hintText: drugInfoMap["count"],
-                                            hintStyle: TextStyle(
-                                                fontFamily: 'Medium',
-                                                fontSize: 12.0,
-                                                fontWeight: FontWeight.w500,
-                                                color: ColorsUtil.hexStringColor(
-                                                    '#333333')),
-                                            border: InputBorder.none),
-                                        onChanged: (value){
-                                          if(value.isNotEmpty){
-                                            drugInfoMap['count']=value;
-
-                                            setState(() {
-                                              drugInfoMap;
-                                            });
-                                          }
-                                        },
-                                        onSubmitted: (value){
-                                          if(value.isNotEmpty){
-                                            drugInfoMap["count"] = value;
-                                            setState(() {
-                                              drugInfoMap;
-                                            });
-                                          }
-                                        },
-                                      ),
+                                                  color:
+                                                      ColorsUtil.hexStringColor(
+                                                          '#cccccc')))),
+                                      child: SvgUtil.svg('minus.svg'),
                                     ),
-                                    GestureDetector(
-                                      onTap: (){
-                                        int count = int.parse(drugInfoMap['count']) ;
-                                        count ++ ;
-                                        if(count>200){
-                                          ToastUtil.showToast(msg: '数量不能超过200');
-                                          return;
+                                  ),
+                                  Container(
+                                    width: 35.0,
+                                    height: 25.0,
+                                    decoration: BoxDecoration(
+                                        border: Border(
+                                            right: BorderSide(
+                                                width: 1.0,
+                                                color:
+                                                    ColorsUtil.hexStringColor(
+                                                        '#cccccc')))),
+                                    child: TextField(
+                                      keyboardType: TextInputType.number,
+                                      style: GSYConstant.textStyle(
+                                          fontSize: 12.0, color: '#333333'),
+                                      textAlign: TextAlign.center,
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(
+                                            RegExp("[0-9]")), //数字包括小数
+                                      ],
+                                      textAlignVertical:
+                                          TextAlignVertical.center,
+                                      decoration: InputDecoration(
+                                          isDense: true,
+                                          contentPadding:
+                                              const EdgeInsets.all(2),
+                                          fillColor: Colors.transparent,
+                                          filled: true,
+                                          hintText: drugInfoMap["count"],
+                                          hintStyle: TextStyle(
+                                              fontFamily: 'Medium',
+                                              fontSize: 12.0,
+                                              fontWeight: FontWeight.w500,
+                                              color: ColorsUtil.hexStringColor(
+                                                  '#333333')),
+                                          border: InputBorder.none),
+                                      onChanged: (value) {
+                                        if (value.isNotEmpty) {
+                                          drugInfoMap['count'] = value;
+
+                                          setState(() {
+                                            drugInfoMap;
+                                          });
                                         }
-                                        drugInfoMap['count']=count.toString();
-
-                                        setState(() {
-                                          drugInfoMap;
-                                        });
                                       },
-                                      child: Container(
-                                        alignment: Alignment.center,
-                                        width: 26,
-                                        child: SvgUtil.svg('increment_add.svg'),
-                                      ) ,
+                                      onSubmitted: (value) {
+                                        if (value.isNotEmpty) {
+                                          drugInfoMap["count"] = value;
+                                          setState(() {
+                                            drugInfoMap;
+                                          });
+                                        }
+                                      },
                                     ),
-                                  ],
-                                ),
-                              ),
-                              Text(
-                                '库存：' +drugInfoMap["stockNum"],
-                                style: GSYConstant.textStyle(
-                                    color: '#888888', fontSize: 13.0),
-                              )
-                            ],
-                          ),)
-                        ],
-                      ),
-                    ),
-                    Container(
-                      height: 44.0,
-                      padding: const EdgeInsets.only(left: 16.0),
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        '用法用量',
-                        style: GSYConstant.textStyle(
-                            fontFamily: 'Medium',
-                            fontWeight: FontWeight.w500,
-                            color: '#333333'),
-                      ),
-                    ),
-                    Column(
-                      children: list.asMap().keys
-                          .map((index) => GestureDetector(
-                          onTap:(){
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      int count =
+                                          int.parse(drugInfoMap['count']);
+                                      count++;
+                                      if (count > 200) {
+                                        ToastUtil.showToast(msg: '数量不能超过200');
+                                        return;
+                                      }
+                                      drugInfoMap['count'] = count.toString();
 
-                            if(index==0){
+                                      setState(() {
+                                        drugInfoMap;
+                                      });
+                                    },
+                                    child: Container(
+                                      alignment: Alignment.center,
+                                      width: 26,
+                                      child: SvgUtil.svg('increment_add.svg'),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Text(
+                              '库存：' + drugInfoMap["stockNum"],
+                              style: GSYConstant.textStyle(
+                                  color: '#888888', fontSize: 13.0),
+                            )
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                Container(
+                  height: 44.0,
+                  padding: const EdgeInsets.only(left: 16.0),
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    '用法用量',
+                    style: GSYConstant.textStyle(
+                        fontFamily: 'Medium',
+                        fontWeight: FontWeight.w500,
+                        color: '#333333'),
+                  ),
+                ),
+                Column(
+                  children: list
+                      .asMap()
+                      .keys
+                      .map((index) => GestureDetector(
+                          onTap: () {
+                            if (index == 0) {
                               _showSimpleDialog1();
-                            }else if(index ==1){
+                            } else if (index == 1) {
                               _showSimpleDialog2();
-                            }else if(index ==2){
+                            } else if (index == 2) {
                               _showSimpleDialog3();
                             }
                           },
@@ -384,16 +403,16 @@ class _UseDrugInfoState extends State<UseDrugInfo> {
                                             color: '#333333'),
                                       ),
                                     ),
-
                                     Visibility(
-                                      visible: index ==1,
+                                      visible: index == 1,
                                       child: Expanded(
                                           flex: 3,
                                           child: TextField(
-                                            keyboardType:TextInputType.number,
+                                            keyboardType: TextInputType.number,
                                             controller: _editingController1,
                                             cursorColor:
-                                            ColorsUtil.hexStringColor('#666666'),
+                                                ColorsUtil.hexStringColor(
+                                                    '#666666'),
                                             style: GSYConstant.textStyle(
                                                 color: '#666666'),
                                             inputFormatters: [
@@ -402,62 +421,71 @@ class _UseDrugInfoState extends State<UseDrugInfo> {
                                             ],
                                             textAlign: TextAlign.right,
                                             decoration: InputDecoration(
-                                              // filled: true,
-                                              // fillColor: Colors.red,
+                                                // filled: true,
+                                                // fillColor: Colors.red,
                                                 border: InputBorder.none,
                                                 hintText: "请输入数量",
-                                                hintStyle: GSYConstant.textStyle(
-                                                    color: '#999999')),
-                                            onChanged: (value){
+                                                hintStyle:
+                                                    GSYConstant.textStyle(
+                                                        color: '#999999')),
+                                            onChanged: (value) {
+                                              drugInfoMap['dosage']= value;
                                               setState(() {
-                                                Map item = list[1];
-                                                drugInfoMap.update("frequency", (value) => value +item["placeholder"]);
                                               });
+                                              print('1111,${drugInfoMap.toString()}');
                                             },
-                                            onSubmitted: (value){
+                                            onSubmitted: (value) {
                                               print(value);
-                                              setState(() {
-                                                Map item = list[1];
-                                                drugInfoMap.update("frequency", (value) => _editingController1.text +item["placeholder"]);
-                                              });
-                                            } ,
+                                              drugInfoMap['dosage']= value;
+                                               setState(() {
+
+                                               });
+                                            },
                                           )),
                                     ),
-
                                     Expanded(
                                         flex: 1,
                                         child: TextField(
                                           keyboardType: TextInputType.number,
-                                          controller: index ==3 ? _editingController2 : null,
+                                          controller: index == 3
+                                              ? _editingController2
+                                              : null,
                                           cursorColor:
-                                          ColorsUtil.hexStringColor('#666666'),
+                                              ColorsUtil.hexStringColor(
+                                                  '#666666'),
                                           style: GSYConstant.textStyle(
                                               color: '#666666'),
-                                          inputFormatters:index ==3 ? [
-                                            FilteringTextInputFormatter.allow(
-                                                RegExp("[0-9]")), //数字包括小数
-                                          ] :[],
+                                          inputFormatters: index == 3
+                                              ? [
+                                                  FilteringTextInputFormatter
+                                                      .allow(RegExp(
+                                                          "[0-9]")), //数字包括小数
+                                                ]
+                                              : [],
                                           textAlign: TextAlign.right,
-                                          enabled: index ==3,
+                                          enabled: index == 3,
                                           decoration: InputDecoration(
                                               border: InputBorder.none,
-                                              hintText: list[index]['placeholder'],
+                                              hintText: list[index]
+                                                  ['placeholder'],
                                               hintStyle: GSYConstant.textStyle(
                                                   color: '#999999')),
-
-                                          onChanged: (value){
+                                          onChanged: (value) {
                                             setState(() {
-
-                                              drugInfoMap.update("medicationDays", (value) => _editingController2.text);
+                                              drugInfoMap.update(
+                                                  "medicationDays",
+                                                  (value) =>
+                                                      _editingController2.text);
                                             });
                                           },
-
-                                          onSubmitted: (value){
+                                          onSubmitted: (value) {
                                             setState(() {
-
-                                              drugInfoMap.update("medicationDays", (value) => _editingController2.text);
+                                              drugInfoMap.update(
+                                                  "medicationDays",
+                                                  (value) =>
+                                                      _editingController2.text);
                                             });
-                                          } ,
+                                          },
                                         )),
                                     const SizedBox(
                                       width: 8.0,
@@ -466,67 +494,65 @@ class _UseDrugInfoState extends State<UseDrugInfo> {
                                   ],
                                 ),
                               ))))
-                          .toList(),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.only(left: 16.0, top: 9.0),
-                      constraints: const BoxConstraints(minHeight: 80.0),
-                      alignment: Alignment.topLeft,
-                      decoration: const BoxDecoration(color: Colors.white),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            '备注：',
-                            style: GSYConstant.textStyle(color: '#333333'),
-                          ),
-                          const SizedBox(
-                            width: 6.0,
-                          ),
-                          Expanded(
-                              child: TextField(
-                                controller: _editingController3,
-                                inputFormatters: [],
-                                cursorColor: ColorsUtil.hexStringColor('#666666'),
-                                style: GSYConstant.textStyle(color: '#666666'),
-                                decoration: InputDecoration(
-                                    hintText: '请输入...',
-                                    isCollapsed: true,
-                                    hintStyle: GSYConstant.textStyle(color: '#999999'),
-                                    border: InputBorder.none,
-                                    contentPadding: EdgeInsets.zero),
-
-                                onChanged: (value){
-
-                                  setState(() {
-                                    drugInfoMap.update("remark", (value) => _editingController3.text);
-                                  });
-                                },
-
-                                onSubmitted: (value){
-
-                                  setState(() {
-                                    drugInfoMap.update("remark", (value) => _editingController3.text);
-                                  });
-                                } ,
-                              ))
-                        ],
-                      ),
-                    ),
-                  ],
+                      .toList(),
                 ),
-              )),
+                Container(
+                  padding: const EdgeInsets.only(left: 16.0, top: 9.0),
+                  constraints: const BoxConstraints(minHeight: 80.0),
+                  alignment: Alignment.topLeft,
+                  decoration: const BoxDecoration(color: Colors.white),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        '备注：',
+                        style: GSYConstant.textStyle(color: '#333333'),
+                      ),
+                      const SizedBox(
+                        width: 6.0,
+                      ),
+                      Expanded(
+                          child: TextField(
+                        controller: _editingController3,
+                        inputFormatters: [],
+                        cursorColor: ColorsUtil.hexStringColor('#666666'),
+                        style: GSYConstant.textStyle(color: '#666666'),
+                        decoration: InputDecoration(
+                            hintText: '请输入...',
+                            isCollapsed: true,
+                            hintStyle: GSYConstant.textStyle(color: '#999999'),
+                            border: InputBorder.none,
+                            contentPadding: EdgeInsets.zero),
+                        onChanged: (value) {
+                          setState(() {
+                            drugInfoMap.update(
+                                "remark", (value) => _editingController3.text);
+                          });
+                        },
+                        onSubmitted: (value) {
+                          setState(() {
+                            drugInfoMap.update(
+                                "remark", (value) => _editingController3.text);
+                          });
+                        },
+                      ))
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          )),
           Container(
             alignment: Alignment.center,
             child: SafeAreaButton(
               text: '确认',
               onPressed: () {
-
-                setState(() {
-                  Map item = list[1];
-                  drugInfoMap["frequency"] = _editingController1.text +item["placeholder"];
-                  // drugInfoMap.update("frequency", (value) => _editingController1.text +item["placeholder"]);
-                });
+                // setState(() {
+                //   Map item = list[1];
+                //   drugInfoMap["frequency"] =
+                //       _editingController1.text + item["placeholder"];
+                //   // drugInfoMap.update("frequency", (value) => _editingController1.text +item["placeholder"]);
+                // });
 
                 /* 新增字段：
                    count 个数
@@ -536,15 +562,14 @@ class _UseDrugInfoState extends State<UseDrugInfo> {
                    medicationDays 用药天数
                    remark 备注
                 */
-                String dosageStr = drugInfoMap["dosage"];
+                String dosageStr = drugInfoMap['dosage'];
                 String usageStr = drugInfoMap["usage"];
-                if(dosageStr.isEmpty
-                    ||usageStr.isEmpty
-                    ||_editingController1.text.isEmpty
-                    ||_editingController2.text.isEmpty){
-
-                  Fluttertoast.showToast(msg: '请选择或输入用法用量', gravity: ToastGravity.CENTER);
-                  return ;
+                String unit = drugInfoMap['baseUnit'];
+                print('$dosageStr,$usageStr,$unit');
+                if (dosageStr.isEmpty || usageStr.isEmpty||unit.isEmpty) {
+                  Fluttertoast.showToast(
+                      msg: '请选择或输入用法用量及单位', gravity: ToastGravity.CENTER);
+                  return;
                 }
                 // EventBusUtil.getInstance().fire(drugInfoMap);
                 EventBusUtil.getInstance().fire(drugInfoMap);
@@ -554,7 +579,6 @@ class _UseDrugInfoState extends State<UseDrugInfo> {
                 // Navigator.popUntil(context, ModalRoute.withName('/makePrescription'));
                 // Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => MakePrescription(),), ModalRoute.withName('chatRoom'));
                 // Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => MakePrescription(),), (route) => false);
-
               },
             ),
           )
