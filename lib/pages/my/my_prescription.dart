@@ -35,7 +35,7 @@ class _MyPrescriptionState extends State<MyPrescription> {
     {'label': '已审核', 'checked': false, 'value': '3'},
     {'label': '审核中', 'checked': false, 'value': '4'},
     {'label':'审核超时','checked':false,'value':'5'},
-    // {'label': '已取消', 'checked': false, 'value': '6'},
+    {'label': '已取消', 'checked': false, 'value': '6'},
   ];
   String userId;
 

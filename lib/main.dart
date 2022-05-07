@@ -1,10 +1,11 @@
+import 'package:doctor_project/pages/home/make_prescription.dart';
 import 'package:doctor_project/pages/login/login.dart';
+import 'package:doctor_project/pages/login/register.dart';
 import 'package:doctor_project/pages/tabs/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:io';
 import 'common/local/local_storage.dart';
-import 'routes/routes.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:jpush_flutter/jpush_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -102,9 +103,15 @@ class _MyAppState extends State<MyApp> {
       ],
       debugShowCheckedModeBanner: false,
       // 设置这一属性即可
-      home: Main(),
+      // home: Main(),
+      initialRoute: '/',
       builder: EasyLoading.init(),
-      routes: routes,
+      routes:{
+        '/': (context) => Main(),
+        '/login':(context)=>LoginPage(),
+        '/register':(context)=>RegisterContent(),
+        '/TabHome':(context)=> Main(),
+      },
     );
   }
 }

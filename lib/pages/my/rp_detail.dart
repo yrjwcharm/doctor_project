@@ -217,8 +217,8 @@ class _RecipeDetailState extends State<RecipeDetail> {
                                 : rpDetailItem['status'] == 3
                                     ? 'already_audit.svg'
                                     : rpDetailItem['status'] == 4
-                                        ? 'audit.svg'
-                                        : 'timeout.svg'),
+                                        ? 'audit.svg':rpDetailItem['status']==5?
+                                        'timeout.svg':'cancel.svg'),
                         const SizedBox(
                           width: 19.0,
                         )
@@ -462,7 +462,7 @@ class _RecipeDetailState extends State<RecipeDetail> {
                                             fontSize: 13.0, color: '#666666'),
                                       ),
                                       Text(
-                                        '${medicineMap['herbalMedicineVOS'] != null ? medicineMap['useType'] : item['useType']}：${medicineMap['herbalMedicineVOS'] != null ? medicineMap['freq'] : item['freq']}',
+                                        '${medicineMap['herbalMedicineVOS'] != null ? medicineMap['useType_dictText'] : item['useType_dictText']}：${medicineMap['herbalMedicineVOS'] != null ? medicineMap['freq_dictText'] : item['freq_dictText']}',
                                         style: GSYConstant.textStyle(
                                             fontSize: 13.0, color: '#666666'),
                                       )
@@ -609,6 +609,7 @@ class _RecipeDetailState extends State<RecipeDetail> {
                                             title: '撤销',
                                             onPressed: () async {
                                               showDialog(
+                                                  barrierDismissible: false,
                                                   context: context,
                                                   builder: (_) => WillPopScope(
                                                         onWillPop: () async {
@@ -650,9 +651,9 @@ class _RecipeDetailState extends State<RecipeDetail> {
                                                                           .circular(
                                                                               5.0),
                                                                   title: '取消',
-                                                                  onPressed:
-                                                                      () {
-                                                                    Navigator.pop(context);
+                                                                  onPressed: () {
+                                                                    Navigator.of(context, rootNavigator: true).pop();
+                                                                    // Navigator.of(context).pop();
                                                                   },
                                                                 )),
                                                                 const SizedBox(
@@ -671,9 +672,11 @@ class _RecipeDetailState extends State<RecipeDetail> {
                                                                             Api.revokeRpApi+'',
                                                                             {'id':rpDetailItem['id']});
                                                                     if(res['code']==200){
-                                                                      // Navigator.pop(context);
+                                                                      Navigator.of(context, rootNavigator: true).pop();
+                                                                      Navigator.pop(context);
                                                                     }else{
-                                                                      // Navigator.pop(context);
+                                                                      Navigator.of(context, rootNavigator: true).pop();
+                                                                      Navigator.pop(context);
                                                                       ToastUtil.showToast(msg: res['msg']);
                                                                     }
                                                                   },
@@ -710,7 +713,10 @@ class _RecipeDetailState extends State<RecipeDetail> {
                                     child: Expanded(
                                         child: CustomOutlineButton(
                                             title: '重新开方',
-                                            onPressed: () {},
+                                            onPressed: () {
+                                              Navigator.popUntil(context, ModalRoute.withName("/user"));
+                                              // Navigator.popUntil(context, (route) => false);
+                                            },
                                             borderRadius:
                                                 BorderRadius.circular(5.0),
                                             borderColor:

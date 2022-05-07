@@ -63,7 +63,6 @@ class _electronicSignaturePageState extends State<electronicSignaturePage> {
        (item['diagnosisVOS']??[]).forEach((element) {
          diagnosis.add(element['diagnosisName']);
        });
-       print('111111111$diagnosis');
        String str = '';
        diagnosis.forEach((f){
          if(str == ''){
@@ -90,9 +89,9 @@ class _electronicSignaturePageState extends State<electronicSignaturePage> {
     return Scaffold(
         appBar: CustomAppBar(
           '电子签名',
-          isBack: true,
           onBackPressed: () {
-            Navigator.of(context).pop(this);
+            Navigator.pop(context);
+            // Navigator.of(context).pop(this);
           },
         ),
         backgroundColor: ColorsUtil.bgColor, //Container

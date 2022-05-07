@@ -264,7 +264,7 @@ class _PatientConsultState extends State<PatientConsult> {
                           const EdgeInsets.symmetric(horizontal: 13.0),
                           height: 28.0,
                           onPressed: () async {
-                            var result = await showDialog(
+                            await showDialog(
                                 barrierDismissible: false,
                                 context: context,
                                 builder: (_) => WillPopScope(
