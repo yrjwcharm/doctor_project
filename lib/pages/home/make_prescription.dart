@@ -82,8 +82,6 @@ class _MakePrescriptionState extends State<MakePrescription> {
   String prescriptionId = ""; //处方id
 
   List<String> useTypeList = [];
-  String usageId='';
-  String freqTypeId='';
   List _freqTypeList =[];
   List _useTypeList = [];
   List _baseUnitList = [];
@@ -343,7 +341,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
   //初始化药品频次列表
   loadDataForFreqTYpe() async {
     HttpRequest? request = HttpRequest.getInstance();
-    var res = await request.get(Api.dataDicUrl + '?dictId=16', {});
+    var res = await request.get(Api.dataDicUrl + '?dictId=${tab1Active?16:21}', {});
     if (res['code'] == 200) {
       List data = res['data'];
       print("loadDataForFreqTYpe------" + data.toString());
@@ -469,6 +467,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
                         setState(() {
                           tab1Active = true;
                           tab2Active = false;
+                          loadDataForFreqTYpe();
                           resetData();
                         });
                       },
@@ -501,6 +500,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
                         setState(() {
                           tab2Active = true;
                           tab1Active = false;
+                          loadDataForFreqTYpe();
                           resetData();
                         });
                       },
