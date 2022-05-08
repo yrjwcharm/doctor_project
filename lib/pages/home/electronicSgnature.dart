@@ -1,4 +1,5 @@
 import 'package:doctor_project/pages/my/rp_detail.dart';
+import 'package:doctor_project/utils/common_utils.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import '../../http/http_request.dart';
 import '../../http/api.dart';
@@ -121,7 +122,8 @@ class _electronicSignaturePageState extends State<electronicSignaturePage> {
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25.0))
                 ),
                   onPressed: () {
-                    getNet_YXQSignData();
+                    CommonUtils.throttle(getNet_YXQSignData,durationTime: 500);
+                    // getNet_YXQSignData();
                   },
                   child: Text('提交',style: GSYConstant.textStyle(fontSize: 16.0),),),
             ),),
