@@ -428,7 +428,7 @@ class _VideoTopicState extends State<VideoTopic> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-        '视频通话',
+        '${userInfoMap['name']}患者',
         onBackPressed: () {
           Navigator.pop(context);
         },
