@@ -22,6 +22,8 @@ class PatientState extends State<Patient> {
   final ScrollController _scrollController = ScrollController(); //listview的控制器
   int _page = 1; //加载的页数
   bool isMore = true; //是否正在加载数
+  String timeSort = 'desc';
+  String ageSort = 'desc';
   @override
   void initState() {
     super.initState();
@@ -41,8 +43,8 @@ class PatientState extends State<Patient> {
   Future getData() async {
     var request = HttpRequest.getInstance();
     String url = tab1Active
-        ? Api.getMyPatientListApi + '?timeSort=asc&page=$_page&size=10'
-        : Api.getMyPatientListApi + '?ageSort=asc&page=$_page&size=10';
+        ? Api.getMyPatientListApi + '?timeSort=$timeSort&page=$_page&size=10'
+        : Api.getMyPatientListApi + '?ageSort=$ageSort&page=$_page&size=10';
     var res = await request.get(url, {});
     if (res['code'] == 200) {
       setState(() {
@@ -187,9 +189,11 @@ class PatientState extends State<Patient> {
                 Expanded(
                     child: GestureDetector(
                   onTap: () {
+
                     setState(() {
                       tab1Active = true;
                       tab2Active = false;
+                      timeSort = timeSort=='desc'?'asc':'desc';
                       _page = 1;
                       list = [];
                     });
@@ -216,6 +220,7 @@ class PatientState extends State<Patient> {
                     child: GestureDetector(
                   onTap: () {
                     setState(() {
+                      ageSort = ageSort=='desc'?'asc':'desc';
                       tab1Active = false;
                       tab2Active = true;
                       _page = 1;
