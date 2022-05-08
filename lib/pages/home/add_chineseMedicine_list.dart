@@ -42,7 +42,7 @@ class _AddChineseMedicineListState extends State<AddChineseMedicineList> {
   int pageSize = 15 ; //一页显示条数
   bool isLoading = false; //判断 loading框是否隐藏
   String loadText = ""; //加载时显示的文字
-  bool commonlyUsedIsHidden = false ; //常用药品列表是否隐藏
+  bool commonlyUsedIsHidden = true ; //常用药品列表是否隐藏
   bool drugListIsHidden = true ; //药品列表是否隐藏
   bool selectedDrugIsHidden = true ; //选中药品列表是否隐藏
 

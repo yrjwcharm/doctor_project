@@ -186,46 +186,46 @@ class _RecipeDetailState extends State<RecipeDetail> {
                     top: 18.0,
                   ),
                   child: Column(
+                    // crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      Row(children: <Widget>[
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: <Widget>[
-                              Text(
-                                '通海县人民医院电子处方',
-                                style: GSYConstant.textStyle(
-                                    fontSize: 18.0,
-                                    color: '#333333',
-                                    fontFamily: 'Medium',
-                                    fontWeight: FontWeight.w500),
-                              ),
-                              Text('医疗机构编码：346987654321123H',
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            // Expanded(
+                            //   child:
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text(
+                                  '通海县人民医院电子处方',
                                   style: GSYConstant.textStyle(
-                                      fontSize: 12.0,
-                                      fontWeight: FontWeight.w400,
-                                      color: '#888888')),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 23.0,
-                        ),
-                        SvgUtil.svg(rpDetailItem['status'] == 1
-                            ? 'revoke.svg'
-                            : rpDetailItem['status'] == 2
-                                ? 'in_pass.svg'
-                                : rpDetailItem['status'] == 3
-                                    ? 'already_audit.svg'
-                                    : rpDetailItem['status'] == 4
-                                        ? 'audit.svg'
-                                        : rpDetailItem['status'] == 5
-                                            ? 'timeout.svg'
-                                            : 'cancel.svg'),
-                        const SizedBox(
-                          width: 19.0,
-                        )
-                      ]),
+                                      fontSize: 18.0,
+                                      color: '#333333',
+                                      fontFamily: 'Medium',
+                                      fontWeight: FontWeight.w500),
+                                ),
+                                Text('医疗机构编码：346987654321123H',
+                                    style: GSYConstant.textStyle(
+                                        fontSize: 12.0,
+                                        fontWeight: FontWeight.w400,
+                                        color: '#888888')),
+                              ],
+                            ),
+                            const SizedBox(
+                              width: 23.0,
+                            ),
+                            SvgUtil.svg(rpDetailItem['status'] == 1
+                                ? 'revoke.svg'
+                                : rpDetailItem['status'] == 2
+                                    ? 'in_pass.svg'
+                                    : rpDetailItem['status'] == 3
+                                        ? 'already_audit.svg'
+                                        : rpDetailItem['status'] == 4
+                                            ? 'audit.svg'
+                                            : rpDetailItem['status'] == 5
+                                                ? 'timeout.svg'
+                                                : 'cancel.svg'),
+                          ]),
                       Padding(
                         padding: const EdgeInsets.only(
                             left: 16.0, right: 16.0, top: 18.0, bottom: 10.0),
@@ -790,7 +790,9 @@ class _RecipeDetailState extends State<RecipeDetail> {
                                                               width: 65.0,
                                                               child: Text(
                                                                 '就诊人',
-                                                                textAlign: TextAlign.right,
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .right,
                                                                 style: GSYConstant
                                                                     .textStyle(
                                                                         fontSize:
@@ -799,13 +801,18 @@ class _RecipeDetailState extends State<RecipeDetail> {
                                                                             '#666666'),
                                                               ),
                                                             ),
-                                                            const SizedBox(width: 15.0,),
+                                                            const SizedBox(
+                                                              width: 15.0,
+                                                            ),
                                                             SizedBox(
                                                                 width: 72.0,
-
                                                                 child: Text(
-                                                                  '王建国',
-                                                                  textAlign: TextAlign.left,
+                                                                  rpDetailItem[
+                                                                          'name'] ??
+                                                                      '',
+                                                                  textAlign:
+                                                                      TextAlign
+                                                                          .left,
                                                                   style: GSYConstant.textStyle(
                                                                       fontSize:
                                                                           16.0,
@@ -814,42 +821,44 @@ class _RecipeDetailState extends State<RecipeDetail> {
                                                                 ))
                                                           ],
                                                         ),
-                                                        const SizedBox(height: 9.0,),
-                                                        Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .center,
-                                                          children: <Widget>[
-                                                            SizedBox(
-                                                              width: 65.0,
-                                                              child: Text(
-                                                                '数量',
-                                                                textAlign: TextAlign.right,
-                                                                style: GSYConstant
-                                                                    .textStyle(
-                                                                        fontSize:
-                                                                            16.0,
-                                                                        color:
-                                                                            '#666666'),
-                                                              ),
-                                                            ),
-                                                            const SizedBox(width: 15.0,),
-                                                            SizedBox(
-                                                              width: 72.0,
-                                                              child: Text(
-                                                                '5',
-                                                                textAlign: TextAlign.left,
-                                                                style: GSYConstant
-                                                                    .textStyle(
-                                                                        fontSize:
-                                                                            16.0,
-                                                                        color:
-                                                                            '#DE5347'),
-                                                              ),
-                                                            )
-                                                          ],
+                                                        // const SizedBox(height: 9.0,),
+                                                        // Row(
+                                                        //   mainAxisAlignment:
+                                                        //       MainAxisAlignment
+                                                        //           .center,
+                                                        //   children: <Widget>[
+                                                        //     SizedBox(
+                                                        //       width: 65.0,
+                                                        //       child: Text(
+                                                        //         '数量',
+                                                        //         textAlign: TextAlign.right,
+                                                        //         style: GSYConstant
+                                                        //             .textStyle(
+                                                        //                 fontSize:
+                                                        //                     16.0,
+                                                        //                 color:
+                                                        //                     '#666666'),
+                                                        //       ),
+                                                        //     ),
+                                                        //     const SizedBox(width: 15.0,),
+                                                        //     SizedBox(
+                                                        //       width: 72.0,
+                                                        //       child: Text(
+                                                        //         '5',
+                                                        //         textAlign: TextAlign.left,
+                                                        //         style: GSYConstant
+                                                        //             .textStyle(
+                                                        //                 fontSize:
+                                                        //                     16.0,
+                                                        //                 color:
+                                                        //                     '#DE5347'),
+                                                        //       ),
+                                                        //     )
+                                                        //   ],
+                                                        // ),
+                                                        const SizedBox(
+                                                          height: 10.0,
                                                         ),
-                                                        const SizedBox(height: 10.0,),
                                                         Row(
                                                           mainAxisAlignment:
                                                               MainAxisAlignment
@@ -859,7 +868,9 @@ class _RecipeDetailState extends State<RecipeDetail> {
                                                               width: 65.0,
                                                               child: Text(
                                                                 '待缴费',
-                                                                textAlign: TextAlign.right,
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .right,
                                                                 style: GSYConstant
                                                                     .textStyle(
                                                                         fontSize:
@@ -868,21 +879,27 @@ class _RecipeDetailState extends State<RecipeDetail> {
                                                                             '#666666'),
                                                               ),
                                                             ),
-                                                            const SizedBox(width: 15.0,),
+                                                            const SizedBox(
+                                                              width: 15.0,
+                                                            ),
                                                             SizedBox(
+                                                                width: 72.0,
                                                                 child: Text(
-                                                              '203.90元',
-                                                                  textAlign: TextAlign.left,
-                                                              style: GSYConstant
-                                                                  .textStyle(
+                                                                  '${medicineMap['amt']}元',
+                                                                  textAlign:
+                                                                      TextAlign
+                                                                          .left,
+                                                                  style: GSYConstant.textStyle(
                                                                       fontSize:
                                                                           16.0,
                                                                       color:
                                                                           '#DE5347'),
-                                                            ))
+                                                                ))
                                                           ],
                                                         ),
-                                                        const SizedBox(height: 11.0,),
+                                                        const SizedBox(
+                                                          height: 11.0,
+                                                        ),
                                                         Row(
                                                           mainAxisAlignment:
                                                               MainAxisAlignment
@@ -892,7 +909,9 @@ class _RecipeDetailState extends State<RecipeDetail> {
                                                               width: 65.0,
                                                               child: Text(
                                                                 '缴费类型',
-                                                                textAlign: TextAlign.right,
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .right,
                                                                 style: GSYConstant
                                                                     .textStyle(
                                                                         fontSize:
@@ -901,12 +920,16 @@ class _RecipeDetailState extends State<RecipeDetail> {
                                                                             '#666666'),
                                                               ),
                                                             ),
-                                                            const SizedBox(width: 15.0,),
+                                                            const SizedBox(
+                                                              width: 15.0,
+                                                            ),
                                                             SizedBox(
                                                                 width: 72.0,
                                                                 child: Text(
                                                                   '医药费',
-                                                                  textAlign: TextAlign.left,
+                                                                  textAlign:
+                                                                      TextAlign
+                                                                          .left,
                                                                   style: GSYConstant.textStyle(
                                                                       fontSize:
                                                                           16.0,
@@ -927,7 +950,9 @@ class _RecipeDetailState extends State<RecipeDetail> {
                                                                   GestureDetector(
                                                                       onTap:
                                                                           () {
-                                                                       Navigator.of(context,rootNavigator: true).pop();
+                                                                        Navigator.of(context,
+                                                                                rootNavigator: true)
+                                                                            .pop();
                                                                       },
                                                                       child:
                                                                           Container(
@@ -949,8 +974,28 @@ class _RecipeDetailState extends State<RecipeDetail> {
                                                               child:
                                                                   GestureDetector(
                                                             onTap: () async {
-                                                              Navigator.of(context,rootNavigator: true).pop();
-
+                                                              var request =
+                                                                  HttpRequest
+                                                                      .getInstance();
+                                                              var res =
+                                                                  await request
+                                                                      .post(
+                                                                          Api.sendRpNoticeApi,
+                                                                          {
+                                                                    'id':
+                                                                        rpDetailItem[
+                                                                            'id']
+                                                                  });
+                                                              if (res['code'] ==
+                                                                  200) {
+                                                                Navigator.of(
+                                                                        context,
+                                                                        rootNavigator:
+                                                                            true)
+                                                                    .pop();
+                                                                Navigator.pop(
+                                                                    context);
+                                                              }
                                                             },
                                                             child: Container(
                                                               alignment:

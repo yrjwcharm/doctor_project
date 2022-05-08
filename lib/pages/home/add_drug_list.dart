@@ -39,7 +39,7 @@ class _AddDrugListState extends State<AddDrugList> {
   int pageSize = 15 ; //一页显示条数
   bool isLoading = false; //判断 loading框是否隐藏
   String loadText = ""; //加载时显示的文字
-  bool drugListIsHidden = true ; //药品列表是否隐藏
+  bool drugListIsHidden = false ; //药品列表是否隐藏
 
   Map dataMap = new Map(); //药品列表数据
   List detailDataList = []; //药品列表数据
