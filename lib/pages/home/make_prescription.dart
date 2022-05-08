@@ -1,7 +1,5 @@
 import 'dart:async';
 import 'dart:math';
-
-import 'package:doctor_project/pages/home/add-drug.dart';
 import 'package:doctor_project/pages/home/add_drug_list.dart';
 import 'package:doctor_project/pages/home/diagnosis.dart';
 import 'package:doctor_project/utils/picker_utils.dart';

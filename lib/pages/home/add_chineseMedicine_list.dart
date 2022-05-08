@@ -338,12 +338,14 @@ class _AddChineseMedicineListState extends State<AddChineseMedicineList> {
                 SizedBox(
                   child: TextButton(
                     onPressed: () {
+                      _editingController1.clear();
                       setState(() {
+
                         if(selectedDrugList.length >0){
-                          commonlyUsedIsHidden = true;
+                          // commonlyUsedIsHidden = true;
                           selectedDrugIsHidden = false;
                         }else{
-                          commonlyUsedIsHidden = false;
+                          // commonlyUsedIsHidden = false;
                           selectedDrugIsHidden = true;
                         }
                         drugListIsHidden = true;

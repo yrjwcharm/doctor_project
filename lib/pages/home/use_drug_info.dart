@@ -205,9 +205,11 @@ class _UseDrugInfoState extends State<UseDrugInfo> {
                             Text(
                               //packageUnitid_dictText
                               '规格：' +
-                                  drugInfoMap["specification"] +
-                                  "/" +
-                                  drugInfoMap["packageUnitid_dictValue"],
+                                  drugInfoMap["specification"]
+                                  // +
+                                  // "/" +
+                                  // drugInfoMap["packageUnitid_dictValue"]
+                              ,
                               style: GSYConstant.textStyle(
                                   fontSize: 13.0, color: '#888888'),
                             ),

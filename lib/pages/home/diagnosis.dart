@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:doctor_project/common/style/gsy_style.dart';
 import 'package:doctor_project/http/api.dart';
-import 'package:doctor_project/pages/home/add_multi_diagnosis.dart';
 import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:doctor_project/utils/svg_util.dart';
 import 'package:doctor_project/widget/custom_app_bar.dart';
@@ -297,6 +296,8 @@ void getNet_diagnosisList () async{
                 SizedBox(
                   child: TextButton(
                     onPressed: () {
+                      _editingController.clear();
+                      _contentFocusNode.unfocus();
                       setState(() {
                         // commonlyUsedIsHidden = false;
                         diagnosisListIsHidden = true;

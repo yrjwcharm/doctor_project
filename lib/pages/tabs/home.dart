@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:doctor_project/common/local/local_storage.dart';
-import 'package:doctor_project/pages/home/add_multi_diagnosis.dart';
 import 'package:doctor_project/pages/home/chat_room.dart';
 import 'package:doctor_project/pages/home/make_prescription.dart';
 import 'package:doctor_project/pages/home/use_drug_info.dart';
@@ -22,7 +21,6 @@ import '../../http/api.dart';
 import '../../utils/colors_utils.dart';
 import '../../utils/event_bus_util.dart';
 import '../../utils/platform_utils.dart';
-import '../home/add-drug.dart';
 import '../home/notice_detail.dart';
 import '../home/open_service.dart';
 import '../home/order_detail.dart';

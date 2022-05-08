@@ -321,7 +321,8 @@ class _AddDrugListState extends State<AddDrugList> {
                   child: TextButton(
                     onPressed: () {
                       setState(() {
-                        drugListIsHidden = true;
+                        // drugListIsHidden = true;
+                        _editingController.clear();
                         _contentFocusNode.unfocus();
                       });
                     },

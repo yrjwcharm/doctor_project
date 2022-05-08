@@ -119,7 +119,7 @@ class _RecipeDetailState extends State<RecipeDetail> {
                           height: 4.0,
                         ),
                         Text(
-                          '列表中的克拉霉素胶囊对患者病情有刺激性。',
+                          '',
                           style: GSYConstant.textStyle(color: '#F39E2B'),
                         ),
                       ],
@@ -148,14 +148,14 @@ class _RecipeDetailState extends State<RecipeDetail> {
                       children: <Widget>[
                         Row(children: <Widget>[
                           Text(
-                            '审核药师：',
+                            '审方药师：',
                             style: GSYConstant.textStyle(
                               fontSize: 13.0,
                               color: '#333333',
                             ),
                           ),
                           Text(
-                            '张兰',
+                            '',
                             style: GSYConstant.textStyle(
                                 color: '#06B48D', fontSize: 13.0),
                           )
@@ -169,7 +169,7 @@ class _RecipeDetailState extends State<RecipeDetail> {
                             ),
                           ),
                           Text(
-                            '2022-02-22 13:00:56',
+                            '',
                             style: GSYConstant.textStyle(
                                 color: '#06B48D', fontSize: 13.0),
                           )
@@ -607,7 +607,7 @@ class _RecipeDetailState extends State<RecipeDetail> {
                                   width: 8.0,
                                 ),
                                 Visibility(
-                                    visible: rpDetailItem['status'] == 4,
+                                    visible: rpDetailItem['status']==2|| rpDetailItem['status'] == 4,
                                     child: Expanded(
                                         child: CustomOutlineButton(
                                             title: '撤销',
