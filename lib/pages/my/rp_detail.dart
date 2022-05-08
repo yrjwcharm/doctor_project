@@ -995,6 +995,8 @@ class _RecipeDetailState extends State<RecipeDetail> {
                                                                     .pop();
                                                                 Navigator.pop(
                                                                     context);
+                                                              } else {
+                                                                ToastUtil.showToast(msg: res['msg']);
                                                               }
                                                             },
                                                             child: Container(

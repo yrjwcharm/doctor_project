@@ -11,6 +11,7 @@ import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:doctor_project/utils/common_utils.dart';
 import 'package:doctor_project/utils/svg_util.dart';
 import 'package:doctor_project/widget/custom_app_bar.dart';
+import 'package:doctor_project/widget/custom_elevated_button.dart';
 import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -619,10 +620,43 @@ class _ChatPageState extends State<ChatPage> {
                  //   ],
                  // ),
                  Column(
+                   mainAxisSize: MainAxisSize.min,
                    children: <Widget>[
                      GestureDetector(
-                       onTap: (){
-                         Navigator.push(context, MaterialPageRoute(builder: (context)=> MakePrescription(registeredId: userInfoMap["id"].toString(),)));
+                       onTap: () async{
+                         await showDialog(
+                             barrierDismissible: false,
+                             context: context, builder: (_)=> WillPopScope(
+                           onWillPop: () async {
+                             return Future.value(false);
+                           },child:  AlertDialog(
+                           contentPadding: const EdgeInsets.only(top:28.0,bottom:20.0,left: 16.0,right: 16.0),
+                            buttonPadding: EdgeInsets.zero,
+                            // insetPadding: EdgeInsets.zero,
+                             contentTextStyle: GSYConstant.textStyle(color: '#333333'),
+                            content: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: const <Widget>[
+                                    Text('1、远程复诊开药处方的适用对象是在线下医院经过规范治疗后，诊断明确、病情的治疗方案基本稳定、依从性良好的慢性病种复诊患者。',textAlign: TextAlign.justify,),
+                                    SizedBox(height: 12.0,),
+                                    Text('2、处方开具医生须向患者说明处方使用规范和注意事项。',textAlign: TextAlign.justify)
+
+                                ]),
+                           actions: [
+                             Container(
+                               height:59.0,
+                               alignment: Alignment.center,
+                               decoration: BoxDecoration(
+                                 border: Border(top:BorderSide(width: 1.0,color: ColorsUtil.hexStringColor('#cccccc',alpha: 0.4)))
+                               ),
+                               child: CustomElevatedButton(title:'我已知晓',textStyle: GSYConstant.textStyle(fontSize: 16.0), height: 36.0,borderRadius: BorderRadius.circular(5.0), width: 119.0,primary: '#06B48D', onPressed: (){
+                                    Navigator.of(context,rootNavigator: true).pop();
+                                 Navigator.push(context, MaterialPageRoute(builder: (context)=> MakePrescription(registeredId: userInfoMap["id"].toString(),)));
+
+                               },),
+                             )
+                           ],
+                         ),),);
                        },
                       child: SvgUtil.svg('rp.svg'),),
                      const SizedBox(height: 9.0,),
