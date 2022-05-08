@@ -139,13 +139,14 @@ class _MyPrescriptionState extends State<MyPrescription> {
                   .map(
                     (item) => GestureDetector(
                       onTap: () {
-                        tabList.map(($item) => {
+                        tabList.forEach(($item) => {
                               $item['checked'] = false,
                               if (mapEquals($item, item))
                                 $item['checked'] = true,
                             });
+                        status = item['value'];
                         setState(() {
-                          status = item['value'];
+                          // tabList=tabList;
                         });
                         getData();
                       },
