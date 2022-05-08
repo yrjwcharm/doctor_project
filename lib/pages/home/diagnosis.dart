@@ -197,6 +197,7 @@ void getNet_diagnosisList () async{
         child: Column(
           children: [
             ListTile(
+                tileColor: Colors.white,
                 title: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
@@ -224,7 +225,7 @@ void getNet_diagnosisList () async{
                   ),
                   child: SvgUtil.svg('add_drug.svg'),)
             ),
-            Divider(color: ColorsUtil.hexStringColor('#cccccc', alpha: 0.3),)
+            Divider(height:1.0,color: ColorsUtil.hexStringColor('#cccccc', alpha: 0.3),)
           ],
         ),
       );
@@ -235,7 +236,7 @@ void getNet_diagnosisList () async{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: ColorsUtil.bgColor,
       appBar: CustomAppBar(
         '诊断',
         onBackPressed: () {
@@ -244,8 +245,12 @@ void getNet_diagnosisList () async{
       ),
       body: Column(
         children: <Widget>[
-          const SizedBox(height: 10.0,),
-          Padding(padding:const EdgeInsets.only(top: 11.0,left: 17.0,right: 16.0), child:Row(
+          // const SizedBox(height: 10.0,),
+          Container(
+            decoration: const BoxDecoration(
+              color: Colors.white
+            ),
+            padding:const EdgeInsets.only(top: 11.0,left: 17.0,right: 16.0), child:Row(
               children: <Widget>[
                 Expanded(child:Container(
                   height: 32.0,
@@ -351,6 +356,7 @@ void getNet_diagnosisList () async{
             visible: !checkedDiagnosisIsHidden,
             child: Expanded(
               child: ListView.builder(
+                padding: EdgeInsets.zero,
                 itemBuilder: (context,index){
                   return Slidable(
                     endActionPane: ActionPane(
@@ -377,6 +383,7 @@ void getNet_diagnosisList () async{
                     child: Column(
                     children: [
                       ListTile(
+                        tileColor:Colors.white,
                         title: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: <Widget>[
@@ -416,7 +423,7 @@ void getNet_diagnosisList () async{
                           });
                         },
                       ),
-                      Divider(color: ColorsUtil.hexStringColor('#cccccc', alpha: 0.3),)
+                      Divider(height:1.0,color: ColorsUtil.hexStringColor('#cccccc', alpha: 0.3),)
                     ],
                   ),);
                 },
@@ -425,6 +432,21 @@ void getNet_diagnosisList () async{
 
             ),
           ),
+          // Visibility(
+          //     visible: !checkedDiagnosisIsHidden,
+          //     child: Container(
+          //       height: 40.0,
+          //       // decoration: BoxDecoration(
+          //       //     color: Colors.white
+          //       // ),
+          //       padding: const EdgeInsets.only(left: 16.0),
+          //       child: Row(
+          //         children: <Widget>[
+          //           Text('*',style: GSYConstant.textStyle(fontSize: 13.0,color: '#FE5A6B'),),
+          //           Text('操作提示：左滑删除诊断',style: GSYConstant.textStyle(fontSize:13.0,color: '#666666' ),)
+          //         ],
+          //       ),
+          //     )),
           Visibility(
             visible: !checkedDiagnosisIsHidden,
             child:

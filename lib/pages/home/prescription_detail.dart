@@ -354,7 +354,7 @@ class _PrescriptDetailState extends State<PrescriptDetail> {
               ),
               Column(
                 children: <Widget>[
-                  SizedBox(height: 8.0,),
+                  const SizedBox(height: 8.0,),
                   Container(
                     padding: const EdgeInsets.only(left: 16.0),
                     alignment: Alignment.centerLeft,
@@ -379,7 +379,7 @@ class _PrescriptDetailState extends State<PrescriptDetail> {
                               padding: const EdgeInsets.symmetric(horizontal: 16.0),
                               decoration: const BoxDecoration(color: Colors.white),
                               child:ListTile(
-                                contentPadding: EdgeInsets.only(top: 8.0, bottom: 6.0),
+                                contentPadding: const EdgeInsets.only(top: 8.0, bottom: 6.0),
                                 title: Text(
                                   medicineList[index]['medicineName'],
                                   style: GSYConstant.textStyle(color: '#333333'),

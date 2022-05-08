@@ -906,6 +906,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
                                           setState(() {
                                             drugList.removeAt(index);
                                           });
+                                          calculateThePrice();
                                         },
                                         backgroundColor:
                                             const Color(0xFFFE4A49),
@@ -1056,6 +1057,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
                                           setState(() {
                                             drugList.removeAt(index);
                                           });
+                                          calculateThePrice();
                                         },
                                         backgroundColor:
                                             const Color(0xFFFE4A49),
@@ -1225,6 +1227,21 @@ class _MakePrescriptionState extends State<MakePrescription> {
                         ),
                       )
                     : Container(),
+                Visibility(
+                    visible: drugList.isNotEmpty,
+                    child: Container(
+                      height: 40.0,
+                      // decoration: BoxDecoration(
+                      //     color: Colors.white
+                      // ),
+                      padding: const EdgeInsets.only(left: 16.0),
+                      child: Row(
+                        children: <Widget>[
+                          Text('*',style: GSYConstant.textStyle(fontSize: 13.0,color: '#FE5A6B'),),
+                          Text('操作提示：左滑删除药品',style: GSYConstant.textStyle(fontSize:13.0,color: '#666666' ),)
+                        ],
+                      ),
+                    )),
               ],
             ),
           ),

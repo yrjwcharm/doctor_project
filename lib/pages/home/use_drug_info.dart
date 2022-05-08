@@ -214,7 +214,7 @@ class _UseDrugInfoState extends State<UseDrugInfo> {
                                   fontSize: 13.0, color: '#888888'),
                             ),
                             Text(
-                              drugInfoMap["manuname"],
+                              drugInfoMap["manuname"]??'',
                               style: GSYConstant.textStyle(
                                   fontSize: 13.0, color: '#888888'),
                             )
