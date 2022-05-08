@@ -303,7 +303,7 @@ class RegisterContentStates extends State<LoginPage> {
 
                   children: [
                     Container(
-                      margin: EdgeInsets.fromLTRB(20, 0, 10, 10),
+                      margin: const EdgeInsets.fromLTRB(20, 0, 10, 10),
                       child: singChooseBtn(setStatusChoose),
                       width: 16,
                       height: 16,
@@ -400,28 +400,27 @@ class singChooseBtnStates extends State<singChooseBtn> {
 
   Widget build(BuildContext context) {
     // TODO: implement build
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        image: DecorationImage(
-          image: this.isSelect == 0
-              ? AssetImage('assets/images/checkbox.png')
-              : AssetImage('assets/images/checkbox-sel.png'),
-          fit: BoxFit.cover,
+    return GestureDetector(
+      onTap: (){
+        setState(() {
+          isSelect = this.isSelect == 0 ? 1 : 0;
+          if (isSelect == 0) {
+            widget.isChooseTx(false);
+          } else {
+            widget.isChooseTx(true);
+          }
+        });
+      },
+      child:Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          image: DecorationImage(
+            image: this.isSelect == 0
+                ? AssetImage('assets/images/checkbox.png')
+                : AssetImage('assets/images/checkbox-sel.png'),
+            fit: BoxFit.cover,
+          ),
         ),
-      ),
-      child: FlatButton(
-        child: Text(""),
-        onPressed: () {
-          setState(() {
-            isSelect = this.isSelect == 0 ? 1 : 0;
-            if (isSelect == 0) {
-              widget.isChooseTx(false);
-            } else {
-              widget.isChooseTx(true);
-            }
-          });
-        },
       ),
     );
   }

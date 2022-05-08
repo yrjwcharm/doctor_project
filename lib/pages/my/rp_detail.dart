@@ -85,7 +85,7 @@ class _RecipeDetailState extends State<RecipeDetail> {
                                 : rpDetailItem['status'] == 4
                                     ? '审核中'
                                     : rpDetailItem['status'] == 5
-                                        ? '审核超时'
+                                        ? '审核超时失效'
                                         : '已取消',
                     style: GSYConstant.textStyle(fontSize: 16.0),
                   ),
