@@ -122,8 +122,7 @@ class _electronicSignaturePageState extends State<electronicSignaturePage> {
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25.0))
                 ),
                   onPressed: () {
-                    CommonUtils.throttle(getNet_YXQSignData,durationTime: 500);
-                    // getNet_YXQSignData();
+                    getNet_YXQSignData();
                   },
                   child: Text('提交',style: GSYConstant.textStyle(fontSize: 16.0),),),
             ),),

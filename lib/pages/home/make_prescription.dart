@@ -25,6 +25,7 @@ import 'package:doctor_project/pages/home/electronicSgnature.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter/services.dart';
 
+import '../../utils/common_utils.dart';
 import '../../utils/event_bus_util.dart';
 
 class MakePrescription extends StatefulWidget {
@@ -1317,7 +1318,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
               text: '电子签名',
               onPressed: () {
                 if (prescriptionId.isEmpty) {
-                  getNet_createPrescription();
+                  CommonUtils.throttle(getNet_createPrescription,durationTime: 1000);
                 } else {
                   //从授权界面返回，直接签名
                   getNet_userSignature();

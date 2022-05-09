@@ -40,7 +40,7 @@ class RegisterContentStates extends State<LoginPage> {
     var request = HttpRequest.getInstance();
     var res = await request
         .post(Api.loginApi, {'key': loginStr, 'password': loginPas});
-    if (res['code'] == 160) {
+    if (res['code'] == 200) {
       String tokenValueStr = res['data']['tokenValue'];
       SharedPreferences perfer = await SharedPreferences.getInstance();
       perfer.setString('phone', loginStr);
@@ -50,7 +50,7 @@ class RegisterContentStates extends State<LoginPage> {
         "jigId": jpushTokenStr,
         "channel": Platform.isAndroid ? "Android" : "iOS"
       });
-      if (result['code'] == 160) {
+      if (result['code'] == 200) {
         ToastUtil.showToast(msg: '登录成功');
         Navigator.pushNamed(context, '/TabHome');
       } else {
@@ -317,9 +317,6 @@ class RegisterContentStates extends State<LoginPage> {
                             }
                             CommonUtils.throttle(postNet_Login,
                                 durationTime: 500);
-                            // showDialog(context: context, builder: (BuildContext context) {
-                            //   return DialogPage();
-                            // });
                           },
                         ),
                         margin: const EdgeInsets.all(16),
