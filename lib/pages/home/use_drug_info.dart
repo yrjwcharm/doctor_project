@@ -146,6 +146,7 @@ class _UseDrugInfoState extends State<UseDrugInfo> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       key: _scaffoldKey,
       appBar: CustomAppBar(
         '用药信息',

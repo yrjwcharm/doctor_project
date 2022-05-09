@@ -74,8 +74,10 @@ class _MakePrescriptionState extends State<MakePrescription> {
   List pharmacyNameList = []; //药房名称数据源
   String pharmacyName = ''; //药房类型
   String pharmacyId = ''; //药房id
+  List<String> rpArray =['西药/中成药处方','中药处方'];
   bool tab1Active = true;
   bool tab2Active = false;
+  String rpName ='西药/中成药处方';
   double totalPrice = 0; //药品总价格
   String prescriptionId = ""; //处方id
 
@@ -451,79 +453,140 @@ class _MakePrescriptionState extends State<MakePrescription> {
           child: SingleChildScrollView(
             child: Column(
               children: <Widget>[
-                Container(
-                  margin: const EdgeInsets.only(top: 14.0),
-                  child: Row(
-                    children: <Widget>[
-                      GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            tab1Active = true;
-                            tab2Active = false;
-                            loadDataForFreqTYpe();
-                            resetData();
-                          });
-                        },
-                        child: Stack(
-                          children: [
-                            Image.asset(
-                              tab1Active
-                                  ? 'assets/images/self_mention.png'
-                                  : 'assets/images/self_mention1.png',
-                              width: screenWidth / ratio / 2,
-                              height: 44,
-                              fit: BoxFit.cover,
+                // Container(
+                //   margin: const EdgeInsets.only(top: 14.0),
+                //   child: Row(
+                //     children: <Widget>[
+                //       GestureDetector(
+                //         onTap: () {
+                //           setState(() {
+                //             tab1Active = true;
+                //             tab2Active = false;
+                //             loadDataForFreqTYpe();
+                //             resetData();
+                //           });
+                //         },
+                //         child: Stack(
+                //           children: [
+                //             Image.asset(
+                //               tab1Active
+                //                   ? 'assets/images/self_mention.png'
+                //                   : 'assets/images/self_mention1.png',
+                //               width: screenWidth / ratio / 2,
+                //               height: 44,
+                //               fit: BoxFit.cover,
+                //             ),
+                //             Positioned(
+                //                 width: screenWidth / ratio / 2,
+                //                 height: 44,
+                //                 child: Center(
+                //                     child: Text(
+                //                   '西药/中成药处方',
+                //                   style: GSYConstant.textStyle(
+                //                       fontSize: 17.0,
+                //                       color:
+                //                           tab1Active ? '#06B48D' : '#333333'),
+                //                 ))),
+                //           ],
+                //         ),
+                //       ),
+                //       Flexible(
+                //           child: GestureDetector(
+                //         onTap: () {
+                //           setState(() {
+                //             tab2Active = true;
+                //             tab1Active = false;
+                //             loadDataForFreqTYpe();
+                //             resetData();
+                //           });
+                //         },
+                //         child: Stack(
+                //           children: [
+                //             Image.asset(
+                //               tab2Active
+                //                   ? 'assets/images/express_delivery1.png'
+                //                   : 'assets/images/express_delivery.png',
+                //               fit: BoxFit.cover,
+                //               width: screenWidth / ratio / 2,
+                //               height: 44,
+                //             ),
+                //             Positioned(
+                //                 width: screenWidth / ratio / 2,
+                //                 height: 44,
+                //                 child: Center(
+                //                   child: Text(
+                //                     '中药处方',
+                //                     style: GSYConstant.textStyle(
+                //                         fontSize: 16.0,
+                //                         color:
+                //                             tab2Active ? '#06B48D' : '#333333'),
+                //                   ),
+                //                 )),
+                //           ],
+                //         ),
+                //       ))
+                //     ],
+                //   ),
+                // ),
+                GestureDetector(
+                  onTap: () {
+                    PickerUtil.showPicker(context, _scaffoldKey,
+                        pickerData: rpArray,
+                        confirmCallback: (Picker picker, List<int> selected) {
+                          // setState(() {
+                          //   rpTypeId =
+                          //       rpList[selected[0]]['detailValue'].toString();
+                          //   rpTypeName = rpList[selected[0]]['detailName'];
+                          // });
+                          if(selected[0]==0) {
+                            setState(() {
+                              tab1Active = true;
+                              tab2Active = false;
+                              rpName = rpArray[0];
+                            });
+                          } else {
+                            setState(() {
+                              tab1Active = false;
+                              tab2Active = true;
+                              rpName=rpArray[1];
+                            });
+                          }
+                          loadDataForFreqTYpe();resetData();
+
+                        });
+                  },
+                  child: Container(
+                    height: 44.0,
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border(
+                            bottom: BorderSide(
+                              width: 1.0,
+                              color:
+                              ColorsUtil.hexStringColor('#cccccc', alpha: 0.3),
+                            ))),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text(
+                          '配方类型',
+                          style: GSYConstant.textStyle(color: '#333333'),
+                        ),
+                        Row(
+                          children: <Widget>[
+                            Text(
+                              rpName,
+                              style: GSYConstant.textStyle(color: '#666666'),
                             ),
-                            Positioned(
-                                width: screenWidth / ratio / 2,
-                                height: 44,
-                                child: Center(
-                                    child: Text(
-                                  '西药/中成药处方',
-                                  style: GSYConstant.textStyle(
-                                      fontSize: 17.0,
-                                      color:
-                                          tab1Active ? '#06B48D' : '#333333'),
-                                ))),
+                            const SizedBox(
+                              width: 10.0,
+                            ),
+                            SvgUtil.svg('arrow_rp.svg')
                           ],
                         ),
-                      ),
-                      Flexible(
-                          child: GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            tab2Active = true;
-                            tab1Active = false;
-                            loadDataForFreqTYpe();
-                            resetData();
-                          });
-                        },
-                        child: Stack(
-                          children: [
-                            Image.asset(
-                              tab2Active
-                                  ? 'assets/images/express_delivery1.png'
-                                  : 'assets/images/express_delivery.png',
-                              fit: BoxFit.cover,
-                              width: screenWidth / ratio / 2,
-                              height: 44,
-                            ),
-                            Positioned(
-                                width: screenWidth / ratio / 2,
-                                height: 44,
-                                child: Center(
-                                  child: Text(
-                                    '中药处方',
-                                    style: GSYConstant.textStyle(
-                                        fontSize: 16.0,
-                                        color:
-                                            tab2Active ? '#06B48D' : '#333333'),
-                                  ),
-                                )),
-                          ],
-                        ),
-                      ))
-                    ],
+                      ],
+                    ),
                   ),
                 ),
                 GestureDetector(
@@ -836,9 +899,9 @@ class _MakePrescriptionState extends State<MakePrescription> {
                     ),
                   ),
                 ),
-                const SizedBox(
-                  height: 8.0,
-                ),
+                // const SizedBox(
+                //   height: 8.0,
+                // ),
                 ListTile(
                   tileColor: Colors.white,
                   title: const Text('RP'),
