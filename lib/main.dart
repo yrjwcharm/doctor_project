@@ -13,7 +13,20 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 void main() async{
-  await ScreenUtil.ensureScreenSize();
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([
+    // 强制竖屏
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown
+  ]);
+  // if(Platform.isAndroid) {
+  //   SystemChrome.setSystemUIOverlayStyle(
+  //       const SystemUiOverlayStyle(
+  //           statusBarColor: Colors.transparent,
+  //           systemNavigationBarColor: Colors.white,
+  //           statusBarIconBrightness: Brightness.light  // dark:一般显示黑色   light：一般显示白色
+  //       ));
+  // }
   runApp(const MyApp());
 }
 final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
@@ -93,8 +106,6 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    // ScreenUtil.init(context);
-    // ScreenUtil.init(context, designSize: const Size(360, 690));
     return MaterialApp(
       navigatorKey: navigatorKey,
       localizationsDelegates: const [
@@ -107,7 +118,6 @@ class _MyAppState extends State<MyApp> {
       ],
       debugShowCheckedModeBanner: false,
       // 设置这一属性即可
-      // home: Main(),
       initialRoute: '/',
       builder: EasyLoading.init(),
       routes:{

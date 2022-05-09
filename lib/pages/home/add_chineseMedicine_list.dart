@@ -14,6 +14,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:doctor_project/widget/safe_area_button.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
+import '../../widget/numberwidget.dart';
+
 
 class AddChineseMedicineList extends StatefulWidget {
 
@@ -189,92 +191,6 @@ class _AddChineseMedicineListState extends State<AddChineseMedicineList> {
       body: Column(
           children: <Widget>[
             Container(
-              margin: const EdgeInsets.only(top: 11.0),
-              child: Row(
-                children: <Widget>[
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        tab1Active = true;
-                        tab2Active = false;
-                        type = 1;
-                        _editingController1.text = "";
-                        detailDataList.clear();
-                        drugListIsHidden = true;
-                        selectedDrugIsHidden = true ;
-                        _contentFocusNode.unfocus();
-                      });
-                    },
-                    child: Stack(
-                      children: [
-                        Image.asset(
-                          tab1Active
-                              ? 'assets/images/self_mention.png'
-                              : 'assets/images/self_mention1.png',
-                          width: screenWidth/ratio /2,
-                          height: 44,
-                          fit: BoxFit.cover,
-                          // color: Colors.red,
-                        ),
-                        Positioned(
-                          // width: tab1Active ? 206 : 169,
-                            width: screenWidth/ratio /2,
-                            height: 44,
-                            child: Center(
-                                child: Text(
-                                  '医保内',
-                                  style: GSYConstant.textStyle(
-                                      fontSize: 17.0,
-                                      color: tab1Active ? '#06B48D' : '#333333'),
-                                ))),
-                      ],
-                    ),
-                  ),
-                  Flexible(
-                      child:
-                      GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            tab2Active = true;
-                            tab1Active = false;
-                            type = 2;
-                            _editingController1.text = "";
-                            detailDataList.clear();
-                            drugListIsHidden = true;
-                            selectedDrugIsHidden = true ;
-                            _contentFocusNode.unfocus();
-                          });
-                        },
-                        child: Stack(
-                          children: [
-                            Image.asset(
-                              tab2Active
-                                  ? 'assets/images/express_delivery1.png'
-                                  : 'assets/images/express_delivery.png',
-                              width: screenWidth/ratio /2,
-                              height: 44,
-                              fit: BoxFit.cover,
-                              // color: Colors.orange,
-                            ),
-                            Positioned(
-                              // width: tab2Active ? 206 : 169,
-                                width: screenWidth/ratio /2,
-                                height: 44,
-                                child: Center(
-                                  child: Text(
-                                    '医保外',
-                                    style: GSYConstant.textStyle(
-                                        fontSize: 16.0,
-                                        color: tab2Active ? '#06B48D' : '#333333'),
-                                  ),
-                                )),
-                          ],
-                        ),
-                      ))
-                ],
-              ),
-            ),
-            Container(
               decoration: const BoxDecoration(
                   color: Colors.white
               ),
@@ -372,7 +288,7 @@ class _AddChineseMedicineListState extends State<AddChineseMedicineList> {
                           return GestureDetector(
                             onTap: (){
                               setState(() {
-                                detailDataList[index]["count"] = "1";
+                                detailDataList[index]["count"] = 1;
                                 selectedDrugList.add(detailDataList[index]);
                                 drugListIsHidden = true;
                                 selectedDrugIsHidden = false ;
@@ -476,88 +392,27 @@ class _AddChineseMedicineListState extends State<AddChineseMedicineList> {
                               ),
                               Column(
                                 children: [
-                                  Container(
-                                    transform: Matrix4.translationValues(0, -3.0, 0),
-                                    width: 90,
-                                    height: 25,
-                                    margin: const EdgeInsets.only(bottom: 7.0),
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(2.0),
-                                        border: Border.all(
-                                            width: 1.0,
-                                            color:
-                                            ColorsUtil.hexStringColor('#cccccc'))),
-                                    child: Row(
-                                      children: <Widget>[
-                                        Container(
-                                          alignment: Alignment.center,
-                                          width: 26,
-                                          decoration: BoxDecoration(
-                                              border: Border(
-                                                  right: BorderSide(
-                                                      width: 1.0,
-                                                      color: ColorsUtil.hexStringColor(
-                                                          '#cccccc')))),
-                                          child: SvgUtil.svg('minus.svg'),
-                                        ),
-                                        Container(
-                                          width: 35.0,
-                                          height: 25.0,
-                                          decoration: BoxDecoration(
-                                              border: Border(
-                                                  right: BorderSide(
-                                                      width: 1.0,
-                                                      color: ColorsUtil.hexStringColor(
-                                                          '#cccccc')))),
-                                          child: TextField(
-                                            keyboardType: TextInputType.number,
-                                            style: GSYConstant.textStyle(
-                                                fontSize: 12.0, color: '#333333'),
-                                            textAlign: TextAlign.center,
-                                            inputFormatters: [
-                                              FilteringTextInputFormatter.allow(
-                                                  RegExp("[0-9]")), //数字包括小数
-                                            ],
-                                            textAlignVertical: TextAlignVertical.bottom,
-                                            decoration: InputDecoration(
-                                                isDense: true,
-                                                contentPadding: EdgeInsets.all(2),
-                                                fillColor: Colors.transparent,
-                                                filled: true,
-                                                hintText: "1",
-                                                hintStyle: TextStyle(
-                                                    fontFamily: 'Medium',
-                                                    fontSize: 12.0,
-                                                    fontWeight: FontWeight.w500,
-                                                    color: ColorsUtil.hexStringColor(
-                                                        '#333333')),
-                                                border: InputBorder.none,),
+                                  NumberControllerWidget(
+                                    // iconWidth:10,
+                                    numText: selectedDrugList[index]['count'].toString(),
+                                    addValueChanged: (num){
 
-                                            onChanged: (value){
-
-                                              if(value.isNotEmpty){
-                                                setState(() {
-                                                  selectedDrugList[index]["count"] = value;
-                                                });
-                                              }
-                                            },
-                                            onSubmitted: (value){
-                                              if(value.isNotEmpty){
-                                                setState(() {
-                                                  selectedDrugList[index]["count"] = value;
-                                                });
-                                              }
-                                            },
-                                          ),
-                                        ),
-                                        Container(
-                                          alignment: Alignment.center,
-                                          width: 26,
-                                          child: SvgUtil.svg('increment_add.svg'),
-                                        ),
-                                      ],
-                                    ),
+                                    },
+                                    removeValueChanged: (num){
+                                    },
+                                    updateValueChanged: (num){
+                                      setState(() {
+                                        selectedDrugList[index]['count']=num;
+                                      });
+                                      // setState(() {
+                                      //   _productNum = num;
+                                      //   setState(() {
+                                      //     _saleprice = _productNum * widget.saleprice;
+                                      //   });
+                                      // });
+                                    },
                                   ),
+                                  const SizedBox(height: 10.0,),
                                   Text(
                                     '库存：' +selectedDrugList[index]["stockNum"],
                                     style: GSYConstant.textStyle(

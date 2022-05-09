@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:doctor_project/common/style/gsy_style.dart';
 import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:doctor_project/utils/svg_util.dart';
 import 'package:doctor_project/widget/custom_app_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../../http/api.dart';
 import '../../http/http_request.dart';
 import '../../utils/toast_util.dart';
@@ -23,6 +26,14 @@ class MessageState extends State<Message> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    if(Platform.isAndroid) {
+      SystemChrome.setSystemUIOverlayStyle(
+          const SystemUiOverlayStyle(
+              statusBarColor: Colors.transparent,
+              systemNavigationBarColor: Colors.white,
+              statusBarIconBrightness: Brightness.dark  // dark:一般显示黑色   light：一般显示白色
+          ));
+    }
     getData();
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==

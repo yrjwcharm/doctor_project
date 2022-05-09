@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:doctor_project/pages/my/my_prescription.dart';
 import 'package:doctor_project/utils/svg_util.dart';
+import 'package:flutter/services.dart';
 import '../../http/http_request.dart';
 import '../../http/api.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -51,6 +52,14 @@ class MyState extends State<My> {
   @override
   initState() {
     super.initState();
+    if(Platform.isAndroid) {
+      SystemChrome.setSystemUIOverlayStyle(
+          const SystemUiOverlayStyle(
+              statusBarColor: Colors.transparent,
+              systemNavigationBarColor: Colors.white,
+              statusBarIconBrightness: Brightness.dark  // dark:一般显示黑色   light：一般显示白色
+          ));
+    }
     items = [
       _buildListTile(
           id: 0,

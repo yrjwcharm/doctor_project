@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:doctor_project/common/local/local_storage.dart';
@@ -50,6 +51,14 @@ class HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
+    if(Platform.isAndroid) {
+      SystemChrome.setSystemUIOverlayStyle(
+          const SystemUiOverlayStyle(
+              statusBarColor: Colors.transparent,
+              systemNavigationBarColor: Colors.white,
+              statusBarIconBrightness: Brightness.light  // dark:一般显示黑色   light：一般显示白色
+          ));
+    }
     getNet_doctorInfo();
     getData();
     getCount();
