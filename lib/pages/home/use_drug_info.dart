@@ -73,7 +73,7 @@ class _UseDrugInfoState extends State<UseDrugInfo> {
     drugInfoMap['medicationDays'] = "";
     drugInfoMap['remark'] = "";
     setState(() {
-       list[1]['placeholder']=drugInfoMap['packageUnit'];
+       list[1]['placeholder']=drugInfoMap['baseUnit'];
     });
 
   }
@@ -129,18 +129,6 @@ class _UseDrugInfoState extends State<UseDrugInfo> {
         });
   }
 
-  void _showSimpleDialog2() async {
-    var result = await showDialog(
-        useRootNavigator: false,
-        barrierDismissible: true, //表示点击灰色背景的时候是否消失弹出框
-        context: context,
-        builder: (context) {
-          return SimpleDialog(
-            children: dialogData(instructionsMap["baseUnit"],
-                instructionsMap["_baseUnit"], list[1], 1),
-          );
-        });
-  }
 
   void _showSimpleDialog3() async {
     var result = await showDialog(
@@ -395,10 +383,12 @@ class _UseDrugInfoState extends State<UseDrugInfo> {
                                             });
                                           },
                                         )),
-                                    const SizedBox(
+                                   index!=1? const SizedBox(
                                       width: 8.0,
-                                    ),
-                                    SvgUtil.svg('arrow.svg')
+                                    ):Container(),
+                                    Visibility(
+                                        visible: index!=1,
+                                        child: SvgUtil.svg('arrow.svg'))
                                   ],
                                 ),
                               ))))

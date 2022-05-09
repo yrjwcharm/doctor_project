@@ -973,7 +973,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
                                                             drugList[index]
                                                                 ['dosage'] +
                                                             drugList[index]
-                                                                ['packageUnit'],
+                                                                ['baseUnit'],
                                                         style: GSYConstant
                                                             .textStyle(
                                                                 fontSize: 13.0,

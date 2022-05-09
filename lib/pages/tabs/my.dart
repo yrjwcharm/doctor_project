@@ -52,14 +52,6 @@ class MyState extends State<My> {
   @override
   initState() {
     super.initState();
-    if(Platform.isAndroid) {
-      SystemChrome.setSystemUIOverlayStyle(
-          const SystemUiOverlayStyle(
-              statusBarColor: Colors.transparent,
-              systemNavigationBarColor: Colors.white,
-              statusBarIconBrightness: Brightness.dark  // dark:一般显示黑色   light：一般显示白色
-          ));
-    }
     items = [
       _buildListTile(
           id: 0,

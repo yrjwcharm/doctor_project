@@ -30,15 +30,6 @@ class PatientState extends State<Patient> {
   @override
   void initState() {
     super.initState();
-
-    if(Platform.isAndroid) {
-      SystemChrome.setSystemUIOverlayStyle(
-          const SystemUiOverlayStyle(
-              statusBarColor: Colors.transparent,
-              systemNavigationBarColor: Colors.white,
-              statusBarIconBrightness: Brightness.dark  // dark:一般显示黑色   light：一般显示白色
-          ));
-    }
     getData();
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
