@@ -22,7 +22,7 @@ class RegisterContentStates extends State<RegisterContent> {
   String iphoneStr = "";
   String loginPas = "";
   String code = "";
-
+  int isSelect = 0;
   bool isChooseTX = false;
 
   setStatusChoose(bool val) {
@@ -315,7 +315,7 @@ class RegisterContentStates extends State<RegisterContent> {
                             //   Fluttertoast.showToast(msg: '密码格式需包含数字，字母以及字符大小写',gravity: ToastGravity.CENTER);
                             //   return;
                             // }
-                            if (isChooseTX == false) {
+                            if (isSelect == 0) {
                               Fluttertoast.showToast(
                                   msg: '请勾选服务', gravity: ToastGravity.CENTER);
                               return;
@@ -333,14 +333,27 @@ class RegisterContentStates extends State<RegisterContent> {
                   ],
                 ),
                 // SizedBox(height: 20),
+                GestureDetector(
+                  onTap: (){
+                    isSelect= this.isSelect==0?1:0;
+                   setState(() {
 
-                Row(
+                   });
+                  },
+                  child:Row(
                   crossAxisAlignment: CrossAxisAlignment.start, //横轴居顶对齐
 
                   children: [
                     Container(
                       margin: EdgeInsets.fromLTRB(20, 0, 10, 10),
-                      child: singChooseBtn(setStatusChoose),
+                       decoration: BoxDecoration(
+                         image: DecorationImage(
+                           image: isSelect == 0
+                               ? AssetImage('assets/images/checkbox.png')
+                               : AssetImage('assets/images/checkbox-sel.png'),
+                           fit: BoxFit.cover,
+                         ),
+                       ),
                       width: 16,
                       height: 16,
                     ),
@@ -397,7 +410,7 @@ class RegisterContentStates extends State<RegisterContent> {
                       width: MediaQuery.of(context).size.width - 40 - 36,
                     )
                   ],
-                )
+                ),)
               ],
             ),
           )),
@@ -523,48 +536,6 @@ class sendIphoneCodeStates extends State<sendIphoneCode> {
     // TODO: implement build
   }
 }
-
-class singChooseBtn extends StatefulWidget {
-  singChooseBtn(this.isChooseTx) : super();
-  Function(bool val) isChooseTx;
-
-  @override
-  State<StatefulWidget> createState() => singChooseBtnStates();
-}
-
-class singChooseBtnStates extends State<singChooseBtn> {
-  int isSelect = 0;
-
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    return Container(
-      height: 304,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        image: DecorationImage(
-          image: isSelect == 0
-              ? AssetImage('assets/images/checkbox.png')
-              : AssetImage('assets/images/checkbox-sel.png'),
-          fit: BoxFit.cover,
-        ),
-      ),
-      child: FlatButton(
-        child: Text(""),
-        onPressed: () {
-          setState(() {
-            isSelect = this.isSelect == 0 ? 1 : 0;
-            if (isSelect == 0) {
-              widget.isChooseTx(false);
-            } else {
-              widget.isChooseTx(true);
-            }
-          });
-        },
-      ),
-    );
-  }
-}
-
 class DialogPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => DialogPageState();

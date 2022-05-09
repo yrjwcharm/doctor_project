@@ -26,6 +26,7 @@ class LoginPage extends StatefulWidget {
 class RegisterContentStates extends State<LoginPage> {
   String loginStr = "";
   String loginPas = "";
+  int isSelect = 0;
   bool isChooseTX = false;
 
   setStatusChoose(bool val) {
@@ -164,42 +165,42 @@ class RegisterContentStates extends State<LoginPage> {
                   ],
                 ),
                 Container(
-                  child: Divider(
+                  child: const Divider(
                     height: 1.0,
                     indent: 0.0,
                     color: Color.fromARGB(255, 239, 239, 239),
                   ),
-                  margin: EdgeInsets.fromLTRB(20, 7, 20, 0),
+                  margin: const EdgeInsets.fromLTRB(20, 7, 20, 0),
                   width: MediaQuery.of(context).size.width - 40,
                 ),
 
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 Row(
                   textDirection: TextDirection.ltr,
                   children: [
                     Container(
                       child: SvgUtil.svg('pasIcon.svg'),
-                      margin: EdgeInsets.fromLTRB(20, 0, 0, 0),
+                      margin: const EdgeInsets.fromLTRB(20, 0, 0, 0),
                       width: 16.0,
                       height: 18,
                     ),
                     Container(
                       child: Theme(
-                        data: new ThemeData(primaryColor: Colors.red),
+                        data: ThemeData(primaryColor: Colors.red),
                         child: TextField(
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             border: InputBorder.none,
                             hintText: '请输入登录密码',
-                            contentPadding: const EdgeInsets.only(left: 10.0),
+                            contentPadding: EdgeInsets.only(left: 10.0),
                             isCollapsed: true,
                             hintStyle: TextStyle(
                               fontSize: 14,
                               color: Color.fromARGB(255, 183, 183, 183),
                             ),
                           ),
-                          onChanged: (Value) {
+                          onChanged: (value) {
                             setState(() {
-                              loginPas = Value;
+                              loginPas = value;
                             });
                           },
                         ),
@@ -260,7 +261,7 @@ class RegisterContentStates extends State<LoginPage> {
                     )
                   ],
                 ),
-                SizedBox(height: 30),
+                const SizedBox(height: 30),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -276,7 +277,7 @@ class RegisterContentStates extends State<LoginPage> {
                           ),
                           textColor: Colors.white,
                           onPressed: () {
-                            if (isChooseTX == false) {
+                            if (isSelect==0) {
                               Fluttertoast.showToast(
                                   msg: '请勾选服务', gravity: ToastGravity.CENTER);
                               return;
@@ -297,14 +298,26 @@ class RegisterContentStates extends State<LoginPage> {
                   ],
                 ),
                 // SizedBox(height: 20),
-
-                Row(
+                GestureDetector(
+                  onTap: (){
+                    setState(() {
+                      isSelect = this.isSelect==0?1:0;
+                    });
+                  },
+                  child:Row(
                   crossAxisAlignment: CrossAxisAlignment.start, //横轴居顶对齐
-
                   children: [
                     Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        image: DecorationImage(
+                          image: this.isSelect == 0
+                              ? AssetImage('assets/images/checkbox.png')
+                              : AssetImage('assets/images/checkbox-sel.png'),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                       margin: const EdgeInsets.fromLTRB(20, 0, 10, 10),
-                      child: singChooseBtn(setStatusChoose),
                       width: 16,
                       height: 16,
                     ),
@@ -361,7 +374,7 @@ class RegisterContentStates extends State<LoginPage> {
                       width: MediaQuery.of(context).size.width - 40 - 36,
                     )
                   ],
-                ),
+                ),)
               ],
             ),
           )),
@@ -370,62 +383,6 @@ class RegisterContentStates extends State<LoginPage> {
     );
   }
 }
-
-//
-// class LoginPage extends StatelessWidget{
-//   // Future _openAlertDialog() async {
-//   //
-//   // }
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return
-//   }
-//
-//
-//
-//
-// }
-
-class singChooseBtn extends StatefulWidget {
-  singChooseBtn(this.isChooseTx) : super();
-  Function(bool val) isChooseTx;
-
-  @override
-  State<StatefulWidget> createState() => singChooseBtnStates();
-}
-
-class singChooseBtnStates extends State<singChooseBtn> {
-  int isSelect = 0;
-
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    return GestureDetector(
-      onTap: (){
-        setState(() {
-          isSelect = this.isSelect == 0 ? 1 : 0;
-          if (isSelect == 0) {
-            widget.isChooseTx(false);
-          } else {
-            widget.isChooseTx(true);
-          }
-        });
-      },
-      child:Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          image: DecorationImage(
-            image: this.isSelect == 0
-                ? AssetImage('assets/images/checkbox.png')
-                : AssetImage('assets/images/checkbox-sel.png'),
-            fit: BoxFit.cover,
-          ),
-        ),
-      ),
-    );
-  }
-}
-
 class DialogPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => DialogPageState();
