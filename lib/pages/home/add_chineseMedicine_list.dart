@@ -42,7 +42,6 @@ class _AddChineseMedicineListState extends State<AddChineseMedicineList> {
   int pageSize = 15 ; //一页显示条数
   bool isLoading = false; //判断 loading框是否隐藏
   String loadText = ""; //加载时显示的文字
-  bool commonlyUsedIsHidden = true ; //常用药品列表是否隐藏
   bool drugListIsHidden = true ; //药品列表是否隐藏
   bool selectedDrugIsHidden = true ; //选中药品列表是否隐藏
 
@@ -97,7 +96,6 @@ class _AddChineseMedicineListState extends State<AddChineseMedicineList> {
       print(totalPage);
 
       setState(() {
-        commonlyUsedIsHidden = true;
         drugListIsHidden = false ;
         selectedDrugIsHidden = true ;
         detailDataList.addAll(dataMap["records"]);
@@ -202,7 +200,6 @@ class _AddChineseMedicineListState extends State<AddChineseMedicineList> {
                         type = 1;
                         _editingController1.text = "";
                         detailDataList.clear();
-                        commonlyUsedIsHidden = false;
                         drugListIsHidden = true;
                         selectedDrugIsHidden = true ;
                         _contentFocusNode.unfocus();
@@ -243,7 +240,6 @@ class _AddChineseMedicineListState extends State<AddChineseMedicineList> {
                             type = 2;
                             _editingController1.text = "";
                             detailDataList.clear();
-                            commonlyUsedIsHidden = false;
                             drugListIsHidden = true;
                             selectedDrugIsHidden = true ;
                             _contentFocusNode.unfocus();
@@ -363,47 +359,6 @@ class _AddChineseMedicineListState extends State<AddChineseMedicineList> {
               ]),
             ),
             Visibility(
-              visible: !commonlyUsedIsHidden,
-              child: Container(
-                  width: double.infinity,
-                  decoration: const BoxDecoration(
-                      color: Colors.white
-                  ),
-                  padding: const EdgeInsets.only(left: 16.0),
-                  child: Text('常用药',style: GSYConstant.textStyle(fontSize: 15.0,color: '#333333'),),
-                ),
-            ),
-
-            Visibility(
-              visible: !commonlyUsedIsHidden,
-              child: Expanded(
-                child: ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: commonlyUsedList.length,
-                    itemBuilder: (BuildContext context, int index) {
-
-                      GlobalKey key = GlobalKey();
-                      return Container(
-                        height: 68.0,
-                        width: double.infinity,
-                        padding: const EdgeInsets.only(left: 16.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Text(commonlyUsedList[index]["title"],style: GSYConstant.textStyle(color: '#333333'),),
-                            Text(commonlyUsedList[index]["description"],style: GSYConstant.textStyle(fontSize: 13.0,color: '#888888'),)
-                          ],),
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            border: Border(bottom: BorderSide(width: 1.0,color: ColorsUtil.hexStringColor('#cccccc',alpha: 0.3)))
-                        ),
-                      );
-                    }),
-              ),
-            ),
-
-            Visibility(
               visible: !drugListIsHidden,
               child: Expanded(
                 child: RefreshIndicator(
@@ -419,7 +374,6 @@ class _AddChineseMedicineListState extends State<AddChineseMedicineList> {
                               setState(() {
                                 detailDataList[index]["count"] = "1";
                                 selectedDrugList.add(detailDataList[index]);
-                                commonlyUsedIsHidden = true ;
                                 drugListIsHidden = true;
                                 selectedDrugIsHidden = false ;
                               });
@@ -473,7 +427,6 @@ class _AddChineseMedicineListState extends State<AddChineseMedicineList> {
                                     setState(() {
                                       selectedDrugList.removeAt(index);
                                       if(selectedDrugList.isEmpty){
-                                        commonlyUsedIsHidden = false ;
                                         drugListIsHidden = true ;
                                         selectedDrugIsHidden = true ;
                                       }

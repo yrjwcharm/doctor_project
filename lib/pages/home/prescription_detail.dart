@@ -393,7 +393,7 @@ class _PrescriptDetailState extends State<PrescriptDetail> {
                                     ),
                                     Text(
                                       medicineList[index]["specification"] ==null ?"" :
-                                      medicineList[index]["specification"] +"/" +medicineList[index]["packageUnitid_dictValue"],
+                                      medicineList[index]["specification"] +"/" +medicineList[index]["packageUnit"],
                                       style: GSYConstant.textStyle(
                                           fontSize: 13.0,
                                           color: '#666666'),

@@ -336,43 +336,43 @@ class _AddDrugListState extends State<AddDrugList> {
                 ),
               ]),
             ),
-            Visibility(
-              visible: drugListIsHidden,
-              child: Container(
-                  width: double.infinity,
-                  decoration: const BoxDecoration(
-                      color: Colors.white
-                  ),
-                  padding: const EdgeInsets.only(left: 16.0),
-                  child: Text('常用药',style: GSYConstant.textStyle(fontSize: 15.0,color: '#333333'),),
-                ),
-            ),
+            // Visibility(
+            //   visible: drugListIsHidden,
+            //   child: Container(
+            //       width: double.infinity,
+            //       decoration: const BoxDecoration(
+            //           color: Colors.white
+            //       ),
+            //       padding: const EdgeInsets.only(left: 16.0),
+            //       child: Text('常用药',style: GSYConstant.textStyle(fontSize: 15.0,color: '#333333'),),
+            //     ),
+            // ),
 
-            Visibility(
-              visible: drugListIsHidden,
-              child: Expanded(
-                child: ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: 5,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Container(
-                        height: 68.0,
-                        padding: const EdgeInsets.only(left: 16.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Text('[阿莫灵]阿莫西林胶囊 0.25*24粒/盒',style: GSYConstant.textStyle(color: '#333333'),),
-                            Text('口服：一次3粒，4次/天',style: GSYConstant.textStyle(fontSize: 13.0,color: '#888888'),)
-                          ],),
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            border: Border(bottom: BorderSide(width: 1.0,color: ColorsUtil.hexStringColor('#cccccc',alpha: 0.3)))
-                        ),
-                      );
-                    }),
-              ),
-            ),
+            // Visibility(
+            //   visible: drugListIsHidden,
+            //   child: Expanded(
+            //     child: ListView.builder(
+            //         shrinkWrap: true,
+            //         itemCount: 5,
+            //         itemBuilder: (BuildContext context, int index) {
+            //           return Container(
+            //             height: 68.0,
+            //             padding: const EdgeInsets.only(left: 16.0),
+            //             child: Column(
+            //               crossAxisAlignment: CrossAxisAlignment.start,
+            //               mainAxisAlignment: MainAxisAlignment.center,
+            //               children: <Widget>[
+            //                 Text('[阿莫灵]阿莫西林胶囊 0.25*24粒/盒',style: GSYConstant.textStyle(color: '#333333'),),
+            //                 Text('口服：一次3粒，4次/天',style: GSYConstant.textStyle(fontSize: 13.0,color: '#888888'),)
+            //               ],),
+            //             decoration: BoxDecoration(
+            //                 color: Colors.white,
+            //                 border: Border(bottom: BorderSide(width: 1.0,color: ColorsUtil.hexStringColor('#cccccc',alpha: 0.3)))
+            //             ),
+            //           );
+            //         }),
+            //   ),
+            // ),
 
             Visibility(
               visible: !drugListIsHidden,
@@ -402,7 +402,7 @@ class _AddDrugListState extends State<AddDrugList> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[ // packageUnitid_dictText
-                                  Text(detailDataList[index]["medicinename"] +" " +detailDataList[index]["specification"] +"/" +detailDataList[index]["packageUnitid_dictValue"],style: GSYConstant.textStyle(color: '#333333'),),
+                                  Text(detailDataList[index]["medicinename"] +" " +detailDataList[index]["specification"] +"/" +detailDataList[index]["packageUnit"],style: GSYConstant.textStyle(color: '#333333'),),
                                 ],),
                               decoration: BoxDecoration(
                                   color: Colors.white,

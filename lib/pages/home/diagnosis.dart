@@ -37,7 +37,6 @@ class _DiagnosisState extends State<Diagnosis> {
   int _page = 1; //加载的页数
   bool isLoading = false; //判断 loading框是否隐藏
   String loadText = ""; //加载时显示的文字
-  bool commonlyUsedIsHidden = true; //常用诊断是否隐藏
   bool diagnosisListIsHidden = true; //诊断列表是否隐藏
   bool checkedDiagnosisIsHidden = true; //选中列表是否隐藏
 
@@ -319,26 +318,26 @@ void getNet_diagnosisList () async{
                 ),
               ],
           ),),
-          Visibility(
-            visible: !commonlyUsedIsHidden,
-              child: Container(
-                alignment: Alignment.centerLeft,
-                margin: const EdgeInsets.only(left:16.0,top: 24.0,bottom: 16.0),
-                child: Text('常用诊断',style: GSYConstant.textStyle(fontSize: 15.0,fontWeight: FontWeight.w500,color: '#333333'),),
-              ),
-          ),
-          Visibility(
-            visible: !commonlyUsedIsHidden,
-              child: Wrap(
-                  runSpacing: 8.0,
-                  spacing: 8.0,
-                  children:commonList.map((item) =>CustomElevatedButton(elevation:0,title: item['title'],
-                    onPressed: (){
-
-                    },height: 29.0,primary: '#F7F7F7',textStyle: GSYConstant.textStyle(color: '#666666'), borderRadius: BorderRadius.circular(15.0),),
-                  ).toList()
-              ),
-          ),
+          // Visibility(
+          //   visible: !commonlyUsedIsHidden,
+          //     child: Container(
+          //       alignment: Alignment.centerLeft,
+          //       margin: const EdgeInsets.only(left:16.0,top: 24.0,bottom: 16.0),
+          //       child: Text('常用诊断',style: GSYConstant.textStyle(fontSize: 15.0,fontWeight: FontWeight.w500,color: '#333333'),),
+          //     ),
+          // ),
+          // Visibility(
+          //   visible: !commonlyUsedIsHidden,
+          //     child: Wrap(
+          //         runSpacing: 8.0,
+          //         spacing: 8.0,
+          //         children:commonList.map((item) =>CustomElevatedButton(elevation:0,title: item['title'],
+          //           onPressed: (){
+          //
+          //           },height: 29.0,primary: '#F7F7F7',textStyle: GSYConstant.textStyle(color: '#666666'), borderRadius: BorderRadius.circular(15.0),),
+          //         ).toList()
+          //     ),
+          // ),
           Visibility(
             visible: !diagnosisListIsHidden,
               child: Expanded(

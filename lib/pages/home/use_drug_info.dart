@@ -49,7 +49,7 @@ class _UseDrugInfoState extends State<UseDrugInfo> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final List list = [
     {'label': '使用频率：', 'placeholder': '请选择频率'},
-    {'label': '剂量和单位：', 'placeholder': '粒/次'},
+    {'label': '剂量和单位：', 'placeholder': ''},
     {'label': '用法：', 'placeholder': '请选择用法'},
     {'label': '持续用药天数：', 'placeholder': '请输入用药天数'}
   ];
@@ -63,11 +63,15 @@ class _UseDrugInfoState extends State<UseDrugInfo> {
     drugInfoMap['dosage'] = "";
     drugInfoMap['frequency'] = "";
     drugInfoMap['_frequency'] = "";
-    drugInfoMap['baseUnit'] = "";
+    // drugInfoMap['baseUnit'] = "";
     drugInfoMap['usage'] = "";
     drugInfoMap['_usage'] = "";
     drugInfoMap['medicationDays'] = "";
     drugInfoMap['remark'] = "";
+    setState(() {
+       list[1]['placeholder']=drugInfoMap['packageUnit'];
+    });
+
   }
 
   /*
@@ -87,10 +91,7 @@ class _UseDrugInfoState extends State<UseDrugInfo> {
             // drugInfoMap.update("dosage", (value) => item["placeholder"]);
             drugInfoMap['_frequency'] = _data[i]['detailValue'];
             drugInfoMap['frequency'] = data[i];
-          } else if (index == 1) {
-            drugInfoMap['_baseUnit'] = _data[i]['detailValue'];
-            drugInfoMap['baseUnit'] = data[i];
-          } else if (index == 2) {
+          }  else if (index == 2) {
             drugInfoMap['_usage'] = _data[i]['detailValue'];
             drugInfoMap['usage'] = data[i];
             // drugInfoMap.update("usage", (value) => item["placeholder"]);
@@ -206,9 +207,9 @@ class _UseDrugInfoState extends State<UseDrugInfo> {
                               //packageUnitid_dictText
                               '规格：' +
                                   drugInfoMap["specification"]
-                                  // +
-                                  // "/" +
-                                  // drugInfoMap["packageUnitid_dictValue"]
+                                  +
+                                  "/" +
+                                  drugInfoMap["packageUnit"]
                               ,
                               style: GSYConstant.textStyle(
                                   fontSize: 13.0, color: '#888888'),
@@ -375,7 +376,7 @@ class _UseDrugInfoState extends State<UseDrugInfo> {
                             if (index == 0) {
                               _showSimpleDialog1();
                             } else if (index == 1) {
-                              _showSimpleDialog2();
+                              // _showSimpleDialog2();
                             } else if (index == 2) {
                               _showSimpleDialog3();
                             }
@@ -408,7 +409,7 @@ class _UseDrugInfoState extends State<UseDrugInfo> {
                                     Visibility(
                                       visible: index == 1,
                                       child: Expanded(
-                                          flex: 3,
+                                          flex: 12,
                                           child: TextField(
                                             keyboardType: TextInputType.number,
                                             controller: _editingController1,
@@ -421,7 +422,7 @@ class _UseDrugInfoState extends State<UseDrugInfo> {
                                               FilteringTextInputFormatter.allow(
                                                   RegExp("[0-9]")), //数字包括小数
                                             ],
-                                            textAlign: TextAlign.right,
+                                             textAlign: TextAlign.right,
                                             decoration: InputDecoration(
                                                 // filled: true,
                                                 // fillColor: Colors.red,
@@ -434,7 +435,6 @@ class _UseDrugInfoState extends State<UseDrugInfo> {
                                               drugInfoMap['dosage']= value;
                                               setState(() {
                                               });
-                                              print('1111,${drugInfoMap.toString()}');
                                             },
                                             onSubmitted: (value) {
                                               print(value);
@@ -549,38 +549,15 @@ class _UseDrugInfoState extends State<UseDrugInfo> {
             child: SafeAreaButton(
               text: '确认',
               onPressed: () {
-                // setState(() {
-                //   Map item = list[1];
-                //   drugInfoMap["frequency"] =
-                //       _editingController1.text + item["placeholder"];
-                //   // drugInfoMap.update("frequency", (value) => _editingController1.text +item["placeholder"]);
-                // });
-
-                /* 新增字段：
-                   count 个数
-                   dosage 用量
-                   frequency 次数
-                   usage 用法
-                   medicationDays 用药天数
-                   remark 备注
-                */
                 String dosageStr = drugInfoMap['dosage'];
                 String usageStr = drugInfoMap["usage"];
-                String unit = drugInfoMap['baseUnit'];
-                print('$dosageStr,$usageStr,$unit');
-                if (dosageStr.isEmpty || usageStr.isEmpty||unit.isEmpty) {
+                if (dosageStr.isEmpty || usageStr.isEmpty) {
                   Fluttertoast.showToast(
-                      msg: '请选择或输入用法用量及单位', gravity: ToastGravity.CENTER);
+                      msg: '请选择或输入用法用量', gravity: ToastGravity.CENTER);
                   return;
                 }
-                // EventBusUtil.getInstance().fire(drugInfoMap);
                 EventBusUtil.getInstance().fire(drugInfoMap);
-                // isHaveData = true;
                 Navigator.pop(context);
-
-                // Navigator.popUntil(context, ModalRoute.withName('/makePrescription'));
-                // Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => MakePrescription(),), ModalRoute.withName('chatRoom'));
-                // Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => MakePrescription(),), (route) => false);
               },
             ),
           )

@@ -954,7 +954,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
                                                                 "specification"] +
                                                             "/" +
                                                             drugList[index][
-                                                                "packageUnitid_dictValue"],
+                                                                "packageUnit"],
                                                         style: GSYConstant
                                                             .textStyle(
                                                                 color:
@@ -973,7 +973,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
                                                             drugList[index]
                                                                 ['dosage'] +
                                                             drugList[index]
-                                                                ['baseUnit'],
+                                                                ['packageUnit'],
                                                         style: GSYConstant
                                                             .textStyle(
                                                                 fontSize: 13.0,

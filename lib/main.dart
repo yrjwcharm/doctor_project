@@ -4,6 +4,7 @@ import 'package:doctor_project/pages/login/register.dart';
 import 'package:doctor_project/pages/tabs/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'dart:io';
 import 'common/local/local_storage.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -11,7 +12,8 @@ import 'package:jpush_flutter/jpush_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
-void main() {
+void main() async{
+  await ScreenUtil.ensureScreenSize();
   runApp(const MyApp());
 }
 final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
@@ -91,6 +93,8 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    // ScreenUtil.init(context);
+    // ScreenUtil.init(context, designSize: const Size(360, 690));
     return MaterialApp(
       navigatorKey: navigatorKey,
       localizationsDelegates: const [
