@@ -1,3 +1,4 @@
+import 'package:doctor_project/pages/home/chat_room.dart';
 import 'package:doctor_project/pages/home/make_prescription.dart';
 import 'package:doctor_project/pages/login/login.dart';
 import 'package:doctor_project/pages/login/register.dart';

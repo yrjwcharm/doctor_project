@@ -52,7 +52,7 @@ class RegisterContentStates extends State<LoginPage> {
       });
       if (result['code'] == 200) {
         ToastUtil.showToast(msg: '登录成功');
-        Navigator.pushNamed(context, '/TabHome');
+        Navigator.pushNamedAndRemoveUntil(context, '/TabHome', (route) => false);
       } else {
         ToastUtil.showToast(msg: result['msg']);
       }

@@ -444,6 +444,7 @@ class HomeState extends State<Home> {
                                   ZegoConfig.instance.token =
                                       res2['data']['token'];
                                   if (item['type'] == '2') {
+                                    // LocalStorage.save('userMap', item);
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
@@ -455,7 +456,7 @@ class HomeState extends State<Home> {
                                           getCount()
                                         });
                                   } else {
-                                    LocalStorage.save('patientInfo', item);
+                                    // LocalStorage.save('userMap', item);
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(

@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:doctor_project/common/style/gsy_style.dart';
 import 'package:doctor_project/http/http_request.dart';
+import 'package:doctor_project/pages/home/chat_room.dart';
 import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:doctor_project/utils/svg_util.dart';
 import 'package:doctor_project/utils/toast_util.dart';
@@ -55,7 +56,16 @@ class _RecipeDetailState extends State<RecipeDetail> {
       });
     }
   }
+  @override
+  void dispose() {
+    super.dispose();
+  }
+  @override
+  void deactivate() {
+    // TODO: implement deactivate
+    super.deactivate();
 
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,7 +74,6 @@ class _RecipeDetailState extends State<RecipeDetail> {
       appBar: CustomAppBar(
         '处方详情',
         onBackPressed: () {
-          Navigator.pop(context);
         },
       ),
       body: Column(
