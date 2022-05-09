@@ -570,7 +570,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         Text(
-                          '配方类型',
+                          '处方分类',
                           style: GSYConstant.textStyle(color: '#333333'),
                         ),
                         Row(

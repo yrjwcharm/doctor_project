@@ -52,7 +52,7 @@ class _UseDrugInfoState extends State<UseDrugInfo> {
   final TextEditingController _editingController3 = TextEditingController();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final List list = [
-    {'label': '使用频率：', 'placeholder': '请选择频率'},
+    {'label': '使用频次：', 'placeholder': '请选择频次'},
     {'label': '剂量和单位：', 'placeholder': ''},
     {'label': '用法：', 'placeholder': '请选择用法'},
     {'label': '持续用药天数：', 'placeholder': '请输入用药天数'}
