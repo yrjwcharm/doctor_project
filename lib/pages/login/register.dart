@@ -6,6 +6,7 @@ import 'package:doctor_project/utils/toast_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import '../../common/style/gsy_style.dart';
 import 'package:dio/dio.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -24,6 +25,7 @@ class RegisterContentStates extends State<RegisterContent> {
   String code = "";
   int isSelect = 0;
   bool isChooseTX = false;
+  bool obscure = true;
 
   setStatusChoose(bool val) {
     setState(() {
@@ -34,7 +36,7 @@ class RegisterContentStates extends State<RegisterContent> {
   @override
   bool isPasTure(String str) {
     return new RegExp(
-            '^(?![A-Za-z0-9]+\$)(?![a-z0-9\\W]+\$)(?![A-Za-z\\W]+\$)(?![A-Z0-9\\W]+\$)[a-zA-Z0-9\\W]{6,20}\$')
+            '^(?![A-Za-z0-9]+\$)(?![a-z0-9\\W]+\$)(?![A-Za-z\\W]+\$)(?![A-Z0-9\\W]+\$)[a-zA-Z0-9\\W]{6,16}\$')
         .hasMatch(str);
   }
 
@@ -46,7 +48,7 @@ class RegisterContentStates extends State<RegisterContent> {
     // });
     var dio = new Dio();
     if (!RegexUtil.isPwd(loginPas)) {
-      ToastUtil.showToast(msg: '密码必须包含字母和数字和特殊字符,6-20');
+      ToastUtil.showToast(msg: '密码必须包含字母和数字和特殊字符,6-16');
       return;
     }
     var response = await dio.post(
@@ -59,7 +61,7 @@ class RegisterContentStates extends State<RegisterContent> {
 
     String mess = response.data['msg'];
 
-    if (response.data['code'] != 200) {
+    if (response.data['code'] != 160) {
       Fluttertoast.showToast(msg: mess, gravity: ToastGravity.CENTER);
       return;
     } else {
@@ -108,7 +110,7 @@ class RegisterContentStates extends State<RegisterContent> {
                   '欢迎注册',
                   style: GSYConstant.textStyle(
                       fontFamily: 'Medium',
-                      fontSize: 20.0,
+                      fontSize: 16.0,
                       fontWeight: FontWeight.w500),
                 ),
                 const SizedBox(
@@ -122,7 +124,7 @@ class RegisterContentStates extends State<RegisterContent> {
             transform: Matrix4.translationValues(0, -43.0, 0),
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+              borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
             ),
             width: double.infinity,
             child: Column(
@@ -133,7 +135,7 @@ class RegisterContentStates extends State<RegisterContent> {
                   children: [
                     Container(
                       child: SvgUtil.svg('userIcon.svg'),
-                      margin: EdgeInsets.fromLTRB(20, 30, 0, 0),
+                      margin: EdgeInsets.fromLTRB(16, 30, 0, 0),
                       width: 16.0,
                       height: 18,
                     ),
@@ -172,7 +174,7 @@ class RegisterContentStates extends State<RegisterContent> {
                     indent: 0.0,
                     color: Color.fromARGB(255, 239, 239, 239),
                   ),
-                  margin: EdgeInsets.fromLTRB(20, 7, 20, 0),
+                  margin: EdgeInsets.fromLTRB(16, 7, 16, 0),
                   width: MediaQuery.of(context).size.width - 40,
                 ),
                 SizedBox(height: 10),
@@ -183,7 +185,7 @@ class RegisterContentStates extends State<RegisterContent> {
                       child: SvgUtil.svg(
                         'pasIcon.svg',
                       ),
-                      margin: EdgeInsets.fromLTRB(20, 0, 0, 0),
+                      margin: EdgeInsets.fromLTRB(16, 0, 0, 0),
                       width: 16.0,
                       height: 18,
                     ),
@@ -207,7 +209,7 @@ class RegisterContentStates extends State<RegisterContent> {
                               });
                             }),
                       ),
-                      width: MediaQuery.of(context).size.width - 61 - 120,
+                      width: MediaQuery.of(context).size.width - 61 - 116,
                       margin: EdgeInsets.fromLTRB(5, 0, 10, 0),
                       height: 30,
                       alignment: Alignment.centerLeft,
@@ -223,7 +225,7 @@ class RegisterContentStates extends State<RegisterContent> {
                     indent: 0.0,
                     color: Color.fromARGB(255, 239, 239, 239),
                   ),
-                  margin: EdgeInsets.fromLTRB(20, 7, 20, 0),
+                  margin: EdgeInsets.fromLTRB(16, 7, 16, 0),
                   width: MediaQuery.of(context).size.width - 40,
                 ),
 
@@ -233,7 +235,7 @@ class RegisterContentStates extends State<RegisterContent> {
                   children: [
                     Container(
                       child: SvgUtil.svg('pasIcon.svg'),
-                      margin: EdgeInsets.fromLTRB(20, 0, 0, 0),
+                      margin: EdgeInsets.fromLTRB(16, 0, 0, 0),
                       width: 16.0,
                       height: 18,
                     ),
@@ -241,11 +243,20 @@ class RegisterContentStates extends State<RegisterContent> {
                       child: Theme(
                         data: new ThemeData(primaryColor: Colors.red),
                         child: TextField(
+                            obscureText: obscure,
                             decoration: InputDecoration(
                               isCollapsed: true,
+                              suffixIconConstraints: const BoxConstraints(),
+                              suffixIcon:GestureDetector(
+                                  onTap: (){
+                                    setState(() {
+                                      obscure =!obscure;
+                                    });
+                                  },
+                                  child: SvgUtil.svg(obscure?'open_eyes.svg':'close_eyes.svg')),
                               contentPadding: const EdgeInsets.only(left: 10.0),
                               border: InputBorder.none,
-                              hintText: '请输入登录密码（6-20位数字大小写字母符号组合）',
+                              hintText: '请输入登录密码（6-16位数字大小写字母符号组合）',
                               hintStyle: TextStyle(
                                 fontSize: 14,
                                 color: Color.fromARGB(255, 183, 183, 183),
@@ -258,7 +269,7 @@ class RegisterContentStates extends State<RegisterContent> {
                             }),
                       ),
                       width: MediaQuery.of(context).size.width - 61,
-                      margin: EdgeInsets.fromLTRB(5, 0, 10, 0),
+                      margin: EdgeInsets.fromLTRB(5, 0, 16, 0),
                       height: 30,
                       alignment: Alignment.centerLeft,
                     ),
@@ -270,7 +281,7 @@ class RegisterContentStates extends State<RegisterContent> {
                     indent: 0.0,
                     color: Color.fromARGB(255, 239, 239, 239),
                   ),
-                  margin: EdgeInsets.fromLTRB(20, 7, 20, 0),
+                  margin: EdgeInsets.fromLTRB(16, 7, 16, 0),
                   width: MediaQuery.of(context).size.width - 40,
                 ),
 
@@ -323,16 +334,16 @@ class RegisterContentStates extends State<RegisterContent> {
                             postNet_register();
                           },
                         ),
-                        margin: EdgeInsets.all(20),
+                        margin: EdgeInsets.all(16),
                         width: MediaQuery.of(context).size.width - 40,
                         height: 40,
                         decoration: BoxDecoration(
                           color: Color.fromARGB(255, 84, 184, 146),
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(16),
                         ))
                   ],
                 ),
-                // SizedBox(height: 20),
+                // SizedBox(height: 16),
                 GestureDetector(
                   onTap: (){
                     isSelect= this.isSelect==0?1:0;
@@ -345,7 +356,7 @@ class RegisterContentStates extends State<RegisterContent> {
 
                   children: [
                     Container(
-                      margin: EdgeInsets.fromLTRB(20, 0, 10, 10),
+                      margin: EdgeInsets.fromLTRB(16, 0, 10, 10),
                        decoration: BoxDecoration(
                          image: DecorationImage(
                            image: isSelect == 0
@@ -529,7 +540,7 @@ class sendIphoneCodeStates extends State<sendIphoneCode> {
         height: 30,
         decoration: BoxDecoration(
           // color: Color.fromARGB(255, 84, 184, 146),
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(16),
           border:
               Border.all(color: Color.fromARGB(255, 84, 184, 146), width: 1),
         ));

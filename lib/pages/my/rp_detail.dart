@@ -740,8 +740,6 @@ class _RecipeDetailState extends State<RecipeDetail> {
                                         child: CustomOutlineButton(
                                             title: '重新开方',
                                             onPressed: () {
-                                              Navigator.popUntil(context,
-                                                  ModalRoute.withName("/user"));
                                               // Navigator.popUntil(context, (route) => false);
                                             },
                                             borderRadius:
@@ -995,6 +993,9 @@ class _RecipeDetailState extends State<RecipeDetail> {
                                                                 //         rootNavigator:
                                                                 //             true)
                                                                 //     .pop();
+                                                                Navigator.of(context,
+                                                                    rootNavigator: true)
+                                                                    .pop();
                                                                 Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>Main()));
 
                                                                 // Navigator.popUntil(context, ModalRoute.withName("/TabHome"));

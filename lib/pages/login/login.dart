@@ -17,7 +17,6 @@ import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:doctor_project/pages/tabs/main.dart';
 
-
 class LoginPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => RegisterContentStates();
@@ -26,6 +25,7 @@ class LoginPage extends StatefulWidget {
 class RegisterContentStates extends State<LoginPage> {
   String loginStr = "";
   String loginPas = "";
+  bool obscure = true;
   int isSelect = 0;
   bool isChooseTX = false;
 
@@ -38,44 +38,47 @@ class RegisterContentStates extends State<LoginPage> {
   @override
   void postNet_Login() async {
     var request = HttpRequest.getInstance();
-    var res = await request.post(Api.loginApi, {'key':loginStr,'password':loginPas});
-    if(res['code']==200){
+    var res = await request
+        .post(Api.loginApi, {'key': loginStr, 'password': loginPas});
+    if (res['code'] == 160) {
       String tokenValueStr = res['data']['tokenValue'];
       SharedPreferences perfer = await SharedPreferences.getInstance();
       perfer.setString('phone', loginStr);
-      perfer.setString(
-          'tokenValue', tokenValueStr);
+      perfer.setString('tokenValue', tokenValueStr);
       String? jpushTokenStr = perfer.getString("jpushToken");
-      var result = await request.post(Api.bindJG, { "jigId":jpushTokenStr,
-        "channel" : Platform.isAndroid ? "Android" : "iOS"});
-      if(result['code']==200){
+      var result = await request.post(Api.bindJG, {
+        "jigId": jpushTokenStr,
+        "channel": Platform.isAndroid ? "Android" : "iOS"
+      });
+      if (result['code'] == 160) {
         ToastUtil.showToast(msg: '登录成功');
         Navigator.pushNamed(context, '/TabHome');
-      }else{
+      } else {
         ToastUtil.showToast(msg: result['msg']);
       }
-    }else{
+    } else {
       ToastUtil.showToast(msg: res['msg']);
     }
-
   }
 
   //测试代码
-  void jpushTest() async{
-
+  void jpushTest() async {
     var dio = new Dio();
 
     print(1111111);
-    var response = await dio.post(
-        Api.BASE_URL+'/doctor/dr-service/push/test',
-        data: {
-          "jigId":"141fe1da9e5fd9aea7e",
-          "channel" : Platform.isAndroid ? "Android" : "iOS",
-          "title" : "测试",
-          "alert" : "testtest",
-          "type" : "recipe" //模块（recipe-处方，register-挂号，logistics-物流，text-图文，video-视频）
-        });
-    print("data= " + response.data.toString() + "----url= " + response.realUri.toString());
+    var response =
+        await dio.post(Api.BASE_URL + '/doctor/dr-service/push/test', data: {
+      "jigId": "141fe1da9e5fd9aea7e",
+      "channel": Platform.isAndroid ? "Android" : "iOS",
+      "title": "测试",
+      "alert": "testtest",
+      "type": "recipe"
+      //模块（recipe-处方，register-挂号，logistics-物流，text-图文，video-视频）
+    });
+    print("data= " +
+        response.data.toString() +
+        "----url= " +
+        response.realUri.toString());
   }
 
   Widget build(BuildContext context) {
@@ -94,10 +97,10 @@ class RegisterContentStates extends State<LoginPage> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Container  (
+          Container(
             width: double.infinity,
             alignment: Alignment.topLeft,
-            padding: const EdgeInsets.only(left: 16.0,top: 32.0),
+            padding: const EdgeInsets.only(left: 16.0, top: 32.0),
             height: 157.0,
             decoration: const BoxDecoration(
               image: DecorationImage(
@@ -111,18 +114,29 @@ class RegisterContentStates extends State<LoginPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                 Text('登录账号',style: GSYConstant.textStyle(fontFamily:'Medium',fontSize: 20.0,fontWeight: FontWeight.w500),),
-                 const SizedBox(height: 4.0,),
-                 Text('登录享受更精彩',style: GSYConstant.textStyle(fontSize: 13.0),)
+                Text(
+                  '登录账号',
+                  style: GSYConstant.textStyle(
+                      fontFamily: 'Medium',
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.w500),
+                ),
+                const SizedBox(
+                  height: 4.0,
+                ),
+                Text(
+                  '登录享受更精彩',
+                  style: GSYConstant.textStyle(fontSize: 13.0),
+                )
               ],
             ),
           ),
           Expanded(
-
-            child: Container(transform: Matrix4.translationValues(0, -43.0, 0),
+              child: Container(
+            transform: Matrix4.translationValues(0, -43.0, 0),
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+              borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
             ),
             width: double.infinity,
             child: Column(
@@ -132,7 +146,7 @@ class RegisterContentStates extends State<LoginPage> {
                   children: [
                     Container(
                       child: SvgUtil.svg('userIcon.svg'),
-                      margin: EdgeInsets.fromLTRB(20, 30, 0, 0),
+                      margin: EdgeInsets.fromLTRB(16, 30, 0, 0),
                       width: 16.0,
                       height: 18,
                     ),
@@ -170,7 +184,7 @@ class RegisterContentStates extends State<LoginPage> {
                     indent: 0.0,
                     color: Color.fromARGB(255, 239, 239, 239),
                   ),
-                  margin: const EdgeInsets.fromLTRB(20, 7, 20, 0),
+                  margin: const EdgeInsets.fromLTRB(16, 7, 16, 0),
                   width: MediaQuery.of(context).size.width - 40,
                 ),
 
@@ -180,36 +194,53 @@ class RegisterContentStates extends State<LoginPage> {
                   children: [
                     Container(
                       child: SvgUtil.svg('pasIcon.svg'),
-                      margin: const EdgeInsets.fromLTRB(20, 0, 0, 0),
+                      margin: const EdgeInsets.fromLTRB(16, 0, 0, 0),
                       width: 16.0,
                       height: 18,
                     ),
-                    Container(
-                      child: Theme(
-                        data: ThemeData(primaryColor: Colors.red),
-                        child: TextField(
-                          decoration: const InputDecoration(
-                            border: InputBorder.none,
-                            hintText: '请输入登录密码',
-                            contentPadding: EdgeInsets.only(left: 10.0),
-                            isCollapsed: true,
-                            hintStyle: TextStyle(
-                              fontSize: 14,
-                              color: Color.fromARGB(255, 183, 183, 183),
+                    Expanded(
+                      child: Container(
+                        child: Theme(
+                          data: ThemeData(primaryColor: Colors.red),
+                          child: TextField(
+                            obscureText: obscure,
+                            decoration: InputDecoration(
+                              border: InputBorder.none,
+                              hintText: '请输入登录密码',
+                              contentPadding: EdgeInsets.only(left: 10.0),
+                              isCollapsed: true,
+                              suffixIconConstraints: const BoxConstraints(),
+                              suffixIcon: GestureDetector(
+                                onTap: (){
+                                  setState(() {
+                                    obscure = !obscure;
+                                  });
+                                },
+                                child: SvgUtil.svg(obscure
+                                    ? 'open_eyes.svg'
+                                    : 'close_eyes.svg'),
+                              ),
+                              hintStyle: TextStyle(
+                                fontSize: 14,
+                                color: Color.fromARGB(255, 183, 183, 183),
+                              ),
                             ),
+                            onChanged: (value) {
+                              setState(() {
+                                loginPas = value;
+                              });
+                            },
                           ),
-                          onChanged: (value) {
-                            setState(() {
-                              loginPas = value;
-                            });
-                          },
                         ),
+                        width: MediaQuery.of(context).size.width - 61,
+                        margin: const EdgeInsets.fromLTRB(5, 0, 16, 0),
+                        height: 30,
+                        alignment: Alignment.centerLeft,
                       ),
-                      width: MediaQuery.of(context).size.width - 61,
-                      margin: EdgeInsets.fromLTRB(5, 0, 10, 0),
-                      height: 30,
-                      alignment: Alignment.centerLeft,
-                    )
+                    ),
+                    // GestureDetector(
+                    //   child:SvgUtil.svg(obscure?'open_eyes.svg':'close_eyes.svg'),
+                    // )
                   ],
                 ),
                 Container(
@@ -218,7 +249,7 @@ class RegisterContentStates extends State<LoginPage> {
                     indent: 0.0,
                     color: Color.fromARGB(255, 239, 239, 239),
                   ),
-                  margin: EdgeInsets.fromLTRB(20, 7, 20, 0),
+                  margin: EdgeInsets.fromLTRB(16, 7, 16, 0),
                   width: MediaQuery.of(context).size.width - 40,
                 ),
                 Row(
@@ -253,8 +284,10 @@ class RegisterContentStates extends State<LoginPage> {
                         ),
                         textColor: Colors.white,
                         onPressed: () {
-
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>const VerifyMobile()));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const VerifyMobile()));
                           // Navigator.pushNamed(context, '/setPassword');
                         },
                       ),
@@ -267,7 +300,7 @@ class RegisterContentStates extends State<LoginPage> {
                   children: [
                     Container(
                         child: FlatButton(
-                          child: Text(
+                          child: const Text(
                             '登录',
                             textAlign: TextAlign.center,
                             style: TextStyle(
@@ -277,104 +310,106 @@ class RegisterContentStates extends State<LoginPage> {
                           ),
                           textColor: Colors.white,
                           onPressed: () {
-                            if (isSelect==0) {
+                            if (isSelect == 0) {
                               Fluttertoast.showToast(
                                   msg: '请勾选服务', gravity: ToastGravity.CENTER);
                               return;
                             }
-                            CommonUtils.throttle(postNet_Login,durationTime: 500);
+                            CommonUtils.throttle(postNet_Login,
+                                durationTime: 500);
                             // showDialog(context: context, builder: (BuildContext context) {
                             //   return DialogPage();
                             // });
                           },
                         ),
-                        margin: EdgeInsets.all(20),
+                        margin: const EdgeInsets.all(16),
                         width: MediaQuery.of(context).size.width - 40,
                         height: 40,
                         decoration: BoxDecoration(
                           color: Color.fromARGB(255, 84, 184, 146),
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(16),
                         ))
                   ],
                 ),
-                // SizedBox(height: 20),
+                // SizedBox(height: 16),
                 GestureDetector(
-                  onTap: (){
+                  onTap: () {
                     setState(() {
-                      isSelect = this.isSelect==0?1:0;
+                      isSelect = this.isSelect == 0 ? 1 : 0;
                     });
                   },
-                  child:Row(
-                  crossAxisAlignment: CrossAxisAlignment.start, //横轴居顶对齐
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        image: DecorationImage(
-                          image: this.isSelect == 0
-                              ? AssetImage('assets/images/checkbox.png')
-                              : AssetImage('assets/images/checkbox-sel.png'),
-                          fit: BoxFit.cover,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start, //横轴居顶对齐
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          image: DecorationImage(
+                            image: this.isSelect == 0
+                                ? AssetImage('assets/images/checkbox.png')
+                                : AssetImage('assets/images/checkbox-sel.png'),
+                            fit: BoxFit.cover,
+                          ),
                         ),
+                        margin: const EdgeInsets.fromLTRB(16, 0, 10, 10),
+                        width: 16,
+                        height: 16,
                       ),
-                      margin: const EdgeInsets.fromLTRB(20, 0, 10, 10),
-                      width: 16,
-                      height: 16,
-                    ),
-                    // SizedBox(width: 30),
-                    Container(
-                      margin: EdgeInsets.fromLTRB(0, 0, 10, 10),
-                      child: Text.rich(
-                        TextSpan(
-                          children: [
-                            TextSpan(
-                              text: '我已阅读并同意',
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: Colors.grey,
+                      // SizedBox(width: 30),
+                      Container(
+                        margin: EdgeInsets.fromLTRB(0, 0, 10, 10),
+                        child: Text.rich(
+                          TextSpan(
+                            children: [
+                              TextSpan(
+                                text: '我已阅读并同意',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.grey,
+                                ),
                               ),
-                            ),
-                            TextSpan(
-                              text: '《用户协议》',
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: Color.fromARGB(255, 84, 184, 146),
+                              TextSpan(
+                                text: '《用户协议》',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Color.fromARGB(255, 84, 184, 146),
+                                ),
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () => {},
                               ),
-                              recognizer: TapGestureRecognizer()
-                                ..onTap = () => {},
-                            ),
-                            TextSpan(
-                              text: '、',
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: Colors.grey,
+                              TextSpan(
+                                text: '、',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.grey,
+                                ),
                               ),
-                            ),
-                            TextSpan(
-                              text: '《隐私政策》',
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: Color.fromARGB(255, 84, 184, 146),
+                              TextSpan(
+                                text: '《隐私政策》',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Color.fromARGB(255, 84, 184, 146),
+                                ),
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () => {},
                               ),
-                              recognizer: TapGestureRecognizer()
-                                ..onTap = () => {},
-                            ),
-                            TextSpan(
-                              text: '并授权使用该账号信息（如昵称、头像）进行统一管理',
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: Colors.grey,
+                              TextSpan(
+                                text: '并授权使用该账号信息（如昵称、头像）进行统一管理',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.grey,
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
+                          maxLines: 3,
                         ),
-                        maxLines: 3,
-                      ),
-                      height: 40,
-                      width: MediaQuery.of(context).size.width - 40 - 36,
-                    )
-                  ],
-                ),)
+                        height: 40,
+                        width: MediaQuery.of(context).size.width - 40 - 36,
+                      )
+                    ],
+                  ),
+                )
               ],
             ),
           )),
@@ -383,6 +418,7 @@ class RegisterContentStates extends State<LoginPage> {
     );
   }
 }
+
 class DialogPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => DialogPageState();
