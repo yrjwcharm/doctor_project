@@ -12,8 +12,10 @@ import 'package:doctor_project/widget/custom_outline_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../http/api.dart';
+import '../tabs/main.dart';
 
 class RecipeDetail extends StatefulWidget {
   RecipeDetail({Key? key, required this.rpDetailItem, required this.diagnosis})
@@ -787,7 +789,7 @@ class _RecipeDetailState extends State<RecipeDetail> {
                                                                   .center,
                                                           children: <Widget>[
                                                             SizedBox(
-                                                              width: 65.0,
+                                                              width: ScreenUtil().setWidth(80),
                                                               child: Text(
                                                                 '就诊人',
                                                                 textAlign:
@@ -805,7 +807,7 @@ class _RecipeDetailState extends State<RecipeDetail> {
                                                               width: 15.0,
                                                             ),
                                                             SizedBox(
-                                                                width: 72.0,
+                                                                width: ScreenUtil().setWidth(80),
                                                                 child: Text(
                                                                   rpDetailItem[
                                                                           'name'] ??
@@ -865,7 +867,7 @@ class _RecipeDetailState extends State<RecipeDetail> {
                                                                   .center,
                                                           children: <Widget>[
                                                             SizedBox(
-                                                              width: 65.0,
+                                                              width: ScreenUtil().setWidth(80),
                                                               child: Text(
                                                                 '待缴费',
                                                                 textAlign:
@@ -883,7 +885,7 @@ class _RecipeDetailState extends State<RecipeDetail> {
                                                               width: 15.0,
                                                             ),
                                                             SizedBox(
-                                                                width: 72.0,
+                                                                width: ScreenUtil().setWidth(80),
                                                                 child: Text(
                                                                   '${medicineMap['amt']}元',
                                                                   textAlign:
@@ -906,7 +908,7 @@ class _RecipeDetailState extends State<RecipeDetail> {
                                                                   .center,
                                                           children: <Widget>[
                                                             SizedBox(
-                                                              width: 65.0,
+                                                              width: ScreenUtil().setWidth(80),
                                                               child: Text(
                                                                 '缴费类型',
                                                                 textAlign:
@@ -924,7 +926,7 @@ class _RecipeDetailState extends State<RecipeDetail> {
                                                               width: 15.0,
                                                             ),
                                                             SizedBox(
-                                                                width: 72.0,
+                                                                width: ScreenUtil().setWidth(80),
                                                                 child: Text(
                                                                   '医药费',
                                                                   textAlign:
@@ -988,13 +990,14 @@ class _RecipeDetailState extends State<RecipeDetail> {
                                                                   });
                                                               if (res['code'] ==
                                                                   200) {
-                                                                Navigator.of(
-                                                                        context,
-                                                                        rootNavigator:
-                                                                            true)
-                                                                    .pop();
-                                                                Navigator.pop(
-                                                                    context);
+                                                                // Navigator.of(
+                                                                //         context,
+                                                                //         rootNavigator:
+                                                                //             true)
+                                                                //     .pop();
+                                                                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>Main()));
+
+                                                                // Navigator.popUntil(context, ModalRoute.withName("/TabHome"));
                                                               } else {
                                                                 ToastUtil.showToast(msg: res['msg']);
                                                               }

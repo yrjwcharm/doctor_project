@@ -12,7 +12,7 @@ import 'package:jpush_flutter/jpush_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([
     // 强制竖屏
@@ -29,7 +29,9 @@ void main() async{
   // }
   runApp(const MyApp());
 }
+
 final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
+
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
 
@@ -40,11 +42,13 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   bool isLogin = false;
   String? token;
+
   @override
   void initState() {
     super.initState();
     initJpush();
   }
+
   // getLoginState() async{
   //   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   //   String isLogin = sharedPreferences.getString('tokenValue');
@@ -85,47 +89,49 @@ class _MyAppState extends State<MyApp> {
     try {
       jpush.addEventHandler(
           onReceiveNotification: (Map<String, dynamic> message) async {
-            print("flutter onReceiveNotification: $message");
-          }, onOpenNotification: (Map<String, dynamic> message) async {
+        print("flutter onReceiveNotification: $message");
+      }, onOpenNotification: (Map<String, dynamic> message) async {
         print("flutter onOpenNotification: $message");
       }, onReceiveMessage: (Map<String, dynamic> message) async {
         print("flutter onReceiveMessage: $message");
       }, onReceiveNotificationAuthorization:
-          (Map<String, dynamic> message) async {
+              (Map<String, dynamic> message) async {
         print("flutter onReceiveNotificationAuthorization: $message");
-        setState(() {
-        });
-      },onNotifyMessageUnShow:
-          (Map<String, dynamic> message) async {
+        setState(() {});
+      }, onNotifyMessageUnShow: (Map<String, dynamic> message) async {
         print("flutter onNotifyMessageUnShow: $message");
-
       });
-    } on PlatformException {
-    }
+    } on PlatformException {}
   }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      navigatorKey: navigatorKey,
-      localizationsDelegates: const [
-        GlobalCupertinoLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate
-      ],
-      supportedLocales: const [
-        Locale('zh', 'CN'), //设置语言为中文
-      ],
-      debugShowCheckedModeBanner: false,
-      // 设置这一属性即可
-      initialRoute: '/',
-      builder: EasyLoading.init(),
-      routes:{
-        '/': (context) => Main(),
-        '/login':(context)=>LoginPage(),
-        '/register':(context)=>RegisterContent(),
-        '/TabHome':(context)=> Main(),
-      },
-    );
+    return ScreenUtilInit(
+        designSize: const Size(360, 690),
+        minTextAdapt: true,
+        splitScreenMode: true,
+        builder: (child) {
+          return MaterialApp(
+            navigatorKey: navigatorKey,
+            localizationsDelegates: const [
+              GlobalCupertinoLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate
+            ],
+            supportedLocales: const [
+              Locale('zh', 'CN'), //设置语言为中文
+            ],
+            debugShowCheckedModeBanner: false,
+            // 设置这一属性即可
+            initialRoute: '/',
+            builder: EasyLoading.init(),
+            routes: {
+              '/': (context) => Main(),
+              '/login': (context) => LoginPage(),
+              '/register': (context) => RegisterContent(),
+              '/TabHome': (context) => Main(),
+            },
+          );
+        });
   }
 }
