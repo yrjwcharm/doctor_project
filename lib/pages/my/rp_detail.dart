@@ -1060,6 +1060,8 @@ class _RecipeDetailState extends State<RecipeDetail> {
                                                                       .pushReplacement(MaterialPageRoute(
                                                                           builder: (context) =>
                                                                               Main()));
+                                                                }else{
+                                                                  Navigator.pop(context);
                                                                 }
 
                                                                 // Navigator.popUntil(context, ModalRoute.withName("/TabHome"));

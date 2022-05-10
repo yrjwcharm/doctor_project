@@ -73,6 +73,7 @@ class _VideoTopicState extends State<VideoTopic> {
 
   showPopup() async {
     await showDialog(
+        useSafeArea:false,
         barrierDismissible: false,
         context: context,
         builder: (_) => WillPopScope(
@@ -118,6 +119,7 @@ class _VideoTopicState extends State<VideoTopic> {
                       onPressed: () async {
                          if(_streamID.isEmpty){
                            ToastUtil.showToast(msg: '请等待患者进入房间');
+                           // Navigator.pop(context);
                            return;
                          }
                          var request = HttpRequest.getInstance();
@@ -159,6 +161,10 @@ class _VideoTopicState extends State<VideoTopic> {
   @override
   void initState() {
     super.initState();
+    Future.delayed(Duration.zero, () {
+      showPopup();
+    });
+
     ZegoExpressEngine.getVersion()
         .then((value) => print('🌞 SDK Version: $value'));
 
@@ -673,7 +679,7 @@ class _VideoTopicState extends State<VideoTopic> {
               decoration: BoxDecoration(
                   color: ColorsUtil.hexStringColor('#000000', alpha: 0.6)),
               child: Text(
-                '医师',
+                '医师:',
                 style: GSYConstant.textStyle(fontSize: 12.0),
               ),
             )),
