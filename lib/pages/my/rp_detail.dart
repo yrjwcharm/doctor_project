@@ -84,1095 +84,1041 @@ class _RecipeDetailState extends State<RecipeDetail> {
         children: <Widget>[
           Expanded(
               child: SingleChildScrollView(
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      height: 40.0,
-                      alignment: Alignment.center,
-                      width: double.infinity,
-                      child: Text(
-                        rpDetailItem['status'] == 1
-                            ? '已撤销'
-                            : rpDetailItem['status'] == 2
+            child: Column(
+              children: <Widget>[
+                Container(
+                  height: 40.0,
+                  alignment: Alignment.center,
+                  width: double.infinity,
+                  child: Text(
+                    rpDetailItem['status'] == 1
+                        ? '已撤销'
+                        : rpDetailItem['status'] == 2
                             ? '再次提交，待审方'
                             : rpDetailItem['status'] == 3
-                            ? '已审核'
-                            : rpDetailItem['status'] == 4
-                            ? '审核中'
-                            : rpDetailItem['status'] == 5
-                            ? '审核超时失效'
-                            : '已取消',
-                        style: GSYConstant.textStyle(fontSize: 16.0),
-                      ),
-                      decoration: BoxDecoration(
-                          color:
+                                ? '已审核'
+                                : rpDetailItem['status'] == 4
+                                    ? '审核中'
+                                    : rpDetailItem['status'] == 5
+                                        ? '审核超时失效'
+                                        : '已取消',
+                    style: GSYConstant.textStyle(fontSize: 16.0),
+                  ),
+                  decoration: BoxDecoration(
+                      color:
                           ColorsUtil.hexStringColor(rpDetailItem['status'] == 5
                               ? '#F39E2B'
                               : rpDetailItem['status'] == 2
-                              ? '#DE5347'
-                              : '#06B48D')),
+                                  ? '#DE5347'
+                                  : '#06B48D')),
+                ),
+                Visibility(
+                  visible: rpDetailItem['status'] == 2,
+                  child: Container(
+                    width: double.infinity,
+                    decoration: const BoxDecoration(color: Colors.white),
+                    padding: const EdgeInsets.only(
+                        top: 13.0, left: 16.0, right: 16.0, bottom: 16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          '审核不通过的处方原因如下：',
+                          style: GSYConstant.textStyle(
+                              fontSize: 15.0,
+                              fontFamily: 'Medium',
+                              fontWeight: FontWeight.w500,
+                              color: '#333333'),
+                        ),
+                        const SizedBox(
+                          height: 4.0,
+                        ),
+                        Text(
+                          '',
+                          style: GSYConstant.textStyle(color: '#F39E2B'),
+                        ),
+                      ],
                     ),
-                    Visibility(
-                      visible: rpDetailItem['status'] == 2,
-                      child: Container(
-                        width: double.infinity,
-                        decoration: const BoxDecoration(color: Colors.white),
+                  ),
+                ),
+                Visibility(
+                  visible: rpDetailItem['status'] == 2,
+                  child: Divider(
+                    height: 0,
+                    color: ColorsUtil.hexStringColor('#cccccc', alpha: 0.2),
+                  ),
+                ),
+                Visibility(
+                  visible: rpDetailItem['status'] == 2,
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                    ),
+                    height: 39.0,
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    alignment: Alignment.centerLeft,
+                    margin: const EdgeInsets.only(bottom: 10.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Row(children: <Widget>[
+                          Text(
+                            '审方药师：',
+                            style: GSYConstant.textStyle(
+                              fontSize: 13.0,
+                              color: '#333333',
+                            ),
+                          ),
+                          Text(
+                            '',
+                            style: GSYConstant.textStyle(
+                                color: '#06B48D', fontSize: 13.0),
+                          )
+                        ]),
+                        Row(children: <Widget>[
+                          Text(
+                            '审核时间：',
+                            style: GSYConstant.textStyle(
+                              fontSize: 13.0,
+                              color: '#333333',
+                            ),
+                          ),
+                          Text(
+                            '',
+                            style: GSYConstant.textStyle(
+                                color: '#06B48D', fontSize: 13.0),
+                          )
+                        ])
+                      ],
+                    ),
+                  ),
+                ),
+                Container(
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                  ),
+                  padding: const EdgeInsets.only(
+                    top: 18.0,
+                  ),
+                  child: Column(
+                    // crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            // Expanded(
+                            //   child:
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text(
+                                  '通海县人民医院电子处方',
+                                  style: GSYConstant.textStyle(
+                                      fontSize: 18.0,
+                                      color: '#333333',
+                                      fontFamily: 'Medium',
+                                      fontWeight: FontWeight.w500),
+                                ),
+                                Text('医疗机构编码：346987654321123H',
+                                    style: GSYConstant.textStyle(
+                                        fontSize: 12.0,
+                                        fontWeight: FontWeight.w400,
+                                        color: '#888888')),
+                              ],
+                            ),
+                            const SizedBox(
+                              width: 23.0,
+                            ),
+                            SvgUtil.svg(rpDetailItem['status'] == 1
+                                ? 'revoke.svg'
+                                : rpDetailItem['status'] == 2
+                                    ? 'in_pass.svg'
+                                    : rpDetailItem['status'] == 3
+                                        ? 'already_audit.svg'
+                                        : rpDetailItem['status'] == 4
+                                            ? 'audit.svg'
+                                            : rpDetailItem['status'] == 5
+                                                ? 'timeout.svg'
+                                                : 'cancel.svg'),
+                          ]),
+                      Padding(
                         padding: const EdgeInsets.only(
-                            top: 13.0, left: 16.0, right: 16.0, bottom: 16.0),
+                            left: 16.0, right: 16.0, top: 18.0, bottom: 10.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Expanded(
+                              child: Row(
+                                children: <Widget>[
+                                  Text(
+                                    '姓名：',
+                                    style:
+                                        GSYConstant.textStyle(color: '#333333'),
+                                  ),
+                                  Text(
+                                    rpDetailItem['name'] ?? '',
+                                    style: GSYConstant.textStyle(
+                                        fontSize: 14.0, color: '#666666'),
+                                  )
+                                ],
+                              ),
+                            ),
+                            Row(
+                              children: <Widget>[
+                                Text(
+                                  '性别：',
+                                  style:
+                                      GSYConstant.textStyle(color: '#333333'),
+                                ),
+                                Text(
+                                  rpDetailItem['sex'] == '1' ? '男' : '女',
+                                  style: GSYConstant.textStyle(
+                                      fontSize: 14.0, color: '#666666'),
+                                )
+                              ],
+                            ),
+                            Expanded(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: <Widget>[
+                                  Text(
+                                    '年龄：',
+                                    style:
+                                        GSYConstant.textStyle(color: '#333333'),
+                                  ),
+                                  Text(
+                                    '${rpDetailItem['age']}岁',
+                                    style: GSYConstant.textStyle(
+                                        fontSize: 14.0, color: '#666666'),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            left: 16.0, right: 16.0, bottom: 7.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            Expanded(
+                              child: Row(
+                                children: <Widget>[
+                                  Text(
+                                    '费用：',
+                                    style:
+                                        GSYConstant.textStyle(color: '#333333'),
+                                  ),
+                                  Text(
+                                    '自费',
+                                    style: GSYConstant.textStyle(
+                                        fontSize: 14.0, color: '#666666'),
+                                  )
+                                ],
+                              ),
+                            ),
+                            // SizedBox(
+                            //   width: ScreenUtil().setWidth(72.0),
+                            // ),
+                            Expanded(
+                              child: Row(
+                                children: <Widget>[
+                                  Text(
+                                    '科别：',
+                                    style:
+                                        GSYConstant.textStyle(color: '#333333'),
+                                  ),
+                                  Text(
+                                    rpDetailItem['deptName'] ?? '',
+                                    style: GSYConstant.textStyle(
+                                        fontSize: 14.0, color: '#666666'),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        decoration: BoxDecoration(
+                          border: Border(
+                              top: BorderSide(
+                                  width: 1,
+                                  color: ColorsUtil.hexStringColor('#cccccc',
+                                      alpha: 0.2))),
+                        ),
+                        height: 39.0,
+                        // margin: const EdgeInsets.only(left: 25.0),
+                        child: Row(
+                          children: <Widget>[
+                            Expanded(
+                              child: Row(
+                                children: <Widget>[
+                                  Text(
+                                    'NO：',
+                                    style:
+                                        GSYConstant.textStyle(color: '#333333'),
+                                  ),
+                                  Text(
+                                    rpDetailItem['recipeNo'],
+                                    style:
+                                        GSYConstant.textStyle(color: '#666666'),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        decoration: BoxDecoration(
+                          border: Border(
+                              top: BorderSide(
+                                  width: 1,
+                                  color: ColorsUtil.hexStringColor('#cccccc',
+                                      alpha: 0.2)),
+                              bottom: BorderSide(
+                                  width: 1,
+                                  color: ColorsUtil.hexStringColor('#cccccc',
+                                      alpha: 0.2))),
+                        ),
+                        height: 39.0,
+                        // margin: const EdgeInsets.only(left: 25.0),
+                        child: Row(
+                          children: <Widget>[
+                            Expanded(
+                              child: Row(
+                                children: <Widget>[
+                                  Text(
+                                    '开方：',
+                                    style:
+                                        GSYConstant.textStyle(color: '#333333'),
+                                  ),
+                                  Text(
+                                    rpDetailItem['repictDate'],
+                                    style:
+                                        GSYConstant.textStyle(color: '#666666'),
+                                  ),
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      Container(
+                        // height: 39.0,
+                        padding: const EdgeInsets.only(
+                            left: 16.0, top: 8.0, bottom: 8.0),
+                        decoration: const BoxDecoration(color: Colors.white),
+                        child: Row(
+                          children: <Widget>[
+                            Text(
+                              '诊断：',
+                              style: GSYConstant.textStyle(color: '#333333'),
+                            ),
+                            Flexible(
+                              child: Text(
+                                diagnosis,
+                                style: GSYConstant.textStyle(color: '#666666'),
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 10.0,
+                ),
+                Column(
+                  children: <Widget>[
+                    Container(
+                      width: double.infinity,
+                      alignment: Alignment.centerLeft,
+                      padding: const EdgeInsets.only(left: 16.0),
+                      height: 41.0,
+                      child: Text(
+                        'Rp',
+                        style: GSYConstant.textStyle(
+                            fontSize: 16.0, color: '#333333'),
+                      ),
+                      decoration: const BoxDecoration(
+                        color: Colors.white,
+                      ),
+                    ),
+                    Divider(
+                      height: 0,
+                      color: ColorsUtil.hexStringColor('#cccccc', alpha: 0.3),
+                    ),
+                    Column(
+                      children: (medicineMap['herbalMedicineVOS'] ??
+                              medicineMap['medicineVOS'] ??
+                              [])
+                          .map<Widget>(
+                            (item) => Container(
+                              decoration:
+                                  const BoxDecoration(color: Colors.white),
+                              padding: const EdgeInsets.only(
+                                  left: 16.0,
+                                  right: 16.0,
+                                  top: 8.0,
+                                  bottom: 8.0),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  // "medicineVOS": [
+                                  //   {
+                                  //   "manuname": "",
+                                  //   "freq": "1片,1次/12h",
+                                  //   "amt": "2.79",
+                                  //   "dayNum": "1",
+                                  //   "specification": "0.25g*6片",
+                                  //   "id": 75776,
+                                  //   "useType": "冲化",
+                                  //   "remarks": "gvv",
+                                  //   "medicineNum": 1
+                                  //   }
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Text(
+                                        item['medicineName'] ?? '',
+                                        style: GSYConstant.textStyle(
+                                            color: '#333333'),
+                                      ),
+                                      Text(
+                                        '规格：${item['specification']}',
+                                        style: GSYConstant.textStyle(
+                                            fontSize: 13.0, color: '#666666'),
+                                      ),
+                                      Text(
+                                        '${medicineMap['herbalMedicineVOS'] != null ? medicineMap['useType_dictText'] : item['useType_dictText']}：${medicineMap['herbalMedicineVOS'] != null ? medicineMap['freq_dictText'] : item['freq_dictText']}',
+                                        style: GSYConstant.textStyle(
+                                            fontSize: 13.0, color: '#666666'),
+                                      )
+                                    ],
+                                  ),
+                                  Text(
+                                    'x${item['medicineNum']}',
+                                    style:
+                                        GSYConstant.textStyle(color: '#666666'),
+                                  )
+                                ],
+                              ),
+                            ),
+                          )
+                          .toList(),
+                    ),
+                    const SizedBox(
+                      height: 10.0,
+                    ),
+                    Container(
+                      decoration: const BoxDecoration(color: Colors.white),
+                      padding: const EdgeInsets.only(
+                          top: 12.0, bottom: 12.0, left: 16.0, right: 29.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Row(
+                                children: <Widget>[
+                                  Text(
+                                    '处方医师',
+                                    style:
+                                        GSYConstant.textStyle(color: '#333333'),
+                                  ),
+                                  const SizedBox(
+                                    width: 15.0,
+                                  ),
+                                  medicineMap['doctorSign'] != null
+                                      ? Transform.rotate(
+                                          angle: 270.17,
+                                          child: Image.memory(
+                                            const Base64Decoder().convert(
+                                                medicineMap['doctorSign']),
+                                            scale: 1,
+                                            width: 54.0,
+                                            height: 24.0,
+                                          ),
+                                        )
+                                      : Container()
+                                  //     gaplessPlayback: true),) ,),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 12.0,
+                              ),
+                              Row(
+                                children: <Widget>[
+                                  Text(
+                                    '审方医师',
+                                    style:
+                                        GSYConstant.textStyle(color: '#333333'),
+                                  ),
+                                  const SizedBox(
+                                    width: 15.0,
+                                  ),
+                                  medicineMap['pharmacistSign'] != null
+                                      ? Transform.rotate(
+                                          angle: 270.17,
+                                          child: Image.memory(
+                                            const Base64Decoder().convert(
+                                                medicineMap['pharmacistSign']),
+                                            scale: 1,
+                                            width: 54.0,
+                                            height: 24.0,
+                                          ),
+                                        )
+                                      : Container()
+                                ],
+                              ),
+                            ],
+                          ),
+                          medicineMap['companySign'] != null
+                              ? Image.memory(
+                                  const Base64Decoder()
+                                      .convert(medicineMap['companySign']),
+                                  scale: 1,
+                                  width: 54.0,
+                                  height: 54.0,
+                                )
+                              : Container()
+                        ],
+                      ),
+                    ),
+                    SafeArea(
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                            left: 16.0, top: 13.0, right: 16.0),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Text(
-                              '审核不通过的处方原因如下：',
+                              '备注：',
                               style: GSYConstant.textStyle(
-                                  fontSize: 15.0,
-                                  fontFamily: 'Medium',
-                                  fontWeight: FontWeight.w500,
-                                  color: '#333333'),
+                                  fontSize: 13.0, color: '#666666'),
                             ),
                             const SizedBox(
-                              height: 4.0,
+                              height: 7.0,
                             ),
                             Text(
-                              '',
-                              style: GSYConstant.textStyle(color: '#F39E2B'),
+                              '1、处方有效期为7天。 ',
+                              style: GSYConstant.textStyle(
+                                  fontSize: 13.0, color: '#666666'),
                             ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    Visibility(
-                      visible: rpDetailItem['status'] == 2,
-                      child: Divider(
-                        height: 0,
-                        color: ColorsUtil.hexStringColor('#cccccc', alpha: 0.2),
-                      ),
-                    ),
-                    Visibility(
-                      visible: rpDetailItem['status'] == 2,
-                      child: Container(
-                        decoration: const BoxDecoration(
-                          color: Colors.white,
-                        ),
-                        height: 39.0,
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                        alignment: Alignment.centerLeft,
-                        margin: const EdgeInsets.only(bottom: 10.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Row(children: <Widget>[
-                              Text(
-                                '审方药师：',
-                                style: GSYConstant.textStyle(
-                                  fontSize: 13.0,
-                                  color: '#333333',
-                                ),
-                              ),
-                              Text(
-                                '',
-                                style: GSYConstant.textStyle(
-                                    color: '#06B48D', fontSize: 13.0),
-                              )
-                            ]),
-                            Row(children: <Widget>[
-                              Text(
-                                '审核时间：',
-                                style: GSYConstant.textStyle(
-                                  fontSize: 13.0,
-                                  color: '#333333',
-                                ),
-                              ),
-                              Text(
-                                '',
-                                style: GSYConstant.textStyle(
-                                    color: '#06B48D', fontSize: 13.0),
-                              )
-                            ])
-                          ],
-                        ),
-                      ),
-                    ),
-                    Container(
-                      decoration: const BoxDecoration(
-                        color: Colors.white,
-                      ),
-                      padding: const EdgeInsets.only(
-                        top: 18.0,
-                      ),
-                      child: Column(
-                        // crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                // Expanded(
-                                //   child:
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Text(
-                                      '通海县人民医院电子处方',
-                                      style: GSYConstant.textStyle(
-                                          fontSize: 18.0,
-                                          color: '#333333',
-                                          fontFamily: 'Medium',
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                    Text('医疗机构编码：346987654321123H',
-                                        style: GSYConstant.textStyle(
-                                            fontSize: 12.0,
-                                            fontWeight: FontWeight.w400,
-                                            color: '#888888')),
-                                  ],
-                                ),
-                                const SizedBox(
-                                  width: 23.0,
-                                ),
-                                SvgUtil.svg(rpDetailItem['status'] == 1
-                                    ? 'revoke.svg'
-                                    : rpDetailItem['status'] == 2
-                                    ? 'in_pass.svg'
-                                    : rpDetailItem['status'] == 3
-                                    ? 'already_audit.svg'
-                                    : rpDetailItem['status'] == 4
-                                    ? 'audit.svg'
-                                    : rpDetailItem['status'] == 5
-                                    ? 'timeout.svg'
-                                    : 'cancel.svg'),
-                              ]),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                left: 16.0,
-                                right: 16.0,
-                                top: 18.0,
-                                bottom: 10.0),
-                            child: Row(
+                            Text(
+                              '2、该处方不支持线下药房购药。',
+                              style: GSYConstant.textStyle(
+                                  fontSize: 13.0, color: '#666666'),
+                            ),
+                            const SizedBox(
+                              height: 17.0,
+                            ),
+                            Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
-                                Expanded(child:
-                                Row(
-                                  children: <Widget>[
-                                    Text(
-                                      '姓名：',
-                                      style:
-                                      GSYConstant.textStyle(color: '#333333'),
-                                    ),
-                                    Text(
-                                      rpDetailItem['name'] ?? '',
-                                      style: GSYConstant.textStyle(
-                                          fontSize: 14.0, color: '#666666'),
-                                    )
-                                  ],
-                                ),),
-                                Row(
-                                  children: <Widget>[
-                                    Text(
-                                      '性别：',
-                                      style:
-                                      GSYConstant.textStyle(color: '#333333'),
-                                    ),
-                                    Text(
-                                      rpDetailItem['sex'] == '1' ? '男' : '女',
-                                      style: GSYConstant.textStyle(
-                                          fontSize: 14.0, color: '#666666'),
-                                    )
-                                  ],
-                                ),
-                                Expanded(child:
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: <Widget>[
-                                    Text(
-                                      '年龄：',
-                                      style:
-                                      GSYConstant.textStyle(color: '#333333'),
-                                    ),
-                                    Text(
-                                      '${rpDetailItem['age']}岁',
-                                      style: GSYConstant.textStyle(
-                                          fontSize: 14.0, color: '#666666'),
-                                    )
-                                  ],
-                                ),),
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                left: 16.0, right: 16.0, bottom: 7.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                Expanded(child:
-                                Row(
-                                  children: <Widget>[
-                                    Text(
-                                      '费用：',
-                                      style:
-                                      GSYConstant.textStyle(color: '#333333'),
-                                    ),
-                                    Text(
-                                      '自费',
-                                      style: GSYConstant.textStyle(
-                                          fontSize: 14.0, color: '#666666'),
-                                    )
-                                  ],
-                                ),),
-                                // SizedBox(
-                                //   width: ScreenUtil().setWidth(72.0),
-                                // ),
-                                Expanded(
-                                child: Row(
-                                  children: <Widget>[
-                                    Text(
-                                      '科别：',
-                                      style:
-                                      GSYConstant.textStyle(color: '#333333'),
-                                    ),
-                                    Text(
-                                      rpDetailItem['deptName'] ?? '',
-                                      style: GSYConstant.textStyle(
-                                          fontSize: 14.0, color: '#666666'),
-                                    )
-                                  ],
-                                ),),
-                              ],
-                            ),
-                          ),
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 16.0),
-                            decoration: BoxDecoration(
-                              border: Border(
-                                  top: BorderSide(
-                                      width: 1,
-                                      color: ColorsUtil.hexStringColor(
-                                          '#cccccc',
-                                          alpha: 0.2))),
-                            ),
-                            height: 39.0,
-                            // margin: const EdgeInsets.only(left: 25.0),
-                            child: Row(
-                              children: <Widget>[
-                                Expanded(
-                                  child: Row(
-                                    children: <Widget>[
-                                      Text(
-                                        'NO：',
-                                        style:
-                                        GSYConstant.textStyle(color: '#333333'),
-                                      ),
-                                      Text(
-                                        rpDetailItem['recipeNo'],
-                                        style: GSYConstant.textStyle(
-                                            color: '#666666'),
-                                      ),
-
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 16.0),
-                            decoration: BoxDecoration(
-                              border: Border(
-                                  top: BorderSide(
-                                      width: 1,
-                                      color: ColorsUtil.hexStringColor(
-                                          '#cccccc',
-                                          alpha: 0.2)),
-                                  bottom: BorderSide(
-                                      width: 1,
-                                      color: ColorsUtil.hexStringColor(
-                                          '#cccccc',
-                                          alpha: 0.2))),
-                            ),
-                            height: 39.0,
-                            // margin: const EdgeInsets.only(left: 25.0),
-                            child: Row(
-                              children: <Widget>[
-                                Expanded(
-                                  child: Row(
-                                    children: <Widget>[
-                                      Text(
-                                        '开方：',
-                                        style:
-                                        GSYConstant.textStyle(color: '#333333'),
-                                      ),
-                                      Text(
-                                        rpDetailItem['repictDate'],
-                                        style: GSYConstant.textStyle(
-                                            color: '#666666'),
-                                      ),
-                                    ],
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                          Container(
-                            // height: 39.0,
-                            padding: const EdgeInsets.only(left: 16.0,top:8.0,bottom:8.0),
-                            decoration: const BoxDecoration(color: Colors
-                                .white),
-                            child: Row(
-                              children: <Widget>[
-                                Text(
-                                  '诊断：',
-                                  style: GSYConstant.textStyle(
-                                      color: '#333333'),
-                                ),
-                                Flexible(
-                                  child: Text(
-                                    diagnosis,
-                                    style: GSYConstant.textStyle(
-                                        color: '#666666'),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-
-                    const SizedBox(
-                      height: 10.0,
-                    ),
-                    Column(
-                      children: <Widget>[
-                        Container(
-                          width: double.infinity,
-                          alignment: Alignment.centerLeft,
-                          padding: const EdgeInsets.only(left: 16.0),
-                          height: 41.0,
-                          child: Text(
-                            'Rp',
-                            style: GSYConstant.textStyle(
-                                fontSize: 16.0, color: '#333333'),
-                          ),
-                          decoration: const BoxDecoration(
-                            color: Colors.white,
-                          ),
-                        ),
-                        Divider(
-                          height: 0,
-                          color: ColorsUtil.hexStringColor(
-                              '#cccccc', alpha: 0.3),
-                        ),
-                        Column(
-                          children: (medicineMap['herbalMedicineVOS'] ??
-                              medicineMap['medicineVOS'] ??
-                              [])
-                              .map<Widget>(
-                                (item) =>
-                                Container(
-                                  decoration:
-                                  const BoxDecoration(color: Colors.white),
-                                  padding: const EdgeInsets.only(
-                                      left: 16.0,
-                                      right: 16.0,
-                                      top: 8.0,
-                                      bottom: 8.0),
-                                  child: Row(
-                                    crossAxisAlignment: CrossAxisAlignment
-                                        .start,
-                                    mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                    children: <Widget>[
-                                      // "medicineVOS": [
-                                      //   {
-                                      //   "manuname": "",
-                                      //   "freq": "1片,1次/12h",
-                                      //   "amt": "2.79",
-                                      //   "dayNum": "1",
-                                      //   "specification": "0.25g*6片",
-                                      //   "id": 75776,
-                                      //   "useType": "冲化",
-                                      //   "remarks": "gvv",
-                                      //   "medicineNum": 1
-                                      //   }
-                                      Column(
-                                        crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          Text(
-                                            item['medicineName'] ?? '',
-                                            style: GSYConstant.textStyle(
-                                                color: '#333333'),
-                                          ),
-                                          Text(
-                                            '规格：${item['specification']}',
-                                            style: GSYConstant.textStyle(
-                                                fontSize: 13.0,
-                                                color: '#666666'),
-                                          ),
-                                          Text(
-                                            '${medicineMap['herbalMedicineVOS'] !=
-                                                null
-                                                ? medicineMap['useType_dictText']
-                                                : item['useType_dictText']}：${medicineMap['herbalMedicineVOS'] !=
-                                                null
-                                                ? medicineMap['freq_dictText']
-                                                : item['freq_dictText']}',
-                                            style: GSYConstant.textStyle(
-                                                fontSize: 13.0,
-                                                color: '#666666'),
-                                          )
-                                        ],
-                                      ),
-                                      Text(
-                                        'x${item['medicineNum']}',
-                                        style:
-                                        GSYConstant.textStyle(color: '#666666'),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                          )
-                              .toList(),
-                        ),
-                        const SizedBox(
-                          height: 10.0,
-                        ),
-                        Container(
-                          decoration: const BoxDecoration(color: Colors.white),
-                          padding: const EdgeInsets.only(
-                              top: 12.0, bottom: 12.0, left: 16.0, right: 29.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Row(
-                                    children: <Widget>[
-                                      Text(
-                                        '处方医师',
-                                        style:
-                                        GSYConstant.textStyle(color: '#333333'),
-                                      ),
-                                      const SizedBox(
-                                        width: 15.0,
-                                      ),
-                                      medicineMap['doctorSign'] != null
-                                          ? Transform.rotate(
-                                        angle: 270.17,
-                                        child: Image.memory(
-                                          const Base64Decoder().convert(
-                                              medicineMap['doctorSign']),
-                                          scale: 1,
-                                          width: 54.0,
-                                          height: 24.0,
-                                        ),
-                                      )
-                                          : Container()
-                                      //     gaplessPlayback: true),) ,),
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 12.0,
-                                  ),
-                                  Row(
-                                    children: <Widget>[
-                                      Text(
-                                        '审方医师',
-                                        style:
-                                        GSYConstant.textStyle(color: '#333333'),
-                                      ),
-                                      const SizedBox(
-                                        width: 15.0,
-                                      ),
-                                      medicineMap['pharmacistSign'] != null
-                                          ? Transform.rotate(
-                                        angle: 270.17,
-                                        child: Image.memory(
-                                          const Base64Decoder().convert(
-                                              medicineMap['pharmacistSign']),
-                                          scale: 1,
-                                          width: 54.0,
-                                          height: 24.0,
-                                        ),
-                                      )
-                                          : Container()
-                                    ],
-                                  ),
-                                ],
-                              ),
-                              medicineMap['companySign'] != null
-                                  ? Image.memory(
-                                const Base64Decoder()
-                                    .convert(medicineMap['companySign']),
-                                scale: 1,
-                                width: 54.0,
-                                height: 54.0,
-                              )
-                                  : Container()
-                            ],
-                          ),
-                        ),
-                        SafeArea(
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                left: 16.0, top: 13.0, right: 16.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Text(
-                                  '备注：',
-                                  style: GSYConstant.textStyle(
-                                      fontSize: 13.0, color: '#666666'),
-                                ),
-                                const SizedBox(
-                                  height: 7.0,
-                                ),
-                                Text(
-                                  '1、处方有效期为7天。 ',
-                                  style: GSYConstant.textStyle(
-                                      fontSize: 13.0, color: '#666666'),
-                                ),
-                                Text(
-                                  '2、该处方不支持线下药房购药。',
-                                  style: GSYConstant.textStyle(
-                                      fontSize: 13.0, color: '#666666'),
-                                ),
-                                const SizedBox(
-                                  height: 17.0,
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment
-                                      .spaceBetween,
-                                  children: <Widget>[
-                                    // border-radius: 5px;
-                                    // border: 1px solid #06B48D;
-                                    Visibility(
-                                        visible: rpDetailItem['status'] == 2,
-                                        child: Expanded(
-                                            child: CustomOutlineButton(
-                                                title: '再次提交',
-                                                onPressed: () {},
-                                                borderRadius:
+                                // border-radius: 5px;
+                                // border: 1px solid #06B48D;
+                                Visibility(
+                                    visible: rpDetailItem['status'] == 2,
+                                    child: Expanded(
+                                        child: CustomOutlineButton(
+                                            title: '再次提交',
+                                            onPressed: () {},
+                                            borderRadius:
                                                 BorderRadius.circular(5.0),
-                                                borderColor:
+                                            borderColor:
                                                 ColorsUtil.hexStringColor(
                                                     '#06B48D')))),
-                                    const SizedBox(
-                                      width: 8.0,
-                                    ),
-                                    Visibility(
-                                        visible: rpDetailItem['status'] == 2 ||
-                                            rpDetailItem['status'] == 4,
-                                        child: Expanded(
-                                            child: CustomOutlineButton(
-                                                title: '撤销',
-                                                onPressed: () async {
-                                                  showDialog(
-                                                      barrierDismissible: false,
-                                                      context: context,
-                                                      builder: (_) =>
-                                                          WillPopScope(
-                                                            onWillPop: () async {
-                                                              return Future
-                                                                  .value(
-                                                                  false);
-                                                            },
-                                                            child: AlertDialog(
-                                                              contentPadding:
+                                const SizedBox(
+                                  width: 8.0,
+                                ),
+                                Visibility(
+                                    visible: rpDetailItem['status'] == 2 ||
+                                        rpDetailItem['status'] == 4,
+                                    child: Expanded(
+                                        child: CustomOutlineButton(
+                                            title: '撤销',
+                                            onPressed: () async {
+                                              showDialog(
+                                                  barrierDismissible: false,
+                                                  context: context,
+                                                  builder: (_) => WillPopScope(
+                                                        onWillPop: () async {
+                                                          return Future.value(
+                                                              false);
+                                                        },
+                                                        child: AlertDialog(
+                                                          contentPadding:
                                                               const EdgeInsets
-                                                                  .only(
+                                                                      .only(
                                                                   top: 27.0,
                                                                   bottom: 28.0),
-                                                              contentTextStyle: TextStyle(
-                                                                  fontSize: 16.0,
-                                                                  color: ColorsUtil
-                                                                      .hexStringColor(
+                                                          contentTextStyle: TextStyle(
+                                                              fontSize: 16.0,
+                                                              color: ColorsUtil
+                                                                  .hexStringColor(
                                                                       '#333333')),
-                                                              content: const Text(
-                                                                "请确认是否撤单\n撤单后将自动退款给患者",
-                                                                textAlign: TextAlign
-                                                                    .center,
-                                                              ),
-                                                              buttonPadding:
+                                                          content: const Text(
+                                                            "请确认是否撤单\n撤单后将自动退款给患者",
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                          ),
+                                                          buttonPadding:
                                                               const EdgeInsets
                                                                   .all(16.0),
-                                                              actions: [
-                                                                Row(
-                                                                  children: <
-                                                                      Widget>[
-                                                                    Expanded(
-                                                                        child:
-                                                                        CustomOutlineButton(
-                                                                          height: 40.0,
-                                                                          borderColor:
-                                                                          ColorsUtil
-                                                                              .hexStringColor(
-                                                                              '#06B48D'),
-                                                                          borderRadius:
-                                                                          BorderRadius
-                                                                              .circular(
-                                                                              5.0),
-                                                                          title: '取消',
-                                                                          onPressed:
-                                                                              () {
-                                                                            Navigator
-                                                                                .of(
-                                                                                context,
-                                                                                rootNavigator:
-                                                                                true)
-                                                                                .pop();
-                                                                            // Navigator.of(context).pop();
-                                                                          },
-                                                                        )),
-                                                                    const SizedBox(
-                                                                      width: 8.0,
-                                                                    ),
-                                                                    Expanded(
-                                                                        child:
-                                                                        CustomElevatedButton(
-                                                                          onPressed:
-                                                                              () async {
-                                                                            var request =
-                                                                            HttpRequest
-                                                                                .getInstance();
-                                                                            var res = await request
-                                                                                .post(
-                                                                                Api
-                                                                                    .revokeRpApi +
-                                                                                    '',
-                                                                                {
-                                                                                  'id':
-                                                                                  rpDetailItem['id']
-                                                                                });
-                                                                            if (res['code'] ==
-                                                                                200) {
-                                                                              Navigator
-                                                                                  .of(
-                                                                                  context,
-                                                                                  rootNavigator: true)
-                                                                                  .pop();
-                                                                              Navigator
-                                                                                  .pop(
-                                                                                  context);
-                                                                            } else {
-                                                                              Navigator
-                                                                                  .of(
-                                                                                  context,
-                                                                                  rootNavigator: true)
-                                                                                  .pop();
-                                                                              Navigator
-                                                                                  .pop(
-                                                                                  context);
-                                                                              ToastUtil
-                                                                                  .showToast(
-                                                                                  msg: res[
-                                                                                  'msg']);
-                                                                            }
-                                                                          },
-                                                                          height: 40.0,
-                                                                          title: '确定',
-                                                                          borderRadius:
-                                                                          BorderRadius
-                                                                              .circular(
-                                                                              5.0),
-                                                                        ))
-                                                                  ],
-                                                                ),
-                                                              ],
-                                                              // title: Text("请确认是否撤单")
-                                                            ),
-                                                          ));
-                                                  // var request = HttpRequest.getInstance();
-                                                  // var res = await request.get(Api.revokeRpApi+'?orderId=${medicineMap['orderId']}', {});
-                                                  // if(res['code']==200){
-                                                  //   Navigator.pop(context);
-                                                  // }
-                                                },
-                                                borderRadius:
-                                                BorderRadius.circular(5.0),
-                                                borderColor:
-                                                ColorsUtil.hexStringColor(
-                                                    '#06B48D')))),
-                                    const SizedBox(
-                                      width: 8.0,
-                                    ),
-                                    Visibility(
-                                        visible: rpDetailItem['status'] == 4 ||
-                                            rpDetailItem['status'] == 2,
-                                        child: Expanded(
-                                            child: CustomOutlineButton(
-                                                title: '重新开方',
-                                                onPressed: () {
-                                                  // Navigator.popUntil(context, (route) => false);
-                                                },
-                                                borderRadius:
-                                                BorderRadius.circular(5.0),
-                                                borderColor:
-                                                ColorsUtil.hexStringColor(
-                                                    '#06B48D')))),
-                                    const SizedBox(
-                                      width: 8.0,
-                                    ),
-                                    Visibility(
-                                        visible: rpDetailItem['status'] == 3 ||
-                                            rpDetailItem['status'] == 4 ||
-                                            rpDetailItem['status'] == 2 ||
-                                            rpDetailItem['status'] == 5,
-                                        child: Expanded(
-                                            child: CustomElevatedButton(
-                                              title: '患者通知',
-                                              onPressed: () {
-                                                showDialog(
-                                                    barrierDismissible: false,
-                                                    context: context,
-                                                    builder: (_) =>
-                                                        WillPopScope(
-                                                          onWillPop: () async {
-                                                            return Future.value(
-                                                                false);
-                                                          },
-                                                          child: AlertDialog(
-                                                            contentPadding:
-                                                            const EdgeInsets
-                                                                .symmetric(
-                                                                vertical: 21.0),
-                                                            contentTextStyle: TextStyle(
-                                                                fontSize: 16.0,
-                                                                color: ColorsUtil
-                                                                    .hexStringColor(
-                                                                    '#333333')),
-                                                            // title: Text("提示信息"),
-                                                            content: Column(
-                                                              mainAxisSize:
-                                                              MainAxisSize.min,
+                                                          actions: [
+                                                            Row(
                                                               children: <
                                                                   Widget>[
-                                                                Row(
-                                                                  mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .center,
-                                                                  children: <
-                                                                      Widget>[
-                                                                    SizedBox(
-                                                                      width: ScreenUtil()
-                                                                          .setWidth(
-                                                                          80),
-                                                                      child: Text(
-                                                                        '就诊人',
-                                                                        textAlign:
-                                                                        TextAlign
-                                                                            .right,
-                                                                        style: GSYConstant
-                                                                            .textStyle(
-                                                                            fontSize:
-                                                                            16.0,
-                                                                            color:
-                                                                            '#666666'),
-                                                                      ),
-                                                                    ),
-                                                                    const SizedBox(
-                                                                      width: 15.0,
-                                                                    ),
-                                                                    SizedBox(
-                                                                        width: ScreenUtil()
-                                                                            .setWidth(
-                                                                            80),
-                                                                        child: Text(
-                                                                          rpDetailItem[
-                                                                          'name'] ??
-                                                                              '',
-                                                                          textAlign:
-                                                                          TextAlign
-                                                                              .left,
-                                                                          style: GSYConstant
-                                                                              .textStyle(
-                                                                              fontSize:
-                                                                              16.0,
-                                                                              color:
-                                                                              '#333333'),
-                                                                        ))
-                                                                  ],
-                                                                ),
-                                                                // const SizedBox(height: 9.0,),
-                                                                // Row(
-                                                                //   mainAxisAlignment:
-                                                                //       MainAxisAlignment
-                                                                //           .center,
-                                                                //   children: <Widget>[
-                                                                //     SizedBox(
-                                                                //       width: 65.0,
-                                                                //       child: Text(
-                                                                //         '数量',
-                                                                //         textAlign: TextAlign.right,
-                                                                //         style: GSYConstant
-                                                                //             .textStyle(
-                                                                //                 fontSize:
-                                                                //                     16.0,
-                                                                //                 color:
-                                                                //                     '#666666'),
-                                                                //       ),
-                                                                //     ),
-                                                                //     const SizedBox(width: 15.0,),
-                                                                //     SizedBox(
-                                                                //       width: 72.0,
-                                                                //       child: Text(
-                                                                //         '5',
-                                                                //         textAlign: TextAlign.left,
-                                                                //         style: GSYConstant
-                                                                //             .textStyle(
-                                                                //                 fontSize:
-                                                                //                     16.0,
-                                                                //                 color:
-                                                                //                     '#DE5347'),
-                                                                //       ),
-                                                                //     )
-                                                                //   ],
-                                                                // ),
+                                                                Expanded(
+                                                                    child:
+                                                                        CustomOutlineButton(
+                                                                  height: 40.0,
+                                                                  borderColor:
+                                                                      ColorsUtil
+                                                                          .hexStringColor(
+                                                                              '#06B48D'),
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              5.0),
+                                                                  title: '取消',
+                                                                  onPressed:
+                                                                      () {
+                                                                    Navigator.of(
+                                                                            context,
+                                                                            rootNavigator:
+                                                                                true)
+                                                                        .pop();
+                                                                    // Navigator.of(context).pop();
+                                                                  },
+                                                                )),
                                                                 const SizedBox(
-                                                                  height: 10.0,
+                                                                  width: 8.0,
                                                                 ),
-                                                                Row(
-                                                                  mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .center,
-                                                                  children: <
-                                                                      Widget>[
-                                                                    SizedBox(
-                                                                      width: ScreenUtil()
-                                                                          .setWidth(
-                                                                          80),
-                                                                      child: Text(
-                                                                        '待缴费',
-                                                                        textAlign:
-                                                                        TextAlign
-                                                                            .right,
-                                                                        style: GSYConstant
-                                                                            .textStyle(
-                                                                            fontSize:
-                                                                            16.0,
-                                                                            color:
-                                                                            '#666666'),
-                                                                      ),
-                                                                    ),
-                                                                    const SizedBox(
-                                                                      width: 15.0,
-                                                                    ),
-                                                                    SizedBox(
-                                                                        width: ScreenUtil()
-                                                                            .setWidth(
-                                                                            80),
-                                                                        child: Text(
-                                                                          '${NumUtil.getNumByValueStr(medicineMap['amt'],fractionDigits: 2)}元',
-                                                                          textAlign:
-                                                                          TextAlign
-                                                                              .left,
-                                                                          style: GSYConstant
-                                                                              .textStyle(
-                                                                              fontSize:
-                                                                              16.0,
-                                                                              color:
-                                                                              '#DE5347'),
-                                                                        ))
-                                                                  ],
-                                                                ),
-                                                                const SizedBox(
-                                                                  height: 11.0,
-                                                                ),
-                                                                Row(
-                                                                  mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .center,
-                                                                  children: <
-                                                                      Widget>[
-                                                                    SizedBox(
-                                                                      width: ScreenUtil()
-                                                                          .setWidth(
-                                                                          80),
-                                                                      child: Text(
-                                                                        '缴费类型',
-                                                                        textAlign:
-                                                                        TextAlign
-                                                                            .right,
-                                                                        style: GSYConstant
-                                                                            .textStyle(
-                                                                            fontSize:
-                                                                            16.0,
-                                                                            color:
-                                                                            '#666666'),
-                                                                      ),
-                                                                    ),
-                                                                    const SizedBox(
-                                                                      width: 15.0,
-                                                                    ),
-                                                                    SizedBox(
-                                                                        width: ScreenUtil()
-                                                                            .setWidth(
-                                                                            80),
-                                                                        child: Text(
-                                                                          '医药费',
-                                                                          textAlign:
-                                                                          TextAlign
-                                                                              .left,
-                                                                          style: GSYConstant
-                                                                              .textStyle(
-                                                                              fontSize:
-                                                                              16.0,
-                                                                              color:
-                                                                              '#DE5347'),
-                                                                        ))
-                                                                  ],
-                                                                ),
+                                                                Expanded(
+                                                                    child:
+                                                                        CustomElevatedButton(
+                                                                  onPressed:
+                                                                      () async {
+                                                                    var request =
+                                                                        HttpRequest
+                                                                            .getInstance();
+                                                                    var res = await request.post(
+                                                                        Api.revokeRpApi +
+                                                                            '',
+                                                                        {
+                                                                          'id':
+                                                                              rpDetailItem['id']
+                                                                        });
+                                                                    if (res['code'] ==
+                                                                        200) {
+                                                                      Navigator.of(
+                                                                              context,
+                                                                              rootNavigator: true)
+                                                                          .pop();
+                                                                      Navigator.pop(
+                                                                          context);
+                                                                    } else {
+                                                                      Navigator.of(
+                                                                              context,
+                                                                              rootNavigator: true)
+                                                                          .pop();
+                                                                      Navigator.pop(
+                                                                          context);
+                                                                      ToastUtil.showToast(
+                                                                          msg: res[
+                                                                              'msg']);
+                                                                    }
+                                                                  },
+                                                                  height: 40.0,
+                                                                  title: '确定',
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              5.0),
+                                                                ))
                                                               ],
                                                             ),
-                                                            buttonPadding:
-                                                            EdgeInsets.zero,
-                                                            actions: [
-                                                              Row(
-                                                                children: <
-                                                                    Widget>[
-                                                                  Expanded(
-                                                                      child:
-                                                                      GestureDetector(
-                                                                          onTap:
-                                                                              () {
-                                                                            Navigator
-                                                                                .of(
-                                                                                context,
-                                                                                rootNavigator: true)
-                                                                                .pop();
-                                                                          },
-                                                                          child:
-                                                                          Container(
-                                                                            height:
-                                                                            40.0,
-                                                                            alignment:
-                                                                            Alignment
-                                                                                .center,
-                                                                            decoration:
-                                                                            BoxDecoration(
-                                                                                border: Border(
-                                                                                    right: BorderSide(
-                                                                                        width: 0.5,
-                                                                                        color: ColorsUtil
-                                                                                            .hexStringColor(
-                                                                                            '#cccccc',
-                                                                                            alpha: 0.4)),
-                                                                                    top: BorderSide(
-                                                                                        width: 1.0,
-                                                                                        color: ColorsUtil
-                                                                                            .hexStringColor(
-                                                                                            '#cccccc',
-                                                                                            alpha: 0.4)))),
-                                                                            child:
-                                                                            Text(
-                                                                              '取消',
-                                                                              style: GSYConstant
-                                                                                  .textStyle(
-                                                                                  fontSize: 16.0,
-                                                                                  color: '#333333'),
-                                                                            ),
-                                                                          ))),
-                                                                  Expanded(
-                                                                      child:
-                                                                      GestureDetector(
-                                                                        onTap: () async {
-                                                                          var request =
-                                                                          HttpRequest
-                                                                              .getInstance();
-                                                                          var res =
-                                                                          await request
-                                                                              .post(
-                                                                              Api
-                                                                                  .sendRpNoticeApi,
-                                                                              {
-                                                                                'id':
-                                                                                rpDetailItem[
-                                                                                'id']
-                                                                              });
-                                                                          if (res['code'] ==
-                                                                              200) {
-                                                                            // Navigator.of(
-                                                                            //         context,
-                                                                            //         rootNavigator:
-                                                                            //             true)
-                                                                            //     .pop();
-                                                                            Navigator
-                                                                                .of(
-                                                                                context,
-                                                                                rootNavigator: true)
-                                                                                .pop();
-                                                                            Navigator
-                                                                                .of(
-                                                                                context)
-                                                                                .pushReplacement(
-                                                                                MaterialPageRoute(
-                                                                                    builder: (
-                                                                                        context) =>
-                                                                                        Main()));
-
-                                                                            // Navigator.popUntil(context, ModalRoute.withName("/TabHome"));
-                                                                          } else {
-                                                                            ToastUtil
-                                                                                .showToast(
-                                                                                msg: res['msg']);
-                                                                          }
-                                                                        },
-                                                                        child: Container(
-                                                                          alignment:
-                                                                          Alignment
-                                                                              .center,
-                                                                          height: 40.0,
-                                                                          decoration: BoxDecoration(
-                                                                              border: Border(
-                                                                                  left: BorderSide(
-                                                                                      width:
-                                                                                      0.5,
-                                                                                      color: ColorsUtil
-                                                                                          .hexStringColor(
-                                                                                          '#cccccc',
-                                                                                          alpha:
-                                                                                          0.4)),
-                                                                                  top: BorderSide(
-                                                                                      width:
-                                                                                      1.0,
-                                                                                      color: ColorsUtil
-                                                                                          .hexStringColor(
-                                                                                          '#cccccc',
-                                                                                          alpha: 0.4)))),
-                                                                          child: Text(
-                                                                            '发送提醒',
-                                                                            style: GSYConstant
-                                                                                .textStyle(
-                                                                                fontSize:
-                                                                                16.0,
-                                                                                color:
-                                                                                '#06B48D'),
-                                                                          ),
-                                                                        ),
-                                                                      ))
-                                                                ],
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ));
-                                              },
-                                              borderRadius: BorderRadius
-                                                  .circular(5.0),
-                                            )))
-                                  ],
+                                                          ],
+                                                          // title: Text("请确认是否撤单")
+                                                        ),
+                                                      ));
+                                              // var request = HttpRequest.getInstance();
+                                              // var res = await request.get(Api.revokeRpApi+'?orderId=${medicineMap['orderId']}', {});
+                                              // if(res['code']==200){
+                                              //   Navigator.pop(context);
+                                              // }
+                                            },
+                                            borderRadius:
+                                                BorderRadius.circular(5.0),
+                                            borderColor:
+                                                ColorsUtil.hexStringColor(
+                                                    '#06B48D')))),
+                                const SizedBox(
+                                  width: 8.0,
                                 ),
+                                Visibility(
+                                    visible: rpDetailItem['status'] == 4 ||
+                                        rpDetailItem['status'] == 2,
+                                    child: Expanded(
+                                        child: CustomOutlineButton(
+                                            title: '重新开方',
+                                            onPressed: () {
+                                              // Navigator.popUntil(context, (route) => false);
+                                            },
+                                            borderRadius:
+                                                BorderRadius.circular(5.0),
+                                            borderColor:
+                                                ColorsUtil.hexStringColor(
+                                                    '#06B48D')))),
+                                const SizedBox(
+                                  width: 8.0,
+                                ),
+                                Visibility(
+                                    visible: rpDetailItem['status'] == 3 ||
+                                        rpDetailItem['status'] == 4 ||
+                                        rpDetailItem['status'] == 2 ||
+                                        rpDetailItem['status'] == 5,
+                                    child: Expanded(
+                                        child: CustomElevatedButton(
+                                      title: '患者通知',
+                                      onPressed: () {
+                                        showDialog(
+                                            barrierDismissible: false,
+                                            context: context,
+                                            builder: (_) => WillPopScope(
+                                                  onWillPop: () async {
+                                                    return Future.value(false);
+                                                  },
+                                                  child: AlertDialog(
+                                                    contentPadding:
+                                                        const EdgeInsets
+                                                                .symmetric(
+                                                            vertical: 21.0),
+                                                    contentTextStyle: TextStyle(
+                                                        fontSize: 16.0,
+                                                        color: ColorsUtil
+                                                            .hexStringColor(
+                                                                '#333333')),
+                                                    // title: Text("提示信息"),
+                                                    content: Column(
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
+                                                      children: <Widget>[
+                                                        Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          children: <Widget>[
+                                                            SizedBox(
+                                                              width:
+                                                                  ScreenUtil()
+                                                                      .setWidth(
+                                                                          80),
+                                                              child: Text(
+                                                                '就诊人',
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .right,
+                                                                style: GSYConstant
+                                                                    .textStyle(
+                                                                        fontSize:
+                                                                            16.0,
+                                                                        color:
+                                                                            '#666666'),
+                                                              ),
+                                                            ),
+                                                            const SizedBox(
+                                                              width: 15.0,
+                                                            ),
+                                                            SizedBox(
+                                                                width:
+                                                                    ScreenUtil()
+                                                                        .setWidth(
+                                                                            80),
+                                                                child: Text(
+                                                                  rpDetailItem[
+                                                                          'name'] ??
+                                                                      '',
+                                                                  textAlign:
+                                                                      TextAlign
+                                                                          .left,
+                                                                  style: GSYConstant.textStyle(
+                                                                      fontSize:
+                                                                          16.0,
+                                                                      color:
+                                                                          '#333333'),
+                                                                ))
+                                                          ],
+                                                        ),
+                                                        // const SizedBox(height: 9.0,),
+                                                        // Row(
+                                                        //   mainAxisAlignment:
+                                                        //       MainAxisAlignment
+                                                        //           .center,
+                                                        //   children: <Widget>[
+                                                        //     SizedBox(
+                                                        //       width: 65.0,
+                                                        //       child: Text(
+                                                        //         '数量',
+                                                        //         textAlign: TextAlign.right,
+                                                        //         style: GSYConstant
+                                                        //             .textStyle(
+                                                        //                 fontSize:
+                                                        //                     16.0,
+                                                        //                 color:
+                                                        //                     '#666666'),
+                                                        //       ),
+                                                        //     ),
+                                                        //     const SizedBox(width: 15.0,),
+                                                        //     SizedBox(
+                                                        //       width: 72.0,
+                                                        //       child: Text(
+                                                        //         '5',
+                                                        //         textAlign: TextAlign.left,
+                                                        //         style: GSYConstant
+                                                        //             .textStyle(
+                                                        //                 fontSize:
+                                                        //                     16.0,
+                                                        //                 color:
+                                                        //                     '#DE5347'),
+                                                        //       ),
+                                                        //     )
+                                                        //   ],
+                                                        // ),
+                                                        const SizedBox(
+                                                          height: 10.0,
+                                                        ),
+                                                        Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          children: <Widget>[
+                                                            SizedBox(
+                                                              width:
+                                                                  ScreenUtil()
+                                                                      .setWidth(
+                                                                          80),
+                                                              child: Text(
+                                                                '待缴费',
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .right,
+                                                                style: GSYConstant
+                                                                    .textStyle(
+                                                                        fontSize:
+                                                                            16.0,
+                                                                        color:
+                                                                            '#666666'),
+                                                              ),
+                                                            ),
+                                                            const SizedBox(
+                                                              width: 15.0,
+                                                            ),
+                                                            SizedBox(
+                                                                width:
+                                                                    ScreenUtil()
+                                                                        .setWidth(
+                                                                            80),
+                                                                child: Text(
+                                                                  '${NumUtil.getNumByValueStr(medicineMap['amt'], fractionDigits: 2)}元',
+                                                                  textAlign:
+                                                                      TextAlign
+                                                                          .left,
+                                                                  style: GSYConstant.textStyle(
+                                                                      fontSize:
+                                                                          16.0,
+                                                                      color:
+                                                                          '#DE5347'),
+                                                                ))
+                                                          ],
+                                                        ),
+                                                        const SizedBox(
+                                                          height: 11.0,
+                                                        ),
+                                                        Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          children: <Widget>[
+                                                            SizedBox(
+                                                              width:
+                                                                  ScreenUtil()
+                                                                      .setWidth(
+                                                                          80),
+                                                              child: Text(
+                                                                '缴费类型',
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .right,
+                                                                style: GSYConstant
+                                                                    .textStyle(
+                                                                        fontSize:
+                                                                            16.0,
+                                                                        color:
+                                                                            '#666666'),
+                                                              ),
+                                                            ),
+                                                            const SizedBox(
+                                                              width: 15.0,
+                                                            ),
+                                                            SizedBox(
+                                                                width:
+                                                                    ScreenUtil()
+                                                                        .setWidth(
+                                                                            80),
+                                                                child: Text(
+                                                                  '医药费',
+                                                                  textAlign:
+                                                                      TextAlign
+                                                                          .left,
+                                                                  style: GSYConstant.textStyle(
+                                                                      fontSize:
+                                                                          16.0,
+                                                                      color:
+                                                                          '#DE5347'),
+                                                                ))
+                                                          ],
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    buttonPadding:
+                                                        EdgeInsets.zero,
+                                                    actions: [
+                                                      Row(
+                                                        children: <Widget>[
+                                                          Expanded(
+                                                              child:
+                                                                  GestureDetector(
+                                                                      onTap:
+                                                                          () {
+                                                                        Navigator.of(context,
+                                                                                rootNavigator: true)
+                                                                            .pop();
+                                                                      },
+                                                                      child:
+                                                                          Container(
+                                                                        height:
+                                                                            40.0,
+                                                                        alignment:
+                                                                            Alignment.center,
+                                                                        decoration:
+                                                                            BoxDecoration(border: Border(right: BorderSide(width: 0.5, color: ColorsUtil.hexStringColor('#cccccc', alpha: 0.4)), top: BorderSide(width: 1.0, color: ColorsUtil.hexStringColor('#cccccc', alpha: 0.4)))),
+                                                                        child:
+                                                                            Text(
+                                                                          '取消',
+                                                                          style: GSYConstant.textStyle(
+                                                                              fontSize: 16.0,
+                                                                              color: '#333333'),
+                                                                        ),
+                                                                      ))),
+                                                          Expanded(
+                                                              child:
+                                                                  GestureDetector(
+                                                            onTap: () async {
+                                                              var request =
+                                                                  HttpRequest
+                                                                      .getInstance();
+                                                              var res =
+                                                                  await request
+                                                                      .post(
+                                                                          Api.sendRpNoticeApi,
+                                                                          {
+                                                                    'id':
+                                                                        rpDetailItem[
+                                                                            'id']
+                                                                  });
+                                                              if (res['code'] ==
+                                                                  200) {
+                                                                // Navigator.of(
+                                                                //         context,
+                                                                //         rootNavigator:
+                                                                //             true)
+                                                                //     .pop();
+                                                                Navigator.of(
+                                                                        context,
+                                                                        rootNavigator:
+                                                                            true)
+                                                                    .pop();
+                                                                if (rpDetailItem[
+                                                                        'isFlag'] !=
+                                                                    '1') {
+                                                                  Navigator.of(
+                                                                          context)
+                                                                      .pushReplacement(MaterialPageRoute(
+                                                                          builder: (context) =>
+                                                                              Main()));
+                                                                }
+
+                                                                // Navigator.popUntil(context, ModalRoute.withName("/TabHome"));
+                                                              } else {
+                                                                ToastUtil.showToast(
+                                                                    msg: res[
+                                                                        'msg']);
+                                                              }
+                                                            },
+                                                            child: Container(
+                                                              alignment:
+                                                                  Alignment
+                                                                      .center,
+                                                              height: 40.0,
+                                                              decoration: BoxDecoration(
+                                                                  border: Border(
+                                                                      left: BorderSide(
+                                                                          width:
+                                                                              0.5,
+                                                                          color: ColorsUtil.hexStringColor(
+                                                                              '#cccccc',
+                                                                              alpha:
+                                                                                  0.4)),
+                                                                      top: BorderSide(
+                                                                          width:
+                                                                              1.0,
+                                                                          color: ColorsUtil.hexStringColor(
+                                                                              '#cccccc',
+                                                                              alpha: 0.4)))),
+                                                              child: Text(
+                                                                '发送提醒',
+                                                                style: GSYConstant
+                                                                    .textStyle(
+                                                                        fontSize:
+                                                                            16.0,
+                                                                        color:
+                                                                            '#06B48D'),
+                                                              ),
+                                                            ),
+                                                          ))
+                                                        ],
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ));
+                                      },
+                                      borderRadius: BorderRadius.circular(5.0),
+                                    )))
                               ],
                             ),
-                          ),
-                        )
-                      ],
-                    ),
+                          ],
+                        ),
+                      ),
+                    )
                   ],
                 ),
-              ))
+              ],
+            ),
+          ))
         ],
       ),
     );

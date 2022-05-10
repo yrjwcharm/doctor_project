@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:doctor_project/pages/my/my_prescription.dart';
+import 'package:doctor_project/utils/common_utils.dart';
 import 'package:doctor_project/utils/svg_util.dart';
 import 'package:flutter/services.dart';
 import '../../http/http_request.dart';
@@ -17,6 +18,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../utils/desensitization_utils.dart';
 import '../my/basic_info.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
@@ -30,7 +32,7 @@ class My extends StatefulWidget {
 class MyState extends State<My> {
   late File _image;
   List<Widget> items = [];
-  Map doctorInfoMap = new Map();
+  Map doctorInfoMap = {};
   String phoneStr = "";
 
   //获取医生信息
@@ -202,18 +204,18 @@ class MyState extends State<My> {
       context: context,
       builder: (BuildContext context) {
         return CupertinoActionSheet(
-          title: Text('上传图片'),
-          message: Text('请选择上传方式'),
+          title: const Text('上传图片'),
+          message: const Text('请选择上传方式'),
           actions: <Widget>[
             CupertinoActionSheetAction(
-              child: Text('拍照上传'),
+              child: const Text('拍照上传'),
               onPressed: () {
                 _takePhoto();
                 Navigator.pop(context);
               },
             ),
             CupertinoActionSheetAction(
-              child: Text('相册'),
+              child: const Text('相册'),
               onPressed: () {
                 _openGallery();
                 Navigator.pop(context);
@@ -222,7 +224,7 @@ class MyState extends State<My> {
           ],
           cancelButton: CupertinoActionSheetAction(
             isDefaultAction: true,
-            child: Text('取消'),
+            child: const Text('取消'),
             onPressed: () {
               Navigator.pop(context);
             },
@@ -297,7 +299,7 @@ class MyState extends State<My> {
                     ),
                   ),
                   Text(
-                    phoneStr,
+                    phoneStr.isNotEmpty?DesensitizationUtil.desensitizationMobile(phoneStr):'',
                     style: const TextStyle(
                       fontSize: 14.0,
                       fontWeight: FontWeight.w400,
@@ -332,7 +334,7 @@ class MyState extends State<My> {
                 width: 9.0,
               ),
               Text(
-                '4.8',
+                '',
                 style: TextStyle(
                     fontSize: 18.0,
                     fontFamily: 'Medium',
@@ -359,7 +361,7 @@ class MyState extends State<My> {
                 width: 9.0,
               ),
               Text(
-                '1064',
+                '',
                 style: TextStyle(
                     fontSize: 18.0,
                     fontWeight: FontWeight.w500,

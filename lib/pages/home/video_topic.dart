@@ -5,8 +5,12 @@
 //  Created by Patrick Fu on 2020/12/04.
 //  Copyright © 2020 Zego. All rights reserved.
 //
+import 'dart:math';
+
+import 'package:doctor_project/http/http_request.dart';
 import 'package:doctor_project/pages/home/make_prescription.dart';
 import 'package:doctor_project/pages/my/write-case.dart';
+import 'package:doctor_project/utils/toast_util.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:doctor_project/common/style/gsy_style.dart';
@@ -21,14 +25,16 @@ import 'dart:io';
 import 'package:zego_express_engine/zego_express_engine.dart';
 
 import '../../config/zego_config.dart';
+import '../../http/api.dart';
 
 class VideoTopic extends StatefulWidget {
-  VideoTopic({Key? key, required this.regId,required this.userInfoMap}) : super(key: key);
+  VideoTopic({Key? key, required this.regId, required this.userInfoMap})
+      : super(key: key);
   final String regId;
   Map userInfoMap;
 
   @override
-  _VideoTopicState createState() => _VideoTopicState(regId,userInfoMap);
+  _VideoTopicState createState() => _VideoTopicState(regId, userInfoMap);
 }
 
 class _VideoTopicState extends State<VideoTopic> {
@@ -62,7 +68,93 @@ class _VideoTopicState extends State<VideoTopic> {
       TextEditingController();
   String regId;
   Map userInfoMap;
-  _VideoTopicState(this.regId,this.userInfoMap);
+
+  _VideoTopicState(this.regId, this.userInfoMap);
+
+  showPopup() async {
+    await showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (_) => WillPopScope(
+              onWillPop: () async {
+                return Future.value(false);
+              },
+              child: AlertDialog(
+                contentPadding: const EdgeInsets.only(
+                    top: 28.0, bottom: 20.0, left: 16.0, right: 16.0),
+                buttonPadding: EdgeInsets.zero,
+                // insetPadding: EdgeInsets.zero,
+                contentTextStyle: GSYConstant.textStyle(color: '#333333'),
+                content: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: const <Widget>[
+                      Text(
+                        '请等待患者进入房间后，点击开始录制按钮进行诊疗',
+                        textAlign: TextAlign.center,
+                      ),
+                      // SizedBox(
+                      //   height: 12.0,
+                      // ),
+                      // Text('2、处方开具医生须向患者说明处方使用规范和注意事项。',
+                      //     textAlign: TextAlign.justify)
+                    ]),
+                actions: [
+                  Container(
+                    height: 59.0,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                        border: Border(
+                            top: BorderSide(
+                                width: 1.0,
+                                color: ColorsUtil.hexStringColor('#cccccc',
+                                    alpha: 0.4)))),
+                    child: CustomElevatedButton(
+                      title: '开始录制',
+                      textStyle: GSYConstant.textStyle(fontSize: 16.0),
+                      height: 36.0,
+                      borderRadius: BorderRadius.circular(5.0),
+                      width: 119.0,
+                      primary: '#06B48D',
+                      onPressed: () async {
+                         if(_streamID.isEmpty){
+                           ToastUtil.showToast(msg: '请等待患者进入房间');
+                           return;
+                         }
+                         var request = HttpRequest.getInstance();
+                         var res = await request.post(Api.startRecordVideo, {
+                           'app_id':ZegoConfig.instance.appID,
+                            'access_token':ZegoConfig.instance.token,
+                           'room_id':ZegoConfig.instance.roomID,
+
+                           'record_input_params':{
+                             'record_mode':2,
+                             'mix_config':{
+                               'mix_output_stream_id': ("01" +DateTime.now().millisecondsSinceEpoch.toString()).split(''),
+                               'mix_output_video_config': {
+                                 'width': 1920,
+                                 'height': 1080,
+                                 'fps': 15,
+                                 'bitrate': 3000
+                               }
+                             }
+                           },
+                           'mix_input_list':{
+                             'fill_mode': 2,
+                           },
+                           'record_output_params': {},
+                           'storage_params': {},
+
+                         });
+                         if(res['code']==200){
+
+                         }
+                      },
+                    ),
+                  )
+                ],
+              ),
+            ));
+  }
 
   @override
   void initState() {
@@ -482,7 +574,9 @@ class _VideoTopicState extends State<VideoTopic> {
               },
               child: Column(
                 children: <Widget>[
-                  Image.asset(_isEnableCamera?'assets/images/open_video.png':'assets/images/close_video.png'),
+                  Image.asset(_isEnableCamera
+                      ? 'assets/images/open_video.png'
+                      : 'assets/images/close_video.png'),
                   const SizedBox(
                     height: 8.0,
                   ),
@@ -511,7 +605,9 @@ class _VideoTopicState extends State<VideoTopic> {
               },
               child: Column(
                 children: <Widget>[
-                  Image.asset(_isEnableMic?'assets/images/mute.png':'assets/images/open_mute.png'),
+                  Image.asset(_isEnableMic
+                      ? 'assets/images/mute.png'
+                      : 'assets/images/open_mute.png'),
                   const SizedBox(
                     height: 8.0,
                   ),
@@ -582,62 +678,82 @@ class _VideoTopicState extends State<VideoTopic> {
               ),
             )),
         Positioned(
-            right: 8.0,
-            bottom:4.0,
-            child: Visibility(
-              visible: _isVisibility,
-              // maintainAnimation: true,
-              // maintainSize: true,
-              // maintainState: true,
-              child: Container(
-                width: 189.0,
-                height: 79.0,
-                padding: const EdgeInsets.only(left: 10.0,right: 17.0),
-                decoration: const BoxDecoration(
-                    image: DecorationImage(
-                        image: AssetImage('assets/images/video_more.png'))),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    GestureDetector(
-                      onTap: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>WriteCase(registeredId: regId,userInfoMap: userInfoMap,)));
-                      },
-                      child:Column(
-                        //     font-size: 14px;
-                        // font-family: PingFangSC-Regular, PingFang SC;
-                        // font-weight: 400;
-                        // color: #FFFFFF;
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          SvgUtil.svg('write_case.svg'),
-                          const SizedBox(height: 6.0,),
-                          Text('写病历',style: GSYConstant.textStyle(),)
-                        ],
-                      ) ,
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-
-                      children: <Widget>[
-                        SvgUtil.svg('silence.svg'),
-                        const SizedBox(height: 7.0,),
-
-                        Text('免提',style: GSYConstant.textStyle(),)
-                      ],
-                    ),
-                    Column(
+          right: 8.0,
+          bottom: 4.0,
+          child: Visibility(
+            visible: _isVisibility,
+            // maintainAnimation: true,
+            // maintainSize: true,
+            // maintainState: true,
+            child: Container(
+              width: 189.0,
+              height: 79.0,
+              padding: const EdgeInsets.only(left: 10.0, right: 17.0),
+              decoration: const BoxDecoration(
+                  image: DecorationImage(
+                      image: AssetImage('assets/images/video_more.png'))),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => WriteCase(
+                                    registeredId: regId,
+                                    userInfoMap: userInfoMap,
+                                  )));
+                    },
+                    child: Column(
+                      //     font-size: 14px;
+                      // font-family: PingFangSC-Regular, PingFang SC;
+                      // font-weight: 400;
+                      // color: #FFFFFF;
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        SvgUtil.svg('transform.svg'),
-                        const SizedBox(height: 7.0,),
-                        Text('切换',style: GSYConstant.textStyle(),)
+                        SvgUtil.svg('write_case.svg'),
+                        const SizedBox(
+                          height: 6.0,
+                        ),
+                        Text(
+                          '写病历',
+                          style: GSYConstant.textStyle(),
+                        )
                       ],
                     ),
-                  ],
-                ),
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      SvgUtil.svg('silence.svg'),
+                      const SizedBox(
+                        height: 7.0,
+                      ),
+                      Text(
+                        '免提',
+                        style: GSYConstant.textStyle(),
+                      )
+                    ],
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      SvgUtil.svg('transform.svg'),
+                      const SizedBox(
+                        height: 7.0,
+                      ),
+                      Text(
+                        '切换',
+                        style: GSYConstant.textStyle(),
+                      )
+                    ],
+                  ),
+                ],
               ),
-            ),),
+            ),
+          ),
+        ),
       ]),
     );
   }
