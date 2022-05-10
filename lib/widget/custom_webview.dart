@@ -21,7 +21,7 @@ class GSYWebView extends StatefulWidget {
 }
 
 class _GSYWebViewState extends State<GSYWebView> {
-  final FocusNode focusNode = new FocusNode();
+  final FocusNode focusNode =  FocusNode();
 
   bool isLoading = true;
 
@@ -36,10 +36,10 @@ class _GSYWebViewState extends State<GSYWebView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: new AppBar(
+      // appBar:  AppBar(
       //   title: _renderTitle(),
       // ),
-      body:SafeArea(child: new Stack(
+      body:SafeArea(child:  Stack(
         children: <Widget>[
           TextField(
             focusNode: focusNode,
@@ -62,19 +62,19 @@ class _GSYWebViewState extends State<GSYWebView> {
                     })
               ])),
           if (isLoading)
-            new Center(
-              child: new Container(
+             Center(
+              child:  Container(
                 width: 200.0,
                 height: 200.0,
-                padding: new EdgeInsets.all(4.0),
-                child: new Row(
+                padding:  const EdgeInsets.all(4.0),
+                child:  Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    new SpinKitDoubleBounce(
+                     SpinKitDoubleBounce(
                         color: Theme.of(context).primaryColor),
-                    new Container(width: 10.0),
-                    new Container(
-                        child: new Text('loading...',style: TextStyle(
+                     Container(width: 10.0),
+                     const SizedBox(
+                        child:  Text('加载中...',style: TextStyle(
                           color:  Color(0xFF121917),
                           fontSize: 16.0
                         ),

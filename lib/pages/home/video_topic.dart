@@ -482,7 +482,7 @@ class _VideoTopicState extends State<VideoTopic> {
               },
               child: Column(
                 children: <Widget>[
-                  SvgUtil.svg('video_.svg'),
+                  Image.asset(_isEnableCamera?'assets/images/open_video.png':'assets/images/close_video.png'),
                   const SizedBox(
                     height: 8.0,
                   ),
@@ -497,6 +497,7 @@ class _VideoTopicState extends State<VideoTopic> {
               onTap: () {
                 if (_roomState == ZegoRoomState.Connected) {
                   logoutRoom();
+                  Navigator.pop(context);
                 }
               },
               child: SvgUtil.svg('close.svg'),
@@ -510,7 +511,7 @@ class _VideoTopicState extends State<VideoTopic> {
               },
               child: Column(
                 children: <Widget>[
-                  SvgUtil.svg('close_speaker.svg'),
+                  Image.asset(_isEnableMic?'assets/images/mute.png':'assets/images/open_mute.png'),
                   const SizedBox(
                     height: 8.0,
                   ),

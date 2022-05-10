@@ -16,6 +16,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../http/api.dart';
+import '../../utils/num_util.dart';
 import '../tabs/main.dart';
 
 class RecipeDetail extends StatefulWidget {
@@ -560,13 +561,13 @@ class _RecipeDetailState extends State<RecipeDetail> {
                                       ),
                                       medicineMap['doctorSign'] != null
                                           ? Transform.rotate(
-                                        angle: 270.15,
+                                        angle: 270.17,
                                         child: Image.memory(
                                           const Base64Decoder().convert(
                                               medicineMap['doctorSign']),
                                           scale: 1,
                                           width: 54.0,
-                                          height: 18.0,
+                                          height: 24.0,
                                         ),
                                       )
                                           : Container()
@@ -574,7 +575,7 @@ class _RecipeDetailState extends State<RecipeDetail> {
                                     ],
                                   ),
                                   const SizedBox(
-                                    height: 24.0,
+                                    height: 12.0,
                                   ),
                                   Row(
                                     children: <Widget>[
@@ -583,15 +584,18 @@ class _RecipeDetailState extends State<RecipeDetail> {
                                         style:
                                         GSYConstant.textStyle(color: '#333333'),
                                       ),
+                                      const SizedBox(
+                                        width: 15.0,
+                                      ),
                                       medicineMap['pharmacistSign'] != null
                                           ? Transform.rotate(
-                                        angle: 270.15,
+                                        angle: 270.17,
                                         child: Image.memory(
                                           const Base64Decoder().convert(
                                               medicineMap['pharmacistSign']),
                                           scale: 1,
                                           width: 54.0,
-                                          height: 18.0,
+                                          height: 24.0,
                                         ),
                                       )
                                           : Container()
@@ -603,7 +607,7 @@ class _RecipeDetailState extends State<RecipeDetail> {
                                   ? Image.memory(
                                 const Base64Decoder()
                                     .convert(medicineMap['companySign']),
-                                scale: 0.5,
+                                scale: 1,
                                 width: 54.0,
                                 height: 54.0,
                               )
@@ -961,7 +965,7 @@ class _RecipeDetailState extends State<RecipeDetail> {
                                                                             .setWidth(
                                                                             80),
                                                                         child: Text(
-                                                                          '${medicineMap['amt']}元',
+                                                                          '${NumUtil.getNumByValueStr(medicineMap['amt'],fractionDigits: 2)}元',
                                                                           textAlign:
                                                                           TextAlign
                                                                               .left,

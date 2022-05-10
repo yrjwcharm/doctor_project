@@ -1,8 +1,10 @@
 import 'dart:async';
 
+import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:doctor_project/utils/reg_util.dart';
 import 'package:doctor_project/utils/svg_util.dart';
 import 'package:doctor_project/utils/toast_util.dart';
+import 'package:doctor_project/widget/custom_outline_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/cupertino.dart';
@@ -511,39 +513,28 @@ class sendIphoneCodeStates extends State<sendIphoneCode> {
   }
 
   Widget build(BuildContext context) {
-    return Container(
-        child: FlatButton(
-          child: Text(
-            _autoCodeText,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: Color.fromARGB(255, 84, 184, 146),
-              fontSize: 13,
+    return CustomOutlineButton(
+          width: 90.0,
+          height: 27.0,
+          title: _autoCodeText,
+           textStyle: GSYConstant.textStyle(
+              color: '#09BB8F',
+              fontSize: 13.0,
             ),
-          ),
-          textColor: Color.fromARGB(255, 84, 184, 146),
-          onPressed: !buttonDisabled
-              ? () {
-                  if (isChinaPhoneLegal(widget.str1) == true) {
-                  } else {
-                    Fluttertoast.showToast(
-                        msg: '手机号码格式不正确', gravity: ToastGravity.CENTER);
-                    return;
-                  }
-
-                  print("widget.str1=" + widget.str1);
-                  postNet_3();
-                }
-              : null,
-        ),
-        width: 100,
-        height: 30,
-        decoration: BoxDecoration(
-          // color: Color.fromARGB(255, 84, 184, 146),
-          borderRadius: BorderRadius.circular(16),
-          border:
-              Border.all(color: Color.fromARGB(255, 84, 184, 146), width: 1),
-        ));
+          borderRadius: BorderRadius.circular(14.0),
+          borderColor: ColorsUtil.hexStringColor('#09BB8F'),
+          onPressed:(){
+            if(!buttonDisabled){
+              if (isChinaPhoneLegal(widget.str1) == true) {
+              } else {
+                Fluttertoast.showToast(
+                    msg: '手机号码格式不正确', gravity: ToastGravity.CENTER);
+                return;
+              }
+              print("widget.str1=" + widget.str1);
+              postNet_3();
+            }
+          });
     // TODO: implement build
   }
 }

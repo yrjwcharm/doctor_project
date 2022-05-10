@@ -6,7 +6,6 @@ class ServiceSettingsBean{
    int _status;
 
    String get icon => _icon;
-
   set icon(String value) {
     _icon = value;
   }

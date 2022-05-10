@@ -30,7 +30,9 @@ class Api {
   static const getRpListApi = "/doctor/dr-service/recipe/getList";
   static const getRpDetailApi = "/doctor/dr-service/recipe/queryRecipe";
   static const  revokeRpApi = '/doctor/dr-service/recipe/cancel';
-  static const  view360Api ='https://interhospital.youjiankang.net/360view/#/?paId=202208018';
+  static const  view360Api =Api.BASE_URL+'/360view/#/?paId=202208018';
+  static const  startRecordVideo ='/doctor/dr-service/order-room/startVideo';
+  static const  stopRecordVideo ='/doctor/dr-service/order-room/stopVideo';
 
 
 }
