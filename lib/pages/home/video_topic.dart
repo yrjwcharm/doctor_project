@@ -6,7 +6,7 @@
 //  Copyright © 2020 Zego. All rights reserved.
 //
 import 'dart:math';
-
+import 'dart:convert' as convert;
 import 'package:doctor_project/http/http_request.dart';
 import 'package:doctor_project/pages/home/make_prescription.dart';
 import 'package:doctor_project/pages/my/write-case.dart';
@@ -28,13 +28,14 @@ import '../../config/zego_config.dart';
 import '../../http/api.dart';
 
 class VideoTopic extends StatefulWidget {
-  VideoTopic({Key? key, required this.regId, required this.userInfoMap})
+  VideoTopic({Key? key, required this.regId,required this.docName, required this.userInfoMap})
       : super(key: key);
   final String regId;
+  final String docName;
   Map userInfoMap;
 
   @override
-  _VideoTopicState createState() => _VideoTopicState(regId, userInfoMap);
+  _VideoTopicState createState() => _VideoTopicState(regId, userInfoMap,docName);
 }
 
 class _VideoTopicState extends State<VideoTopic> {
@@ -56,7 +57,6 @@ class _VideoTopicState extends State<VideoTopic> {
   static const double viewRatio = 3.0 / 8.0;
   bool _isVisibility = false;
   ZegoMediaPlayer? mediaPlayer;
-
   bool _isEngineActive = false;
   ZegoRoomState _roomState = ZegoRoomState.Disconnected;
   ZegoPublisherState _publisherState = ZegoPublisherState.NoPublish;
@@ -67,11 +67,12 @@ class _VideoTopicState extends State<VideoTopic> {
   final TextEditingController _playingStreamIDController =
       TextEditingController();
   String regId;
+  String docName;
+  String taskId='';
   Map userInfoMap;
+  _VideoTopicState(this.regId, this.userInfoMap,this.docName);
 
-  _VideoTopicState(this.regId, this.userInfoMap);
-
-  showPopup() async {
+  _showDialog() async {
     await showDialog(
         useSafeArea:false,
         barrierDismissible: false,
@@ -88,10 +89,11 @@ class _VideoTopicState extends State<VideoTopic> {
                 contentTextStyle: GSYConstant.textStyle(color: '#333333'),
                 content: Column(
                     mainAxisSize: MainAxisSize.min,
-                    children: const <Widget>[
+                    children:  <Widget>[
                       Text(
-                        '请等待患者进入房间后，点击开始录制按钮进行诊疗',
+                        '请务必等待患者进入房间后，点击开始录制',
                         textAlign: TextAlign.center,
+                        style: GSYConstant.textStyle(color: '#333333'),
                       ),
                       // SizedBox(
                       //   height: 12.0,
@@ -117,21 +119,21 @@ class _VideoTopicState extends State<VideoTopic> {
                       width: 119.0,
                       primary: '#06B48D',
                       onPressed: () async {
-                         if(_streamID.isEmpty){
-                           ToastUtil.showToast(msg: '请等待患者进入房间');
-                           // Navigator.pop(context);
-                           return;
-                         }
+                         // if(_streamID.isEmpty){
+                         //   ToastUtil.showToast(msg: '请等待患者进入房间');
+                         //   // Navigator.pop(context);
+                         //   return;
+                         // }
                          var request = HttpRequest.getInstance();
-                         var res = await request.post(Api.startRecordVideo, {
+                         var res = await request.post(Api.startRecordVideo, {'room_id':ZegoConfig.instance.roomID,'startInfo':convert.jsonEncode({
                            'app_id':ZegoConfig.instance.appID,
-                            'access_token':ZegoConfig.instance.token,
+                           'access_token':ZegoConfig.instance.token,
                            'room_id':ZegoConfig.instance.roomID,
 
                            'record_input_params':{
                              'record_mode':2,
                              'mix_config':{
-                               'mix_output_stream_id': ("01" +DateTime.now().millisecondsSinceEpoch.toString()).split(''),
+                               'mix_output_stream_id': "01_" +DateTime.now().millisecondsSinceEpoch.toString(),
                                'mix_output_video_config': {
                                  'width': 1920,
                                  'height': 1080,
@@ -144,11 +146,16 @@ class _VideoTopicState extends State<VideoTopic> {
                              'fill_mode': 2,
                            },
                            'record_output_params': {},
-                           'storage_params': {},
-
-                         });
+                         })});
                          if(res['code']==200){
-
+                            String taskId = res['data']['video']['task_id'];
+                            print('taskId++++++++++++ $taskId');
+                            setState(() {
+                              this.taskId = taskId;
+                            });
+                            Navigator.pop(context);
+                         }else{
+                           ToastUtil.showToast(msg: res['msg']);
                          }
                       },
                     ),
@@ -161,8 +168,13 @@ class _VideoTopicState extends State<VideoTopic> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration.zero, () {
-      showPopup();
+    //第一种解决方案 使用dialog
+    // Future.delayed(Duration.zero, () {
+    //   _showDialog();
+    // });
+    //第二种
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+      _showDialog();
     });
 
     ZegoExpressEngine.getVersion()
@@ -239,9 +251,14 @@ class _VideoTopicState extends State<VideoTopic> {
     PermissionStatus microphoneStatus = await Permission.microphone.request();
     setState(() => _isMicrophonePermissionGranted = microphoneStatus.isGranted);
   }
-
   @override
-  void dispose() {
+  void deactivate() {
+    super.deactivate();
+    print('1111222222221111走了啊');
+
+  }
+  @override
+  void dispose() async{
     // Can destroy the engine when you don't need audio and video calls
     //
     // Destroy engine will automatically logout room and stop publishing/playing stream.
@@ -251,8 +268,17 @@ class _VideoTopicState extends State<VideoTopic> {
     print('🏳️ Destroy ZegoExpressEngine');
 
     clearZegoEventCallback();
-
+    print('11111111111111走了啊$taskId');
     super.dispose();
+    print('11111111走了啊$taskId');
+    var request = HttpRequest.getInstance();
+    var res = await request.post(Api.stopRecordVideo, {'task_id':taskId});
+    if(res['code']==200){
+      if(res['data']['video']['code']==0){
+        ToastUtil.showToast(msg: '录制结束！！！');
+      }
+    }
+
   }
 
   // MARK: - Step 1: CreateEngine
@@ -679,7 +705,7 @@ class _VideoTopicState extends State<VideoTopic> {
               decoration: BoxDecoration(
                   color: ColorsUtil.hexStringColor('#000000', alpha: 0.6)),
               child: Text(
-                '医师:',
+                '医师:$docName',
                 style: GSYConstant.textStyle(fontSize: 12.0),
               ),
             )),

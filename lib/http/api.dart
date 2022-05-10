@@ -23,6 +23,8 @@ class Api {
   static const getMessageListApi = "/doctor/dr-service/push/getList"; //获取医生信息
   static const getMyPatientListApi = "/doctor/dr-service/patient/getList"; //获取患者列表
   static const finishTopicApi = "/doctor/dr-service/register/finish";
+  static const cnDrugInventoryApi = "/doctor/dr-service/herbalMedicine/getStock";
+  static const westernDrugInventoryApi = "/doctor/dr-service/medicine/getStock";
   static const uploadImgApi = "/doctor/dr-service/order-room/cos/upload?key=ih";
   static const updateAvatar = "/doctor/dr-service/ba-doctor-user/uploadAvatar";
   static const saveChatRecordApi = "/doctor/dr-service/order-room/record/save";

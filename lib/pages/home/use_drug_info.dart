@@ -92,16 +92,13 @@ class _UseDrugInfoState extends State<UseDrugInfo> {
           Navigator.of(context).pop();
           item['placeholder'] = data[i];
           if (index == 0) {
-            // drugInfoMap.update("dosage", (value) => item["placeholder"]);
             drugInfoMap['_frequency'] = _data[i]['detailValue'];
             drugInfoMap['frequency'] = data[i];
           }  else if (index == 2) {
             drugInfoMap['_usage'] = _data[i]['detailValue'];
             drugInfoMap['usage'] = data[i];
-            // drugInfoMap.update("usage", (value) => item["placeholder"]);
           }
           setState(() {
-            // item.update("placeholder", (value) => data[i]);
           });
         },
       );
@@ -241,7 +238,7 @@ class _UseDrugInfoState extends State<UseDrugInfo> {
                             ),
                             const SizedBox(height: 10.0,),
                             Text(
-                              '库存：' + drugInfoMap["stockNum"],
+                              '库存：' + drugInfoMap["stockNum"].toString(),
                               style: GSYConstant.textStyle(
                                   color: '#888888', fontSize: 13.0),
                             )

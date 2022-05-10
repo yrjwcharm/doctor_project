@@ -18,11 +18,12 @@ import 'chat_room.dart';
 import 'order_detail.dart';
 
 class PatientConsult extends StatefulWidget {
-  const PatientConsult({Key? key, required this.type}) : super(key: key);
+  const PatientConsult({Key? key, required this.type,required this.docName}) : super(key: key);
   final String type;
+  final String docName;
 
   @override
-  _PatientConsultState createState() => _PatientConsultState(type);
+  _PatientConsultState createState() => _PatientConsultState(type,docName);
 }
 
 class _PatientConsultState extends State<PatientConsult> {
@@ -36,8 +37,9 @@ class _PatientConsultState extends State<PatientConsult> {
   int status = 1;
   int waitReceive = 0;
   String type;
+  String docName;
   StreamSubscription? stream;
-  _PatientConsultState(this.type);
+  _PatientConsultState(this.type,this.docName);
 
   @override
   void initState() {
@@ -141,7 +143,7 @@ class _PatientConsultState extends State<PatientConsult> {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => OrderDetail(map: list[index])));
+                  builder: (context) => OrderDetail(map: list[index],docName: docName,)));
         },
         child: Container(
             margin: const EdgeInsets.fromLTRB(16.0, 0, 16.0, 10.0),
@@ -425,6 +427,7 @@ class _PatientConsultState extends State<PatientConsult> {
                                         MaterialPageRoute(
                                             builder: (context) => VideoTopic(
                                               regId: item['id'],
+                                              docName: docName,
                                               userInfoMap: item,
                                             ))).then((value) => {
                                       getData(),

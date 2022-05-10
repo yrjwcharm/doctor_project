@@ -164,7 +164,7 @@ class HomeState extends State<Home> {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => OrderDetail(map: list[index])));
+                  builder: (context) => OrderDetail(map: list[index],docName:doctorInfoMap['realName']??'')));
         },
         child: Container(
             margin: const EdgeInsets.fromLTRB(16.0, 0, 16.0, 10.0),
@@ -450,6 +450,7 @@ class HomeState extends State<Home> {
                                         MaterialPageRoute(
                                             builder: (context) => VideoTopic(
                                                   regId: item['id'],
+                                                docName:doctorInfoMap["realName"]??'',
                                                 userInfoMap: item,
                                             ))).then((value) => {
                                           getData(),
@@ -700,22 +701,24 @@ class HomeState extends State<Home> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => const PatientConsult(type: '1')));
+                    builder: (context) =>  PatientConsult(type: '1',docName:doctorInfoMap['realName']??'',)));
           }),
           buildButtonColumn('assets/images/home/picture1.png', '图文问诊', () {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => const PatientConsult(
+                    builder: (context) =>  PatientConsult(
                           type: '0',
+                        docName:doctorInfoMap['realName']??''
                         )));
           }),
           buildButtonColumn('assets/images/home/video1.png', '视频问诊', () {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => const PatientConsult(
+                    builder: (context) =>  PatientConsult(
                           type: '2',
+                        docName:doctorInfoMap['realName']??''
                         )));
           }),
         ],

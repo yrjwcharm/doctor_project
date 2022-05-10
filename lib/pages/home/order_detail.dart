@@ -25,20 +25,20 @@ import 'package:flutter_chat_types/flutter_chat_types.dart';
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 
 class OrderDetail extends StatefulWidget {
-  const OrderDetail({Key? key, required this.map}) : super(key: key);
-  final Map<String, dynamic> map;
+   OrderDetail({Key? key, required this.map,required this.docName}) : super(key: key);
+   Map<String, dynamic> map;
+  String docName;
 
   @override
-  _OrderDetailState createState() => _OrderDetailState(this.map);
+  _OrderDetailState createState() => _OrderDetailState(this.map,this.docName);
 }
 
 class _OrderDetailState extends State<OrderDetail> {
-  late Map<String, dynamic> _map;
+   Map<String, dynamic> _map;
   String refuseReason='';
+  String docName;
   TextEditingController _textEditingController = TextEditingController();
-  _OrderDetailState(map) {
-    _map = map;
-  }
+  _OrderDetailState(this._map,this.docName);
 
   @override
   void initState() {
@@ -589,6 +589,7 @@ class _OrderDetailState extends State<OrderDetail> {
                                         builder: (context) => VideoTopic(
                                               regId: _map['id'],
                                               userInfoMap: _map,
+                                              docName:docName,
                                             )));
                               } else {
                                 Navigator.push(
