@@ -1055,6 +1055,7 @@ class _RecipeDetailState extends State<RecipeDetail> {
                                                                 if (rpDetailItem[
                                                                         'isFlag'] !=
                                                                     '1') {
+                                                                  ToastUtil.showToast(msg: '发送成功');
                                                                   Navigator.of(
                                                                           context)
                                                                       .pushReplacement(MaterialPageRoute(
