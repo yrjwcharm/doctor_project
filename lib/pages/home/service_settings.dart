@@ -1,5 +1,4 @@
 import 'package:doctor_project/common/style/gsy_style.dart';
-import 'package:doctor_project/model/ServiceSettingsBean.dart';
 import 'package:doctor_project/pages/home/health_consult_service.dart';
 import 'package:doctor_project/pages/home/picture_service.dart';
 import 'package:doctor_project/pages/home/video_service.dart';
@@ -7,6 +6,8 @@ import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:doctor_project/widget/custom_app_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import '../../model/ServiceSettingsBean.dart';
 
 class ServiceSettings extends StatefulWidget {
   const ServiceSettings({Key? key}) : super(key: key);

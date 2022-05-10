@@ -72,6 +72,7 @@ class _electronicSignaturePageState extends State<electronicSignaturePage> {
            str = "$str"",""$f";
          }
        });
+       Navigator.pop(context);
       Navigator.push(context, MaterialPageRoute(builder: (context)=> RecipeDetail(rpDetailItem: {...item,...patientVO}, diagnosis: str,)));
 
     }else{

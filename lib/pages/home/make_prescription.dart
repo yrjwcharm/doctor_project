@@ -249,6 +249,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
     Map data = res['data'];
     if (res['code'] == 200) {
       if (data["signatureImg"] != null) {
+        Navigator.pop(context);
         Navigator.push(
             context,
             MaterialPageRoute(
@@ -260,7 +261,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
             ));
       } else {
         String url = data["data"]["oauthURL"];
-        print('1111$url');
+        Navigator.pop(context);
         Navigator.push(
             context,
             MaterialPageRoute(
