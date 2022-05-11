@@ -31,6 +31,7 @@ class _VerifyMobileState extends State<VerifyMobile>  {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       appBar: CustomAppBar('验证手机号',onBackPressed: (){
         Navigator.pop(context);
@@ -59,7 +60,7 @@ class _VerifyMobileState extends State<VerifyMobile>  {
                 ),
                 Expanded(child: TextField(
                   controller: _textEditingController,
-                  keyboardType: TextInputType.phone,
+                  keyboardType: TextInputType.number,
                   style: GSYConstant.textStyle(fontSize: 16.0,color: '#333333'),
                   cursorColor: ColorsUtil.hexStringColor('#333333'),
                   inputFormatters: <TextInputFormatter> [

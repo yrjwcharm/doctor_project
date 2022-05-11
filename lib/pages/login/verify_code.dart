@@ -5,6 +5,9 @@ import 'package:doctor_project/widget/custom_app_bar.dart';
 import 'package:doctor_project/widget/custom_elevated_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
+import '../../widget/code_input_row.dart';
 
 class VerifyCode extends StatefulWidget {
   const VerifyCode({Key? key}) : super(key: key);
@@ -14,16 +17,14 @@ class VerifyCode extends StatefulWidget {
 }
 
 class _VerifyCodeState extends State<VerifyCode> {
-  final TextEditingController _fieldOne = TextEditingController();
-  final TextEditingController _fieldTwo = TextEditingController();
-  final TextEditingController _fieldThree = TextEditingController();
-  final TextEditingController _fieldFour = TextEditingController();
-  final TextEditingController _fieldFifth = TextEditingController();
-  final TextEditingController _fieldSixth = TextEditingController();
-
+  final TextEditingController _controller = TextEditingController(text: '');
+  String _code = '';
+  final int _length = 6; //验证码长度，输入框框的个数
+  final _type = CodeInputType.squareBox;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: CustomAppBar(
         '验证码',
         onBackPressed: () {
@@ -45,17 +46,43 @@ class _VerifyCodeState extends State<VerifyCode> {
             child:Text('验证码已发送至+86 176 6774 3453',style: GSYConstant.textStyle(fontSize: 12.0,color: '#333333'),),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  OtpInput(_fieldOne, true),
-                  OtpInput(_fieldTwo, false),
-                  OtpInput(_fieldThree, false),
-                  OtpInput(_fieldFour, false),
-                  OtpInput(_fieldFifth, false),
-                  OtpInput(_fieldSixth, false)
-                ]),
+            padding: const EdgeInsets.only(left: 16.0,right: 16.0,top: 16.0),
+            child: Stack(
+              children: <Widget>[
+                /*Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    InputCell(isFocused: _code.length == 0, text: _code.length>=1?_code.substring(0,1):''),
+                    InputCell(isFocused: _code.length == 1, text: _code.length>=2?_code.substring(1,2):''),
+                    InputCell(isFocused: _code.length == 2, text: _code.length>=3?_code.substring(2,3):''),
+                    InputCell(isFocused: _code.length == 3, text: _code.length>=4?_code.substring(3,4):''),
+                    InputCell(isFocused: _code.length == 4, text: _code.length>=5?_code.substring(4,5):''),
+                    InputCell(isFocused: _code.length == 5, text: _code.length>=6?_code.substring(5,6):'',),
+                  ],
+                )*/
+
+                ///[CodeInputRow]其实就是上面这段注释的代码里的Row封装一下
+                //验证码输入框整行，
+                CodeInputRow(code: _code, length: _length, type: _type),
+                Opacity(
+                  opacity: 0,
+                  child: TextField(
+                    //只能输入字母与数字
+                    inputFormatters: [
+                      // FilteringTextInputFormatter.allow(filterPattern)
+                      FilteringTextInputFormatter.allow(RegExp("[0-9]"))
+                    ],
+                    autofocus: true,
+                    keyboardType: TextInputType.number,
+                    controller: _controller,
+                    onChanged: (String str) {
+                      _code = str;
+                      setState(() {});
+                    },
+                  ),
+                )
+              ],
+            ),
           ),
           Container(
             margin: const EdgeInsets.only(top: 12.0),
@@ -76,44 +103,6 @@ class _VerifyCodeState extends State<VerifyCode> {
             }, title: '立即设置密码',borderRadius: BorderRadius.circular(22.0),),
           )
         ],
-      ),
-    );
-  }
-}
-
-// Create an input widget that takes only one digit
-class OtpInput extends StatelessWidget {
-  final TextEditingController controller;
-  final bool autoFocus;
-
-  const OtpInput(this.controller, this.autoFocus, {Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 47.0,
-      decoration: BoxDecoration(
-          border: Border(
-              bottom: BorderSide(
-                  width: 1.0, color: ColorsUtil.hexStringColor('#999999')))),
-      child: TextField(
-        autofocus: autoFocus,
-        textAlign: TextAlign.center,
-        keyboardType: TextInputType.number,
-        controller: controller,
-        maxLength: 1,
-        cursorColor: Theme.of(context).primaryColor,
-        textAlignVertical: TextAlignVertical.center,
-        inputFormatters: [],
-        decoration: InputDecoration(
-            border: InputBorder.none,
-            counterText: '',
-            hintStyle: GSYConstant.textStyle(fontSize: 20.0, color: '#333333')),
-        onChanged: (value) {
-          if (value.length == 1) {
-            FocusScope.of(context).nextFocus();
-          }
-        },
       ),
     );
   }
