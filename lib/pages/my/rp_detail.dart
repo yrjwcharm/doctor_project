@@ -36,7 +36,6 @@ class _RecipeDetailState extends State<RecipeDetail> {
   String diagnosis;
   List<dynamic> list = [];
   Map<String, dynamic> medicineMap = {};
-
   _RecipeDetailState(this.rpDetailItem, this.diagnosis);
 
   @override
@@ -241,29 +240,33 @@ class _RecipeDetailState extends State<RecipeDetail> {
                                                 ? 'timeout.svg'
                                                 : 'cancel.svg'),
                           ]),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            left: 16.0, right: 16.0, top: 18.0, bottom: 10.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      Wrap(
+                        runSpacing:10.0,
+                          direction: Axis.horizontal,
                           children: <Widget>[
-                            Expanded(
+                            Container(
+                              width: MediaQuery.of(context).size.width/3,
+                              padding:const EdgeInsets.only(left: 16.0),
+                              child:Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                Text(
+                                  '姓名：',
+                                  style:
+                                      GSYConstant.textStyle(color: '#333333'),
+                                ),
+                                Text(
+                                  rpDetailItem['name'] ?? '',
+                                  style: GSYConstant.textStyle(
+                                      fontSize: 14.0, color: '#666666'),
+                                )
+                              ],
+                            ),),
+                            Container(
+                              padding:const EdgeInsets.only(left: 16.0),
+                              width: MediaQuery.of(context).size.width/3,
                               child: Row(
-                                children: <Widget>[
-                                  Text(
-                                    '姓名：',
-                                    style:
-                                        GSYConstant.textStyle(color: '#333333'),
-                                  ),
-                                  Text(
-                                    rpDetailItem['name'] ?? '',
-                                    style: GSYConstant.textStyle(
-                                        fontSize: 14.0, color: '#666666'),
-                                  )
-                                ],
-                              ),
-                            ),
-                            Row(
+                              mainAxisSize: MainAxisSize.min,
                               children: <Widget>[
                                 Text(
                                   '性别：',
@@ -276,74 +279,66 @@ class _RecipeDetailState extends State<RecipeDetail> {
                                       fontSize: 14.0, color: '#666666'),
                                 )
                               ],
-                            ),
-                            Expanded(
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: <Widget>[
-                                  Text(
-                                    '年龄：',
-                                    style:
-                                        GSYConstant.textStyle(color: '#333333'),
-                                  ),
-                                  Text(
-                                    '${rpDetailItem['age']}岁',
-                                    style: GSYConstant.textStyle(
-                                        fontSize: 14.0, color: '#666666'),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            left: 16.0, right: 16.0, bottom: 7.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            SizedBox(
+                            ),),
+                            Container(
                               width: MediaQuery.of(context).size.width/3,
-                              child:
-                           Row(
-                                children: <Widget>[
-                                  Text(
-                                    '费用：',
-                                    style:
-                                        GSYConstant.textStyle(color: '#333333'),
-                                  ),
-                                  Text(
-                                    '自费 ',
-                                    style: GSYConstant.textStyle(
-                                        fontSize: 14.0, color: '#666666'),
-                                  )
-                                ],
-                              ),),
+
+                              child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                Text(
+                                  '年龄：',
+                                  style:
+                                      GSYConstant.textStyle(color: '#333333'),
+                                ),
+                                Text(
+                                  '${rpDetailItem['age']}岁',
+                                  style: GSYConstant.textStyle(
+                                      fontSize: 14.0, color: '#666666'),
+                                )
+                              ],
+                            ),),
+                            Container(
+                              width: MediaQuery.of(context).size.width/3,
+                              padding:const EdgeInsets.only(left: 16.0),
+                              child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                Text(
+                                  '费用：',
+                                  style:
+                                      GSYConstant.textStyle(color: '#333333'),
+                                ),
+                                Text(
+                                  '自费 ',
+                                  style: GSYConstant.textStyle(
+                                      fontSize: 14.0, color: '#666666'),
+                                )
+                              ],
+                            ),),
                             // SizedBox(
                             //   width: ScreenUtil().setWidth(72.0),
                             // ),
                             Container(
-                              padding:const EdgeInsets.only(left:25.0),
-                              width: MediaQuery.of(context).size.width/3,
-                              child: Row(
-                                children: <Widget>[
-                                  Text(
-                                    '科别：',
-                                    style:
-                                        GSYConstant.textStyle(color: '#333333'),
-                                  ),
-                                  Text(
-                                    rpDetailItem['deptName'] ?? '',
-                                    style: GSYConstant.textStyle(
-                                        fontSize: 14.0, color: '#666666'),
-                                  )
-                                ],
-                              ),
-                            ),
+                                width: MediaQuery.of(context).size.width/3,
+
+                                child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                Text(
+                                  '科别：',
+                                  style:
+                                      GSYConstant.textStyle(color: '#333333'),
+                                ),
+                                Text(
+                                  rpDetailItem['deptName'] ?? '',
+                                  style: GSYConstant.textStyle(
+                                      fontSize: 14.0, color: '#666666'),
+                                )
+                              ],
+                            )),
                           ],
                         ),
-                      ),
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 16.0),
                         decoration: BoxDecoration(
@@ -1058,14 +1053,18 @@ class _RecipeDetailState extends State<RecipeDetail> {
                                                                 if (rpDetailItem[
                                                                         'isFlag'] !=
                                                                     '1') {
-                                                                  ToastUtil.showToast(msg: '发送成功');
+                                                                  ToastUtil
+                                                                      .showToast(
+                                                                          msg:
+                                                                              '发送成功');
                                                                   Navigator.of(
                                                                           context)
                                                                       .pushReplacement(MaterialPageRoute(
                                                                           builder: (context) =>
                                                                               Main()));
-                                                                }else{
-                                                                  Navigator.pop(context);
+                                                                } else {
+                                                                  Navigator.pop(
+                                                                      context);
                                                                 }
 
                                                                 // Navigator.popUntil(context, ModalRoute.withName("/TabHome"));
