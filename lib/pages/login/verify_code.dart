@@ -3,6 +3,7 @@ import 'package:doctor_project/http/api.dart';
 import 'package:doctor_project/http/http_request.dart';
 import 'package:doctor_project/pages/login/set_new_password.dart';
 import 'package:doctor_project/utils/colors_utils.dart';
+import 'package:doctor_project/utils/toast_util.dart';
 import 'package:doctor_project/widget/custom_app_bar.dart';
 import 'package:doctor_project/widget/custom_elevated_button.dart';
 import 'package:flutter/cupertino.dart';
@@ -104,6 +105,8 @@ class _VerifyCodeState extends State<VerifyCode> {
                   "code": _code});
               if(res['code']==200) {
                 Navigator.push(context, MaterialPageRoute(builder: (context)=>const SetNewPassword()));
+              }else{
+                ToastUtil.showToast(msg: res['msg']);
               }
             }, title: '立即设置密码',borderRadius: BorderRadius.circular(22.0),),
           )

@@ -143,6 +143,8 @@ class _SetNewPasswordState extends State<SetNewPassword> {
                 });
                 if(res['code']==200){
                   Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => LoginPage(),), (route) => route == null);
+                }else{
+                  ToastUtil.showToast(msg: res['msg']);
                 }
               },
               title: '设置完成',
