@@ -238,7 +238,6 @@ class _MakePrescriptionState extends State<MakePrescription> {
       double price = double.parse(unitprice) * double.parse(count);
       totalPrice += price;
     }
-    print("-----------totalPrice,${int.parse(_editingController1.text)}");
     totalPrice=totalPrice*(tab1Active?1:int.parse(_editingController1.text));
   }
 
@@ -939,9 +938,9 @@ class _MakePrescriptionState extends State<MakePrescription> {
                               print(value);
                               if (tab2Active) {
                                 //中药处方
+                                drugList.addAll(value);
+                                calculateThePrice();
                                 setState(() {
-                                  drugList.addAll(value);
-                                  calculateThePrice();
                                 });
                               }
                             });

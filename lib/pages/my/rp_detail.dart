@@ -303,8 +303,10 @@ class _RecipeDetailState extends State<RecipeDetail> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
-                            Expanded(
-                              child: Row(
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width/3,
+                              child:
+                           Row(
                                 children: <Widget>[
                                   Text(
                                     '费用：',
@@ -312,17 +314,18 @@ class _RecipeDetailState extends State<RecipeDetail> {
                                         GSYConstant.textStyle(color: '#333333'),
                                   ),
                                   Text(
-                                    '自费',
+                                    '自费 ',
                                     style: GSYConstant.textStyle(
                                         fontSize: 14.0, color: '#666666'),
                                   )
                                 ],
-                              ),
-                            ),
+                              ),),
                             // SizedBox(
                             //   width: ScreenUtil().setWidth(72.0),
                             // ),
-                            Expanded(
+                            Container(
+                              padding:const EdgeInsets.only(left:25.0),
+                              width: MediaQuery.of(context).size.width/3,
                               child: Row(
                                 children: <Widget>[
                                   Text(
