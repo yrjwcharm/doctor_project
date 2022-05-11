@@ -237,8 +237,9 @@ class _MakePrescriptionState extends State<MakePrescription> {
       String count = item['count'].toString();
       double price = double.parse(unitprice) * double.parse(count);
       totalPrice += price;
-      print("-----------totalPrice" + totalPrice.toString());
     }
+    print("-----------totalPrice,${int.parse(_editingController1.text)}");
+    totalPrice=totalPrice*(tab1Active?1:int.parse(_editingController1.text));
   }
 
   //医信签电子签名接口
