@@ -48,7 +48,7 @@ class RegisterContentStates extends State<RegisterContent> {
     //   "password": loginPas,
     //   "code": code,
     // });
-    var dio = new Dio();
+    var dio = Dio();
     if (!RegexUtil.isPwd(loginPas)) {
       ToastUtil.showToast(msg: '密码必须包含字母和数字和特殊字符,6-16');
       return;
@@ -65,7 +65,6 @@ class RegisterContentStates extends State<RegisterContent> {
 
     if (response.data['code'] != 160) {
       Fluttertoast.showToast(msg: mess, gravity: ToastGravity.CENTER);
-      return;
     } else {
       Fluttertoast.showToast(msg: mess, gravity: ToastGravity.CENTER);
       Navigator.of(context).pop();
@@ -565,7 +564,7 @@ class DialogPageState extends State<DialogPage> {
       ),
       actions: [
         FlatButton(
-          child: Text(
+          child: const Text(
             "取消",
             style: TextStyle(
               fontSize: 14,

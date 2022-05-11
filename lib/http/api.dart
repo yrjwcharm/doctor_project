@@ -35,6 +35,9 @@ class Api {
   static const  view360Api =Api.BASE_URL+'/360view/#/?paId=202208018';
   static const  startRecordVideo ='/doctor/dr-service/order-room/startVideo';
   static const  stopRecordVideo ='/doctor/dr-service/order-room/stopVideo';
+  static const  sendVerifyCode ='/doctor/dr-service/verificationCode/get';
+  static const checkVerifyCode ='/doctor/dr-service/verificationCode/check';
+  static const updatePwdApi ='/doctor/dr-service/ba-doctor-user/editPwd';
 
 
 }

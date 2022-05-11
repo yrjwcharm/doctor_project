@@ -134,7 +134,7 @@ class RegisterContentStates extends State<LoginPage> {
           Expanded(
               child: Container(
             transform: Matrix4.translationValues(0, -43.0, 0),
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
             ),
@@ -207,7 +207,7 @@ class RegisterContentStates extends State<LoginPage> {
                             decoration: InputDecoration(
                               border: InputBorder.none,
                               hintText: '请输入登录密码',
-                              contentPadding: EdgeInsets.only(left: 10.0),
+                              contentPadding: const EdgeInsets.only(left: 10.0),
                               isCollapsed: true,
                               suffixIconConstraints: const BoxConstraints(),
                               suffixIcon: GestureDetector(
@@ -220,7 +220,7 @@ class RegisterContentStates extends State<LoginPage> {
                                     ? 'open_eyes.svg'
                                     : 'close_eyes.svg'),
                               ),
-                              hintStyle: TextStyle(
+                              hintStyle: const TextStyle(
                                 fontSize: 14,
                                 color: Color.fromARGB(255, 183, 183, 183),
                               ),
@@ -244,12 +244,12 @@ class RegisterContentStates extends State<LoginPage> {
                   ],
                 ),
                 Container(
-                  child: Divider(
+                  child: const Divider(
                     height: 1.0,
                     indent: 0.0,
                     color: Color.fromARGB(255, 239, 239, 239),
                   ),
-                  margin: EdgeInsets.fromLTRB(16, 7, 16, 0),
+                  margin: const EdgeInsets.fromLTRB(16, 7, 16, 0),
                   width: MediaQuery.of(context).size.width - 40,
                 ),
                 Row(
@@ -257,7 +257,7 @@ class RegisterContentStates extends State<LoginPage> {
                   children: [
                     Container(
                       child: FlatButton(
-                        child: Text(
+                        child: const Text(
                           '快速注册',
                           textAlign: TextAlign.end,
                           style: TextStyle(
@@ -274,7 +274,7 @@ class RegisterContentStates extends State<LoginPage> {
                     // SizedBox(width: 180),
                     Container(
                       child: FlatButton(
-                        child: Text(
+                        child: const Text(
                           '忘记密码?',
                           textAlign: TextAlign.end,
                           style: TextStyle(
@@ -323,7 +323,7 @@ class RegisterContentStates extends State<LoginPage> {
                         width: MediaQuery.of(context).size.width - 40,
                         height: 40,
                         decoration: BoxDecoration(
-                          color: Color.fromARGB(255, 84, 184, 146),
+                          color: const Color.fromARGB(255, 84, 184, 146),
                           borderRadius: BorderRadius.circular(16),
                         ))
                   ],
@@ -342,9 +342,9 @@ class RegisterContentStates extends State<LoginPage> {
                         decoration: BoxDecoration(
                           color: Colors.white,
                           image: DecorationImage(
-                            image: this.isSelect == 0
-                                ? AssetImage('assets/images/checkbox.png')
-                                : AssetImage('assets/images/checkbox-sel.png'),
+                            image: isSelect == 0
+                                ? const AssetImage('assets/images/checkbox.png')
+                                : const AssetImage('assets/images/checkbox-sel.png'),
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -354,11 +354,11 @@ class RegisterContentStates extends State<LoginPage> {
                       ),
                       // SizedBox(width: 30),
                       Container(
-                        margin: EdgeInsets.fromLTRB(0, 0, 10, 10),
+                        margin: const EdgeInsets.fromLTRB(0, 0, 10, 10),
                         child: Text.rich(
                           TextSpan(
                             children: [
-                              TextSpan(
+                              const TextSpan(
                                 text: '我已阅读并同意',
                                 style: TextStyle(
                                   fontSize: 12,
@@ -367,14 +367,14 @@ class RegisterContentStates extends State<LoginPage> {
                               ),
                               TextSpan(
                                 text: '《用户协议》',
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: 12,
                                   color: Color.fromARGB(255, 84, 184, 146),
                                 ),
                                 recognizer: TapGestureRecognizer()
                                   ..onTap = () => {},
                               ),
-                              TextSpan(
+                              const TextSpan(
                                 text: '、',
                                 style: TextStyle(
                                   fontSize: 12,
@@ -383,14 +383,14 @@ class RegisterContentStates extends State<LoginPage> {
                               ),
                               TextSpan(
                                 text: '《隐私政策》',
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: 12,
                                   color: Color.fromARGB(255, 84, 184, 146),
                                 ),
                                 recognizer: TapGestureRecognizer()
                                   ..onTap = () => {},
                               ),
-                              TextSpan(
+                              const TextSpan(
                                 text: '并授权使用该账号信息（如昵称、头像）进行统一管理',
                                 style: TextStyle(
                                   fontSize: 12,

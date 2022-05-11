@@ -1,4 +1,6 @@
 import 'package:doctor_project/common/style/gsy_style.dart';
+import 'package:doctor_project/http/api.dart';
+import 'package:doctor_project/http/http_request.dart';
 import 'package:doctor_project/pages/login/verify_code.dart';
 import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:doctor_project/utils/reg_util.dart';
@@ -102,12 +104,16 @@ class _VerifyMobileState extends State<VerifyMobile>  {
              margin: const EdgeInsets.only(top: 138.0),
              padding: const EdgeInsets.symmetric(horizontal: 16.0),
              child: CustomElevatedButton(
-                 borderRadius: BorderRadius.circular(22.0), title: '获取验证码', onPressed: (){
+                 borderRadius: BorderRadius.circular(22.0), title: '获取验证码', onPressed: () async{
                       if(!RegexUtil.isMobile(phone)){
                          ToastUtil.showToast(msg: '请输入手机号');
                          return;
                       }
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>const VerifyCode()));
+                      var res = await HttpRequest.getInstance().get(Api.sendVerifyCode+'?phone=$phone&type=reset',
+                          {});
+                      if(res['code']==200){
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=> VerifyCode(phone: phone,)));
+                      }
              }) ,
            )
 
