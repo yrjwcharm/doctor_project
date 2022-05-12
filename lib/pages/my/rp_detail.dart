@@ -280,7 +280,7 @@ class _RecipeDetailState extends State<RecipeDetail> {
                                 )
                               ],
                             ),),
-                            Container(
+                            SizedBox(
                               width: MediaQuery.of(context).size.width/3,
 
                               child: Row(
