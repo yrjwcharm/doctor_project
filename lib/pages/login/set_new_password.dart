@@ -20,8 +20,8 @@ class SetNewPassword extends StatefulWidget {
 }
 
 class _SetNewPasswordState extends State<SetNewPassword> {
-  bool isShowPass = false;
-  bool _isShowPass = false;
+  bool obscure = true;
+  bool obscure1 = true;
   String pwd='';
   String _pwd='';
   @override
@@ -54,7 +54,7 @@ class _SetNewPasswordState extends State<SetNewPassword> {
                         color:
                             ColorsUtil.hexStringColor('#cccccc', alpha: 0.6)))),
             child: TextField(
-              obscureText: isShowPass ? false : true,
+              obscureText: obscure,
               onChanged: (value){
                   setState(() {
                     this.pwd = value;
@@ -69,10 +69,10 @@ class _SetNewPasswordState extends State<SetNewPassword> {
                   suffixIcon: GestureDetector(
                     onTap: () {
                       setState(() {
-                        isShowPass = !isShowPass;
+                        obscure = !obscure;
                       });
                     },
-                    child: isShowPass
+                    child: obscure
                         ? SvgUtil.svg('close_eyes.svg')
                         : SvgUtil.svg('open_eyes.svg'),
                   ),
@@ -94,7 +94,7 @@ class _SetNewPasswordState extends State<SetNewPassword> {
                   this._pwd = value;
                 });
               },
-              obscureText: _isShowPass ? false : true,
+              obscureText: obscure1,
               cursorColor: ColorsUtil.hexStringColor('#666666'),
               style: GSYConstant.textStyle(fontSize: 15.0, color: '#666666'),
               decoration: InputDecoration(
@@ -104,10 +104,10 @@ class _SetNewPasswordState extends State<SetNewPassword> {
                   suffixIcon: GestureDetector(
                       onTap: () {
                         setState(() {
-                          _isShowPass = !_isShowPass;
+                          obscure1 = !obscure1;
                         });
                       },
-                      child: _isShowPass
+                      child: obscure1
                           ? SvgUtil.svg('close_eyes.svg')
                           : SvgUtil.svg('open_eyes.svg')),
                   hintStyle:

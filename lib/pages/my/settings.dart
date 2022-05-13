@@ -1,3 +1,6 @@
+import 'package:doctor_project/pages/my/verify_old_pwd.dart';
+import 'package:doctor_project/utils/svg_util.dart';
+import 'package:doctor_project/utils/toast_util.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import '../../http/http_request.dart';
 import '../../http/api.dart';
@@ -21,70 +24,91 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
-  List list =[{'title':'修改密码'},{'title':'隐私政策'}];
-
-
-  //退出登录接口
-  void getNet_signOut() async{
-
-    SharedPreferences perfer = await SharedPreferences.getInstance();
-    String? tokenValueStr = perfer.getString("tokenValue");
-    HttpRequest? request = HttpRequest.getInstance();
-    var res = await request.post(Api.signOutUrl,{
-      "token"   : tokenValueStr,
-    });
-    print("getNet_signOut------" +res.toString());
-    if (res['code'] == 200 ||res['code'] == 900) {
-      // perfer.clear();//清空键值对
-      perfer.remove("phone");
-      perfer.remove("tokenValue");
-      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> LoginPage()), (route) => false);
-
-    }else{
-      Fluttertoast.showToast(msg: res['msg'], gravity: ToastGravity.CENTER);
+  List list = [
+    {'title': '修改密码'},
+    {
+      'title': '隐私政策',
     }
-  }
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-       backgroundColor: ColorsUtil.bgColor,
-       body: Column(
-        children: <Widget>[
-          CustomAppBar('设置',onBackPressed: (){Navigator.of(context).pop(this);},),
-          SizedBox(height: 10.0,),
-          Column(
-              children:list.map((item) =>
-                  Column(
+      backgroundColor: ColorsUtil.bgColor,
+      appBar: CustomAppBar(
+        '设置',
+        onBackPressed: () {
+          Navigator.pop(context);
+        },
+      ),
+      body: Column(children: <Widget>[
+        const SizedBox(height: 10.0,),
+        Expanded(
+          child: Column(
+              children: list.asMap().keys
+                  .map((index) => InkWell(
+                        onTap: (){
+                          switch(index){
+                            case 0:
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>VerifyOldPwd()));
+                              break;
+                            case 1:
+                              break;
+                          }
+                        },
+                        child: Column(
                           children: <Widget>[
                             Container(
-                              decoration: const BoxDecoration(
-                                  color: Colors.white
-                              ),
-                              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                              child:ListTile(
+                              decoration:
+                                  const BoxDecoration(color: Colors.white),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 16.0),
+                              child: ListTile(
                                 contentPadding: const EdgeInsets.all(0),
-                                trailing: Image.asset('assets/images/my/more.png'),
+                                trailing: SvgUtil.svg('forward.svg'),
                                 title: Container(
                                   margin: const EdgeInsets.all(0),
-                                  child: Text(item['title'],style: GSYConstant.textStyle(color: '#333333'),
-                                  ),),
-                              ) ,
+                                  child: Text(
+                                    list[index]['title'],
+                                    style:
+                                        GSYConstant.textStyle(color: '#333333'),
+                                  ),
+                                ),
+                              ),
                             ),
                             Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                              child:Divider(height:0,color: ColorsUtil.hexStringColor('#cccccc',alpha: 0.3,))
-                            )
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 16.0),
+                                child: Divider(
+                                    height: 0,
+                                    color: ColorsUtil.hexStringColor(
+                                      '#cccccc',
+                                      alpha: 0.3,
+                                    )))
                           ],
                         ),
-                    ).toList()
-          ),
-          SafeAreaButton(text: '安全退出', onPressed: () {
-
-            getNet_signOut();
-          },)
-        ]
-      ),
+                      ))
+                  .toList()),
+        ),
+        SafeAreaButton(
+          margin: const EdgeInsets.only(bottom: 16.0),
+          text: '安全退出',
+          onPressed: () async {
+            SharedPreferences perfer = await SharedPreferences.getInstance();
+            // getNet_signOut();
+            var res = await HttpRequest.getInstance().post(Api.exitLogin, {});
+            if (res['code'] == 200) {
+              perfer.clear();
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => LoginPage()),
+                  (route) => false);
+            } else {
+              ToastUtil.showToast(msg: res['msg']);
+            }
+          },
+        )
+      ]),
     );
   }
 }
