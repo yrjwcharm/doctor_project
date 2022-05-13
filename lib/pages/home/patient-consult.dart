@@ -7,6 +7,7 @@ import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:doctor_project/widget/custom_app_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../config/zego_config.dart';
 import '../../http/api.dart';
 import '../../utils/event_bus_util.dart';
@@ -18,12 +19,13 @@ import 'chat_room.dart';
 import 'order_detail.dart';
 
 class PatientConsult extends StatefulWidget {
-  const PatientConsult({Key? key, required this.type,required this.docName}) : super(key: key);
+  const PatientConsult({Key? key, required this.type, required this.docName})
+      : super(key: key);
   final String type;
   final String docName;
 
   @override
-  _PatientConsultState createState() => _PatientConsultState(type,docName);
+  _PatientConsultState createState() => _PatientConsultState(type, docName);
 }
 
 class _PatientConsultState extends State<PatientConsult> {
@@ -39,7 +41,8 @@ class _PatientConsultState extends State<PatientConsult> {
   String type;
   String docName;
   StreamSubscription? stream;
-  _PatientConsultState(this.type,this.docName);
+
+  _PatientConsultState(this.type, this.docName);
 
   @override
   void initState() {
@@ -125,6 +128,7 @@ class _PatientConsultState extends State<PatientConsult> {
     });
     getData();
   }
+
   @override
   void dispose() {
     super.dispose();
@@ -143,7 +147,10 @@ class _PatientConsultState extends State<PatientConsult> {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => OrderDetail(map: list[index],docName: docName,)));
+                  builder: (context) => OrderDetail(
+                        map: list[index],
+                        docName: docName,
+                      )));
         },
         child: Container(
             margin: const EdgeInsets.fromLTRB(16.0, 0, 16.0, 10.0),
@@ -157,7 +164,7 @@ class _PatientConsultState extends State<PatientConsult> {
                   subtitle: Text(
                     item['type_dictText'] ?? '',
                     style:
-                    GSYConstant.textStyle(fontSize: 13.0, color: '#666666'),
+                        GSYConstant.textStyle(fontSize: 13.0, color: '#666666'),
                   ),
                   title: Row(mainAxisSize: MainAxisSize.max, children: [
                     Expanded(
@@ -213,12 +220,12 @@ class _PatientConsultState extends State<PatientConsult> {
                         borderRadius: BorderRadius.circular(20.0)),
                     child: item['photo'] != null
                         ? Image.network(
-                      item['photo'] ?? '',
-                      fit: BoxFit.cover,
-                    )
+                            item['photo'] ?? '',
+                            fit: BoxFit.cover,
+                          )
                         : item['sex_dictText'] == '男'
-                        ? Image.asset('assets/images/boy.png')
-                        : Image.asset('assets/images/girl.png'),
+                            ? Image.asset('assets/images/boy.png')
+                            : Image.asset('assets/images/girl.png'),
                   ),
                 ),
                 Container(
@@ -233,10 +240,10 @@ class _PatientConsultState extends State<PatientConsult> {
                     ),
                     Flexible(
                         child: Text(
-                          item['diseaseDesc'] ?? '',
-                          style: GSYConstant.textStyle(
-                              fontSize: 13.0, color: '#666666'),
-                        ))
+                      item['diseaseDesc'] ?? '',
+                      style: GSYConstant.textStyle(
+                          fontSize: 13.0, color: '#666666'),
+                    ))
                   ]),
                 ),
                 const SizedBox(
@@ -254,136 +261,136 @@ class _PatientConsultState extends State<PatientConsult> {
                     children: [
                       Expanded(
                           child: Text(
-                            item['times'] ?? '',
-                            style: GSYConstant.textStyle(color: '#888888'),
-                          )),
+                        item['times'] ?? '',
+                        style: GSYConstant.textStyle(color: '#888888'),
+                      )),
                       status == 1
                           ? CustomOutlineButton(
-                          title: '结束问诊',
-                          textStyle: GSYConstant.textStyle(
-                              fontSize: 13.0, color: '#666666'),
-                          padding:
-                          const EdgeInsets.symmetric(horizontal: 13.0),
-                          height: 28.0,
-                          onPressed: () async {
-                            await showDialog(
-                                barrierDismissible: false,
-                                context: context,
-                                builder: (_) => WillPopScope(
-                                  onWillPop: () async {
-                                    return Future.value(false);
-                                  },
-                                  child: AlertDialog(
-                                    contentPadding:
-                                    const EdgeInsets.symmetric(
-                                        vertical: 45.0),
-                                    contentTextStyle: TextStyle(
-                                        fontSize: 16.0,
-                                        color:
-                                        ColorsUtil.hexStringColor(
-                                            '#333333')),
-                                    // title: Text("提示信息"),
-                                    content: const Text(
-                                      "请确认是否结束问诊？",
-                                      textAlign: TextAlign.center,
-                                    ),
-                                    buttonPadding: EdgeInsets.zero,
-                                    actions: [
-                                      Row(
-                                        children: <Widget>[
-                                          Expanded(
-                                              child: GestureDetector(
-                                                  onTap: () {
-                                                    Navigator.pop(context);
-                                                  },
-                                                  child: Container(
-                                                    height: 40.0,
-                                                    alignment: Alignment
-                                                        .center,
-                                                    decoration: BoxDecoration(
-                                                        border: Border(
-                                                            right: BorderSide(
-                                                                width:
-                                                                0.5,
-                                                                color: ColorsUtil.hexStringColor(
-                                                                    '#cccccc',
-                                                                    alpha:
-                                                                    0.4)),
-                                                            top: BorderSide(
-                                                                width:
-                                                                1.0,
-                                                                color: ColorsUtil.hexStringColor(
-                                                                    '#cccccc',
-                                                                    alpha:
-                                                                    0.4)))),
-                                                    child: Text(
-                                                      '取消',
-                                                      style: GSYConstant
-                                                          .textStyle(
-                                                          fontSize:
-                                                          16.0,
-                                                          color:
-                                                          '#333333'),
+                              title: '结束问诊',
+                              textStyle: GSYConstant.textStyle(
+                                  fontSize: 13.0, color: '#666666'),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 13.0),
+                              height: 28.0,
+                              onPressed: () async {
+                                await showDialog(
+                                    barrierDismissible: false,
+                                    context: context,
+                                    builder: (_) => WillPopScope(
+                                          onWillPop: () async {
+                                            return Future.value(false);
+                                          },
+                                          child: AlertDialog(
+                                            contentPadding:
+                                                const EdgeInsets.symmetric(
+                                                    vertical: 45.0),
+                                            contentTextStyle: TextStyle(
+                                                fontSize: 16.0,
+                                                color:
+                                                    ColorsUtil.hexStringColor(
+                                                        '#333333')),
+                                            // title: Text("提示信息"),
+                                            content: const Text(
+                                              "请确认是否结束问诊？",
+                                              textAlign: TextAlign.center,
+                                            ),
+                                            buttonPadding: EdgeInsets.zero,
+                                            actions: [
+                                              Row(
+                                                children: <Widget>[
+                                                  Expanded(
+                                                      child: GestureDetector(
+                                                          onTap: () {
+                                                            Navigator.pop(
+                                                                context);
+                                                          },
+                                                          child: Container(
+                                                            height: 40.0,
+                                                            alignment: Alignment
+                                                                .center,
+                                                            decoration: BoxDecoration(
+                                                                border: Border(
+                                                                    right: BorderSide(
+                                                                        width:
+                                                                            0.5,
+                                                                        color: ColorsUtil.hexStringColor(
+                                                                            '#cccccc',
+                                                                            alpha:
+                                                                                0.4)),
+                                                                    top: BorderSide(
+                                                                        width:
+                                                                            1.0,
+                                                                        color: ColorsUtil.hexStringColor(
+                                                                            '#cccccc',
+                                                                            alpha:
+                                                                                0.4)))),
+                                                            child: Text(
+                                                              '取消',
+                                                              style: GSYConstant
+                                                                  .textStyle(
+                                                                      fontSize:
+                                                                          16.0,
+                                                                      color:
+                                                                          '#333333'),
+                                                            ),
+                                                          ))),
+                                                  Expanded(
+                                                      child: GestureDetector(
+                                                    onTap: () async {
+                                                      var request = HttpRequest
+                                                          .getInstance();
+                                                      Map<String, dynamic> map =
+                                                          {};
+                                                      map['registerId'] =
+                                                          item['id'];
+                                                      var res =
+                                                          await request.post(
+                                                              Api.finishTopicApi,
+                                                              map);
+                                                      if (res['code'] == 200) {
+                                                        getData();
+                                                        getCount();
+                                                        Navigator.pop(context);
+                                                      }
+                                                    },
+                                                    child: Container(
+                                                      alignment:
+                                                          Alignment.center,
+                                                      height: 40.0,
+                                                      decoration: BoxDecoration(
+                                                          border: Border(
+                                                              left: BorderSide(
+                                                                  width: 0.5,
+                                                                  color: ColorsUtil
+                                                                      .hexStringColor(
+                                                                          '#cccccc',
+                                                                          alpha:
+                                                                              0.4)),
+                                                              top: BorderSide(
+                                                                  width: 1.0,
+                                                                  color: ColorsUtil
+                                                                      .hexStringColor(
+                                                                          '#cccccc',
+                                                                          alpha:
+                                                                              0.4)))),
+                                                      child: Text(
+                                                        '确定',
+                                                        style: GSYConstant
+                                                            .textStyle(
+                                                                fontSize: 16.0,
+                                                                color:
+                                                                    '#06B48D'),
+                                                      ),
                                                     ),
-                                                  ))),
-                                          Expanded(
-                                              child: GestureDetector(
-                                                onTap: () async {
-                                                  var request = HttpRequest
-                                                      .getInstance();
-                                                  Map<String, dynamic> map =
-                                                  {};
-                                                  map['registerId'] =
-                                                  item['id'];
-                                                  var res =
-                                                  await request.post(
-                                                      Api.finishTopicApi,
-                                                      map);
-                                                  if (res['code'] == 200) {
-                                                    getData();
-                                                    getCount();
-                                                    Navigator.pop(context);
-
-                                                  }
-                                                },
-                                                child: Container(
-                                                  alignment:
-                                                  Alignment.center,
-                                                  height: 40.0,
-                                                  decoration: BoxDecoration(
-                                                      border: Border(
-                                                          left: BorderSide(
-                                                              width: 0.5,
-                                                              color: ColorsUtil
-                                                                  .hexStringColor(
-                                                                  '#cccccc',
-                                                                  alpha:
-                                                                  0.4)),
-                                                          top: BorderSide(
-                                                              width: 1.0,
-                                                              color: ColorsUtil
-                                                                  .hexStringColor(
-                                                                  '#cccccc',
-                                                                  alpha:
-                                                                  0.4)))),
-                                                  child: Text(
-                                                    '确定',
-                                                    style: GSYConstant
-                                                        .textStyle(
-                                                        fontSize: 16.0,
-                                                        color:
-                                                        '#06B48D'),
-                                                  ),
-                                                ),
-                                              ))
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ));
-                          },
-                          borderRadius: BorderRadius.circular(14.0),
-                          borderColor: ColorsUtil.hexStringColor('#06B48D'))
+                                                  ))
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ));
+                              },
+                              borderRadius: BorderRadius.circular(14.0),
+                              borderColor: ColorsUtil.hexStringColor('#06B48D'))
                           : Container(),
                       const SizedBox(
                         width: 10.0,
@@ -413,37 +420,32 @@ class _PatientConsultState extends State<PatientConsult> {
                                 ZegoConfig.instance.userID =
                                     res1['data']['userId'].toString();
                                 ZegoConfig.instance.userName =
-                                res1['data']['userName'];
+                                    res1['data']['userName'];
                                 ZegoConfig.instance.roomID =
-                                res1['data']['roomId'];
+                                    res1['data']['roomId'];
                                 var res2 = await request.get(Api.getToken,
                                     {'roomId': res1['data']['roomId']});
                                 if (res2['code'] == 200) {
                                   ZegoConfig.instance.token =
-                                  res2['data']['token'];
+                                      res2['data']['token'];
                                   if (item['type'] == '2') {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) => VideoTopic(
-                                              regId: item['id'],
-                                              docName: docName,
-                                              userInfoMap: item,
-                                            ))).then((value) => {
-                                      getData(),
-                                      getCount()
-                                    });
+                                                  regId: item['id'],
+                                                  docName: docName,
+                                                  userInfoMap: item,
+                                                ))).then(
+                                        (value) => {getData(), getCount()});
                                   } else {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) => ChatRoom(
-                                              userInfoMap: item,
-                                            ))).then(
-                                            (value) => {
-                                          getData(),
-                                          getCount()
-                                        });
+                                                  userInfoMap: item,
+                                                ))).then(
+                                        (value) => {getData(), getCount()});
                                   }
                                 }
                               }
@@ -479,7 +481,7 @@ class _PatientConsultState extends State<PatientConsult> {
             },
           ),
           Container(
-            margin: const EdgeInsets.only(top:10.0,bottom:14.0),
+            margin: const EdgeInsets.only(top: 10.0, bottom: 14.0),
             child: Row(
               children: <Widget>[
                 Expanded(
@@ -554,17 +556,35 @@ class _PatientConsultState extends State<PatientConsult> {
             ),
           ),
           Expanded(
-            child: RefreshIndicator(
-              displacement: 10.0,
-              onRefresh: _onRefresh,
-              child: ListView.builder(
-                padding:EdgeInsets.zero,
-                itemBuilder: _renderRow,
-                itemCount: list.length,
-                controller: _scrollController,
-              ),
-            ),
-          )
+              child: list.isNotEmpty
+                  ? RefreshIndicator(
+                      displacement: 10.0,
+                      onRefresh: _onRefresh,
+                      child: ListView.builder(
+                        padding: EdgeInsets.zero,
+                        itemBuilder: _renderRow,
+                        itemCount: list.length,
+                        controller: _scrollController,
+                      ),
+                    )
+                  :Container(
+                  margin: EdgeInsets.only(bottom:ScreenUtil().setHeight(100.0)),
+                child:Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          SvgUtil.svg('empty_data.svg'),
+                          const SizedBox(
+                            height: 15.0,
+                          ),
+                          Text(
+                            '暂无数据～',
+                            style: GSYConstant.textStyle(
+                                fontSize: 15.0, color: '#666666'),
+                          )
+                        ],
+                      ),),
+                    )
         ],
       ),
     );

@@ -55,24 +55,24 @@ class MyState extends State<My> {
   initState() {
     super.initState();
     items = [
-      _buildListTile(
-          id: 0,
-          icon: 'assets/images/my/qualifications.png',
-          title: '医生资质上传',
-          onTap: () {}),
-      _buildListTile(
-          id: 1,
-          icon: 'assets/images/my/information.png',
-          title: '基本信息',
-          onTap: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const BasicInfo()));
-          }),
-      _buildListTile(
-          id: 2,
-          icon: 'assets/images/my/consultation_information.png',
-          title: '维护问诊信息',
-          onTap: () {}),
+      // _buildListTile(
+      //     id: 0,
+      //     icon: 'assets/images/my/qualifications.png',
+      //     title: '医生资质上传',
+      //     onTap: () {}),
+      // _buildListTile(
+      //     id: 1,
+      //     icon: 'assets/images/my/information.png',
+      //     title: '基本信息',
+      //     onTap: () {
+      //       Navigator.push(context,
+      //           MaterialPageRoute(builder: (context) => const BasicInfo()));
+      //     }),
+      // _buildListTile(
+      //     id: 2,
+      //     icon: 'assets/images/my/consultation_information.png',
+      //     title: '维护问诊信息',
+      //     onTap: () {}),
       _buildListTile(
           id: 3,
           icon: 'assets/images/my/consultation_record.png',
@@ -88,24 +88,24 @@ class MyState extends State<My> {
                 MaterialPageRoute(
                     builder: (context) =>  MyPrescription(userId: doctorInfoMap['userId'].toString(),)));
           }),
-      _buildListTile(
-          id: 5,
-          icon: 'assets/images/my/my_income.png',
-          title: '我的收入',
-          onTap: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const MyIncome()));
-          }),
-      _buildListTile(
-          id: 6,
-          icon: 'assets/images/my/template_creation.png',
-          title: '模版创建',
-          onTap: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const TemplateCreate()));
-          }),
+      // _buildListTile(
+      //     id: 5,
+      //     icon: 'assets/images/my/my_income.png',
+      //     title: '我的收入',
+      //     onTap: () {
+      //       Navigator.push(context,
+      //           MaterialPageRoute(builder: (context) => const MyIncome()));
+      //     }),
+      // _buildListTile(
+      //     id: 6,
+      //     icon: 'assets/images/my/template_creation.png',
+      //     title: '模版创建',
+      //     onTap: () {
+      //       Navigator.push(
+      //           context,
+      //           MaterialPageRoute(
+      //               builder: (context) => const TemplateCreate()));
+      //     }),
     ];
 
     getNet_doctorInfo();

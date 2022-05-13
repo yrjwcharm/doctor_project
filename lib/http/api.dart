@@ -39,6 +39,7 @@ class Api {
   static const checkVerifyCode ='/doctor/dr-service/verificationCode/check';
   static const updatePwdApi ='/doctor/dr-service/ba-doctor-user/editPwd';
   static const exitLogin ='/doctor/dr-service/ba-doctor-user/doExit';
+  static const verifyOldPwdApi ='/doctor/dr-service/ba-doctor-user/validOldPwd';
 
 
 }

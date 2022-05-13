@@ -217,8 +217,8 @@ class RegisterContentStates extends State<LoginPage> {
                                   });
                                 },
                                 child: SvgUtil.svg(obscure
-                                    ? 'open_eyes.svg'
-                                    : 'close_eyes.svg'),
+                                    ? 'close_eyes.svg'
+                                    : 'open_eyes.svg'),
                               ),
                               hintStyle: const TextStyle(
                                 fontSize: 14,
