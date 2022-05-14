@@ -145,7 +145,7 @@ class _ChatPageState extends State<ChatPage> {
       list.sort((a,b)=>b['sendTime'].toString().compareTo(a['sendTime'].toString()));
       list.forEach((item) {
         if (item['type'] == '1') {
-          types.Message _message = types.Message.fromJson({
+          types.Message _message = types.TextMessage.fromJson({
             "author": {
               "firstName": item['userName'],
               "id": item['userId'],
@@ -162,7 +162,7 @@ class _ChatPageState extends State<ChatPage> {
           });
           messageList.add(_message);
         } else if (item['type'] == '2') {
-          types.Message _message = types.Message.fromJson({
+          types.Message _message = types.ImageMessage.fromJson({
             "author": {
               "firstName": item['userName'],
               "id": item['userId'],
@@ -172,11 +172,11 @@ class _ChatPageState extends State<ChatPage> {
             },
             "createdAt":
                 DateTime.parse(item['sendTime']).millisecondsSinceEpoch,
-            "height": 0,
+            "height": 12,
             "id": const Uuid().v4(),
             "name": "image",
             "size": 0,
-            'width':0,
+            'width':12,
             "status": item['roleCode'] == '2' ? "seen" : "sent",
             "type": "image",
             "uri": item['info'],
@@ -359,7 +359,7 @@ class _ChatPageState extends State<ChatPage> {
     print('msg,${message.message}',);
     if (CommonUtils.isImageEnd(message.message)) {
       print('11111,走了');
-      types.Message _message = types.Message.fromJson(
+      types.Message _message = types.ImageMessage.fromJson(
         {
           "author": {
             "firstName": userInfoMap['name'],
@@ -384,7 +384,7 @@ class _ChatPageState extends State<ChatPage> {
       print('111111,${userInfoMap['photo']}',);
 
       // appendMessage('💬 ${message.message} [ID:${message.messageID}] [From:${message.fromUser.userName}]');
-      types.Message _message = types.Message.fromJson({
+      types.Message _message = types.TextMessage.fromJson({
         "author": {
           "firstName": userInfoMap['name']??'',
           "id": userInfoMap['patientId']??'',
@@ -441,27 +441,27 @@ class _ChatPageState extends State<ChatPage> {
       final bytes = await result.readAsBytes();
       final image = await decodeImageFromList(bytes);
 
-      final message = types.ImageMessage(
-        author:_user,
-        createdAt: DateTime.now().millisecondsSinceEpoch,
-        height: image.height.toDouble(),
-        id: const Uuid().v4(),
-        name: result.name,
-        status: Status.sent,
-        size: bytes.length,
-        uri: result.path,
-        width: image.width.toDouble(),
-      );
       FormData formData =
           FormData.fromMap({'file': await MultipartFile.fromFile(result.path)});
       var request = HttpRequest.getInstance();
       var $result = await request.uploadFile(Api.uploadImgApi, formData);
       if ($result['code'] == 200) {
+        final message = types.ImageMessage(
+          author:_user,
+          createdAt: DateTime.now().millisecondsSinceEpoch,
+          height: image.height.toDouble(),
+          id: const Uuid().v4(),
+          name: result.name,
+          status: Status.sent,
+          size: bytes.length,
+          uri: $result['data']['url'],
+          width: image.width.toDouble(),
+        );
         sendBroadcastMessage($result['data']['url']);
+        _addMessage(message);
         // saveRecord($result['data']['url'], '2', doctorMap['userId'].toString(),
         //     doctorMap['realName'], '1');
       }
-      _addMessage(message);
     }
   }
 
@@ -514,6 +514,16 @@ class _ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
     return Chat(
+        imageMessageBuilder: (types.ImageMessage imageMessage, {required int messageWidth}){
+          return SizedBox(
+            width:100.0,
+            height:80.0 ,
+            // height: 50.0,
+            child: Image.network(imageMessage.uri,fit: BoxFit.contain,),
+          );
+       },
+        disableImageGallery: false,
+        usePreviewData:false,
         theme: DefaultChatTheme(
             // seenIcon: SizedBox.shrink(),
             // userNameTextStyle:GSYConstant.textStyle(fontSize:14.0,color: '#333333' ),
