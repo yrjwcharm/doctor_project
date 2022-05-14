@@ -305,7 +305,7 @@ class RegisterContentStates extends State<LoginPage> {
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               color: Colors.white,
-                              fontSize: 13,
+                              fontSize: 16,
                             ),
                           ),
                           textColor: Colors.white,
