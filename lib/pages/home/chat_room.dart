@@ -128,11 +128,11 @@ class _ChatPageState extends State<ChatPage> {
 
   @override
   void dispose() {
-    super.dispose();
     destroyEngine();
 
     clearZegoEventCallback();
     _focusNode.dispose();
+    super.dispose();
   }
 
   getRecordList() async {
@@ -142,8 +142,8 @@ class _ChatPageState extends State<ChatPage> {
         Api.getRecordListApi + '?roomId=${ZegoConfig.instance.roomID}', {});
     if (res['code'] == 200) {
       List<dynamic> list = res['data']['record'];
+      list.sort((a,b)=>b['sendTime'].toString().compareTo(a['sendTime'].toString()));
       list.forEach((item) {
-        print('${item.toString()}1111111');
         if (item['type'] == '1') {
           types.Message _message = types.Message.fromJson({
             "author": {
@@ -176,10 +176,10 @@ class _ChatPageState extends State<ChatPage> {
             "id": const Uuid().v4(),
             "name": "image",
             "size": 0,
+            'width':0,
             "status": item['roleCode'] == '2' ? "seen" : "sent",
             "type": "image",
             "uri": item['info'],
-            "width": 0
           });
 
           messageList.add(_message);
@@ -356,7 +356,9 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   void appendMessage(ZegoBroadcastMessageInfo message) {
+    print('msg,${message.message}',);
     if (CommonUtils.isImageEnd(message.message)) {
+      print('11111,走了');
       types.Message _message = types.Message.fromJson(
         {
           "author": {
@@ -375,26 +377,27 @@ class _ChatPageState extends State<ChatPage> {
           "width": 0
         },
       );
-      saveRecord(message.message, '1', userInfoMap['patientId'],
-          userInfoMap['name'], '2');
+      // saveRecord(message.message, '1', userInfoMap['patientId'],
+      //     userInfoMap['name'], '2');
       _addMessage(_message);
     } else {
+      print('111111,${userInfoMap['photo']}',);
+
       // appendMessage('💬 ${message.message} [ID:${message.messageID}] [From:${message.fromUser.userName}]');
-      List response = json.decode(message.message);
       types.Message _message = types.Message.fromJson({
         "author": {
-          "firstName": userInfoMap['name'],
-          "id": userInfoMap['patientId'],
+          "firstName": userInfoMap['name']??'',
+          "id": userInfoMap['patientId']??'',
           "imageUrl": userInfoMap['photo']
         },
         "createdAt": message.sendTime,
         "id": const Uuid().v4(),
         "status": "seen",
-        "text": response[0]['text'],
+        "text": message.message,
         "type": 'text'
       });
-      saveRecord(response[0]['text'], '1', userInfoMap['patientId'],
-          userInfoMap['name'], '2');
+      // saveRecord(response[0]['text'], '1', userInfoMap['patientId'],
+      //     userInfoMap['name'], '2');
       _addMessage(_message);
     }
   }
@@ -414,7 +417,7 @@ class _ChatPageState extends State<ChatPage> {
 
     if (result != null && result.files.single.path != null) {
       final message = types.FileMessage(
-        author: _user,
+        author:_user,
         createdAt: DateTime.now().millisecondsSinceEpoch,
         id: const Uuid().v4(),
         mimeType: lookupMimeType(result.files.single.path!),
@@ -439,11 +442,12 @@ class _ChatPageState extends State<ChatPage> {
       final image = await decodeImageFromList(bytes);
 
       final message = types.ImageMessage(
-        author: _user,
+        author:_user,
         createdAt: DateTime.now().millisecondsSinceEpoch,
         height: image.height.toDouble(),
         id: const Uuid().v4(),
         name: result.name,
+        status: Status.sent,
         size: bytes.length,
         uri: result.path,
         width: image.width.toDouble(),
@@ -454,8 +458,8 @@ class _ChatPageState extends State<ChatPage> {
       var $result = await request.uploadFile(Api.uploadImgApi, formData);
       if ($result['code'] == 200) {
         sendBroadcastMessage($result['data']['url']);
-        saveRecord($result['data']['url'], '2', doctorMap['userId'].toString(),
-            doctorMap['realName'], '1');
+        // saveRecord($result['data']['url'], '2', doctorMap['userId'].toString(),
+        //     doctorMap['realName'], '1');
       }
       _addMessage(message);
     }
@@ -482,44 +486,19 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   void _handleSendPressed(types.PartialText message) async {
-    final textMessage = types.TextMessage(
-      author: _user,
-      createdAt: DateTime.now().millisecondsSinceEpoch,
-      id: const Uuid().v4(),
-      text: message.text,
-    );
+    // final textMessage = types.TextMessage(
+    //   author: _user,
+    //   createdAt: DateTime.now().millisecondsSinceEpoch,
+    //   id: const Uuid().v4(),
+    //   status: Status.sent,
+    //   text: message.text,
+    // );
+    final textMessage = types.TextMessage.fromPartial(  createdAt: DateTime.now().millisecondsSinceEpoch,
+        id: const Uuid().v4(),
+        status: Status.sent,
+        author: _user, partialText: message);
     sendBroadcastMessage(message.text);
-    saveRecord(message.text, '1', doctorMap['userId'].toString(),
-        doctorMap['realName'], '1');
     _addMessage(textMessage);
-  }
-
-  void saveRecord(String info, String type, String userId, String userName,
-      String roleCode) async {
-    var request = HttpRequest.getInstance();
-    Map<String, dynamic> map = {};
-    DateTime now = DateTime.now(); //获取当前时间
-    String formattedDate =
-        DateFormat('yyyy-MM-dd HH:mm:ss').format(now); //格式化日期
-    map['roomId'] = ZegoConfig.instance.roomID;
-    map['userId'] = userId;
-    map['userName'] = userName;
-    map['roleCode'] = roleCode;
-    map['info'] = info;
-    map['type'] = type;
-    map['sendTime'] = formattedDate;
-    var $res = await request.post(Api.saveChatRecordApi, map);
-    if ($res.code == 200) {}
-  }
-
-  void _goToHealthHutModular() async {
-    const platform = const MethodChannel("flutterPrimordialBrige");
-    bool result = false;
-    try {
-      result = await platform.invokeMethod("jumpToCallVideo"); //分析2
-    } on PlatformException catch (e) {
-      print(e.toString());
-    }
   }
 
   // void _loadMessages() async {
@@ -535,6 +514,43 @@ class _ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
     return Chat(
+        theme: DefaultChatTheme(
+            // seenIcon: SizedBox.shrink(),
+            // userNameTextStyle:GSYConstant.textStyle(fontSize:14.0,color: '#333333' ),
+          statusIconPadding: const EdgeInsets.all(10.0),
+          messageBorderRadius:4.0,
+            userAvatarNameColors:[
+            //   // Color(0xffff6767),
+            //   // Color(0xff66e0da),
+            //   // Color(0xfff5a2d9),
+            //   // Color(0xfff0c722),
+            //   // Color(0xff6a85e5),
+            //   Color(0xfffd9a6f),
+              Color(0xff92db6e),
+            //   // Color(0xff73b8e5),
+            //   // Color(0xfffd7590),
+            //   // Color(0xffc78ae5),
+            ],
+            messageInsetsVertical:10.0,
+          messageInsetsHorizontal:10.0,
+          // statusIconPadding: EdgeInsets.zero,
+          // dateDividerMargin: EdgeInsets.zero,
+          deliveredIcon:Stack(children: [
+            Container(
+            // margin: const EdgeInsets.symmetric(horizontal: 10.0),
+          width: 34.0, height: 34.0,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(17)
+          ),
+          clipBehavior: Clip.hardEdge,
+          child:doctorMap['photoUrl']==null?const SizedBox.shrink():Image.network(doctorMap['photoUrl'],fit: BoxFit.cover,),
+        )],)),
+        hideBackgroundOnEmojiMessages:false,
+      emptyState: const SizedBox.shrink(),
+      dateFormat:DateFormat('yyyy/MM/dd') ,
+      // dateLocale:'HH:mm',
+      timeFormat: DateFormat('HH:mm'),
+      isLastPage:true,
       customBottomWidget: SafeArea(
         child: Column(
           children: <Widget>[
@@ -549,10 +565,10 @@ class _ChatPageState extends State<ChatPage> {
                               alpha: 0.3)))),
               child: Row(
                 children: <Widget>[
-                  SvgUtil.svg('voice.svg'),
-                  const SizedBox(
-                    width: 5.0,
-                  ),
+                  // SvgUtil.svg('voice.svg'),
+                  // const SizedBox(
+                  //   width: 5.0,
+                  // ),
                   Expanded(
                       child: Container(
                           height: 33.0,

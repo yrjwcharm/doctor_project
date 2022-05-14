@@ -222,13 +222,21 @@ class CommonUtils {
 
   static const IMAGE_END = [".png", ".jpg", ".jpeg", ".gif", ".svg"];
 
-  static isImageEnd(path) {
+  static isImageEnd(String path) {
+    print('333$path');
     bool image = false;
-    for (String item in IMAGE_END) {
-      if (path.indexOf(item) + item.length == path.length) {
+    int  index = path.lastIndexOf('.');
+    if(index!=-1) {
+      String suffix = path.substring(index);
+      if (IMAGE_END.contains(suffix)) {
         image = true;
       }
     }
+    // for (String item in IMAGE_END) {
+    //   if (path.indexOf(item) + item.length == path.length) {
+    //     image = true;
+    //   }
+    // }
     return image;
   }
   // static launchOutURL(String? url, BuildContext context) async {

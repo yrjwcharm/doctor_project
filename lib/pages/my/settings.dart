@@ -98,7 +98,8 @@ class _SettingsState extends State<Settings> {
             // getNet_signOut();
             var res = await HttpRequest.getInstance().post(Api.exitLogin, {});
             if (res['code'] == 200) {
-              perfer.clear();
+              perfer.remove('tokenValue');
+              perfer.remove('phone');
               Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(builder: (context) => LoginPage()),
