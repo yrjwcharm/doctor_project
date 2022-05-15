@@ -469,8 +469,14 @@ class HomeState extends State<Home> {
                                           getCount()
                                         });
                                   }
+                                }else{
+                                  ToastUtil.showToast(msg: res2['msg']);
                                 }
+                              }else{
+                                ToastUtil.showToast(msg: res1['msg']);
                               }
+                            }else{
+                              ToastUtil.showToast(msg: res['msg']);
                             }
                           },
                           child: Text(

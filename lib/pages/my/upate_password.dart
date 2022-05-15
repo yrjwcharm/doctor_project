@@ -9,6 +9,7 @@ import 'package:doctor_project/widget/custom_elevated_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../http/api.dart';
 import '../../utils/reg_util.dart';
@@ -142,11 +143,14 @@ class _UpdatePasswordState extends State<UpdatePassword> {
                  ToastUtil.showToast(msg: '请确认密码');
                  return;
                }
+               SharedPreferences preference = await SharedPreferences.getInstance();
                 var res = await HttpRequest.getInstance().post(Api.updatePwdApi, {
                   "password1":pwd , //密码
                   "password2": _pwd
                 });
                 if(res['code']==200){
+                  preference.remove('tokenValue');
+                  preference.remove('phone');
                   Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => LoginPage(),), (route) => route == null);
                 }else{
                   ToastUtil.showToast(msg: res['msg']);

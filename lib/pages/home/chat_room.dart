@@ -10,6 +10,7 @@ import 'package:doctor_project/pages/my/write-case.dart';
 import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:doctor_project/utils/common_utils.dart';
 import 'package:doctor_project/utils/svg_util.dart';
+import 'package:doctor_project/utils/toast_util.dart';
 import 'package:doctor_project/widget/custom_app_bar.dart';
 import 'package:doctor_project/widget/custom_elevated_button.dart';
 import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
@@ -314,15 +315,15 @@ class _ChatPageState extends State<ChatPage> {
 
   // MARK: - Message
 
-  void sendBroadcastMessage(message) {
-    // String message = _broadcastMessageController.text.trim();
-    ZegoExpressEngine.instance
-        .sendBroadcastMessage(_roomID, message)
-        .then((value) {
-      print(
-          '🚩 💬 Send broadcast message result, errorCode: ${value.errorCode}');
-    });
-  }
+  // void sendBroadcastMessage(message) {
+  //   // String message = _broadcastMessageController.text.trim();
+  //   ZegoExpressEngine.instance
+  //       .sendBroadcastMessage(_roomID, message)
+  //       .then((value) {
+  //     print(
+  //         '🚩 💬 Send broadcast message result, errorCode: ${value.errorCode}');
+  //   });
+  // }
 
   void sendCustomCommand() {
     // TODO: Support selecting users
@@ -457,10 +458,14 @@ class _ChatPageState extends State<ChatPage> {
           uri: $result['data']['url'],
           width: image.width.toDouble(),
         );
-        sendBroadcastMessage($result['data']['url']);
-        _addMessage(message);
-        // saveRecord($result['data']['url'], '2', doctorMap['userId'].toString(),
-        //     doctorMap['realName'], '1');
+        // $result['data']['url']
+        ZegoExpressEngine.instance
+            .sendBroadcastMessage(_roomID, $result['data']['url'])
+            .then((value) {
+              if(value.errorCode==0){
+                _addMessage(message);
+              }
+        });
       }
     }
   }
@@ -486,19 +491,21 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   void _handleSendPressed(types.PartialText message) async {
-    // final textMessage = types.TextMessage(
-    //   author: _user,
-    //   createdAt: DateTime.now().millisecondsSinceEpoch,
-    //   id: const Uuid().v4(),
-    //   status: Status.sent,
-    //   text: message.text,
-    // );
     final textMessage = types.TextMessage.fromPartial(  createdAt: DateTime.now().millisecondsSinceEpoch,
         id: const Uuid().v4(),
         status: Status.sent,
         author: _user, partialText: message);
-    sendBroadcastMessage(message.text);
-    _addMessage(textMessage);
+    ZegoExpressEngine.instance
+        .sendBroadcastMessage(_roomID, textMessage.text)
+        .then((value) {
+      if(value.errorCode==0){
+        _addMessage(textMessage);
+      }else{
+        ToastUtil.showToast(msg: '发送消息失败${value.errorCode}');
+      }
+      print(
+          '🚩 💬 Send broadcast message result, errorCode: ${value.errorCode}');
+    });
   }
 
   // void _loadMessages() async {
@@ -514,6 +521,7 @@ class _ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
     return Chat(
+      
         imageMessageBuilder: (types.ImageMessage imageMessage, {required int messageWidth}){
           return SizedBox(
             width:100.0,
@@ -525,6 +533,7 @@ class _ChatPageState extends State<ChatPage> {
         disableImageGallery: false,
         usePreviewData:false,
         theme: DefaultChatTheme(
+          backgroundColor: ColorsUtil.hexStringColor('#f9f9f9'),
             // seenIcon: SizedBox.shrink(),
             // userNameTextStyle:GSYConstant.textStyle(fontSize:14.0,color: '#333333' ),
           statusIconPadding: const EdgeInsets.all(10.0),

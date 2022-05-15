@@ -245,6 +245,7 @@ class _RecipeDetailState extends State<RecipeDetail> {
                           direction: Axis.horizontal,
                           children: <Widget>[
                             Container(
+                              alignment:Alignment.center,
                               width: MediaQuery.of(context).size.width/3,
                               // padding:const EdgeInsets.only(left: 16.0),
                               child:Row(
@@ -263,7 +264,7 @@ class _RecipeDetailState extends State<RecipeDetail> {
                               ],
                             ),),
                             Container(
-                              // padding:const EdgeInsets.only(left: 16.0),
+                              padding: EdgeInsets.only(left:ScreenUtil().setWidth(16.0)),
                               width: MediaQuery.of(context).size.width/3,
                               child: Row(
                               mainAxisSize: MainAxisSize.min,
@@ -300,7 +301,7 @@ class _RecipeDetailState extends State<RecipeDetail> {
                             ),),
                             Container(
                               width: MediaQuery.of(context).size.width/3,
-                              padding:const EdgeInsets.only(left: 16.0),
+                              padding: EdgeInsets.only(left:ScreenUtil().setWidth(16.0)),
                               child: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: <Widget>[
@@ -321,7 +322,7 @@ class _RecipeDetailState extends State<RecipeDetail> {
                             // ),
                             Container(
                                 width: MediaQuery.of(context).size.width/3,
-
+                                padding: EdgeInsets.only(left:ScreenUtil().setWidth(16.0)),
                                 child: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: <Widget>[
