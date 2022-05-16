@@ -1,7 +1,9 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:doctor_project/common/style/gsy_style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 /**
@@ -24,7 +26,8 @@ class _GSYWebViewState extends State<GSYWebView> {
   final FocusNode focusNode =  FocusNode();
 
   bool isLoading = true;
-
+  late WebViewController _webViewController;
+  String filePath ='assets/resource/index.html';
   @override
   void initState() {
     super.initState();
@@ -32,7 +35,10 @@ class _GSYWebViewState extends State<GSYWebView> {
       WebView.platform = SurfaceAndroidWebView();
     }
   }
-
+  _loadHtmlFromAssets() async{
+    String fileHtmlContents = await rootBundle.loadString(filePath);
+    _webViewController.loadUrl(Uri.dataFromString(fileHtmlContents,mimeType: 'text/html',encoding: Encoding.getByName('utf-8')).toString());
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,21 +52,28 @@ class _GSYWebViewState extends State<GSYWebView> {
           ),
           WebView(
               initialUrl: widget.url,
+              // onWebViewCreated: (WebViewController webViewController){
+              //   _webViewController = webViewController;
+              //   _loadHtmlFromAssets();
+              // },
               javascriptMode: JavascriptMode.unrestricted,
               onPageFinished: (_) {
                 setState(() {
                   isLoading = false;
                 });
               },
-              javascriptChannels: Set.from([
+              javascriptChannels: {
                 JavascriptChannel(
                     name: 'Print',
                     onMessageReceived: (JavascriptMessage message) {
                       ///print("FFFFFF");
-                      print(message.message);
+                      Map<String,dynamic> map = json.decode(message.message);
+                      if(map['success']){
+                        Navigator.pop(context);
+                      }
                       FocusScope.of(context).requestFocus(focusNode);
                     })
-              ])),
+              }),
           if (isLoading)
              Center(
               child:  Container(

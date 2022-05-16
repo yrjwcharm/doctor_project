@@ -119,6 +119,7 @@ flutter:
   # the material Icons class.
   uses-material-design: true
   assets:
+    - assets/resource/
     - assets/images/
     - assets/images/home/
     - assets/images/my/

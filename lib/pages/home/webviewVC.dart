@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:doctor_project/widget/custom_app_bar.dart';
 import 'package:flutter/material.dart';
@@ -58,8 +59,18 @@ class _WebviewVCState extends State<WebviewVC> {
       onProgress: (int progress) {
         print('WebView is loading (progress : $progress%)');
       },
-      javascriptChannels: <JavascriptChannel>{
-        // _toasterJavascriptChannel(context),
+      javascriptChannels:  <JavascriptChannel>{
+        JavascriptChannel(
+            name: 'Print',
+            onMessageReceived: (JavascriptMessage message) {
+              ///print("FFFFFF");
+              // print(message.message);
+              Map<String,dynamic> map = json.decode(message.message);
+              if(map['success']){
+                Navigator.pop(context);
+              }
+              // FocusScope.of(context).requestFocus(focusNode);
+            })
       },
       navigationDelegate: (NavigationRequest request) {
         if (request.url.startsWith('MyAPP:')) {
