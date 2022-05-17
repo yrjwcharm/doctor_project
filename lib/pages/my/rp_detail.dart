@@ -14,9 +14,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import '../../http/api.dart';
 import '../../utils/num_util.dart';
+import '../home/electronicSgnature.dart';
+import '../home/webviewVC.dart';
 import '../tabs/main.dart';
 
 class RecipeDetail extends StatefulWidget {
@@ -43,6 +46,40 @@ class _RecipeDetailState extends State<RecipeDetail> {
     super.initState();
     print('5555,${this.rpDetailItem['status']}');
     initData();
+    getNet_userSignature();
+  }
+  //医信签电子签名接口
+  void getNet_userSignature() async {
+    HttpRequest? request = HttpRequest.getInstance();
+    var res = await request.get(Api.userSignatureUrl, {});
+    print("getNet_userSignature------" + res.toString());
+    Map data = res['data'];
+    if (res['code'] == 200) {
+      if (data["signatureImg"] != null) {
+        Navigator.pop(context);
+        // Navigator.push(
+        //     context,
+        //     MaterialPageRoute(
+        //       builder: (context) => electronicSignaturePage(
+        //           YXQDataMap: data,
+        //           registeredId: registeredId,
+        //           category: tab1Active ? "1" : "2",
+        //           prescriptionId: rpDetailItem['id']),
+        //     ));
+      } else {
+        String url = data["data"]["oauthURL"];
+        // Navigator.pop(context);
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    WebviewVC(
+                      url: url,
+                    )));
+      }
+    } else {
+      Fluttertoast.showToast(msg: res['msg'], gravity: ToastGravity.CENTER);
+    }
   }
 
   initData() async {

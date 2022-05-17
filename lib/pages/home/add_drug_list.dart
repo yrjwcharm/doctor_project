@@ -309,7 +309,8 @@ class _AddDrugListState extends State<AddDrugList> {
                                   {});
                               if(res['code']==200) {
                                 detailDataList[index]['stockNum']=res['data']??0;
-                                Navigator.pushReplacement(context,
+                                Navigator.pop(context);
+                                Navigator.push(context,
                                     MaterialPageRoute(builder: (context) =>
                                         UseDrugInfo(
                                           drugInfoMap: detailDataList[index],

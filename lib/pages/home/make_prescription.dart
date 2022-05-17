@@ -75,10 +75,10 @@ class _MakePrescriptionState extends State<MakePrescription> {
   List pharmacyNameList = []; //药房名称数据源
   String pharmacyName = ''; //药房类型
   String pharmacyId = ''; //药房id
-  List<String> rpArray =['西药/中成药处方','中药处方'];
+  List<String> rpArray = ['西药/中成药处方', '中药处方'];
   bool tab1Active = true;
   bool tab2Active = false;
-  String rpName ='西药/中成药处方';
+  String rpName = '西药/中成药处方';
   double totalPrice = 0; //药品总价格
   String prescriptionId = ""; //处方id
 
@@ -154,6 +154,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
       Map item = new Map();
       item["medicineId"] = drugList[j]["medicineid"];
       item["num"] = drugList[j]["count"];
+      item["wmOnceDosage"] = drugList[j]['dosage'];
 
       //中药无这几项值
       if (tab1Active) {
@@ -168,7 +169,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
       medicineParams.add(item);
     }
 
-    Map map;
+    Map<String, dynamic> map;
 
     if (tab1Active) {
       map = {
@@ -199,24 +200,19 @@ class _MakePrescriptionState extends State<MakePrescription> {
         "medicineParams": medicineParams,
       };
     }
-
-    SharedPreferences perfer = await SharedPreferences.getInstance();
-    String? tokenValueStr = perfer.getString("tokenValue");
-    var dio = new Dio();
-    dio.options.headers = {
-      "token": tokenValueStr,
-    };
-    var response =
-        await dio.post(Api.BASE_URL + Api.createPrescriptionUrl, data: map);
-    print(response.data);
-    if (response.data['code'] == 200) {
-      //请求成功
-      // Fluttertoast.showToast(msg: "新增处方成功", gravity: ToastGravity.CENTER);
-      prescriptionId = response.data["data"].toString();
-      getNet_userSignature();
-    } else {
-      Fluttertoast.showToast(
-          msg: response.data['msg'], gravity: ToastGravity.CENTER);
+    if (prescriptionId.isEmpty) {
+      var res =
+          await HttpRequest.getInstance().post(Api.createPrescriptionUrl, map);
+      if (res['code'] == 200) {
+        //请求成功
+        // Fluttertoast.showToast(msg: "新增处方成功", gravity: ToastGravity.CENTER);
+        setState(() {
+          prescriptionId = res['data'].toString();
+        });
+        getNet_userSignature();
+      } else {
+        Fluttertoast.showToast(msg: res['msg'], gravity: ToastGravity.CENTER);
+      }
     }
   }
 
@@ -238,7 +234,8 @@ class _MakePrescriptionState extends State<MakePrescription> {
       double price = double.parse(unitprice) * double.parse(count);
       totalPrice += price;
     }
-    totalPrice=totalPrice*(tab1Active?1:int.parse(_editingController1.text));
+    totalPrice =
+        totalPrice * (tab1Active ? 1 : int.parse(_editingController1.text));
   }
 
   //医信签电子签名接口
@@ -535,27 +532,27 @@ class _MakePrescriptionState extends State<MakePrescription> {
                     PickerUtil.showPicker(context, _scaffoldKey,
                         pickerData: rpArray,
                         confirmCallback: (Picker picker, List<int> selected) {
-                          // setState(() {
-                          //   rpTypeId =
-                          //       rpList[selected[0]]['detailValue'].toString();
-                          //   rpTypeName = rpList[selected[0]]['detailName'];
-                          // });
-                          if(selected[0]==0) {
-                            setState(() {
-                              tab1Active = true;
-                              tab2Active = false;
-                              rpName = rpArray[0];
-                            });
-                          } else {
-                            setState(() {
-                              tab1Active = false;
-                              tab2Active = true;
-                              rpName=rpArray[1];
-                            });
-                          }
-                          loadDataForFreqTYpe();resetData();
-
+                      // setState(() {
+                      //   rpTypeId =
+                      //       rpList[selected[0]]['detailValue'].toString();
+                      //   rpTypeName = rpList[selected[0]]['detailName'];
+                      // });
+                      if (selected[0] == 0) {
+                        setState(() {
+                          tab1Active = true;
+                          tab2Active = false;
+                          rpName = rpArray[0];
                         });
+                      } else {
+                        setState(() {
+                          tab1Active = false;
+                          tab2Active = true;
+                          rpName = rpArray[1];
+                        });
+                      }
+                      loadDataForFreqTYpe();
+                      resetData();
+                    });
                   },
                   child: Container(
                     height: 44.0,
@@ -564,10 +561,10 @@ class _MakePrescriptionState extends State<MakePrescription> {
                         color: Colors.white,
                         border: Border(
                             bottom: BorderSide(
-                              width: 1.0,
-                              color:
+                          width: 1.0,
+                          color:
                               ColorsUtil.hexStringColor('#cccccc', alpha: 0.3),
-                            ))),
+                        ))),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
@@ -819,7 +816,8 @@ class _MakePrescriptionState extends State<MakePrescription> {
                                                         ? [
                                                             FilteringTextInputFormatter
                                                                 .allow(RegExp(
-                                                                    "[0-9]")), //数字包括小数
+                                                                    "[0-9]")),
+                                                            //数字包括小数
                                                           ]
                                                         : [],
                                                 textAlignVertical:
@@ -940,8 +938,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
                                 //中药处方
                                 drugList.addAll(value);
                                 calculateThePrice();
-                                setState(() {
-                                });
+                                setState(() {});
                               }
                             });
                           },
@@ -1018,8 +1015,8 @@ class _MakePrescriptionState extends State<MakePrescription> {
                                                             drugList[index][
                                                                 "specification"] +
                                                             "/" +
-                                                            drugList[index][
-                                                                "packageUnit"],
+                                                            drugList[index]
+                                                                ["packageUnit"],
                                                         style: GSYConstant
                                                             .textStyle(
                                                                 color:
@@ -1302,8 +1299,16 @@ class _MakePrescriptionState extends State<MakePrescription> {
                       padding: const EdgeInsets.only(left: 16.0),
                       child: Row(
                         children: <Widget>[
-                          Text('*',style: GSYConstant.textStyle(fontSize: 13.0,color: '#FE5A6B'),),
-                          Text('操作提示：左滑删除药品',style: GSYConstant.textStyle(fontSize:13.0,color: '#666666' ),)
+                          Text(
+                            '*',
+                            style: GSYConstant.textStyle(
+                                fontSize: 13.0, color: '#FE5A6B'),
+                          ),
+                          Text(
+                            '操作提示：左滑删除药品',
+                            style: GSYConstant.textStyle(
+                                fontSize: 13.0, color: '#666666'),
+                          )
                         ],
                       ),
                     )),
@@ -1312,14 +1317,15 @@ class _MakePrescriptionState extends State<MakePrescription> {
           ),
         ),
         Container(
-          margin:const EdgeInsets.only(bottom: 16.0),
+          margin: const EdgeInsets.only(bottom: 16.0),
           // margin: const EdgeInsets.only(top: 30.0),
           alignment: Alignment.bottomCenter,
           child: SafeAreaButton(
               text: '电子签名',
               onPressed: () {
                 if (prescriptionId.isEmpty) {
-                  CommonUtils.throttle(getNet_createPrescription,durationTime: 1000);
+                  CommonUtils.throttle(getNet_createPrescription,
+                      durationTime: 1000);
                 } else {
                   //从授权界面返回，直接签名
                   getNet_userSignature();

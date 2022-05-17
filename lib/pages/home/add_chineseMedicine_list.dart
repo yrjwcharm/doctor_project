@@ -1,4 +1,5 @@
 import 'package:doctor_project/common/style/gsy_style.dart';
+import 'package:doctor_project/http/http_request.dart';
 import 'package:doctor_project/widget/custom_app_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -286,7 +287,14 @@ class _AddChineseMedicineListState extends State<AddChineseMedicineList> {
                       itemBuilder: (BuildContext context, int index) {
                         if (index < detailDataList.length){
                           return GestureDetector(
-                            onTap: (){
+                            onTap: () async{
+                              print('3333333,id=${detailDataList[index]['medicineid']}');
+                              var request  =HttpRequest.getInstance();
+                              var res  =await request.get(Api.eastDrugInventoryApi+'?id=${detailDataList[index]['medicineid']}',
+                                  {});
+                              if(res['code']==200) {
+                                detailDataList[index]['stockNum']=res['data']??0;
+                              }
                               setState(() {
                                 detailDataList[index]["count"] = 1;
                                 selectedDrugList.add(detailDataList[index]);
@@ -414,7 +422,7 @@ class _AddChineseMedicineListState extends State<AddChineseMedicineList> {
                                   ),
                                   const SizedBox(height: 10.0,),
                                   Text(
-                                    '库存：' +selectedDrugList[index]["stockNum"],
+                                    '库存：' +selectedDrugList[index]["stockNum"].toString(),
                                     style: GSYConstant.textStyle(
                                         color: '#888888', fontSize: 13.0),
                                   )
