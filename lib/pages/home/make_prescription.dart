@@ -842,7 +842,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
                                                       // activeColor: Colors.blueAccent,
                                                     ),
                                                     Text(
-                                                      '单位ml',
+                                                      '毫升',
                                                       style:
                                                           GSYConstant.textStyle(
                                                               fontSize: 16.0,
@@ -869,7 +869,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
                                                       // activeColor: Colors.blueAccent,
                                                     ),
                                                     Text(
-                                                      '不能量化为ml',
+                                                      '其他',
                                                       style:
                                                           GSYConstant.textStyle(
                                                               fontSize: 16.0,
