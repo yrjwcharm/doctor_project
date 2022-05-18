@@ -191,7 +191,7 @@ class _MyPrescriptionState extends State<MyPrescription> {
 
                       return GestureDetector(
                         onTap: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>  RecipeDetail(rpDetailItem: {...item,'isFlag':'1'},diagnosis:str))).then((value) => {
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>  RecipeDetail(rpDetailItem: {...item},diagnosis:str))).then((value) => {
                             getData()
                           });
                         },

@@ -46,7 +46,7 @@ class _RecipeDetailState extends State<RecipeDetail> {
     super.initState();
     print('5555,${this.rpDetailItem['status']}');
     initData();
-    getNet_userSignature();
+    // getNet_userSignature();
   }
   //医信签电子签名接口
   void getNet_userSignature() async {
@@ -170,7 +170,7 @@ class _RecipeDetailState extends State<RecipeDetail> {
                           height: 4.0,
                         ),
                         Text(
-                          '',
+                          medicineMap['checkMsg']??'',
                           style: GSYConstant.textStyle(color: '#F39E2B'),
                         ),
                       ],
@@ -205,11 +205,18 @@ class _RecipeDetailState extends State<RecipeDetail> {
                               color: '#333333',
                             ),
                           ),
-                          Text(
-                            '',
-                            style: GSYConstant.textStyle(
-                                color: '#06B48D', fontSize: 13.0),
+                          medicineMap['pharmacistSign'] != null
+                              ? Transform.rotate(
+                            angle: 270.17,
+                            child: Image.memory(
+                              const Base64Decoder().convert(
+                                  medicineMap['pharmacistSign']),
+                              scale: 1,
+                              width: 54.0,
+                              height: 24.0,
+                            ),
                           )
+                              : Container()
                         ]),
                         Row(children: <Widget>[
                           Text(
@@ -277,12 +284,13 @@ class _RecipeDetailState extends State<RecipeDetail> {
                                                 ? 'timeout.svg'
                                                 : 'cancel.svg'),
                           ]),
+                      const SizedBox(height: 12.0,),
                       Wrap(
                         runSpacing:10.0,
                           direction: Axis.horizontal,
                           children: <Widget>[
                             Container(
-                              alignment:Alignment.center,
+                              padding: EdgeInsets.only(left:ScreenUtil().setWidth(16.0)),
                               width: MediaQuery.of(context).size.width/3,
                               // padding:const EdgeInsets.only(left: 16.0),
                               child:Row(
@@ -377,6 +385,7 @@ class _RecipeDetailState extends State<RecipeDetail> {
                             )),
                           ],
                         ),
+                      const SizedBox(height: 10.0,),
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 16.0),
                         decoration: BoxDecoration(
@@ -492,9 +501,8 @@ class _RecipeDetailState extends State<RecipeDetail> {
                       color: ColorsUtil.hexStringColor('#cccccc', alpha: 0.3),
                     ),
                     Column(
-                      children: (medicineMap['herbalMedicineVOS'] ??
-                              medicineMap['medicineVOS'] ??
-                              [])
+                      children:
+                      (medicineMap['herbalMedicineVOS']==null||medicineMap['herbalMedicineVOS'].isEmpty?medicineMap['medicineVOS']:medicineMap['herbalMedicineVOS'])
                           .map<Widget>(
                             (item) => Container(
                               decoration:
@@ -536,7 +544,7 @@ class _RecipeDetailState extends State<RecipeDetail> {
                                             fontSize: 13.0, color: '#666666'),
                                       ),
                                       Text(
-                                        '${medicineMap['herbalMedicineVOS'] != null ? medicineMap['useType_dictText'] : item['useType_dictText']}：${medicineMap['herbalMedicineVOS'] != null ? medicineMap['freq_dictText'] : item['freq_dictText']}',
+                                        '${medicineMap['herbalMedicineVOS'] != null|| medicineMap['herbalMedicineVOS'].isNotEmpty ? medicineMap['useType_dictText'] : item['useType_dictText']}：${medicineMap['herbalMedicineVOS'] != null ? medicineMap['freq_dictText'] : item['freq_dictText']}',
                                         style: GSYConstant.textStyle(
                                             fontSize: 13.0, color: '#666666'),
                                       )

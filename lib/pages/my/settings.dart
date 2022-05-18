@@ -50,7 +50,7 @@ class _SettingsState extends State<Settings> {
                         onTap: (){
                           switch(index){
                             case 0:
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=>VerifyOldPwd()));
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>const VerifyOldPwd()));
                               break;
                             case 1:
                               break;
