@@ -139,20 +139,15 @@ class _MakePrescriptionState extends State<MakePrescription> {
       Fluttertoast.showToast(msg: "请选择药房", gravity: ToastGravity.CENTER);
       return;
     }
-
-    if (checkDataList.isEmpty || drugList.isEmpty) {
-      Fluttertoast.showToast(msg: "请选择诊断或药品", gravity: ToastGravity.CENTER);
-      return;
-    }
     if (tab2Active) {
       if (chineseMedicineTypeList[0]["detail"].indexOf("请选择") != -1) {
         ToastUtil.showToast(msg: '请输入贴数');
         return;
       }
-      // if (chineseMedicineTypeList[1]["detail"].indexOf("请选择") != -1) {
-      //   ToastUtil.showToast(msg: '请输入单次使用剂量');
-      //   return;
-      // }
+      if (chineseMedicineTypeList[1]["detail"].indexOf("请选择") != -1) {
+        ToastUtil.showToast(msg: '请选择单次剂量');
+        return;
+      }
       if(_radioGroup==0){
         if(chineseMedicineTypeList[1]["value"].isEmpty){
           ToastUtil.showToast(msg: '请输入数量');
@@ -164,12 +159,20 @@ class _MakePrescriptionState extends State<MakePrescription> {
           return;
         }
       }
-      if (chineseMedicineTypeList[2]["detail"].indexOf("请选择") != -1 ||
-          chineseMedicineTypeList[3]["detail"].indexOf("请选择") != -1) {
-        Fluttertoast.showToast(msg: "请选择或输入用法用量", gravity: ToastGravity.CENTER);
+      if (chineseMedicineTypeList[2]["detail"].indexOf("请选择") != -1) {
+        Fluttertoast.showToast(msg: "请选择用法用量", gravity: ToastGravity.CENTER);
+        return;
+      }
+      if( chineseMedicineTypeList[3]["detail"].indexOf("请选择") != -1){
+        ToastUtil.showToast(msg: '请选择频次');
         return;
       }
     }
+    if (checkDataList.isEmpty || drugList.isEmpty) {
+      Fluttertoast.showToast(msg: "请选择诊断或药品", gravity: ToastGravity.CENTER);
+      return;
+    }
+
 
     List diagnosisParams = []; //诊断传参数组
     for (int i = 0; i < checkDataList.length; i++) {
