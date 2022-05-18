@@ -422,7 +422,7 @@ class _AddChineseMedicineListState extends State<AddChineseMedicineList> {
                                   ),
                                   const SizedBox(height: 10.0,),
                                   Text(
-                                    '库存：' +selectedDrugList[index]["stockNum"].toString(),
+                                    '库存：${selectedDrugList[index]["stockNum"].toString().isEmpty?'0':selectedDrugList[index]["stockNum"].toString()}' ,
                                     style: GSYConstant.textStyle(
                                         color: '#888888', fontSize: 13.0),
                                   )
