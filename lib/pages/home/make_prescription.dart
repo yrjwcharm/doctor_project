@@ -153,6 +153,17 @@ class _MakePrescriptionState extends State<MakePrescription> {
       //   ToastUtil.showToast(msg: '请输入单次使用剂量');
       //   return;
       // }
+      if(_radioGroup==0){
+        if(chineseMedicineTypeList[1]["value"].isEmpty){
+          ToastUtil.showToast(msg: '请输入数量');
+          return;
+        }
+      }else {
+        if(onceDosageDesc.isEmpty){
+          ToastUtil.showToast(msg: '请输入用量描述');
+          return;
+        }
+      }
       if (chineseMedicineTypeList[2]["detail"].indexOf("请选择") != -1 ||
           chineseMedicineTypeList[3]["detail"].indexOf("请选择") != -1) {
         Fluttertoast.showToast(msg: "请选择或输入用法用量", gravity: ToastGravity.CENTER);
@@ -256,7 +267,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
       totalPrice += price;
     }
     totalPrice =
-        totalPrice * (tab1Active ? 1 : int.parse(_editingController1.text));
+        totalPrice * (tab1Active ? 1 : int.parse(chineseMedicineTypeList[0]['value']));
   }
 
   //医信签电子签名接口
@@ -974,6 +985,8 @@ class _MakePrescriptionState extends State<MakePrescription> {
                                                         onChanged: (value) {
                                                           chineseMedicineTypeList[
                                                               1]['value'] = '';
+                                                          chineseMedicineTypeList[
+                                                          1]['detail'] =value;
                                                           onceDosageDesc =
                                                               value;
                                                           setState(() {});
@@ -1177,9 +1190,9 @@ class _MakePrescriptionState extends State<MakePrescription> {
                     ),
                   ),
                 ),
-                // const SizedBox(
-                //   height: 8.0,
-                // ),
+                const SizedBox(
+                  height: 8.0,
+                ),
                 ListTile(
                   tileColor: Colors.white,
                   title: const Text('RP'),
