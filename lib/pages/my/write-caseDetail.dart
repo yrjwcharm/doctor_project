@@ -29,6 +29,7 @@ class _WriteCaseDetailState extends State<WriteCaseDetail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: ColorsUtil.bgColor,
       appBar: CustomAppBar(dataMap["name"],onBackPressed: (){
         Navigator.pop(context);

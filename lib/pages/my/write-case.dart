@@ -4,6 +4,8 @@ import 'package:doctor_project/http/http_request.dart';
 import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:doctor_project/utils/toast_util.dart';
 import 'package:doctor_project/widget/custom_app_bar.dart';
+import 'package:doctor_project/widget/custom_elevated_button.dart';
+import 'package:doctor_project/widget/safe_area_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'case_template.dart';
@@ -66,13 +68,14 @@ class _WriteCaseState extends State<WriteCase> {
     var res = await request
         .get(Api.queryCaseUrl + '?registerId=${userInfoMap["id"]}', {});
     if (res['code'] == 200) {
+      billid = res['data']['billid'];
+      list[6]["value"] = res['data']['extend8'].isEmpty ? '请输入疾病':res['data']['extend8'];
+      list[7]["value"] = res['data']['extend9'].isEmpty ? '请输入病史描述':res['data']['extend9'];
+      list[8]["value"] = res['data']['hpi'].isEmpty ? '请输入现病史':res['data']['hpi'];
+      list[9]["value"] = res['data']['pasthistory'].isEmpty ? '请输入既往史':res['data']['pasthistory'];
+      list[10]["value"] = res['data']['allergichistory'].isEmpty ? '请输入过敏史':res['data']['allergichistory'];
       setState(() {
-        billid = res['data']['billid'];
-        list[6]["value"] = res['data']['extend8'] ?? '请输入疾病';
-        list[7]["value"] = res['data']['extend9'] ?? '请输入病史描述';
-        list[8]["value"] = res['data']['hpi'] ?? '请输入现病史';
-        list[9]["value"] = res['data']['pasthistory'] ?? '请输入既往史';
-        list[10]["value"] = res['data']['allergichistory'] ?? '请输入过敏史';
+
       });
       // list[6].value =
     }
@@ -112,157 +115,142 @@ class _WriteCaseState extends State<WriteCase> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: ColorsUtil.bgColor,
-        appBar: CustomAppBar(
-          '写病历',
-          onBackPressed: () {
-            Navigator.pop(context);
-          },
-          //   isForward:true,child: Text('引入病例模板',style: GSYConstant.textStyle(color: '#06B48D'),),onForwardPressed: (){
-          //   Navigator.push(context, MaterialPageRoute(builder: (context)=> const CaseTemplate()));
-          // },
-        ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              ListView(
-                shrinkWrap: true,
-                children: list
-                    .asMap()
-                    .keys
-                    .map(
-                      (index) => GestureDetector(
-                        onTap: () {
-                          if (index == 6 ||
-                              index == 7 ||
-                              index == 8 ||
-                              index == 9 ||
-                              index == 10) {
-                            String str = list[index]['value'];
-                            //判断某个字符串中是否存在amr字符，如果存在执行
-                            if (str.contains("请输入")) {
-                              contentMap["detail"] = "";
-                            } else {
-                              contentMap["detail"] = str;
-                            }
-                            contentMap["name"] = list[index]['label'];
-
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => WriteCaseDetail(
-                                          dataMap: contentMap,
-                                        ))).then((value) {
-                              if (value.isNotEmpty) {
-                                contentMap = value;
-                                Map item = list[index];
-                                setState(() {
-                                  item["value"] = contentMap["detail"];
-                                });
+      resizeToAvoidBottomInset: false,
+      backgroundColor: ColorsUtil.bgColor,
+      appBar: CustomAppBar(
+        '写病历',
+        onBackPressed: () {
+          Navigator.pop(context);
+        },
+        //   isForward:true,child: Text('引入病例模板',style: GSYConstant.textStyle(color: '#06B48D'),),onForwardPressed: (){
+        //   Navigator.push(context, MaterialPageRoute(builder: (context)=> const CaseTemplate()));
+        // },
+      ),
+      body: Column(
+        children: <Widget>[
+          Expanded(
+              child: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                ListView(
+                  shrinkWrap: true,
+                  children: list
+                      .asMap()
+                      .keys
+                      .map(
+                        (index) => GestureDetector(
+                          onTap: () {
+                            if (index == 6 ||
+                                index == 7 ||
+                                index == 8 ||
+                                index == 9 ||
+                                index == 10) {
+                              String str = list[index]['value'];
+                              //判断某个字符串中是否存在amr字符，如果存在执行
+                              if (str.contains("请输入")) {
+                                contentMap["detail"] = "";
+                              } else {
+                                contentMap["detail"] = str;
                               }
-                            });
-                          } else if (index == 4) {}
-                        },
-                        child: Column(
-                          children: <Widget>[
-                            Container(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 16.0),
-                              height: 44.0,
-                              decoration:
-                                  const BoxDecoration(color: Colors.white),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  Text(
-                                    list[index]['label'],
-                                    style:
-                                        GSYConstant.textStyle(color: '#333333'),
-                                  ),
-                                  Row(
-                                    children: <Widget>[
-                                      SizedBox(
-                                        width: 250.0,
-                                        // height: 44.0,
-                                        child: TextField(
-                                          cursorColor:
-                                              ColorsUtil.hexStringColor(
-                                                  '#888888'),
-                                          enabled: !list[index]['disabled'],
-                                          textAlign: TextAlign.end,
-                                          // textAlignVertical: TextAlignVertical.center,
-                                          style: GSYConstant.textStyle(
-                                              color: '#888888'),
-                                          decoration: InputDecoration(
-                                              isCollapsed: true,
-                                              border: InputBorder.none,
-                                              hintStyle: GSYConstant.textStyle(
-                                                  color: '#888888'),
-                                              hintText: list[index]['value']),
+                              contentMap["name"] = list[index]['label'];
+
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => WriteCaseDetail(
+                                            dataMap: contentMap,
+                                          ))).then((value) {
+                                if (value.isNotEmpty) {
+                                  contentMap = value;
+                                  Map item = list[index];
+                                  setState(() {
+                                    item["value"] = contentMap["detail"];
+                                  });
+                                }
+                              });
+                            } else if (index == 4) {}
+                          },
+                          child: Column(
+                            children: <Widget>[
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 16.0),
+                                height: 44.0,
+                                decoration:
+                                    const BoxDecoration(color: Colors.white),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Text(
+                                      list[index]['label'],
+                                      style: GSYConstant.textStyle(
+                                          color: '#333333'),
+                                    ),
+                                    Row(
+                                      children: <Widget>[
+                                        SizedBox(
+                                          width: 250.0,
+                                          // height: 44.0,
+                                          child: TextField(
+                                            cursorColor:
+                                                ColorsUtil.hexStringColor(
+                                                    '#888888'),
+                                            enabled: !list[index]['disabled'],
+                                            textAlign: TextAlign.end,
+                                            // textAlignVertical: TextAlignVertical.center,
+                                            style: GSYConstant.textStyle(
+                                                color: '#888888'),
+                                            decoration: InputDecoration(
+                                                isCollapsed: true,
+                                                border: InputBorder.none,
+                                                hintStyle:
+                                                    GSYConstant.textStyle(
+                                                        color: '#888888'),
+                                                hintText: list[index]['value']),
+                                          ),
+                                        )
+                                        // Text(list[index]['value'],style: GSYConstant.textStyle(color: '#888888'),),
+                                        ,
+                                        SizedBox(
+                                          width:
+                                              list[index]['isArrow'] ? 8.0 : 0,
                                         ),
-                                      )
-                                      // Text(list[index]['value'],style: GSYConstant.textStyle(color: '#888888'),),
-                                      ,
-                                      SizedBox(
-                                        width: list[index]['isArrow'] ? 8.0 : 0,
-                                      ),
-                                      list[index]['isArrow']
-                                          ? Image.asset(
-                                              'assets/images/arrow_right.png')
-                                          : Container()
-                                    ],
-                                  ),
-                                ],
+                                        list[index]['isArrow']
+                                            ? Image.asset(
+                                                'assets/images/arrow_right.png')
+                                            : Container()
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                            Divider(
-                              height: 0,
-                              color: ColorsUtil.hexStringColor('#cccccc',
-                                  alpha: 0.3),
-                            )
-                          ],
+                              Divider(
+                                height: 0,
+                                color: ColorsUtil.hexStringColor('#cccccc',
+                                    alpha: 0.3),
+                              )
+                            ],
+                          ),
                         ),
-                      ),
-                    )
-                    .toList(),
-              ),
-              Container(
-                margin: const EdgeInsets.only(top: 117.0),
-                width: double.infinity,
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                height: 40.0,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      primary: ColorsUtil.primaryColor,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(25.0))),
-                  onPressed: () {
-                    loadtDataForWriteCase();
-                  },
-                  child: Text(
-                    '保存',
-                    style: GSYConstant.textStyle(fontSize: 16.0),
-                  ),
+                      )
+                      .toList(),
                 ),
-              ),
-              // Container(
-              //     margin: const EdgeInsets.only(top: 8.0),
-              //     width: double.infinity,
-              //     padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              //   height: 40.0,
-              //   child: OutlinedButton(
-              //     style:ElevatedButton.styleFrom(
-              //         side: BorderSide(width: 1.0,color: ColorsUtil.primaryColor),
-              //         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25.0))
-              //     ),
-              //     onPressed: () {
-              //
-              //     },
-              //     child: Text('另存成模板',style: GSYConstant.textStyle(fontSize: 16.0,color:'#06B48D'),),)
-              // )
-            ],
-          ),
-        ));
+              ],
+            ),
+          )),
+          SafeArea(
+              child: CustomElevatedButton(
+                margin: const EdgeInsets.only(left: 16.0,right:16.0,bottom:16.0,),
+                height: 40.0,
+                borderRadius: BorderRadius.circular(24.0),
+            onPressed: () {
+              loadtDataForWriteCase();
+            },
+            title: '保存',
+          ))
+        ],
+      ),
+    );
   }
 }
