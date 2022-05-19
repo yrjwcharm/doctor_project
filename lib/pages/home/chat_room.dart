@@ -464,12 +464,29 @@ class _ChatPageState extends State<ChatPage> {
             .then((value) {
               if(value.errorCode==0){
                 _addMessage(message);
+                saveRecord($result['data']['url'], '2', doctorMap['userId'].toString(), doctorMap['realName'],'1');
               }
         });
       }
     }
   }
+  void saveRecord(String info,String type,String userId,String userName,String roleCode) async{
+    var request = HttpRequest.getInstance();
+    Map<String,dynamic> map ={};
+    DateTime now = DateTime.now();//获取当前时间
+    String formattedDate = DateFormat('yyyy-MM-dd HH:mm:ss').format(now);//格式化日期
+    map['roomId'] = ZegoConfig.instance.roomID;
+    map['userId'] = userId;
+    map['userName'] = userName;
+    map['roleCode'] =roleCode;
+    map['info'] = info;
+    map['type'] = type;
+    map['sendTime'] =formattedDate;
+    var $res = await request.post(Api.saveChatRecordApi,map);
+    if($res.code==200){
 
+    }
+  }
   void _handleMessageTap(BuildContext context, types.Message message) async {
     if (message is types.FileMessage) {
       await OpenFile.open(message.uri);
@@ -500,6 +517,7 @@ class _ChatPageState extends State<ChatPage> {
         .then((value) {
       if(value.errorCode==0){
         _addMessage(textMessage);
+        saveRecord(textMessage.text, '1', doctorMap['userId'].toString(), doctorMap['realName'],'1');
       }else{
         ToastUtil.showToast(msg: '发送消息失败${value.errorCode}');
       }
