@@ -54,6 +54,9 @@ class HomeState extends State<Home> {
   String deptName='';
   String orgName='';
   String  protitle='';
+  String receiveNum='';
+  String waitReceiveNum='';
+  String videoRegisterNum='';
   @override
   void initState() {
     super.initState();
@@ -80,12 +83,16 @@ class HomeState extends State<Home> {
     print("getNet_doctorInfo------" + res.toString());
 
     if (res['code'] == 200) {
+      // receiveNum: 1, userId: 10017, orgId: 1, waitReceiveNum: 0, videoRegisterNum: 0
       doctorInfoMap = res['data'];
       drPhotoUrl = res['data']['photoUrl'];
       doctorName = res['data']['realName'];
-      orgName = res['data']['orgName'];
-      deptName = res['data']['deptName'];
-      protitle= res['data']['protitle_dictText'];
+      orgName = res['data']['orgName']??'';
+      deptName = res['data']['deptName']??'';
+      protitle= res['data']['protitle_dictText']??'';
+      receiveNum = res['data']['receiveNum'].toString();
+      waitReceiveNum= res['data']['waitReceiveNum'].toString();
+      videoRegisterNum=res['data']['videoRegisterNum'].toString();
       setState(() {
 
       });
@@ -643,7 +650,7 @@ class HomeState extends State<Home> {
                 children: <Widget>[
                   Expanded(child: Column(
                       children: <Widget>[
-                        Text('0',style: GSYConstant.textStyle(fontFamily:'Medium',fontSize: 15.0,color: '#333333',fontWeight: FontWeight.w500),),
+                        Text(receiveNum,style: GSYConstant.textStyle(fontFamily:'Medium',fontSize: 15.0,color: '#333333',fontWeight: FontWeight.w500),),
                         Text('今日已接诊',style: GSYConstant.textStyle(fontSize: 14.0,fontWeight: FontWeight.w400,color: '#666666'))
                       ],
                     ),
@@ -651,7 +658,7 @@ class HomeState extends State<Home> {
                   SvgUtil.svg('separator_line.svg'),
                   Expanded(child: Column(
                     children: <Widget>[
-                      Text('0',style:GSYConstant.textStyle(fontFamily:'Medium',fontSize: 15.0,color: '#333333',fontWeight: FontWeight.w500)),
+                      Text(waitReceiveNum,style:GSYConstant.textStyle(fontFamily:'Medium',fontSize: 15.0,color: '#333333',fontWeight: FontWeight.w500)),
                       Text('今日待接诊',style: GSYConstant.textStyle(fontSize: 14.0,fontWeight: FontWeight.w400,color: '#666666'))
                     ],
                   ),
@@ -659,7 +666,7 @@ class HomeState extends State<Home> {
                   SvgUtil.svg('separator_line.svg'),
                   Expanded(child: Column(
                     children: <Widget>[
-                      Text('0',style:GSYConstant.textStyle(fontFamily:'Medium',fontSize: 15.0,color: '#333333',fontWeight: FontWeight.w500)),
+                      Text(videoRegisterNum,style:GSYConstant.textStyle(fontFamily:'Medium',fontSize: 15.0,color: '#333333',fontWeight: FontWeight.w500)),
                       Text('视频预约',style: GSYConstant.textStyle(fontSize: 14.0,fontWeight: FontWeight.w400,color: '#666666'),)
                     ],
                   ),

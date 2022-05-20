@@ -4,6 +4,7 @@ import 'package:doctor_project/pages/my/my_prescription.dart';
 import 'package:doctor_project/utils/common_utils.dart';
 import 'package:doctor_project/utils/svg_util.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_chat_types/flutter_chat_types.dart';
 import '../../http/http_request.dart';
 import '../../http/api.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -34,19 +35,37 @@ class MyState extends State<My> {
   List<Widget> items = [];
   Map doctorInfoMap = {};
   String phoneStr = "";
-
+  String doctorName='';
+  String drPhotoUrl='';
+  String deptName='';
+  String orgName='';
+  String  protitle='';
+  String receiveNum='';
+  String waitReceiveNum='';
+  String videoRegisterNum='';
+  String userId='';
   //获取医生信息
   getNet_doctorInfo() async {
     SharedPreferences perfer = await SharedPreferences.getInstance();
-    phoneStr = (perfer.getString("phone") ?? "");
-
+    String phone_str = (perfer.getString("phone") ?? "");
+    phoneStr = DesensitizationUtil.desensitizationMobile(phone_str);
     HttpRequest? request = HttpRequest.getInstance();
     var res = await request.get(Api.getDoctorInfoUrl, {});
     print("getNet_doctorInfo------" + res.toString());
 
     if (res['code'] == 200) {
+      doctorInfoMap = res['data'];
+      drPhotoUrl = res['data']['photoUrl'];
+      doctorName = res['data']['realName'];
+      orgName = res['data']['orgName']??'';
+      deptName = res['data']['deptName']??'';
+      protitle= res['data']['protitle_dictText']??'';
+      receiveNum = res['data']['receiveNum'].toString();
+      waitReceiveNum= res['data']['waitReceiveNum'].toString();
+      videoRegisterNum=res['data']['videoRegisterNum'].toString();
+      userId = res['data']['userId'].toString();
       setState(() {
-        doctorInfoMap = res['data'];
+
       });
     }
   }
@@ -86,7 +105,7 @@ class MyState extends State<My> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) =>  MyPrescription(userId: doctorInfoMap['userId'].toString(),)));
+                    builder: (context) =>  MyPrescription(userId:userId,)));
           }),
       // _buildListTile(
       //     id: 5,
@@ -263,26 +282,15 @@ class MyState extends State<My> {
                   onTap: () {
                     _handleClickMe(context);
                   },
-                  child: Container(
+                  child: Visibility(visible:drPhotoUrl.isNotEmpty, child:Container(
                     height: 55.0,
                     width: 55.0,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(27.5)
                     ),
                     clipBehavior: Clip.hardEdge,
-                    child: CachedNetworkImage(
-                      // 加载网络图片过程中显示的内容 , 这里显示进度条
-                      placeholder: (context, url) =>
-                          const CircularProgressIndicator(),
-                      // 网络图片地址
-                      imageUrl: doctorInfoMap.isEmpty
-                          ? ""
-                          : doctorInfoMap["photoUrl"] ?? '',
-                      fit: BoxFit.cover,
-                      // width: 55.0,
-                      // height: 55.0,
-                    ),
-                  )),
+                    child:Image.network(drPhotoUrl,fit: BoxFit.cover,)
+                  ))),
               const SizedBox(
                 width: 15.0,
               ),
@@ -290,7 +298,7 @@ class MyState extends State<My> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    doctorInfoMap.isEmpty ? "" : doctorInfoMap["realName"]??'',
+                    doctorName,
                     style: const TextStyle(
                       fontSize: 20.0,
                       fontWeight: FontWeight.w500,
@@ -298,15 +306,15 @@ class MyState extends State<My> {
                       color: Colors.white,
                     ),
                   ),
-                  Text(
-                    phoneStr.isNotEmpty?DesensitizationUtil.desensitizationMobile(phoneStr):'',
+                  Visibility(visible: phoneStr.isNotEmpty,child: Text(
+                    phoneStr,
                     style: const TextStyle(
                       fontSize: 14.0,
                       fontWeight: FontWeight.w400,
                       fontFamily: 'PingFangSC-Regular-Medium, PingFang SC',
                       color: Colors.white,
                     ),
-                  )
+                  ))
                 ],
               )
             ],
@@ -361,7 +369,7 @@ class MyState extends State<My> {
                 width: 9.0,
               ),
               Text(
-                '',
+                receiveNum,
                 style: TextStyle(
                     fontSize: 18.0,
                     fontWeight: FontWeight.w500,
