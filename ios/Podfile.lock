@@ -49,10 +49,10 @@ PODS:
     - Mantle
     - SDWebImage
     - SDWebImageWebPCoder
-  - flutter_sound (9.1.3):
+  - flutter_sound (9.2.12):
     - Flutter
-    - flutter_sound_core (= 9.1.3)
-  - flutter_sound_core (9.1.3)
+    - flutter_sound_core (= 9.2.12)
+  - flutter_sound_core (9.2.12)
   - fluttertoast (0.0.2):
     - Flutter
     - Toast
@@ -87,7 +87,7 @@ PODS:
     - Flutter
   - path_provider_ios (0.0.1):
     - Flutter
-  - "permission_handler (5.1.0+2)":
+  - permission_handler_apple (9.0.4):
     - Flutter
   - photo_manager (2.0.0):
     - Flutter
@@ -121,12 +121,12 @@ PODS:
     - libwebp
   - webview_flutter_wkwebview (0.0.1):
     - Flutter
-  - zego_express_engine (2.17.1):
+  - zego_express_engine (2.18.1):
     - Flutter
-    - ZegoExpressEngine (= 2.17.1)
-  - ZegoExpressEngine (2.17.1):
-    - ZegoExpressEngine/Video (= 2.17.1)
-  - ZegoExpressEngine/Video (2.17.1)
+    - ZegoExpressEngine (= 2.18.1)
+  - ZegoExpressEngine (2.18.1):
+    - ZegoExpressEngine/Video (= 2.18.1)
+  - ZegoExpressEngine/Video (2.18.1)
 
 DEPENDENCIES:
   - audioplayers (from `.symlinks/plugins/audioplayers/ios`)
@@ -145,7 +145,7 @@ DEPENDENCIES:
   - open_file (from `.symlinks/plugins/open_file/ios`)
   - package_info (from `.symlinks/plugins/package_info/ios`)
   - path_provider_ios (from `.symlinks/plugins/path_provider_ios/ios`)
-  - permission_handler (from `.symlinks/plugins/permission_handler/ios`)
+  - permission_handler_apple (from `.symlinks/plugins/permission_handler_apple/ios`)
   - photo_manager (from `.symlinks/plugins/photo_manager/ios`)
   - record (from `.symlinks/plugins/record/ios`)
   - SDWebImage (~> 5.12.2)
@@ -161,7 +161,7 @@ DEPENDENCIES:
   - zego_express_engine (from `.symlinks/plugins/zego_express_engine/ios`)
 
 SPEC REPOS:
-  trunk:
+  https://github.com/CocoaPods/Specs.git:
     - DKImagePickerController
     - DKPhotoGallery
     - FLAnimatedImage
@@ -210,8 +210,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/package_info/ios"
   path_provider_ios:
     :path: ".symlinks/plugins/path_provider_ios/ios"
-  permission_handler:
-    :path: ".symlinks/plugins/permission_handler/ios"
+  permission_handler_apple:
+    :path: ".symlinks/plugins/permission_handler_apple/ios"
   photo_manager:
     :path: ".symlinks/plugins/photo_manager/ios"
   record:
@@ -244,8 +244,8 @@ SPEC CHECKSUMS:
   FLAnimatedImage: 8f3e854ebf9680b71f0b6e700939687fc4d82b4b
   Flutter: 50d75fe2f02b26cc09d224853bb45737f8b3214a
   flutter_image_compress: fd2b476345226e1a10ea352fa306af95704642c1
-  flutter_sound: a922ba3128664bba68538fb21e6e5c3d93279a1a
-  flutter_sound_core: 144499190034026b79225b26f5dcd0094e4e55e3
+  flutter_sound: 58d5e56135ff121717463bfd0b469878365b7cf3
+  flutter_sound_core: bbc8900fedc608a8d79b6f47a4caef8d986f410d
   fluttertoast: 16fbe6039d06a763f3533670197d01fc73459037
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   image_picker: 541dcbb3b9cf32d87eacbd957845d8651d6c62c3
@@ -258,10 +258,10 @@ SPEC CHECKSUMS:
   open_file: 02eb5cb6b21264bd3a696876f5afbfb7ca4f4b7d
   package_info: 873975fc26034f0b863a300ad47e7f1ac6c7ec62
   path_provider_ios: 14f3d2fd28c4fdb42f44e0f751d12861c43cee02
-  permission_handler: ccb20a9fad0ee9b1314a52b70b76b473c5f8dab0
+  permission_handler_apple: 44366e37eaf29454a1e7b1b7d736c2cceaeb17ce
   photo_manager: 4f6810b7dfc4feb03b461ac1a70dacf91fba7604
   Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
-  record: 7ee2393532f8553bbb09fa19e95478323b7c0a99
+  record: cae05d8dd3cdb1dea3511b20e5a5811a1ae00d0d
   SDWebImage: 0905f1b7760fc8ac4198cae0036600d67478751e
   SDWebImageWebPCoder: f93010f3f6c031e2f8fb3081ca4ee6966c539815
   share: 0b2c3e82132f5888bccca3351c504d0003b3b410
@@ -275,9 +275,9 @@ SPEC CHECKSUMS:
   video_player_avfoundation: e489aac24ef5cf7af82702979ed16f2a5ef84cff
   video_thumbnail: c4e2a3c539e247d4de13cd545344fd2d26ffafd1
   webview_flutter_wkwebview: 005fbd90c888a42c5690919a1527ecc6649e1162
-  zego_express_engine: ddd3fdbe634f0e523884ff690edd1c16fed5aed9
-  ZegoExpressEngine: 17d6eea8371143deaf544bba0952179ce9c0ad97
+  zego_express_engine: c7988a2f4789f14b991dc8ab1741c8193575a05f
+  ZegoExpressEngine: 55dd43c5b4c088f68fd159a44588ccd488db70e5
 
-PODFILE CHECKSUM: 2b26ba1e8cdf71dd596bee082c9a4b65e505b319
+PODFILE CHECKSUM: 704eed25bccdbd67690a091b668c7465c4809b36
 
 COCOAPODS: 1.11.3
