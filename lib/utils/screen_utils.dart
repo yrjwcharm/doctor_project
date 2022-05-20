@@ -13,8 +13,8 @@ import 'dart:ui' as ui;
  */
 
 ///默认设计稿尺寸（单位 dp or pt）
-double _designW = 360.0;
-double _designH = 640.0;
+double _designW = 375.0;
+double _designH = 812.0;
 double _designD = 3.0;
 
 /**
@@ -26,7 +26,7 @@ double _designD = 3.0;
 
 /// 配置设计稿尺寸 屏幕 宽，高，密度。
 /// Configuration design draft size  screen width, height, density.
-void setDesignWHD(double w, double h, {double density = 3.0}) {
+void setDesignWHD(double w, double h, {double density = 2.0}) {
   _designW = w;
   _designH = h;
   _designD = density;

@@ -14,6 +14,7 @@ import 'package:doctor_project/widget/custom_outline_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../common/style/gsy_style.dart';
@@ -48,6 +49,11 @@ class HomeState extends State<Home> {
   int waitReceive = 0;
   Map doctorInfoMap = new Map();
   StreamSubscription? stream;
+  String doctorName='';
+  String drPhotoUrl='';
+  String deptName='';
+  String orgName='';
+  String  protitle='';
   @override
   void initState() {
     super.initState();
@@ -62,8 +68,8 @@ class HomeState extends State<Home> {
       }
     });
     stream = EventBusUtil.getInstance().on<Map>().listen((event) {
-       getData();
-       getCount();
+      getData();
+      getCount();
     });
   }
 
@@ -74,8 +80,14 @@ class HomeState extends State<Home> {
     print("getNet_doctorInfo------" + res.toString());
 
     if (res['code'] == 200) {
+      doctorInfoMap = res['data'];
+      drPhotoUrl = res['data']['photoUrl'];
+      doctorName = res['data']['realName'];
+      orgName = res['data']['orgName'];
+      deptName = res['data']['deptName'];
+      protitle= res['data']['protitle_dictText'];
       setState(() {
-        doctorInfoMap = res['data'];
+
       });
     }
   }
@@ -164,7 +176,9 @@ class HomeState extends State<Home> {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => OrderDetail(map: list[index],docName:doctorInfoMap['realName']??'')));
+                  builder: (context) => OrderDetail(
+                      map: list[index],
+                      docName: doctorInfoMap['realName'] ?? '')));
         },
         child: Container(
             margin: const EdgeInsets.fromLTRB(16.0, 0, 16.0, 10.0),
@@ -315,7 +329,8 @@ class HomeState extends State<Home> {
                                                   Expanded(
                                                       child: GestureDetector(
                                                           onTap: () {
-                                                            Navigator.pop(context);
+                                                            Navigator.pop(
+                                                                context);
                                                           },
                                                           child: Container(
                                                             height: 40.0,
@@ -365,7 +380,10 @@ class HomeState extends State<Home> {
                                                         getCount();
                                                         getNet_doctorInfo();
                                                         Navigator.pop(context);
-
+                                                      } else {
+                                                        ToastUtil.showToast(
+                                                            msg: res['msg']);
+                                                        Navigator.pop(context);
                                                       }
                                                     },
                                                     child: Container(
@@ -450,12 +468,12 @@ class HomeState extends State<Home> {
                                         MaterialPageRoute(
                                             builder: (context) => VideoTopic(
                                                   regId: item['id'],
-                                                docName:doctorInfoMap["realName"]??'',
-                                                userInfoMap: item,
-                                            ))).then((value) => {
-                                          getData(),
-                                          getCount()
-                                        });
+                                                  docName: doctorInfoMap[
+                                                          "realName"] ??
+                                                      '',
+                                                  userInfoMap: item,
+                                                ))).then(
+                                        (value) => {getData(), getCount()});
                                   } else {
                                     // LocalStorage.save('userMap', item);
                                     Navigator.push(
@@ -464,18 +482,15 @@ class HomeState extends State<Home> {
                                             builder: (context) => ChatRoom(
                                                   userInfoMap: item,
                                                 ))).then(
-                                        (value) => {
-                                          getData(),
-                                          getCount()
-                                        });
+                                        (value) => {getData(), getCount()});
                                   }
-                                }else{
+                                } else {
                                   ToastUtil.showToast(msg: res2['msg']);
                                 }
-                              }else{
+                              } else {
                                 ToastUtil.showToast(msg: res1['msg']);
                               }
-                            }else{
+                            } else {
                               ToastUtil.showToast(msg: res['msg']);
                             }
                           },
@@ -494,6 +509,8 @@ class HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    print('3333,${MediaQuery.of(context).padding.top}');
+
     Widget buildColumn(String title, String subTitle) {
       return Expanded(
         child: Column(children: [
@@ -548,142 +565,110 @@ class HomeState extends State<Home> {
       ));
     }
 
-    Widget buildBg = Container(
-      height: 183.0,
-      decoration: const BoxDecoration(
-        image: DecorationImage(
-            fit: BoxFit.cover,
-            image: AssetImage('assets/images/home/background.png')),
-      ),
-      child: Container(
-        height: 126.0,
-        padding: const EdgeInsets.all(16.0),
-        margin: EdgeInsets.only(
-            top: PlatformUtils.isIPhoneX(context) ? 66 : 42,
-            right: 16.0,
-            bottom: 0,
-            left: 16.0),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(5.0),
+    Widget buildBg = Stack(
+      clipBehavior: Clip.none,
+      children: [
+        Container(
+          height: ScreenUtil().setHeight(184),
+          width: double.infinity,
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              fit: BoxFit.cover,
+              image: AssetImage(
+                'assets/images/home/rect.png',
+              ),
+            ),
+          ),
         ),
-        transform: Matrix4.translationValues(0, 9, 0),
-        child: Column(
-          children: [
-            Expanded(
-              child: Row(children: <Widget>[
-                Container(
-                  margin: const EdgeInsets.only(right: 16),
-                  decoration:
-                      BoxDecoration(borderRadius: BorderRadius.circular(27.5)),
-                  width: 43,
-                  height: 43,
-                  clipBehavior: Clip.hardEdge,
-                  child: CachedNetworkImage(
-                    // 加载网络图片过程中显示的内容 , 这里显示进度条
-                    placeholder: (context, url) =>
-                        const CircularProgressIndicator(),
-                    // 网络图片地址
-                    imageUrl: doctorInfoMap.isEmpty
-                        ? ""
-                        : doctorInfoMap["photoUrl"] ?? '',
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                Expanded(
-                  child: Column(
+        Positioned(
+          top:MediaQuery.of(context).padding.top+21,
+          left:16.0,
+          right:16.0,
+          child:
+        Container(
+          width:MediaQuery.of(context).size.width,// 获取屏幕尺寸,
+          padding:const EdgeInsets.only(top:12.0,bottom:13.0,left:16.0,right:16.0),
+          // margin:const EdgeInsets.symmetric(horizontal: 16.0),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(5.0),
+          ),
+              child: Column(
+                children: <Widget>[
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Expanded(
-                        child: Row(
-                          children: <Widget>[
-                            Text(
-                                doctorInfoMap.isEmpty
-                                    ? ""
-                                    : doctorInfoMap["realName"]??'',
-                                style: TextStyle(
-                                    fontFamily: 'Medium',
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w500,
-                                    color:
-                                        ColorsUtil.hexStringColor('#333333'))),
-                            const SizedBox(width: 7),
-                            Container(
-                                padding: const EdgeInsets.only(
-                                    left: 7.0,
-                                    right: 8.0,
-                                    top: 1.0,
-                                    bottom: 1.0),
-                                decoration: BoxDecoration(
-                                    border: Border.all(
-                                        width: 1,
-                                        color: ColorsUtil.hexStringColor(
-                                            '#06B48D')),
-                                    borderRadius: BorderRadius.circular(9.0)),
-                                child: Text(
-                                    doctorInfoMap.isEmpty
-                                        ? ""
-                                        : doctorInfoMap["protitle_dictText"]??'',
-                                    style: TextStyle(
-                                        color: ColorsUtil.hexStringColor(
-                                            '#06B48D'),
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.w400,
-                                        fontFamily:
-                                            'PingFangSC-Regular, PingFang SC')))
+                      Expanded(child: Row(
+                        children: <Widget>[
+                             Container(
+                               height:43.0,
+                               width:43.0,
+                               margin: const EdgeInsets.only(right: 16.0),
+                               clipBehavior: Clip.hardEdge,
+                               decoration: BoxDecoration(
+                                 borderRadius: BorderRadius.circular(21.5)
+                               ),
+                               child:Visibility(visible: drPhotoUrl.isNotEmpty,child:Image.network(drPhotoUrl,fit: BoxFit.cover,))
+                             ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Row(
+                                  children: <Widget>[
+                                    Text(doctorName,style: GSYConstant.textStyle(fontSize: 18.0,color:'#333333',fontWeight:FontWeight.w500,fontFamily: 'Medium'),),
+                                    const SizedBox(width: 7.0,),
+                                    Visibility(
+                                      visible:protitle.isNotEmpty ,
+                                      child:CustomOutlineButton(height: 18.0,width: 66.0,textStyle: GSYConstant.textStyle(fontSize: 13.0,color: '#06B48D'), title: protitle, onPressed: (){}, borderRadius: BorderRadius.circular(9.0), borderColor:ColorsUtil.hexStringColor('#06B48D'))
+
+                                    )
+                                  ],
+                                ),
+                                Row(
+                                  children: <Widget>[
+                                    Text(orgName,style: GSYConstant.textStyle(fontSize: 13.0,color: '#999999',fontWeight: FontWeight.w400),),
+                                    Text(deptName,style: GSYConstant.textStyle(fontSize: 13.0,color: '#999999',fontWeight: FontWeight.w400),),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ],
                         ),
                       ),
-                      Container(
-                        margin: const EdgeInsets.only(top: 9),
-                        child: Row(children: <Widget>[
-                          Text(doctorInfoMap.isEmpty
-                              ? ""
-                              : doctorInfoMap["orgName"]??''),
-                          SizedBox(
-                            width: 8,
-                          ),
-                          Text(doctorInfoMap.isEmpty
-                              ? ""
-                              : doctorInfoMap["deptName"]??'')
-                        ]),
-                      )
+                      SvgUtil.svg('scanner.svg')
                     ],
                   ),
-                )
-              ]),
-            ),
-            const SizedBox(height: 12),
-            Row(
-              // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                buildColumn(doctorInfoMap['receiveNum'].toString(), '今日已接诊'),
-                Container(
-                  width: 1,
-                  height: 20,
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                          color: ColorsUtil.hexStringColor('#cccccc'),
-                          width: 1,
-                          style: BorderStyle.solid)),
-                ),
-                buildColumn(
-                    doctorInfoMap['waitReceiveNum'].toString(), '今日待接诊'),
-                Container(
-                  width: 1,
-                  height: 20,
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                          color: ColorsUtil.hexStringColor('#cccccc'),
-                          width: 1,
-                          style: BorderStyle.solid)),
-                ),
-                buildColumn(
-                    doctorInfoMap['videoRegisterNum'].toString(), '视频预约'),
-              ],
-            ),
-          ],
-        ),
-      ),
+                  const SizedBox(height: 12.0,),
+                  Row(
+                children: <Widget>[
+                  Expanded(child: Column(
+                      children: <Widget>[
+                        Text('0',style: GSYConstant.textStyle(fontFamily:'Medium',fontSize: 15.0,color: '#333333',fontWeight: FontWeight.w500),),
+                        Text('今日已接诊',style: GSYConstant.textStyle(fontSize: 14.0,fontWeight: FontWeight.w400,color: '#666666'))
+                      ],
+                    ),
+                  ),
+                  SvgUtil.svg('separator_line.svg'),
+                  Expanded(child: Column(
+                    children: <Widget>[
+                      Text('0',style:GSYConstant.textStyle(fontFamily:'Medium',fontSize: 15.0,color: '#333333',fontWeight: FontWeight.w500)),
+                      Text('今日待接诊',style: GSYConstant.textStyle(fontSize: 14.0,fontWeight: FontWeight.w400,color: '#666666'))
+                    ],
+                  ),
+                  ),
+                  SvgUtil.svg('separator_line.svg'),
+                  Expanded(child: Column(
+                    children: <Widget>[
+                      Text('0',style:GSYConstant.textStyle(fontFamily:'Medium',fontSize: 15.0,color: '#333333',fontWeight: FontWeight.w500)),
+                      Text('视频预约',style: GSYConstant.textStyle(fontSize: 14.0,fontWeight: FontWeight.w400,color: '#666666'),)
+                    ],
+                  ),
+                  )
+                ],
+             ),
+            ],
+              ),),)
+      ],
     );
     void _goToHealthHutModular() async {
       const platform = MethodChannel("flutterPrimordialBrige");
@@ -707,25 +692,24 @@ class HomeState extends State<Home> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) =>  PatientConsult(type: '1',docName:doctorInfoMap['realName']??'',)));
+                    builder: (context) => PatientConsult(
+                          type: '1',
+                          docName: doctorInfoMap['realName'] ?? '',
+                        )));
           }),
           buildButtonColumn('assets/images/home/picture1.png', '图文问诊', () {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) =>  PatientConsult(
-                          type: '0',
-                        docName:doctorInfoMap['realName']??''
-                        )));
+                    builder: (context) => PatientConsult(
+                        type: '0', docName: doctorInfoMap['realName'] ?? '')));
           }),
           buildButtonColumn('assets/images/home/video1.png', '视频问诊', () {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) =>  PatientConsult(
-                          type: '2',
-                        docName:doctorInfoMap['realName']??''
-                        )));
+                    builder: (context) => PatientConsult(
+                        type: '2', docName: doctorInfoMap['realName'] ?? '')));
           }),
         ],
       ),
