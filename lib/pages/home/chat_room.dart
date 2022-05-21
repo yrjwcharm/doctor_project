@@ -465,6 +465,8 @@ class _ChatPageState extends State<ChatPage> {
               if(value.errorCode==0){
                 _addMessage(message);
                 saveRecord($result['data']['url'], '2', doctorMap['userId'].toString(), doctorMap['realName'],'1');
+              }else{
+                ToastUtil.showToast(msg: '发送消息失败${value.errorCode},请重新进入房间');
               }
         });
       }
