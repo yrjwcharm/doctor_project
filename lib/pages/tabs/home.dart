@@ -49,14 +49,15 @@ class HomeState extends State<Home> {
   int waitReceive = 0;
   Map doctorInfoMap = new Map();
   StreamSubscription? stream;
-  String doctorName='';
-  String drPhotoUrl='';
-  String deptName='';
-  String orgName='';
-  String  protitle='';
-  String receiveNum='';
-  String waitReceiveNum='';
-  String videoRegisterNum='';
+  String doctorName = '';
+  String drPhotoUrl = '';
+  String deptName = '';
+  String orgName = '';
+  String protitle = '';
+  String receiveNum = '';
+  String waitReceiveNum = '';
+  String videoRegisterNum = '';
+
   @override
   void initState() {
     super.initState();
@@ -87,15 +88,13 @@ class HomeState extends State<Home> {
       doctorInfoMap = res['data'];
       drPhotoUrl = res['data']['photoUrl'];
       doctorName = res['data']['realName'];
-      orgName = res['data']['orgName']??'';
-      deptName = res['data']['deptName']??'';
-      protitle= res['data']['protitle_dictText']??'';
+      orgName = res['data']['orgName'] ?? '';
+      deptName = res['data']['deptName'] ?? '';
+      protitle = res['data']['protitle_dictText'] ?? '';
       receiveNum = res['data']['receiveNum'].toString();
-      waitReceiveNum= res['data']['waitReceiveNum'].toString();
-      videoRegisterNum=res['data']['videoRegisterNum'].toString();
-      setState(() {
-
-      });
+      waitReceiveNum = res['data']['waitReceiveNum'].toString();
+      videoRegisterNum = res['data']['videoRegisterNum'].toString();
+      setState(() {});
     }
   }
 
@@ -383,9 +382,13 @@ class HomeState extends State<Home> {
                                                               Api.finishTopicApi,
                                                               map);
                                                       if (res['code'] == 200) {
+                                                        _page = 1;
+                                                        list = [];
+                                                        setState(() {});
                                                         getData();
                                                         getCount();
                                                         getNet_doctorInfo();
+
                                                         Navigator.pop(context);
                                                       } else {
                                                         ToastUtil.showToast(
@@ -479,8 +482,13 @@ class HomeState extends State<Home> {
                                                           "realName"] ??
                                                       '',
                                                   userInfoMap: item,
-                                                ))).then(
-                                        (value) => {getData(), getCount()});
+                                                ))).then((value) => {
+                                          _page = 1,
+                                          list = [],
+                                          setState(() {}),
+                                          getData(),
+                                          getCount()
+                                        });
                                   } else {
                                     // LocalStorage.save('userMap', item);
                                     Navigator.push(
@@ -488,8 +496,13 @@ class HomeState extends State<Home> {
                                         MaterialPageRoute(
                                             builder: (context) => ChatRoom(
                                                   userInfoMap: item,
-                                                ))).then(
-                                        (value) => {getData(), getCount()});
+                                                ))).then((value) => {
+                                          _page = 1,
+                                          list = [],
+                                          setState(() {}),
+                                          getData(),
+                                          getCount()
+                                        });
                                   }
                                 } else {
                                   ToastUtil.showToast(msg: res2['msg']);
@@ -588,93 +601,165 @@ class HomeState extends State<Home> {
           ),
         ),
         Positioned(
-          top:MediaQuery.of(context).padding.top+21,
-          left:16.0,
-          right:16.0,
-          child:
-        Container(
-          width:MediaQuery.of(context).size.width,// 获取屏幕尺寸,
-          padding:const EdgeInsets.only(top:12.0,bottom:13.0,left:16.0,right:16.0),
-          // margin:const EdgeInsets.symmetric(horizontal: 16.0),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(5.0),
-          ),
-              child: Column(
-                children: <Widget>[
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Expanded(child: Row(
+          top: MediaQuery.of(context).padding.top + 21,
+          left: 16.0,
+          right: 16.0,
+          child: Container(
+            width: MediaQuery.of(context).size.width, // 获取屏幕尺寸,
+            padding: const EdgeInsets.only(
+                top: 12.0, bottom: 13.0, left: 16.0, right: 16.0),
+            // margin:const EdgeInsets.symmetric(horizontal: 16.0),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(5.0),
+            ),
+            child: Column(
+              children: <Widget>[
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Expanded(
+                      child: Row(
                         children: <Widget>[
-                             Container(
-                               height:43.0,
-                               width:43.0,
-                               margin: const EdgeInsets.only(right: 16.0),
-                               clipBehavior: Clip.hardEdge,
-                               decoration: BoxDecoration(
-                                 borderRadius: BorderRadius.circular(21.5)
-                               ),
-                               child:Visibility(visible: drPhotoUrl.isNotEmpty,child:Image.network(drPhotoUrl,fit: BoxFit.cover,))
-                             ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Row(
-                                  children: <Widget>[
-                                    Text(doctorName,style: GSYConstant.textStyle(fontSize: 18.0,color:'#333333',fontWeight:FontWeight.w500,fontFamily: 'Medium'),),
-                                    const SizedBox(width: 7.0,),
-                                    Visibility(
-                                      visible:protitle.isNotEmpty ,
-                                      child:CustomOutlineButton(height: 18.0,width: 66.0,textStyle: GSYConstant.textStyle(fontSize: 13.0,color: '#06B48D'), title: protitle, onPressed: (){}, borderRadius: BorderRadius.circular(9.0), borderColor:ColorsUtil.hexStringColor('#06B48D'))
-
-                                    )
-                                  ],
-                                ),
-                                Row(
-                                  children: <Widget>[
-                                    Text(orgName,style: GSYConstant.textStyle(fontSize: 13.0,color: '#999999',fontWeight: FontWeight.w400),),
-                                    Text(deptName,style: GSYConstant.textStyle(fontSize: 13.0,color: '#999999',fontWeight: FontWeight.w400),),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
+                          Container(
+                              height: 43.0,
+                              width: 43.0,
+                              margin: const EdgeInsets.only(right: 16.0),
+                              clipBehavior: Clip.hardEdge,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(21.5)),
+                              child: Visibility(
+                                  visible: drPhotoUrl.isNotEmpty,
+                                  child: Image.network(
+                                    drPhotoUrl,
+                                    fit: BoxFit.cover,
+                                  ))),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Row(
+                                children: <Widget>[
+                                  Text(
+                                    doctorName,
+                                    style: GSYConstant.textStyle(
+                                        fontSize: 18.0,
+                                        color: '#333333',
+                                        fontWeight: FontWeight.w500,
+                                        fontFamily: 'Medium'),
+                                  ),
+                                  const SizedBox(
+                                    width: 7.0,
+                                  ),
+                                  Visibility(
+                                      visible: protitle.isNotEmpty,
+                                      child: CustomOutlineButton(
+                                          height: 18.0,
+                                          width: 66.0,
+                                          textStyle: GSYConstant.textStyle(
+                                              fontSize: 13.0, color: '#06B48D'),
+                                          title: protitle,
+                                          onPressed: () {},
+                                          borderRadius:
+                                              BorderRadius.circular(9.0),
+                                          borderColor:
+                                              ColorsUtil.hexStringColor(
+                                                  '#06B48D')))
+                                ],
+                              ),
+                              Row(
+                                children: <Widget>[
+                                  Text(
+                                    orgName,
+                                    style: GSYConstant.textStyle(
+                                        fontSize: 13.0,
+                                        color: '#999999',
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                  Text(
+                                    deptName,
+                                    style: GSYConstant.textStyle(
+                                        fontSize: 13.0,
+                                        color: '#999999',
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
-                      SvgUtil.svg('scanner.svg')
-                    ],
-                  ),
-                  const SizedBox(height: 12.0,),
-                  Row(
-                children: <Widget>[
-                  Expanded(child: Column(
-                      children: <Widget>[
-                        Text(receiveNum,style: GSYConstant.textStyle(fontFamily:'Medium',fontSize: 15.0,color: '#333333',fontWeight: FontWeight.w500),),
-                        Text('今日已接诊',style: GSYConstant.textStyle(fontSize: 14.0,fontWeight: FontWeight.w400,color: '#666666'))
-                      ],
                     ),
-                  ),
-                  SvgUtil.svg('separator_line.svg'),
-                  Expanded(child: Column(
-                    children: <Widget>[
-                      Text(waitReceiveNum,style:GSYConstant.textStyle(fontFamily:'Medium',fontSize: 15.0,color: '#333333',fontWeight: FontWeight.w500)),
-                      Text('今日待接诊',style: GSYConstant.textStyle(fontSize: 14.0,fontWeight: FontWeight.w400,color: '#666666'))
-                    ],
-                  ),
-                  ),
-                  SvgUtil.svg('separator_line.svg'),
-                  Expanded(child: Column(
-                    children: <Widget>[
-                      Text(videoRegisterNum,style:GSYConstant.textStyle(fontFamily:'Medium',fontSize: 15.0,color: '#333333',fontWeight: FontWeight.w500)),
-                      Text('视频预约',style: GSYConstant.textStyle(fontSize: 14.0,fontWeight: FontWeight.w400,color: '#666666'),)
-                    ],
-                  ),
-                  )
-                ],
-             ),
-            ],
-              ),),)
+                    SvgUtil.svg('scanner.svg')
+                  ],
+                ),
+                const SizedBox(
+                  height: 12.0,
+                ),
+                Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: Column(
+                        children: <Widget>[
+                          Text(
+                            receiveNum,
+                            style: GSYConstant.textStyle(
+                                fontFamily: 'Medium',
+                                fontSize: 15.0,
+                                color: '#333333',
+                                fontWeight: FontWeight.w500),
+                          ),
+                          Text('今日已接诊',
+                              style: GSYConstant.textStyle(
+                                  fontSize: 14.0,
+                                  fontWeight: FontWeight.w400,
+                                  color: '#666666'))
+                        ],
+                      ),
+                    ),
+                    SvgUtil.svg('separator_line.svg'),
+                    Expanded(
+                      child: Column(
+                        children: <Widget>[
+                          Text(waitReceiveNum,
+                              style: GSYConstant.textStyle(
+                                  fontFamily: 'Medium',
+                                  fontSize: 15.0,
+                                  color: '#333333',
+                                  fontWeight: FontWeight.w500)),
+                          Text('今日待接诊',
+                              style: GSYConstant.textStyle(
+                                  fontSize: 14.0,
+                                  fontWeight: FontWeight.w400,
+                                  color: '#666666'))
+                        ],
+                      ),
+                    ),
+                    SvgUtil.svg('separator_line.svg'),
+                    Expanded(
+                      child: Column(
+                        children: <Widget>[
+                          Text(videoRegisterNum,
+                              style: GSYConstant.textStyle(
+                                  fontFamily: 'Medium',
+                                  fontSize: 15.0,
+                                  color: '#333333',
+                                  fontWeight: FontWeight.w500)),
+                          Text(
+                            '视频预约',
+                            style: GSYConstant.textStyle(
+                                fontSize: 14.0,
+                                fontWeight: FontWeight.w400,
+                                color: '#666666'),
+                          )
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ],
+            ),
+          ),
+        )
       ],
     );
     void _goToHealthHutModular() async {
