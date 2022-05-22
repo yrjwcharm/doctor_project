@@ -39,20 +39,22 @@ class SafeAreaButton extends StatelessWidget {
     //     child:Text(text,style:GSYConstant.textStyle(fontSize: 16.0),),
     //   ),
     // );
-    return Container(
-        margin: margin,
-        height: height,
-        width: width,
-        child: ElevatedButton(
-            onPressed: onPressed,
-            style: ElevatedButton.styleFrom(
-                primary: ColorsUtil.hexStringColor(backgroundColor),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(radius),
-                )),
-            child: Text(
-              text,
-              style: GSYConstant.textStyle(fontSize: 16.0, color: textColor),
-            )));
+    return SafeArea(
+        child: Container(
+            margin: margin,
+            height: height,
+            width: width,
+            child: ElevatedButton(
+                onPressed: onPressed,
+                style: ElevatedButton.styleFrom(
+                    primary: ColorsUtil.hexStringColor(backgroundColor),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(radius),
+                    )),
+                child: Text(
+                  text,
+                  style:
+                      GSYConstant.textStyle(fontSize: 16.0, color: textColor),
+                ))));
   }
 }
