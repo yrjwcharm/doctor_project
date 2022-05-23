@@ -21,6 +21,7 @@
 #-renamesourcefileattribute SourceFile
 -keep class **.zego.**{*;}
 
+-keep class com.flutter_webview_plugin.** { *; }
 
 
 -keep class com.taobao.sophix.**{*;}
