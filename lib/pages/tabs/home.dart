@@ -1060,7 +1060,7 @@ class HomeState extends State<Home> {
             ),
           ),
           Expanded(
-            child: RefreshIndicator(
+            child:RefreshIndicator(
               displacement: 10.0,
               onRefresh: _onRefresh,
               child: ListView.builder(

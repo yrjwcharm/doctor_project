@@ -33,7 +33,7 @@ class HttpRequest {
         // 响应流上前后两次接受到数据的间隔，单位为毫秒。
         // receiveTimeout: 5000,
         connectTimeout: 60*1000, // 60 seconds
-        receiveTimeout: 60*1000 ,// 60 seconds
+        receiveTimeout: 120*1000 ,// 60 seconds
         //Http请求头.
         headers: {
           //do something
