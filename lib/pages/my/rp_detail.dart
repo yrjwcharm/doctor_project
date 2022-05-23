@@ -38,21 +38,26 @@ class _RecipeDetailState extends State<RecipeDetail> {
   Map rpDetailItem;
   String diagnosis;
   List<dynamic> list = [];
-  List<dynamic> herbalMedicineVOS =[];
+  List<dynamic> herbalMedicineVOS = [];
   List<dynamic> medicineVOS = [];
-  String doctorSign ='';
-  String pharmacistSign='';
-  String companySign='';
+  String doctorSign = '';
+  String pharmacistSign = '';
+  String companySign = '';
+  String countNum = '';
+  String  useType_dictText='';
+  String freq_dictText='';
+  String remarks ='';
   Map<String, dynamic> medicineMap = {};
+
   _RecipeDetailState(this.rpDetailItem, this.diagnosis);
 
   @override
   void initState() {
     super.initState();
-    print('5555,${this.rpDetailItem['status']}');
     initData();
     // getNet_userSignature();
   }
+
   //医信签电子签名接口
   void getNet_userSignature() async {
     HttpRequest? request = HttpRequest.getInstance();
@@ -62,23 +67,13 @@ class _RecipeDetailState extends State<RecipeDetail> {
     if (res['code'] == 200) {
       if (data["signatureImg"] != null) {
         Navigator.pop(context);
-        // Navigator.push(
-        //     context,
-        //     MaterialPageRoute(
-        //       builder: (context) => electronicSignaturePage(
-        //           YXQDataMap: data,
-        //           registeredId: registeredId,
-        //           category: tab1Active ? "1" : "2",
-        //           prescriptionId: rpDetailItem['id']),
-        //     ));
       } else {
         String url = data["data"]["oauthURL"];
         // Navigator.pop(context);
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) =>
-                    WebviewVC(
+                builder: (context) => WebviewVC(
                       url: url,
                     )));
       }
@@ -92,26 +87,28 @@ class _RecipeDetailState extends State<RecipeDetail> {
     var res = await request
         .get(Api.getRpDetailApi + '?recipeId=${rpDetailItem['id']}', {});
     if (res['code'] == 200) {
-       medicineMap = res['data'];
-       if(medicineMap['doctorSign'].isNotEmpty) {
-         doctorSign = medicineMap['doctorSign'];
-       }
-       if(medicineMap['pharmacistSign'].isNotEmpty){
-         pharmacistSign= medicineMap['pharmacistSign'];
-       }
-       if(medicineMap['companySign'].isNotEmpty){
-         companySign=medicineMap['companySign'];
-       }
-
-      if(medicineMap['herbalMedicineVOS'].isNotEmpty){
-        herbalMedicineVOS =medicineMap['herbalMedicineVOS'];
+      medicineMap = res['data'];
+      if (medicineMap['doctorSign'].isNotEmpty) {
+        doctorSign = medicineMap['doctorSign'];
       }
-      if(medicineMap['medicineVOS'].isNotEmpty){
+      if (medicineMap['pharmacistSign'].isNotEmpty) {
+        pharmacistSign = medicineMap['pharmacistSign'];
+      }
+      if (medicineMap['companySign'].isNotEmpty) {
+        companySign = medicineMap['companySign'];
+      }
+
+      if (medicineMap['herbalMedicineVOS'].isNotEmpty) {
+        herbalMedicineVOS = medicineMap['herbalMedicineVOS'];
+      }
+      if (medicineMap['medicineVOS'].isNotEmpty) {
         medicineVOS = medicineMap['medicineVOS'];
       }
-      setState(() {
-
-      });
+      countNum = res['data']['countNum'].toString();
+      useType_dictText=res['data']['useType_dictText']??'';
+      freq_dictText=res['data']['freq_dictText']??'';
+      remarks = res['data']['remarks'];
+      setState(() {});
     }
   }
 
@@ -191,7 +188,7 @@ class _RecipeDetailState extends State<RecipeDetail> {
                           height: 4.0,
                         ),
                         Text(
-                          medicineMap['checkMsg']??'',
+                          medicineMap['checkMsg'] ?? '',
                           style: GSYConstant.textStyle(color: '#F39E2B'),
                         ),
                       ],
@@ -305,16 +302,19 @@ class _RecipeDetailState extends State<RecipeDetail> {
                                                 ? 'timeout.svg'
                                                 : 'cancel.svg'),
                           ]),
-                      const SizedBox(height: 12.0,),
+                      const SizedBox(
+                        height: 12.0,
+                      ),
                       Wrap(
-                        runSpacing:10.0,
-                          direction: Axis.horizontal,
-                          children: <Widget>[
-                            Container(
-                              padding: EdgeInsets.only(left:ScreenUtil().setWidth(16.0)),
-                              width: MediaQuery.of(context).size.width/3,
-                              // padding:const EdgeInsets.only(left: 16.0),
-                              child:Row(
+                        runSpacing: 10.0,
+                        direction: Axis.horizontal,
+                        children: <Widget>[
+                          Container(
+                            padding: EdgeInsets.only(
+                                left: ScreenUtil().setWidth(16.0)),
+                            width: MediaQuery.of(context).size.width / 3,
+                            // padding:const EdgeInsets.only(left: 16.0),
+                            child: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: <Widget>[
                                 Text(
@@ -328,11 +328,13 @@ class _RecipeDetailState extends State<RecipeDetail> {
                                       fontSize: 14.0, color: '#666666'),
                                 )
                               ],
-                            ),),
-                            Container(
-                              padding: EdgeInsets.only(left:ScreenUtil().setWidth(16.0)),
-                              width: MediaQuery.of(context).size.width/3,
-                              child: Row(
+                            ),
+                          ),
+                          Container(
+                            padding: EdgeInsets.only(
+                                left: ScreenUtil().setWidth(16.0)),
+                            width: MediaQuery.of(context).size.width / 3,
+                            child: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: <Widget>[
                                 Text(
@@ -346,11 +348,11 @@ class _RecipeDetailState extends State<RecipeDetail> {
                                       fontSize: 14.0, color: '#666666'),
                                 )
                               ],
-                            ),),
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width/3,
-
-                              child: Row(
+                            ),
+                          ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width / 3,
+                            child: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: <Widget>[
                                 Text(
@@ -364,11 +366,13 @@ class _RecipeDetailState extends State<RecipeDetail> {
                                       fontSize: 14.0, color: '#666666'),
                                 )
                               ],
-                            ),),
-                            Container(
-                              width: MediaQuery.of(context).size.width/3,
-                              padding: EdgeInsets.only(left:ScreenUtil().setWidth(16.0)),
-                              child: Row(
+                            ),
+                          ),
+                          Container(
+                            width: MediaQuery.of(context).size.width / 3,
+                            padding: EdgeInsets.only(
+                                left: ScreenUtil().setWidth(16.0)),
+                            child: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: <Widget>[
                                 Text(
@@ -382,31 +386,35 @@ class _RecipeDetailState extends State<RecipeDetail> {
                                       fontSize: 14.0, color: '#666666'),
                                 )
                               ],
-                            ),),
-                            // SizedBox(
-                            //   width: ScreenUtil().setWidth(72.0),
-                            // ),
-                            Container(
-                                width: MediaQuery.of(context).size.width/3,
-                                padding: EdgeInsets.only(left:ScreenUtil().setWidth(16.0)),
-                                child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: <Widget>[
-                                Text(
-                                  '科别：',
-                                  style:
-                                      GSYConstant.textStyle(color: '#333333'),
-                                ),
-                                Text(
-                                  rpDetailItem['deptName'] ?? '',
-                                  style: GSYConstant.textStyle(
-                                      fontSize: 14.0, color: '#666666'),
-                                )
-                              ],
-                            )),
-                          ],
-                        ),
-                      const SizedBox(height: 10.0,),
+                            ),
+                          ),
+                          // SizedBox(
+                          //   width: ScreenUtil().setWidth(72.0),
+                          // ),
+                          Container(
+                              width: MediaQuery.of(context).size.width / 3,
+                              padding: EdgeInsets.only(
+                                  left: ScreenUtil().setWidth(16.0)),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  Text(
+                                    '科别：',
+                                    style:
+                                        GSYConstant.textStyle(color: '#333333'),
+                                  ),
+                                  Text(
+                                    rpDetailItem['deptName'] ?? '',
+                                    style: GSYConstant.textStyle(
+                                        fontSize: 14.0, color: '#666666'),
+                                  )
+                                ],
+                              )),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 10.0,
+                      ),
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 16.0),
                         decoration: BoxDecoration(
@@ -522,130 +530,253 @@ class _RecipeDetailState extends State<RecipeDetail> {
                       color: ColorsUtil.hexStringColor('#cccccc', alpha: 0.3),
                     ),
                     Visibility(
-                      visible: herbalMedicineVOS.isNotEmpty,
-                      child:  Column(
-                      children: herbalMedicineVOS
-                          .map<Widget>(
-                            (item) => Container(
-                          decoration:
-                          const BoxDecoration(color: Colors.white),
-                          padding: const EdgeInsets.only(
-                              left: 16.0,
-                              right: 16.0,
-                              top: 8.0,
-                              bottom: 8.0),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment:
-                            MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              // "medicineVOS": [
-                              //   {
-                              //   "manuname": "",
-                              //   "freq": "1片,1次/12h",
-                              //   "amt": "2.79",
-                              //   "dayNum": "1",
-                              //   "specification": "0.25g*6片",
-                              //   "id": 75776,
-                              //   "useType": "冲化",
-                              //   "remarks": "gvv",
-                              //   "medicineNum": 1
-                              //   }
-                              Column(
-                                crossAxisAlignment:
-                                CrossAxisAlignment.start,
+                        visible: herbalMedicineVOS.isNotEmpty,
+                        child: Column(children: <Widget>[
+                          Column(
+                              children: herbalMedicineVOS
+                                  .asMap()
+                                  .keys
+                                  .map((index) => Container(
+                                        height: 40.0,
+                                        decoration: const BoxDecoration(
+                                          color: Colors.white,
+                                        ),
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 16.0),
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            border: Border(
+                                                bottom: BorderSide(
+                                                    width: index ==
+                                                            herbalMedicineVOS
+                                                                    .length -
+                                                                1
+                                                        ? 0
+                                                        : 1.0,
+                                                    color: ColorsUtil
+                                                        .hexStringColor(
+                                                            '#cccccc',
+                                                            alpha: 0.3))),
+                                          ),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: <Widget>[
+                                              Text(
+                                                herbalMedicineVOS[index]
+                                                    ['medicineName'],
+                                                style: GSYConstant.textStyle(
+                                                    fontSize: 14.0,
+                                                    color: '#333333'),
+                                              ),
+                                              Text(
+                                                herbalMedicineVOS[index]
+                                                    ['specification'],
+                                                style: GSYConstant.textStyle(
+                                                    fontSize: 14.0,
+                                                    color: '#666666'),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ))
+                                  .toList()),
+                          Container(
+                            margin: const EdgeInsets.only(top: 8.0),
+                            width: double.infinity,
+                            alignment: Alignment.centerLeft,
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 16.0),
+                            height: 41.0,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Text(
+                                  '服用贴数',
+                                  style: GSYConstant.textStyle(
+                                      fontSize: 14.0, color: '#333333'),
+                                ),
+                                Text(
+                                  countNum,
+                                  style: GSYConstant.textStyle(
+                                      fontSize: 14.0, color: '#666666'),
+                                ),
+                              ],
+                            ),
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                border: Border(
+                                    bottom: BorderSide(
+                                  width: 1.0,
+                                  color: ColorsUtil.hexStringColor('#cccccc',
+                                      alpha: 0.3),
+                                ))),
+                          ),
+                          Container(
+                            height: 40.0,
+                            decoration: const BoxDecoration(
+                              color: Colors.white,
+                            ),
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 16.0),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                border: Border(
+                                    bottom: BorderSide(
+                                        width: 1.0,
+                                        color: ColorsUtil.hexStringColor(
+                                            '#cccccc',
+                                            alpha: 0.3))),
+                              ),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
                                   Text(
-                                    item['medicineName'] ?? '',
+                                    '用法',
                                     style: GSYConstant.textStyle(
-                                        color: '#333333'),
+                                        fontSize: 14.0, color: '#333333'),
                                   ),
                                   Text(
-                                    '规格：${item['specification']}',
+                                    useType_dictText,
                                     style: GSYConstant.textStyle(
-                                        fontSize: 13.0, color: '#666666'),
+                                        fontSize: 14.0, color: '#666666'),
                                   ),
-                                  Text(
-                                    '${medicineMap['useType_dictText']}：${medicineMap['freq_dictText']}',
-                                    style: GSYConstant.textStyle(
-                                        fontSize: 13.0, color: '#666666'),
-                                  )
                                 ],
                               ),
-                              Text(
-                                'x${item['medicineNum']}',
-                                style:
-                                GSYConstant.textStyle(color: '#666666'),
-                              )
-                            ],
+                            ),
                           ),
-                        ),
-                      )
-                          .toList(),
-                    ),),
+                          Container(
+                            height: 40.0,
+                            decoration: const BoxDecoration(
+                              color: Colors.white,
+                            ),
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 16.0),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                border: Border(
+                                    bottom: BorderSide(
+                                        width: 1.0,
+                                        color: ColorsUtil.hexStringColor(
+                                            '#cccccc',
+                                            alpha: 0.3))),
+                              ),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Text(
+                                    '频次',
+                                    style: GSYConstant.textStyle(
+                                        fontSize: 14.0, color: '#333333'),
+                                  ),
+                                  Text(
+                                    freq_dictText,
+                                    style: GSYConstant.textStyle(
+                                        fontSize: 14.0, color: '#666666'),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Container(
+                            height: 40.0,
+                            decoration: const BoxDecoration(
+                              color: Colors.white,
+                            ),
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 16.0),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                border: Border(
+                                    bottom: BorderSide(
+                                        width: 1.0,
+                                        color: ColorsUtil.hexStringColor(
+                                            '#cccccc',
+                                            alpha: 0.3))),
+                              ),
+                              child: Row(
+                                children: <Widget>[
+                                  Text(
+                                    '备注',
+                                    style: GSYConstant.textStyle(
+                                        fontSize: 14.0, color: '#333333'),
+                                  ),
+                                  const SizedBox(width:15.0),
+                                  Text(
+                                    remarks,
+                                    style: GSYConstant.textStyle(
+                                        fontSize: 14.0, color: '#666666'),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          )
+                        ])),
                     Visibility(
-                      visible:medicineVOS.isNotEmpty,
-                      child:  Column(
-                        children:
-                        medicineVOS
+                      visible: medicineVOS.isNotEmpty,
+                      child: Column(
+                        children: medicineVOS
                             .map<Widget>(
                               (item) => Container(
-                            decoration:
-                            const BoxDecoration(color: Colors.white),
-                            padding: const EdgeInsets.only(
-                                left: 16.0,
-                                right: 16.0,
-                                top: 8.0,
-                                bottom: 8.0),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment:
-                              MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                // "medicineVOS": [
-                                //   {
-                                //   "manuname": "",
-                                //   "freq": "1片,1次/12h",
-                                //   "amt": "2.79",
-                                //   "dayNum": "1",
-                                //   "specification": "0.25g*6片",
-                                //   "id": 75776,
-                                //   "useType": "冲化",
-                                //   "remarks": "gvv",
-                                //   "medicineNum": 1
-                                //   }
-                                Column(
-                                  crossAxisAlignment:
-                                  CrossAxisAlignment.start,
+                                decoration:
+                                    const BoxDecoration(color: Colors.white),
+                                padding: const EdgeInsets.only(
+                                    left: 16.0,
+                                    right: 16.0,
+                                    top: 8.0,
+                                    bottom: 8.0),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
-                                    Text(
-                                      item['medicineName'] ?? '',
-                                      style: GSYConstant.textStyle(
-                                          color: '#333333'),
+                                    // "medicineVOS": [
+                                    //   {
+                                    //   "manuname": "",
+                                    //   "freq": "1片,1次/12h",
+                                    //   "amt": "2.79",
+                                    //   "dayNum": "1",
+                                    //   "specification": "0.25g*6片",
+                                    //   "id": 75776,
+                                    //   "useType": "冲化",
+                                    //   "remarks": "gvv",
+                                    //   "medicineNum": 1
+                                    //   }
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Text(
+                                          item['medicineName'] ?? '',
+                                          style: GSYConstant.textStyle(
+                                              color: '#333333'),
+                                        ),
+                                        Text(
+                                          '规格：${item['specification']}',
+                                          style: GSYConstant.textStyle(
+                                              fontSize: 13.0, color: '#666666'),
+                                        ),
+                                        Text(
+                                          '${item['useType_dictText']}：${item['freq_dictText']}',
+                                          style: GSYConstant.textStyle(
+                                              fontSize: 13.0, color: '#666666'),
+                                        )
+                                      ],
                                     ),
                                     Text(
-                                      '规格：${item['specification']}',
+                                      'x${item['medicineNum']}',
                                       style: GSYConstant.textStyle(
-                                          fontSize: 13.0, color: '#666666'),
-                                    ),
-                                    Text(
-                                      '${item['useType_dictText']}：${item['freq_dictText']}',
-                                      style: GSYConstant.textStyle(
-                                          fontSize: 13.0, color: '#666666'),
+                                          color: '#666666'),
                                     )
                                   ],
                                 ),
-                                Text(
-                                  'x${item['medicineNum']}',
-                                  style:
-                                  GSYConstant.textStyle(color: '#666666'),
-                                )
-                              ],
-                            ),
-                          ),
-                        )
+                              ),
+                            )
                             .toList(),
-                      ),),
+                      ),
+                    ),
                     const SizedBox(
                       height: 10.0,
                     ),
@@ -670,17 +801,17 @@ class _RecipeDetailState extends State<RecipeDetail> {
                                     width: 15.0,
                                   ),
                                   Visibility(
-                                      visible:doctorSign.isNotEmpty ,
+                                      visible: doctorSign.isNotEmpty,
                                       child: Transform.rotate(
-                                    angle: 270.17,
-                                    child: Image.memory(
-                                      const Base64Decoder().convert(
-                                          doctorSign),
-                                      scale: 1,
-                                      width: 54.0,
-                                      height: 24.0,
-                                    ),
-                                  ))
+                                        angle: 270.17,
+                                        child: Image.memory(
+                                          const Base64Decoder()
+                                              .convert(doctorSign),
+                                          scale: 1,
+                                          width: 54.0,
+                                          height: 24.0,
+                                        ),
+                                      ))
                                   //     gaplessPlayback: true),) ,),
                                 ],
                               ),
@@ -698,31 +829,29 @@ class _RecipeDetailState extends State<RecipeDetail> {
                                     width: 15.0,
                                   ),
                                   Visibility(
-                                    visible:pharmacistSign.isNotEmpty,
-                                      child:Transform.rotate(
-                                    angle: 270.17,
-                                    child: Image.memory(
-                                      const Base64Decoder().convert(
-                                          pharmacistSign),
-                                      scale: 1,
-                                      width: 54.0,
-                                      height: 24.0,
-                                    ),
-                                  ) )
+                                      visible: pharmacistSign.isNotEmpty,
+                                      child: Transform.rotate(
+                                        angle: 270.17,
+                                        child: Image.memory(
+                                          const Base64Decoder()
+                                              .convert(pharmacistSign),
+                                          scale: 1,
+                                          width: 54.0,
+                                          height: 24.0,
+                                        ),
+                                      ))
                                 ],
                               ),
                             ],
                           ),
                           Visibility(
-                              visible:companySign.isNotEmpty ,
-                              child:Image.memory(
-                            const Base64Decoder()
-                                .convert(companySign),
-                            scale: 1,
-                            width: 54.0,
-                            height: 54.0,
-                          ) )
-
+                              visible: companySign.isNotEmpty,
+                              child: Image.memory(
+                                const Base64Decoder().convert(companySign),
+                                scale: 1,
+                                width: 54.0,
+                                height: 54.0,
+                              ))
                         ],
                       ),
                     ),
@@ -742,12 +871,27 @@ class _RecipeDetailState extends State<RecipeDetail> {
                               height: 7.0,
                             ),
                             Text(
-                              '1、处方有效期为7天。 ',
+                              '1、处方有效期为3天，请及时取药',
                               style: GSYConstant.textStyle(
                                   fontSize: 13.0, color: '#666666'),
                             ),
                             Text(
-                              '2、该处方不支持线下药房购药。',
+                              '2、本处方限于通海互联网医院使用，自行下载配药不具有处方效力。',
+                              style: GSYConstant.textStyle(
+                                  fontSize: 13.0, color: '#666666'),
+                            ),
+                            Text(
+                              '3、按照卫生部、国家中医药管理局卫医发[2002]24号文件规定：为保证患者用药安全，药品一经发出，不得退换。',
+                              style: GSYConstant.textStyle(
+                                  fontSize: 13.0, color: '#666666'),
+                            ),
+                            Text(
+                              '4、按照网订店送的方式，您的处方将由门店发药药师审核，确认用药无误签字后方可生效。',
+                              style: GSYConstant.textStyle(
+                                  fontSize: 13.0, color: '#666666'),
+                            ),
+                            Text(
+                              '5、服用三天症状未见好转，建议及时复诊或线下就医。',
                               style: GSYConstant.textStyle(
                                   fontSize: 13.0, color: '#666666'),
                             ),

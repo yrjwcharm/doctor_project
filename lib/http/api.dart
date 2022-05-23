@@ -33,7 +33,7 @@ class Api {
   static const getRpListApi = "/doctor/dr-service/recipe/getList";
   static const getRpDetailApi = "/doctor/dr-service/recipe/queryRecipe";
   static const  revokeRpApi = '/doctor/dr-service/recipe/cancel';
-  static const  view360Api =Api.BASE_URL+'/360view/#/?paId=202208018';
+  static const  view360Api =Api.BASE_URL+'/360view/#/';
   static const  startRecordVideo ='/doctor/dr-service/order-room/startVideo';
   static const  stopRecordVideo ='/doctor/dr-service/order-room/stopVideo';
   static const  sendVerifyCode ='/doctor/dr-service/verificationCode/get';
@@ -41,6 +41,7 @@ class Api {
   static const updatePwdApi ='/doctor/dr-service/ba-doctor-user/editPwd';
   static const exitLogin ='/doctor/dr-service/ba-doctor-user/doExit';
   static const verifyOldPwdApi ='/doctor/dr-service/ba-doctor-user/validOldPwd';
+  static const getPatientIdApi ='/doctor/dr-service/patient/getPaId';
 
 
 }

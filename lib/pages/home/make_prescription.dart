@@ -148,13 +148,13 @@ class _MakePrescriptionState extends State<MakePrescription> {
         ToastUtil.showToast(msg: '请选择单次剂量');
         return;
       }
-      if(_radioGroup==0){
-        if(chineseMedicineTypeList[1]["value"].isEmpty){
+      if (_radioGroup == 0) {
+        if (chineseMedicineTypeList[1]["value"].isEmpty) {
           ToastUtil.showToast(msg: '请输入数量');
           return;
         }
-      }else {
-        if(onceDosageDesc.isEmpty){
+      } else {
+        if (onceDosageDesc.isEmpty) {
           ToastUtil.showToast(msg: '请输入用量描述');
           return;
         }
@@ -163,7 +163,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
         Fluttertoast.showToast(msg: "请选择用法用量", gravity: ToastGravity.CENTER);
         return;
       }
-      if( chineseMedicineTypeList[3]["detail"].indexOf("请选择") != -1){
+      if (chineseMedicineTypeList[3]["detail"].indexOf("请选择") != -1) {
         ToastUtil.showToast(msg: '请选择频次');
         return;
       }
@@ -172,7 +172,6 @@ class _MakePrescriptionState extends State<MakePrescription> {
       Fluttertoast.showToast(msg: "请选择诊断或药品", gravity: ToastGravity.CENTER);
       return;
     }
-
 
     List diagnosisParams = []; //诊断传参数组
     for (int i = 0; i < checkDataList.length; i++) {
@@ -229,7 +228,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
             : _editingController2.text, //备注
         "countNum": chineseMedicineTypeList[0]["value"], //副数、贴数（中药）
         'onceDosage': chineseMedicineTypeList[1]['value'],
-        'onceDosageDesc':onceDosageDesc,
+        'onceDosageDesc': onceDosageDesc,
         "category": 2, //处方类别（1-西药/中成药，2-中药）
         "diagnosisParams": diagnosisParams,
         "medicineParams": medicineParams,
@@ -269,8 +268,8 @@ class _MakePrescriptionState extends State<MakePrescription> {
       double price = double.parse(unitprice) * double.parse(count);
       totalPrice += price;
     }
-    totalPrice =
-        totalPrice * (tab1Active ? 1 : int.parse(chineseMedicineTypeList[0]['value']));
+    totalPrice = totalPrice *
+        (tab1Active ? 1 : int.parse(chineseMedicineTypeList[0]['value']));
   }
 
   //医信签电子签名接口
@@ -414,7 +413,6 @@ class _MakePrescriptionState extends State<MakePrescription> {
   item 需要改变的数据源
    */
   List<Widget> dialogData(List<String> data, List _data, Map item) {
-    print('1111111,${data.toString()}');
     List<Widget> widgetList = [];
     for (int i = 0; i < data.length; i++) {
       StatelessWidget dialog = SimpleDialogOption(
@@ -487,91 +485,11 @@ class _MakePrescriptionState extends State<MakePrescription> {
           child: SingleChildScrollView(
             child: Column(
               children: <Widget>[
-                // Container(
-                //   margin: const EdgeInsets.only(top: 14.0),
-                //   child: Row(
-                //     children: <Widget>[
-                //       GestureDetector(
-                //         onTap: () {
-                //           setState(() {
-                //             tab1Active = true;
-                //             tab2Active = false;
-                //             loadDataForFreqTYpe();
-                //             resetData();
-                //           });
-                //         },
-                //         child: Stack(
-                //           children: [
-                //             Image.asset(
-                //               tab1Active
-                //                   ? 'assets/images/self_mention.png'
-                //                   : 'assets/images/self_mention1.png',
-                //               width: screenWidth / ratio / 2,
-                //               height: 44,
-                //               fit: BoxFit.cover,
-                //             ),
-                //             Positioned(
-                //                 width: screenWidth / ratio / 2,
-                //                 height: 44,
-                //                 child: Center(
-                //                     child: Text(
-                //                   '西药/中成药处方',
-                //                   style: GSYConstant.textStyle(
-                //                       fontSize: 17.0,
-                //                       color:
-                //                           tab1Active ? '#06B48D' : '#333333'),
-                //                 ))),
-                //           ],
-                //         ),
-                //       ),
-                //       Flexible(
-                //           child: GestureDetector(
-                //         onTap: () {
-                //           setState(() {
-                //             tab2Active = true;
-                //             tab1Active = false;
-                //             loadDataForFreqTYpe();
-                //             resetData();
-                //           });
-                //         },
-                //         child: Stack(
-                //           children: [
-                //             Image.asset(
-                //               tab2Active
-                //                   ? 'assets/images/express_delivery1.png'
-                //                   : 'assets/images/express_delivery.png',
-                //               fit: BoxFit.cover,
-                //               width: screenWidth / ratio / 2,
-                //               height: 44,
-                //             ),
-                //             Positioned(
-                //                 width: screenWidth / ratio / 2,
-                //                 height: 44,
-                //                 child: Center(
-                //                   child: Text(
-                //                     '中药处方',
-                //                     style: GSYConstant.textStyle(
-                //                         fontSize: 16.0,
-                //                         color:
-                //                             tab2Active ? '#06B48D' : '#333333'),
-                //                   ),
-                //                 )),
-                //           ],
-                //         ),
-                //       ))
-                //     ],
-                //   ),
-                // ),
                 GestureDetector(
                   onTap: () {
                     PickerUtil.showPicker(context, _scaffoldKey,
                         pickerData: rpArray,
                         confirmCallback: (Picker picker, List<int> selected) {
-                      // setState(() {
-                      //   rpTypeId =
-                      //       rpList[selected[0]]['detailValue'].toString();
-                      //   rpTypeName = rpList[selected[0]]['detailName'];
-                      // });
                       if (selected[0] == 0) {
                         setState(() {
                           tab1Active = true;
@@ -812,83 +730,175 @@ class _MakePrescriptionState extends State<MakePrescription> {
                                         }, child: StatefulBuilder(
                                                 builder: (context, _setState) {
                                           return AlertDialog(
-                                            contentPadding:
-                                                const EdgeInsets.only(
-                                                    bottom: 20.0),
-                                            // title: Text('title'),
-                                            // titlePadding: const EdgeInsets.all(0),
-                                            content: Column(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: <Widget>[
-                                                Row(
-                                                  mainAxisSize:
-                                                      MainAxisSize.max,
-                                                  // mainAxisAlignment: MainAxisAlignment.center,
-                                                  children: <Widget>[
-                                                    Radio(
-                                                      activeColor: ColorsUtil
-                                                          .hexStringColor(
-                                                              '#06b48d'),
-                                                      value: 0,
-                                                      groupValue: _radioGroup,
-                                                      onChanged: (int? value) {
-                                                        print('1111111');
-                                                        _radioGroup = value!;
-                                                        if (value == 0) {
-                                                          onceDosageDesc = '';
-                                                        }
-                                                        _setState(() {});
-                                                      },
-                                                      // activeColor: Colors.blueAccent,
-                                                    ),
-                                                    Text(
-                                                      '毫升',
-                                                      style:
-                                                          GSYConstant.textStyle(
-                                                              fontSize: 16.0,
-                                                              color: '#333333'),
-                                                    ),
-                                                    SizedBox(
-                                                      width: ScreenUtil()
-                                                          .setWidth(5.0),
-                                                    ),
-                                                    Radio(
-                                                      activeColor: ColorsUtil
-                                                          .hexStringColor(
-                                                              '#06b48d'),
-                                                      value: 1,
-                                                      groupValue: _radioGroup,
-                                                      onChanged: (int? value) {
-                                                        _radioGroup = value!;
-                                                        print('ssss');
-                                                        if (value == 0) {
-                                                          onceDosageDesc = '';
-                                                        }
-                                                        _setState(() {});
-                                                      },
-                                                      // activeColor: Colors.blueAccent,
-                                                    ),
-                                                    Text(
-                                                      '其他',
-                                                      style:
-                                                          GSYConstant.textStyle(
-                                                              fontSize: 16.0,
-                                                              color: '#333333'),
-                                                    )
-                                                  ],
-                                                ),
-                                                Visibility(
-                                                  visible: _radioGroup == 0,
-                                                  child: Row(
-                                                    mainAxisSize:
-                                                        MainAxisSize.min,
+                                              contentPadding:
+                                                  const EdgeInsets.only(
+                                                      bottom: 20.0),
+                                              // title: Text('title'),
+                                              // titlePadding: const EdgeInsets.all(0),
+                                              content: Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: <Widget>[
+                                                  Row(
+                                                    mainAxisAlignment: MainAxisAlignment.center,
                                                     children: <Widget>[
-                                                      Container(
-                                                        alignment: Alignment
-                                                            .centerLeft,
-                                                        height: 40.0,
-                                                        width: 120.0,
-                                                        // margin: const EdgeInsets.symmetric(horizontal: 16.0),
+                                                      Radio(
+                                                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                                        activeColor: ColorsUtil
+                                                            .hexStringColor(
+                                                                '#06b48d'),
+                                                        value: 0,
+                                                        groupValue: _radioGroup,
+                                                        onChanged:
+                                                            (int? value) {
+                                                          print('1111111');
+                                                          _radioGroup = value!;
+                                                          if (value == 0) {
+                                                            onceDosageDesc = '';
+                                                          }
+                                                          _setState(() {});
+                                                        },
+                                                        // activeColor: Colors.blueAccent,
+                                                      ),
+                                                      Text(
+                                                        '毫升',
+                                                        style: GSYConstant
+                                                            .textStyle(
+                                                                fontSize: 16.0,
+                                                                color:
+                                                                    '#333333'),
+                                                      ),
+                                                      SizedBox(
+                                                        width: ScreenUtil()
+                                                            .setWidth(5.0),
+                                                      ),
+                                                      Radio(
+                                                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                                        activeColor: ColorsUtil
+                                                            .hexStringColor(
+                                                                '#06b48d'),
+                                                        value: 1,
+                                                        groupValue: _radioGroup,
+                                                        onChanged:
+                                                            (int? value) {
+                                                          _radioGroup = value!;
+                                                          print('ssss');
+                                                          if (value == 0) {
+                                                            onceDosageDesc = '';
+                                                          }
+                                                          _setState(() {});
+                                                        },
+                                                        // activeColor: Colors.blueAccent,
+                                                      ),
+                                                      Text(
+                                                        '其他',
+                                                        style: GSYConstant
+                                                            .textStyle(
+                                                                fontSize: 16.0,
+                                                                color:
+                                                                    '#333333'),
+                                                      )
+                                                    ],
+                                                  ),
+                                                  Visibility(
+                                                    visible: _radioGroup == 0,
+                                                    child: Row(
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
+                                                      children: <Widget>[
+                                                        Container(
+                                                          alignment: Alignment
+                                                              .centerLeft,
+                                                          height: 40.0,
+                                                          width: 120.0,
+                                                          // margin: const EdgeInsets.symmetric(horizontal: 16.0),
+                                                          decoration: BoxDecoration(
+                                                              border: Border.all(
+                                                                  width: 1.0,
+                                                                  color: ColorsUtil
+                                                                      .hexStringColor(
+                                                                          '#cccccc',
+                                                                          alpha:
+                                                                              0.6)),
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          5.0)),
+                                                          child: TextField(
+                                                            keyboardType:
+                                                                TextInputType
+                                                                    .number,
+                                                            onChanged: (value) {
+                                                              chineseMedicineTypeList[
+                                                                          1][
+                                                                      'value'] =
+                                                                  value;
+                                                              chineseMedicineTypeList[
+                                                                          1][
+                                                                      'detail'] =
+                                                                  value + 'ml';
+                                                              onceDosageDesc =
+                                                                  '';
+                                                              setState(() {});
+                                                            },
+                                                            inputFormatters: [
+                                                              FilteringTextInputFormatter
+                                                                  .allow(RegExp(
+                                                                      "[0-9]"))
+                                                            ],
+                                                            style: GSYConstant
+                                                                .textStyle(
+                                                                    fontSize:
+                                                                        14.0,
+                                                                    color:
+                                                                        '#888888'),
+                                                            decoration:
+                                                                InputDecoration(
+                                                                    // isDense: true,
+                                                                    isCollapsed:
+                                                                        true,
+                                                                    hintText:
+                                                                        '请输入数量',
+                                                                    border:
+                                                                        InputBorder
+                                                                            .none,
+                                                                    contentPadding: const EdgeInsets
+                                                                            .only(
+                                                                        left:
+                                                                            10.0),
+                                                                    fillColor:
+                                                                        Colors
+                                                                            .transparent,
+                                                                    filled:
+                                                                        true,
+                                                                    hintStyle: GSYConstant.textStyle(
+                                                                        fontSize:
+                                                                            14.0,
+                                                                        color:
+                                                                            '#888888')),
+                                                          ),
+                                                        ),
+                                                        Container(
+                                                            margin:
+                                                                const EdgeInsets
+                                                                        .only(
+                                                                    left: 8.0),
+                                                            child: Text(
+                                                              'ml',
+                                                              style: GSYConstant
+                                                                  .textStyle(
+                                                                      color:
+                                                                          '#333333'),
+                                                            ))
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  Visibility(
+                                                      visible: _radioGroup == 1,
+                                                      child: Container(
+                                                        height: 80.0,
+                                                        margin: const EdgeInsets
+                                                                .symmetric(
+                                                            horizontal: 16.0),
                                                         decoration: BoxDecoration(
                                                             border: Border.all(
                                                                 width: 1.0,
@@ -902,158 +912,131 @@ class _MakePrescriptionState extends State<MakePrescription> {
                                                                     .circular(
                                                                         5.0)),
                                                         child: TextField(
-                                                          keyboardType:
-                                                              TextInputType
-                                                                  .number,
                                                           onChanged: (value) {
                                                             chineseMedicineTypeList[
-                                                                        1]
-                                                                    ['value'] =
-                                                                value;
+                                                                    1]
+                                                                ['value'] = '';
                                                             chineseMedicineTypeList[
-                                                            1]
-                                                            ['detail'] =value+'ml';
-                                                            onceDosageDesc = '';
+                                                                        1]
+                                                                    ['detail'] =
+                                                                value;
+                                                            onceDosageDesc =
+                                                                value;
                                                             setState(() {});
                                                           },
-                                                          inputFormatters: [
-                                                            FilteringTextInputFormatter.allow(RegExp("[0-9]"))
-                                                          ],
+                                                          inputFormatters: [],
                                                           style: GSYConstant
                                                               .textStyle(
                                                                   fontSize:
                                                                       14.0,
                                                                   color:
                                                                       '#888888'),
-                                                          decoration:
-                                                              InputDecoration(
-                                                                  // isDense: true,
-                                                                  isCollapsed:
-                                                                      true,
-                                                                  hintText:
-                                                                      '请输入数量',
-                                                                  border:
-                                                                      InputBorder
-                                                                          .none,
-                                                                  contentPadding:
-                                                                      const EdgeInsets
-                                                                              .only(
-                                                                          left:
-                                                                              10.0),
-                                                                  fillColor: Colors
-                                                                      .transparent,
-                                                                  filled: true,
-                                                                  hintStyle: GSYConstant.textStyle(
+                                                          decoration: InputDecoration(
+                                                              hintText:
+                                                                  '请输入用量描述',
+                                                              border:
+                                                                  InputBorder
+                                                                      .none,
+                                                              contentPadding: const EdgeInsets
+                                                                      .only(
+                                                                  left: 10.0),
+                                                              fillColor: Colors
+                                                                  .transparent,
+                                                              filled: true,
+                                                              hintStyle: GSYConstant
+                                                                  .textStyle(
                                                                       fontSize:
                                                                           14.0,
                                                                       color:
                                                                           '#888888')),
                                                         ),
-                                                      ),
-                                                      Container(
-                                                          margin:
-                                                              const EdgeInsets
-                                                                      .only(
-                                                                  left: 8.0),
-                                                          child: Text(
-                                                            'ml',
-                                                            style: GSYConstant
-                                                                .textStyle(
-                                                                    color:
-                                                                        '#333333'),
-                                                          ))
-                                                    ],
-                                                  ),
-                                                ),
-                                                Visibility(
-                                                    visible: _radioGroup == 1,
-                                                    child: Container(
-                                                      height: 80.0,
-                                                      margin: const EdgeInsets
-                                                              .symmetric(
-                                                          horizontal: 16.0),
-                                                      decoration: BoxDecoration(
-                                                          border: Border.all(
-                                                              width: 1.0,
-                                                              color: ColorsUtil
-                                                                  .hexStringColor(
-                                                                      '#cccccc',
-                                                                      alpha:
-                                                                          0.6)),
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      5.0)),
-                                                      child: TextField(
-                                                        onChanged: (value) {
-                                                          chineseMedicineTypeList[
-                                                              1]['value'] = '';
-                                                          chineseMedicineTypeList[
-                                                          1]['detail'] =value;
-                                                          onceDosageDesc =
-                                                              value;
-                                                          setState(() {});
-                                                        },
-                                                        inputFormatters: [],
-                                                        style: GSYConstant
-                                                            .textStyle(
-                                                                fontSize: 14.0,
-                                                                color:
-                                                                    '#888888'),
-                                                        decoration: InputDecoration(
-                                                            hintText: '请输入用量描述',
-                                                            border: InputBorder
-                                                                .none,
-                                                            contentPadding:
-                                                                const EdgeInsets
+                                                      ))
+                                                ],
+                                              ),
+                                              buttonPadding:
+                                                  const EdgeInsets.all(0),
+                                              actions: <Widget>[
+                                                Row(
+                                                  children: <Widget>[
+                                                    Expanded(
+                                                        child: GestureDetector(
+                                                            onTap: () {
+                                                              Navigator.of(
+                                                                      context,
+                                                                      rootNavigator:
+                                                                          true)
+                                                                  .pop();
+                                                            },
+                                                            child: Container(
+                                                              height: 40.0,
+                                                              alignment:
+                                                                  Alignment
+                                                                      .center,
+                                                              decoration: BoxDecoration(
+                                                                  border: Border(
+                                                                      right: BorderSide(
+                                                                          width:
+                                                                              0.5,
+                                                                          color: ColorsUtil.hexStringColor(
+                                                                              '#cccccc',
+                                                                              alpha:
+                                                                                  0.4)),
+                                                                      top: BorderSide(
+                                                                          width:
+                                                                              1.0,
+                                                                          color: ColorsUtil.hexStringColor(
+                                                                              '#cccccc',
+                                                                              alpha: 0.4)))),
+                                                              child: Text(
+                                                                '取消',
+                                                                style: GSYConstant
+                                                                    .textStyle(
+                                                                        fontSize:
+                                                                            16.0,
+                                                                        color:
+                                                                            '#333333'),
+                                                              ),
+                                                            ))),
+                                                    Expanded(
+                                                        child:
+                                                            CustomElevatedButton(
+                                                                borderRadius: const BorderRadius
                                                                         .only(
-                                                                    left: 10.0),
-                                                            fillColor: Colors
-                                                                .transparent,
-                                                            filled: true,
-                                                            hintStyle: GSYConstant
-                                                                .textStyle(
-                                                                    fontSize:
-                                                                        14.0,
-                                                                    color:
-                                                                        '#888888')),
-                                                      ),
-                                                    ))
-                                              ],
-                                            ),
-                                            buttonPadding:
-                                                const EdgeInsets.all(0),
-                                            actions: <Widget>[
-                                              CustomElevatedButton(
-                                                  borderRadius:
-                                                      const BorderRadius.only(
-                                                          bottomLeft:
-                                                              Radius.circular(
-                                                                  4.0),
-                                                          bottomRight:
-                                                              Radius.circular(
-                                                                  4.0)),
-                                                  title: '确定',
-                                                  width: double.infinity,
-                                                  height: 40.0,
-                                                  onPressed: () {
-                                                    if(_radioGroup==0){
-                                                      if(chineseMedicineTypeList[1]["value"].isEmpty){
-                                                         ToastUtil.showToast(msg: '请输入单次剂量');
-                                                         return;
-                                                      }
-                                                    }else {
-                                                      if(onceDosageDesc.isEmpty){
-                                                        ToastUtil.showToast(msg: '请输入用量描述');
-                                                        return;
-                                                      }
-                                                    }
-                                                    Navigator.of(context,
-                                                            rootNavigator: true)
-                                                        .pop();
-                                                  })
-                                            ],
-                                          );
+                                                                    bottomRight:
+                                                                        Radius.circular(
+                                                                            4.0)),
+                                                                title: '确定',
+                                                                height: 40.0,
+                                                                onPressed: () {
+                                                                  if (_radioGroup ==
+                                                                      0) {
+                                                                    if (chineseMedicineTypeList[1]
+                                                                            [
+                                                                            "value"]
+                                                                        .isEmpty) {
+                                                                      ToastUtil.showToast(
+                                                                          msg:
+                                                                              '请输入单次剂量');
+                                                                      return;
+                                                                    }
+                                                                  } else {
+                                                                    if (onceDosageDesc
+                                                                        .isEmpty) {
+                                                                      ToastUtil.showToast(
+                                                                          msg:
+                                                                              '请输入用量描述');
+                                                                      return;
+                                                                    }
+                                                                  }
+                                                                  Navigator.of(
+                                                                          context,
+                                                                          rootNavigator:
+                                                                              true)
+                                                                      .pop();
+                                                                }))
+                                                  ],
+                                                )
+                                              ]);
                                         })));
                               }
                             },

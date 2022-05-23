@@ -20,9 +20,7 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 -keep class **.zego.**{*;}
-
 -keep class com.flutter_webview_plugin.** { *; }
-
 
 -keep class com.taobao.sophix.**{*;}
 -keep class com.ta.utdid2.device.**{*;}

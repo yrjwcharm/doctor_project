@@ -72,7 +72,7 @@ class _GSYWebViewState extends State<GSYWebView> {
                       if(map['success']){
                         Navigator.pop(context);
                       }
-                      FocusScope.of(context).requestFocus(focusNode);
+                      // FocusScope.of(context).requestFocus(focusNode);
                     })
               }),
           if (isLoading)
