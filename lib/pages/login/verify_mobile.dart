@@ -66,12 +66,7 @@ class _VerifyMobileState extends State<VerifyMobile>  {
                   style: GSYConstant.textStyle(fontSize: 16.0,color: '#333333'),
                   cursorColor: ColorsUtil.hexStringColor('#333333'),
                   inputFormatters: <TextInputFormatter> [
-                   /* BlacklistingTextInputFormatter(
-                        RegExp("[0-9]"))*/
-                    // LengthLimitingTextInputFormatter(11),
-                    // WhitelistingTextInputFormatter(RegExp("[a-zA-Z]")),//只允许输入字母
-                    // WhitelistingTextInputFormatter.digitsOnly,
-                    // WhitelistingTextInputFormatter(RegExp("[0-9.]")),//只允许输入小数
+                    FilteringTextInputFormatter.digitsOnly
                   ],
                   onChanged:(value){
                     setState(() {
@@ -105,7 +100,7 @@ class _VerifyMobileState extends State<VerifyMobile>  {
              padding: const EdgeInsets.symmetric(horizontal: 16.0),
              child: CustomElevatedButton(
                  borderRadius: BorderRadius.circular(22.0), title: '获取验证码', onPressed: () async{
-                      if(!RegexUtil.isMobile(phone)){
+                      if(!RegexUtil.isPhone(phone)){
                          ToastUtil.showToast(msg: '请输入手机号');
                          return;
                       }

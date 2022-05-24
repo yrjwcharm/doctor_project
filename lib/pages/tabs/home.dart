@@ -969,6 +969,7 @@ class HomeState extends State<Home> {
       ],
     );
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: ColorsUtil.bgColor,
       body: Column(
         children: [

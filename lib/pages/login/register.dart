@@ -8,6 +8,7 @@ import 'package:doctor_project/widget/custom_outline_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../../common/style/gsy_style.dart';
 import 'package:dio/dio.dart';
@@ -144,6 +145,10 @@ class RegisterContentStates extends State<RegisterContent> {
                       child: Theme(
                         data: new ThemeData(primaryColor: Colors.red),
                         child: TextField(
+                          keyboardType: TextInputType.number,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly
+                          ],
                           // controller: iphoneTFController,
                           decoration: InputDecoration(
                             isCollapsed: true,
@@ -194,6 +199,10 @@ class RegisterContentStates extends State<RegisterContent> {
                       child: Theme(
                         data: new ThemeData(primaryColor: Colors.red),
                         child: TextField(
+                            keyboardType: TextInputType.number,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.digitsOnly
+                            ],
                             decoration: InputDecoration(
                               border: InputBorder.none,
                               isCollapsed: true,
@@ -242,9 +251,12 @@ class RegisterContentStates extends State<RegisterContent> {
                     ),
                     Container(
                       child: Theme(
-                        data: new ThemeData(primaryColor: Colors.red),
+                        data: ThemeData(primaryColor: Colors.red),
                         child: TextField(
                             obscureText: obscure,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.deny(RegExp(r'[\u4e00-\u9fa5]'))
+                            ],
                             decoration: InputDecoration(
                               isCollapsed: true,
                               suffixIconConstraints: const BoxConstraints(),

@@ -125,7 +125,7 @@ class _UpdatePasswordState extends State<UpdatePassword> {
             margin: const EdgeInsets.only(top: 12.0),
             padding: const EdgeInsets.only(left: 16.0),
             child: Text(
-              '密码为6-16位，必须包含字母、数字或特殊字符',
+              '密码为6-16位，必须包含字母、数字、特殊字符',
               style: GSYConstant.textStyle(fontSize: 14.0, color: '#999999'),
             ),
           ),

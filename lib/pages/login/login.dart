@@ -17,6 +17,8 @@ import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:doctor_project/pages/tabs/main.dart';
 
+import '../../utils/reg_util.dart';
+
 class LoginPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => RegisterContentStates();
@@ -37,6 +39,19 @@ class RegisterContentStates extends State<LoginPage> {
 
   @override
   void postNet_Login() async {
+    if(!RegexUtil.isPhone(loginStr)){
+      ToastUtil.showToast(msg: '请输入正确手机号');
+      return;
+    }
+    if(!RegexUtil.isPwd(loginPas)){
+      ToastUtil.showToast(msg: '密码必须包含字母数字、特殊字符6-16位');
+      return;
+    }
+    if (isSelect == 0) {
+      Fluttertoast.showToast(
+          msg: '请勾选服务', gravity: ToastGravity.CENTER);
+      return;
+    }
     var request = HttpRequest.getInstance();
     var res = await request
         .post(Api.loginApi, {'key': loginStr, 'password': loginPas});
@@ -154,11 +169,15 @@ class RegisterContentStates extends State<LoginPage> {
                       child: Theme(
                         data: new ThemeData(primaryColor: Colors.red),
                         child: TextField(
-                          decoration: InputDecoration(
+                          keyboardType: TextInputType.number,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly
+                          ],
+                          decoration: const InputDecoration(
                             border: InputBorder.none,
                             isCollapsed: true,
-                            contentPadding: const EdgeInsets.only(left: 10.0),
-                            hintText: '请输入手机号/用户名',
+                            contentPadding: EdgeInsets.only(left: 10.0),
+                            hintText: '请输入手机号',
                             hintStyle: TextStyle(
                               color: Color.fromARGB(255, 183, 183, 183),
                               fontSize: 14,
@@ -204,6 +223,9 @@ class RegisterContentStates extends State<LoginPage> {
                           data: ThemeData(primaryColor: Colors.red),
                           child: TextField(
                             obscureText: obscure,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.deny(RegExp(r'[\u4e00-\u9fa5]'))
+                            ],
                             decoration: InputDecoration(
                               border: InputBorder.none,
                               hintText: '请输入登录密码',
@@ -310,11 +332,6 @@ class RegisterContentStates extends State<LoginPage> {
                           ),
                           textColor: Colors.white,
                           onPressed: () {
-                            if (isSelect == 0) {
-                              Fluttertoast.showToast(
-                                  msg: '请勾选服务', gravity: ToastGravity.CENTER);
-                              return;
-                            }
                             CommonUtils.throttle(postNet_Login,
                                 durationTime: 500);
                           },
