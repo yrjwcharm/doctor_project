@@ -589,7 +589,7 @@ class HomeState extends State<Home> {
       clipBehavior: Clip.none,
       children: [
         Container(
-          height: ScreenUtil().setHeight(184),
+          height: 184,
           width: double.infinity,
           decoration: const BoxDecoration(
             image: DecorationImage(
@@ -601,7 +601,7 @@ class HomeState extends State<Home> {
           ),
         ),
         Positioned(
-          top: MediaQuery.of(context).padding.top + 21,
+          top: MediaQuery.of(context).padding.top + 22,
           left: 16.0,
           right: 16.0,
           child: Container(
@@ -654,7 +654,8 @@ class HomeState extends State<Home> {
                                       visible: protitle.isNotEmpty,
                                       child: CustomOutlineButton(
                                           height: 18.0,
-                                          width: 66.0,
+                                          padding:const EdgeInsets.only(left: 7.0,right:8.0),
+                                          // width: 66.0,
                                           textStyle: GSYConstant.textStyle(
                                               fontSize: 13.0, color: '#06B48D'),
                                           title: protitle,
@@ -666,6 +667,7 @@ class HomeState extends State<Home> {
                                                   '#06B48D')))
                                 ],
                               ),
+                              const SizedBox(height: 6.0,),
                               Row(
                                 children: <Widget>[
                                   Text(
@@ -675,6 +677,7 @@ class HomeState extends State<Home> {
                                         color: '#999999',
                                         fontWeight: FontWeight.w400),
                                   ),
+                                  const SizedBox(width: 8.0,),
                                   Text(
                                     deptName,
                                     style: GSYConstant.textStyle(
@@ -773,8 +776,8 @@ class HomeState extends State<Home> {
     }
 
     Widget buttonSection = Container(
-      margin: const EdgeInsets.only(
-          left: 16.0, right: 16.0, bottom: 8.0, top: 17.0),
+      margin:  const EdgeInsets.only(
+          left: 16.0, right: 16.0, bottom: 8.0),
       height: 96,
       decoration: BoxDecoration(
           color: Colors.white, borderRadius: BorderRadius.circular(5.0)),

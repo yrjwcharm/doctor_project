@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="10px" height="16px" viewBox="0 0 10 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 60.1 (88133) - https://sketch.com -->
+    <title>more_slice</title>
+    <desc>Created with Sketch.</desc>
+    <g id="医生端/药师端" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="画板" transform="translate(-342.000000, -301.000000)">
+            <g id="more" transform="translate(342.000000, 301.000000)">
+                <path d="M1.57142802,15 C1.42519602,15 1.27894616,14.9442143 1.16735698,14.832643 C0.944214339,14.6094825 0.944214339,14.2476614 1.16735698,14.0245009 L7.19186908,8 L1.16735698,1.9754946 C0.944214339,1.7523341 0.944214339,1.39053088 1.16735698,1.16737038 C1.39053534,0.944209875 1.75232071,0.944209875 1.97549907,1.16737038 L8.40406435,7.59593565 C8.62720699,7.81909616 8.62720699,8.18089938 8.40406435,8.40405988 L1.97549907,14.8326252 C1.86390989,14.9442143 1.71766003,15 1.57142802,15 L1.57142802,15 Z" id="路径" fill="#888888" fill-rule="nonzero"></path>
+                <rect id="矩形" x="0" y="0" width="10" height="16"></rect>
+            </g>
+        </g>
+    </g>
+</svg>

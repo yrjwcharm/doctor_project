@@ -50,7 +50,6 @@ class _WebviewVCState extends State<WebviewVC> {
   /// 初始化webview
   initWebView() {
     return WebView(
-      // "https://dev-yxqv2.linksign.cn/h5/accreditLogin/accreditLogin.html?transactionId=z01i9e4d6tb64z0g",
       initialUrl: url,
       javascriptMode: JavascriptMode.unrestricted,
       onWebViewCreated: (WebViewController webViewController) {

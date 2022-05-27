@@ -28,14 +28,19 @@ import '../../config/zego_config.dart';
 import '../../http/api.dart';
 
 class VideoTopic extends StatefulWidget {
-  VideoTopic({Key? key, required this.regId,required this.docName, required this.userInfoMap})
+  VideoTopic(
+      {Key? key,
+      required this.regId,
+      required this.docName,
+      required this.userInfoMap})
       : super(key: key);
   final String regId;
   final String docName;
   Map userInfoMap;
 
   @override
-  _VideoTopicState createState() => _VideoTopicState(regId, userInfoMap,docName);
+  _VideoTopicState createState() =>
+      _VideoTopicState(regId, userInfoMap, docName);
 }
 
 class _VideoTopicState extends State<VideoTopic> {
@@ -68,13 +73,14 @@ class _VideoTopicState extends State<VideoTopic> {
       TextEditingController();
   String regId;
   String docName;
-  String taskId='';
+  String taskId = '';
   Map userInfoMap;
-  _VideoTopicState(this.regId, this.userInfoMap,this.docName);
+
+  _VideoTopicState(this.regId, this.userInfoMap, this.docName);
 
   _showDialog() async {
     await showDialog(
-        useSafeArea:false,
+        useSafeArea: false,
         barrierDismissible: false,
         context: context,
         builder: (_) => WillPopScope(
@@ -87,20 +93,19 @@ class _VideoTopicState extends State<VideoTopic> {
                 buttonPadding: EdgeInsets.zero,
                 // insetPadding: EdgeInsets.zero,
                 contentTextStyle: GSYConstant.textStyle(color: '#333333'),
-                content: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children:  <Widget>[
-                      Text(
-                        '请务必等待患者进入房间后，点击开始录制',
-                        textAlign: TextAlign.center,
-                        style: GSYConstant.textStyle(color: '#333333'),
-                      ),
-                      // SizedBox(
-                      //   height: 12.0,
-                      // ),
-                      // Text('2、处方开具医生须向患者说明处方使用规范和注意事项。',
-                      //     textAlign: TextAlign.justify)
-                    ]),
+                content:
+                    Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
+                  Text(
+                    '请务必等待患者进入房间后，点击开始录制',
+                    textAlign: TextAlign.center,
+                    style: GSYConstant.textStyle(color: '#333333'),
+                  ),
+                  // SizedBox(
+                  //   height: 12.0,
+                  // ),
+                  // Text('2、处方开具医生须向患者说明处方使用规范和注意事项。',
+                  //     textAlign: TextAlign.justify)
+                ]),
                 actions: [
                   Container(
                     height: 59.0,
@@ -119,44 +124,49 @@ class _VideoTopicState extends State<VideoTopic> {
                       width: 119.0,
                       primary: '#06B48D',
                       onPressed: () async {
-                         // if(_streamID.isEmpty){
-                         //   ToastUtil.showToast(msg: '请等待患者进入房间');
-                         //   // Navigator.pop(context);
-                         //   return;
-                         // }
-                         var request = HttpRequest.getInstance();
-                         var res = await request.post(Api.startRecordVideo, {'room_id':ZegoConfig.instance.roomID,'startInfo':convert.jsonEncode({
-                           'app_id':ZegoConfig.instance.appID,
-                           'access_token':ZegoConfig.instance.token,
-                           'room_id':ZegoConfig.instance.roomID,
-
-                           'record_input_params':{
-                             'record_mode':2,
-                             'mix_config':{
-                               'mix_output_stream_id': "01_" +DateTime.now().millisecondsSinceEpoch.toString(),
-                               'mix_output_video_config': {
-                                 'width': 1920,
-                                 'height': 1080,
-                                 'fps': 15,
-                                 'bitrate': 3000
-                               }
-                             }
-                           },
-                           'mix_input_list':{
-                             'fill_mode': 2,
-                           },
-                           'record_output_params': {},
-                         })});
-                         if(res['code']==200){
-                            String taskId = res['data']['video']['task_id'];
-                            print('taskId++++++++++++ $taskId');
-                            setState(() {
-                              this.taskId = taskId;
-                            });
-                            Navigator.pop(context);
-                         }else{
-                           ToastUtil.showToast(msg: res['msg']);
-                         }
+                        // if(_streamID.isEmpty){
+                        //   ToastUtil.showToast(msg: '请等待患者进入房间');
+                        //   // Navigator.pop(context);
+                        //   return;
+                        // }
+                        var request = HttpRequest.getInstance();
+                        var res = await request.post(Api.startRecordVideo, {
+                          'room_id': ZegoConfig.instance.roomID,
+                          'startInfo': convert.jsonEncode({
+                            'app_id': ZegoConfig.instance.appID,
+                            'access_token': ZegoConfig.instance.token,
+                            'room_id': ZegoConfig.instance.roomID,
+                            'record_input_params': {
+                              'record_mode': 2,
+                              'mix_config': {
+                                'mix_output_stream_id': "01_" +
+                                    DateTime.now()
+                                        .millisecondsSinceEpoch
+                                        .toString(),
+                                'mix_output_video_config': {
+                                  'width': 1920,
+                                  'height': 1080,
+                                  'fps': 15,
+                                  'bitrate': 3000
+                                }
+                              }
+                            },
+                            'mix_input_list': {
+                              'fill_mode': 2,
+                            },
+                            'record_output_params': {},
+                          })
+                        });
+                        if (res['code'] == 200) {
+                          String taskId = res['data']['video']['task_id'];
+                          print('taskId++++++++++++ $taskId');
+                          setState(() {
+                            this.taskId = taskId;
+                          });
+                          Navigator.pop(context);
+                        } else {
+                          ToastUtil.showToast(msg: res['msg']);
+                        }
                       },
                     ),
                   )
@@ -221,17 +231,20 @@ class _VideoTopicState extends State<VideoTopic> {
   isEnableCamera() {
     ZegoExpressEngine.instance.enableCamera(_isEnableCamera);
   }
+   bool _isFrontCamera = true;
+  isTransformCamera()  {
+    ZegoExpressEngine.instance.useFrontCamera(_isFrontCamera);
+  }
 
   bool _isEnableMic = true;
 
   isEnableMic() {
-    ZegoExpressEngine.instance.muteMicrophone(!_isEnableMic);
+    ZegoExpressEngine.instance.muteMicrophone(_isEnableMic);
   }
-
   bool _isEnableSpeaker = true;
 
   isEnableSpeaker() {
-    ZegoExpressEngine.instance.muteSpeaker(!_isEnableSpeaker);
+    ZegoExpressEngine.instance.muteSpeaker(_isEnableSpeaker);
   }
 
   Future<void> requestPermission() async {
@@ -251,14 +264,15 @@ class _VideoTopicState extends State<VideoTopic> {
     PermissionStatus microphoneStatus = await Permission.microphone.request();
     setState(() => _isMicrophonePermissionGranted = microphoneStatus.isGranted);
   }
+
   @override
   void deactivate() {
     super.deactivate();
     print('1111222222221111走了啊');
-
   }
+
   @override
-  void dispose() async{
+  void dispose() async {
     // Can destroy the engine when you don't need audio and video calls
     //
     // Destroy engine will automatically logout room and stop publishing/playing stream.
@@ -272,13 +286,12 @@ class _VideoTopicState extends State<VideoTopic> {
     super.dispose();
     print('11111111走了啊$taskId');
     var request = HttpRequest.getInstance();
-    var res = await request.post(Api.stopRecordVideo, {'task_id':taskId});
-    if(res['code']==200){
-      if(res['data']['video']['code']==0){
+    var res = await request.post(Api.stopRecordVideo, {'task_id': taskId});
+    if (res['code'] == 200) {
+      if (res['data']['video']['code'] == 0) {
         ToastUtil.showToast(msg: '录制结束！！！');
       }
     }
-
   }
 
   // MARK: - Step 1: CreateEngine
@@ -598,9 +611,10 @@ class _VideoTopicState extends State<VideoTopic> {
               ),
             ),
             GestureDetector(
-              onTap: () {
-                setState(() {
+                onTap: () {
                   _isEnableCamera = !_isEnableCamera;
+
+                  setState(() {
                 });
                 isEnableCamera();
               },
@@ -630,8 +644,9 @@ class _VideoTopicState extends State<VideoTopic> {
             ),
             GestureDetector(
               onTap: () {
+                _isEnableMic = !_isEnableMic;
+
                 setState(() {
-                  _isEnableMic = !_isEnableMic;
                 });
                 isEnableMic();
               },
@@ -653,10 +668,8 @@ class _VideoTopicState extends State<VideoTopic> {
             GestureDetector(
               onTap: () {
                 setState(() {
-                  _isEnableSpeaker = !_isEnableSpeaker;
                   _isVisibility = !_isVisibility;
                 });
-                isEnableSpeaker();
               },
               child: Column(
                 children: <Widget>[
@@ -755,31 +768,48 @@ class _VideoTopicState extends State<VideoTopic> {
                       ],
                     ),
                   ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      SvgUtil.svg('silence.svg'),
-                      const SizedBox(
-                        height: 7.0,
-                      ),
-                      Text(
-                        '免提',
-                        style: GSYConstant.textStyle(),
-                      )
-                    ],
+                  GestureDetector(
+                    onTap: (){
+                      _isEnableSpeaker = !_isEnableSpeaker;
+                      setState(() {
+
+                      });
+                    },
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        SvgUtil.svg('silence.svg'),
+                        const SizedBox(
+                          height: 7.0,
+                        ),
+                        Text(
+                          '免提',
+                          style: GSYConstant.textStyle(),
+                        )
+                      ],
+                    ),
                   ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      SvgUtil.svg('transform.svg'),
-                      const SizedBox(
-                        height: 7.0,
-                      ),
-                      Text(
-                        '切换',
-                        style: GSYConstant.textStyle(),
-                      )
-                    ],
+                  GestureDetector(
+                    onTap: () {
+                      _isFrontCamera= !_isFrontCamera;
+                      setState(() {
+
+                      });
+                      isTransformCamera();
+                    },
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        SvgUtil.svg('transform.svg'),
+                        const SizedBox(
+                          height: 7.0,
+                        ),
+                        Text(
+                          '切换',
+                          style: GSYConstant.textStyle(),
+                        )
+                      ],
+                    ),
                   ),
                 ],
               ),

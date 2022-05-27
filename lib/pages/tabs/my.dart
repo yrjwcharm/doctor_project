@@ -32,18 +32,29 @@ class My extends StatefulWidget {
 
 class MyState extends State<My> {
   late File _image;
+  List listRow = [
+    {
+      'label': '问诊记录',
+      'borderRadius': const BorderRadius.vertical(top: Radius.circular(5.0))
+    },
+    {
+      'label': '我的处方',
+      'borderRadius': const BorderRadius.vertical(bottom: Radius.circular(5.0))
+    }
+  ];
   List<Widget> items = [];
   Map doctorInfoMap = {};
   String phoneStr = "";
-  String doctorName='';
-  String drPhotoUrl='';
-  String deptName='';
-  String orgName='';
-  String  protitle='';
-  String receiveNum='';
-  String waitReceiveNum='';
-  String videoRegisterNum='';
-  String userId='';
+  String doctorName = '';
+  String drPhotoUrl = '';
+  String deptName = '';
+  String orgName = '';
+  String protitle = '';
+  String receiveNum = '';
+  String waitReceiveNum = '';
+  String videoRegisterNum = '';
+  String userId = '';
+
   //获取医生信息
   getNet_doctorInfo() async {
     SharedPreferences perfer = await SharedPreferences.getInstance();
@@ -57,16 +68,14 @@ class MyState extends State<My> {
       doctorInfoMap = res['data'];
       drPhotoUrl = res['data']['photoUrl'];
       doctorName = res['data']['realName'];
-      orgName = res['data']['orgName']??'';
-      deptName = res['data']['deptName']??'';
-      protitle= res['data']['protitle_dictText']??'';
+      orgName = res['data']['orgName'] ?? '';
+      deptName = res['data']['deptName'] ?? '';
+      protitle = res['data']['protitle_dictText'] ?? '';
       receiveNum = res['data']['receiveNum'].toString();
-      waitReceiveNum= res['data']['waitReceiveNum'].toString();
-      videoRegisterNum=res['data']['videoRegisterNum'].toString();
+      waitReceiveNum = res['data']['waitReceiveNum'].toString();
+      videoRegisterNum = res['data']['videoRegisterNum'].toString();
       userId = res['data']['userId'].toString();
-      setState(() {
-
-      });
+      setState(() {});
     }
   }
 
@@ -92,21 +101,23 @@ class MyState extends State<My> {
       //     icon: 'assets/images/my/consultation_information.png',
       //     title: '维护问诊信息',
       //     onTap: () {}),
-      _buildListTile(
-          id: 3,
-          icon: 'assets/images/my/consultation_record.png',
-          title: '问诊记录',
-          onTap: () {}),
-      _buildListTile(
-          id: 4,
-          icon: 'assets/images/my/my_rp.png',
-          title: '我的处方',
-          onTap: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) =>  MyPrescription(userId:userId,)));
-          }),
+      // _buildListTile(
+      //     id: 3,
+      //     icon: 'assets/images/my/consultation_record.png',
+      //     title: '问诊记录',
+      //     onTap: () {
+      //
+      //     }),
+      // _buildListTile(
+      //     id: 4,
+      //     icon: 'assets/images/my/my_rp.png',
+      //     title: '我的处方',
+      //     onTap: () {
+      //       Navigator.push(
+      //           context,
+      //           MaterialPageRoute(
+      //               builder: (context) =>  MyPrescription(userId:userId,)));
+      //     }),
       // _buildListTile(
       //     id: 5,
       //     icon: 'assets/images/my/my_income.png',
@@ -130,58 +141,6 @@ class MyState extends State<My> {
     getNet_doctorInfo();
   }
 
-  _buildListTile(
-      {required int id,
-      required String icon,
-      required String title,
-      required GestureTapCallback onTap}) {
-    return Container(
-        decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: (id == 0 || id == 2)
-                ? const BorderRadius.vertical(top: Radius.circular(5.0))
-                : (id == 1 || id == 5)
-                    ? const BorderRadius.vertical(bottom: Radius.circular(5.0))
-                    : BorderRadius.circular(0.0)),
-        margin: EdgeInsets.only(
-            left: 16.0, right: 16.0, bottom: id == 2 ? 10.0 : 0, top: 0),
-        child: Column(
-          children: [
-            ListTile(
-              onTap: onTap,
-              leading: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Image(
-                    image: AssetImage(icon),
-                    fit: BoxFit.cover,
-                    width: 15.0,
-                    height: 17.0,
-                  ),
-                  const SizedBox(
-                    width: 9.0,
-                  ),
-                  Text(title, style: GSYConstant.textStyle(color: '#333333'))
-                ],
-              ),
-              trailing: const Image(
-                image: AssetImage('assets/images/my/more.png'),
-                fit: BoxFit.cover,
-                width: 8.0,
-                height: 14.0,
-              ),
-            ),
-            (id == 0 || id == 2 || id == 3 || id == 4)
-                ? Divider(
-                    height: 1,
-                    color: ColorsUtil.hexStringColor('#cccccc', alpha: 0.4))
-                : const Divider(
-                    height: 0,
-                  )
-          ],
-        ));
-  }
-
   /*拍照*/
   _takePhoto() async {
     var image = await ImagePicker()
@@ -191,16 +150,16 @@ class MyState extends State<My> {
     });
     String? path = image?.path;
     _uploadAvatar(path!);
-
-
   }
-  _uploadAvatar(String path) async{
+
+  _uploadAvatar(String path) async {
     var request = HttpRequest.getInstance();
     FormData formData =
-    FormData.fromMap({'file': await MultipartFile.fromFile(path)});
-    var result = await request.uploadFile(Api.uploadImgApi,formData);
-    var $result = await request.post(Api.updateAvatar, {'avatar':result['data']['url']});
-    if($result['code']==200){
+        FormData.fromMap({'file': await MultipartFile.fromFile(path)});
+    var result = await request.uploadFile(Api.uploadImgApi, formData);
+    var $result =
+        await request.post(Api.updateAvatar, {'avatar': result['data']['url']});
+    if ($result['code'] == 200) {
       getNet_doctorInfo();
     }
   }
@@ -215,7 +174,6 @@ class MyState extends State<My> {
     });
     String? path = image?.path;
     _uploadAvatar(path!);
-
   }
 
   Future<void> _handleClickMe(BuildContext context) async {
@@ -255,149 +213,217 @@ class MyState extends State<My> {
 
   @override
   Widget build(BuildContext context) {
-    Widget headerSection = Container(
-      padding: const EdgeInsets.only(top: 24.0, right: 16.0, left: 16.0),
-      height: 169,
-      decoration: BoxDecoration(color: ColorsUtil.hexStringColor('#07CF9D')),
-      child: Column(
-        children: [
-          GestureDetector(
-            onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const Settings()));
-            },
-            child: Container(
-              alignment: Alignment.topRight,
-              child: const Image(
-                image: AssetImage('assets/images/my/setup.png'),
-                fit: BoxFit.cover,
-                width: 18.0,
-                height: 18.0,
+    Widget headerSection = Stack(clipBehavior: Clip.none, children: [
+      Container(
+        padding: const EdgeInsets.only(top: 24.0, right: 16.0, left: 16.0),
+        height: 169,
+        decoration: BoxDecoration(color: ColorsUtil.hexStringColor('#07CF9D')),
+        child: Column(
+          children: [
+            GestureDetector(
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const Settings()));
+              },
+              child: Container(
+                alignment: Alignment.topRight,
+                child: const Image(
+                  image: AssetImage('assets/images/my/setup.png'),
+                  fit: BoxFit.cover,
+                  width: 18.0,
+                  height: 18.0,
+                ),
               ),
             ),
-          ),
-          Row(
-            children: [
-              GestureDetector(
-                  onTap: () {
-                    _handleClickMe(context);
-                  },
-                  child: Visibility(visible:drPhotoUrl.isNotEmpty, child:Container(
-                    height: 55.0,
-                    width: 55.0,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(27.5)
+            Row(
+              children: [
+                GestureDetector(
+                    onTap: () {
+                      _handleClickMe(context);
+                    },
+                    child: Visibility(
+                        visible: drPhotoUrl.isNotEmpty,
+                        child: Container(
+                            height: 55.0,
+                            width: 55.0,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(27.5)),
+                            clipBehavior: Clip.hardEdge,
+                            child: Image.network(
+                              drPhotoUrl,
+                              fit: BoxFit.cover,
+                            )))),
+                const SizedBox(
+                  width: 15.0,
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      doctorName,
+                      style: const TextStyle(
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.w500,
+                        fontFamily: 'Medium',
+                        color: Colors.white,
+                      ),
                     ),
-                    clipBehavior: Clip.hardEdge,
-                    child:Image.network(drPhotoUrl,fit: BoxFit.cover,)
-                  ))),
-              const SizedBox(
-                width: 15.0,
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    doctorName,
-                    style: const TextStyle(
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.w500,
-                      fontFamily: 'Medium',
-                      color: Colors.white,
+                    Visibility(
+                        visible: phoneStr.isNotEmpty,
+                        child: Text(
+                          phoneStr,
+                          style: const TextStyle(
+                            fontSize: 14.0,
+                            fontWeight: FontWeight.w400,
+                            fontFamily:
+                                'PingFangSC-Regular-Medium, PingFang SC',
+                            color: Colors.white,
+                          ),
+                        ))
+                  ],
+                )
+              ],
+            )
+          ],
+        ),
+      ),
+      Positioned(
+          top: 130.0,
+          width: MediaQuery.of(context).size.width,
+          child: Container(
+            height: 60,
+            margin: const EdgeInsets.symmetric(horizontal: 16.0),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(5.0),
+            ),
+            child: Row(
+              children: [
+                Expanded(
+                    child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.star,
+                        size: 16.0,
+                        color: ColorsUtil.hexStringColor('#FF9C00')),
+                    const SizedBox(
+                      width: 9.0,
+                    ),
+                    Text(
+                      '5',
+                      style: TextStyle(
+                          fontSize: 18.0,
+                          fontFamily: 'Medium',
+                          fontWeight: FontWeight.w500,
+                          color: ColorsUtil.hexStringColor('#FF9C00')),
+                    ),
+                  ],
+                )),
+                Image.asset('assets/images/my/line.png'),
+                // const Image(width:1.0,height:16.0,image: AssetImage('assets/images/my/line.png'),fit:BoxFit.cover),
+                Expanded(
+                    child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      '接诊量',
+                      style: TextStyle(
+                          fontSize: 14.0,
+                          fontWeight: FontWeight.w400,
+                          fontFamily: 'PingFangSC-Regular, PingFang SC',
+                          color: ColorsUtil.hexStringColor('#999999')),
+                    ),
+                    const SizedBox(
+                      width: 9.0,
+                    ),
+                    Text(
+                      receiveNum,
+                      style: TextStyle(
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.w500,
+                          fontFamily: 'Medium',
+                          color: ColorsUtil.hexStringColor('#06B48D')),
+                    )
+                  ],
+                ))
+              ],
+            ),
+          ))
+    ]);
+    return Scaffold(
+      backgroundColor: ColorsUtil.hexStringColor('#f9f9f9'),
+      appBar: CustomAppBar(
+        '我的',
+        isBack: false,
+      ),
+      body: SingleChildScrollView(
+          child: Column(children: [
+        headerSection,
+        const SizedBox(
+          height: 30.0,
+        ),
+        Column(
+            children: listRow
+                .asMap()
+                .keys
+                .map<Widget>(
+                  (index) => GestureDetector(
+                    onTap: () {
+                      switch(index){
+                        case 0:
+                          break;
+                          case 1:
+                           Navigator.push(context, MaterialPageRoute(builder: (context)=>MyPrescription(userId: userId)));
+                            break;
+                      }
+                    },
+                    child: Column(
+                      children: <Widget>[
+                        Container(
+                          height: 42.0,
+                          margin: const EdgeInsets.symmetric(horizontal: 16.0),
+                          padding: const EdgeInsets.only(left: 7.0, right: 8.0),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: listRow[index]['borderRadius'],
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Row(
+                                children: <Widget>[
+                                  // font-size: 16px;
+                                  //     font-family: PingFangSC-Regular, PingFang SC;
+                                  // font-weight: 400;
+                                  // color: #333333;
+                                  Image.asset(
+                                      'assets/images/my/consultation_record.png'),
+                                  const SizedBox(
+                                    width: 8.0,
+                                  ),
+                                  Text(listRow[index]['label'],
+                                      style: GSYConstant.textStyle(
+                                          fontSize: 16.0, color: '#333333')),
+                                ],
+                              ),
+                              SvgUtil.svg('_more.svg')
+                            ],
+                          ),
+                        ),
+                        Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 16.0),
+                          child: Divider(
+                            height: 0,
+                            color: ColorsUtil.hexStringColor('#cccccc',
+                                alpha: 0.4),
+                          ),
+                        )
+                      ],
                     ),
                   ),
-                  Visibility(visible: phoneStr.isNotEmpty,child: Text(
-                    phoneStr,
-                    style: const TextStyle(
-                      fontSize: 14.0,
-                      fontWeight: FontWeight.w400,
-                      fontFamily: 'PingFangSC-Regular-Medium, PingFang SC',
-                      color: Colors.white,
-                    ),
-                  ))
-                ],
-              )
-            ],
-          )
-        ],
-      ),
+                )
+                .toList())
+      ])),
     );
-    Widget captionSection = Container(
-      transform: Matrix4.translationValues(0, -38.0, 0),
-      height: 60,
-      margin: const EdgeInsets.symmetric(horizontal: 16.0),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(5.0),
-      ),
-      child: Row(
-        children: [
-          Expanded(
-              child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(Icons.star,
-                  size: 16.0, color: ColorsUtil.hexStringColor('#FF9C00')),
-              const SizedBox(
-                width: 9.0,
-              ),
-              Text(
-                '',
-                style: TextStyle(
-                    fontSize: 18.0,
-                    fontFamily: 'Medium',
-                    fontWeight: FontWeight.w500,
-                    color: ColorsUtil.hexStringColor('#FF9C00')),
-              ),
-            ],
-          )),
-          Image.asset('assets/images/my/line.png'),
-          // const Image(width:1.0,height:16.0,image: AssetImage('assets/images/my/line.png'),fit:BoxFit.cover),
-          Expanded(
-              child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                '接诊量',
-                style: TextStyle(
-                    fontSize: 14.0,
-                    fontWeight: FontWeight.w400,
-                    fontFamily: 'PingFangSC-Regular, PingFang SC',
-                    color: ColorsUtil.hexStringColor('#999999')),
-              ),
-              const SizedBox(
-                width: 9.0,
-              ),
-              Text(
-                receiveNum,
-                style: TextStyle(
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.w500,
-                    fontFamily: 'Medium',
-                    color: ColorsUtil.hexStringColor('#06B48D')),
-              )
-            ],
-          ))
-        ],
-      ),
-    );
-
-    return Scaffold(
-        backgroundColor: ColorsUtil.hexStringColor('#f9f9f9'),
-        appBar: CustomAppBar(
-          '我的',
-          isBack: false,
-        ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              headerSection,
-              captionSection,
-              Column(
-                children: items,
-              )
-            ],
-          ),
-        ));
   }
 }

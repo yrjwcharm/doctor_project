@@ -66,8 +66,6 @@ class _GSYWebViewState extends State<GSYWebView> {
                 JavascriptChannel(
                     name: 'Print',
                     onMessageReceived: (JavascriptMessage message) {
-                      ///print("FFFFFF");
-                      print('2222,${message.message}');
                       Map<String,dynamic> map = json.decode(message.message);
                       if(map['success']){
                         Navigator.pop(context);
