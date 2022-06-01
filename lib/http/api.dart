@@ -4,6 +4,7 @@ class Api {
   static const bindJG = '/doctor/dr-service/jig/bindRid';
   static const sendRpNoticeApi = '/doctor/dr-service/recipe/notice';
   static const dataDicUrl ='/doctor/dr-service/baDatadictDetail/getDatadictDetail';
+  static const detailChildDicUrl ='/doctor/dr-service/baDatadictDetail/getDatadictDetailChild';
   static const createPrescriptionUrl = "/doctor/dr-service/recipe/create"; //新建西药处方
   static const pharmacyListUrl = "/doctor/dr-service/pharmacy/getList"; //获取药房列表
   static const writeCaseUrl = "/doctor/dr-service/case/write"; //写病历

@@ -44,6 +44,8 @@ class _RecipeDetailState extends State<RecipeDetail> {
   String pharmacistSign = '';
   String companySign = '';
   String countNum = '';
+  String pharmacistsName = '';
+  String auditingTime = '';
   String  useType_dictText='';
   String freq_dictText='';
   String remarks ='';
@@ -88,6 +90,8 @@ class _RecipeDetailState extends State<RecipeDetail> {
         .get(Api.getRpDetailApi + '?recipeId=${rpDetailItem['id']}', {});
     if (res['code'] == 200) {
       medicineMap = res['data'];
+      print("medicineMap------" + medicineMap.toString());
+      // print("getNet_medicineMap------" + medicineMap);
       if (medicineMap['doctorSign'].isNotEmpty) {
         doctorSign = medicineMap['doctorSign'];
       }
@@ -105,6 +109,8 @@ class _RecipeDetailState extends State<RecipeDetail> {
         medicineVOS = medicineMap['medicineVOS'];
       }
       countNum = res['data']['countNum'].toString();
+      pharmacistsName = res['data']['pharName'];
+      auditingTime = res['data']['checkDate'];
       useType_dictText=res['data']['useType_dictText']??'';
       freq_dictText=res['data']['freq_dictText']??'';
       remarks = res['data']['remarks'];
@@ -223,6 +229,11 @@ class _RecipeDetailState extends State<RecipeDetail> {
                               color: '#333333',
                             ),
                           ),
+                          Text(
+                            pharmacistsName,
+                            style: GSYConstant.textStyle(
+                            fontSize: 14.0, color: '#666666'),
+                          )
                           // medicineMap['pharmacistSign'] != null
                           //     ? Transform.rotate(
                           //   angle: 270.17,
@@ -245,7 +256,7 @@ class _RecipeDetailState extends State<RecipeDetail> {
                             ),
                           ),
                           Text(
-                            '',
+                            auditingTime,
                             style: GSYConstant.textStyle(
                                 color: '#06B48D', fontSize: 13.0),
                           )
