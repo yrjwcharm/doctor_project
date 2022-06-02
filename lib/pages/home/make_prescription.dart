@@ -1205,6 +1205,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
                                 MaterialPageRoute(
                                     builder: (context) => tab1Active
                                         ? AddDrugList(
+                                            pharmacyId:pharmacyId,
                                             instructionsMap: map,
                                           )
                                         : AddChineseMedicineList(

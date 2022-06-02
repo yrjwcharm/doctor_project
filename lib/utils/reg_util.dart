@@ -70,7 +70,7 @@ class RegexUtil {
 
 
   /// 必须包含字母和数字和特殊字符, 6~16.
-  static const String regexPwd =r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{6,16}$';
+  static const String regexPwd =r'^(?![A-Za-z0-9]+\$)(?![a-z0-9\\W]+\$)(?![A-Za-z\\W]+\$)(?![A-Z0-9\\W]+\$)[a-zA-Z0-9\\W]{6,16}\$';
   /// Regex of QQ number.
   static const String regexQQ = '[1-9][0-9]{4,}';
 

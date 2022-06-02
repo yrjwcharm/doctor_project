@@ -43,10 +43,10 @@ class RegisterContentStates extends State<LoginPage> {
       ToastUtil.showToast(msg: '请输入正确手机号');
       return;
     }
-    if(!RegexUtil.isPwd(loginPas)){
-      ToastUtil.showToast(msg: '密码必须包含字母数字、特殊字符6-16位');
-      return;
-    }
+    // if(!RegexUtil.isPwd(loginPas)){
+    //   ToastUtil.showToast(msg: '密码必须包含字母数字、特殊字符6-16位');
+    //   return;
+    // }
     if (isSelect == 0) {
       Fluttertoast.showToast(
           msg: '请勾选服务', gravity: ToastGravity.CENTER);

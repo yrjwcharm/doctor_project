@@ -50,10 +50,10 @@ class RegisterContentStates extends State<RegisterContent> {
     //   "code": code,
     // });
     var dio = Dio();
-    if (!RegexUtil.isPwd(loginPas)) {
-      ToastUtil.showToast(msg: '密码必须包含字母和数字和特殊字符,6-16');
-      return;
-    }
+    // if (!RegexUtil.isPwd(loginPas)) {
+    //   ToastUtil.showToast(msg: '密码必须包含字母和数字和特殊字符,6-16');
+    //   return;
+    // }
     var response = await dio.post(
         Api.BASE_URL + '/doctor/dr-service/ba-doctor-user/register',
         data: {

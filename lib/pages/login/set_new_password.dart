@@ -136,10 +136,10 @@ class _SetNewPasswordState extends State<SetNewPassword> {
             child: CustomElevatedButton(
               borderRadius: BorderRadius.circular(22.0),
               onPressed: () async {
-                if (!RegexUtil.isPwd(pwd)) {
-                  ToastUtil.showToast(msg: '密码输入格式有误');
-                  return;
-                }
+                // if (!RegexUtil.isPwd(pwd)) {
+                //   ToastUtil.showToast(msg: '密码输入格式有误');
+                //   return;
+                // }
                 if (pwd != _pwd) {
                   ToastUtil.showToast(msg: '请确认密码');
                   return;

@@ -16,16 +16,18 @@ import 'package:fluttertoast/fluttertoast.dart';
 class AddDrugList extends StatefulWidget {
 
   Map instructionsMap ; //药品使用方法列表（用量、服药单位、用法等）
-  AddDrugList({Key? key, required this.instructionsMap}) : super(key: key);
+  String pharmacyId;
+  AddDrugList({Key? key, required this.instructionsMap,required this.pharmacyId}) : super(key: key);
 
   @override
-  _AddDrugListState createState() => _AddDrugListState(instructionsMap: this.instructionsMap);
+  _AddDrugListState createState() => _AddDrugListState(instructionsMap: this.instructionsMap,pharmacyId: this.pharmacyId);
 }
 
 class _AddDrugListState extends State<AddDrugList> {
 
-  Map instructionsMap ; //药品使用方法列表（用量、服药单位、用法等）
-  _AddDrugListState({required this.instructionsMap});
+  Map instructionsMap ; //药品使用方法列表（用量、服药单位、用法等// ）
+  String pharmacyId;
+  _AddDrugListState({required this.instructionsMap,required this .pharmacyId});
 
   final TextEditingController _editingController = TextEditingController();
   final FocusNode _contentFocusNode = FocusNode();
@@ -69,7 +71,7 @@ class _AddDrugListState extends State<AddDrugList> {
       "token": tokenValueStr,
     };
     print('54689,${type}');
-    String urlStr =Api.BASE_URL+ "/doctor/dr-service/medicine/getList?keyword=" + _editingController.text + "&type=" +type.toString() +"&page=" +_page.toString() + "&size=" +pageSize.toString();
+    String urlStr =Api.BASE_URL+ "/doctor/dr-service/medicine/getList?keyword=" + _editingController.text + "&type=" +type.toString() +"&page=" +_page.toString() + "&size=" +pageSize.toString()+'&pharmacyId=$pharmacyId';
     var response = await dio.get(urlStr);
 
     if(response.data['code'] == 200){
@@ -309,8 +311,7 @@ class _AddDrugListState extends State<AddDrugList> {
                                   {});
                               if(res['code']==200) {
                                 detailDataList[index]['stockNum']=res['data']??0;
-                                Navigator.pop(context);
-                                Navigator.push(context,
+                                Navigator.pushReplacement(context,
                                     MaterialPageRoute(builder: (context) =>
                                         UseDrugInfo(
                                           drugInfoMap: detailDataList[index],
