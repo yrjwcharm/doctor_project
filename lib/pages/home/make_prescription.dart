@@ -71,7 +71,11 @@ class _MakePrescriptionState extends State<MakePrescription> {
   List<String> rpData = <String>[];
   List rpList = [];
   String rpTypeId = ''; //处方类型id
-  String rpTypeName = ''; //处方类型
+  String rpTypeName = ''; //处方分类
+
+  List<String> tcmData = <String>[];
+  List tcmList = [];
+
   int _radioGroup = 0;
   String diagnosisName = '';
 
@@ -101,6 +105,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
     super.initState();
 
     loadtDataForRP();
+    loadtDataForTCM();
     loadtDataForPharmacy();
     loadDataForUseType();
     loadDataForFreqTYpe();
@@ -305,10 +310,10 @@ class _MakePrescriptionState extends State<MakePrescription> {
     }
   }
 
-  //初始化加载处方类型列表
+  //初始化加载处方分类列表---西药
   loadtDataForRP() async {
     HttpRequest? request = HttpRequest.getInstance();
-    var res = await request.get(Api.dataDicUrl + '?dictId=14', {});
+    var res = await request.get(Api.detailChildDicUrl + '?parentId=141', {});
     if (res['code'] == 200) {
       List data = res['data'];
       print("loadtDataForRP------" + data.toString());
@@ -319,6 +324,25 @@ class _MakePrescriptionState extends State<MakePrescription> {
       setState(() {
         rpData = pickerData;
         rpList = data;
+        rpTypeId = rpList[0]['detailValue'].toString();
+        rpTypeName = rpList[0]['detailName'];
+      });
+    }
+  }
+  //初始化加载处方类型列表---中药
+  loadtDataForTCM() async {
+    HttpRequest? request = HttpRequest.getInstance();
+    var res = await request.get(Api.detailChildDicUrl + '?parentId=142', {});
+    if (res['code'] == 200) {
+      List data = res['data'];
+      print("loadtDataForTCM------" + data.toString());
+      List<String> pickerData = [];
+      for (var item in data) {
+        pickerData.add(item['detailName']);
+      }
+      setState(() {
+        tcmData = pickerData;
+        tcmList = data;
         rpTypeId = rpList[0]['detailValue'].toString();
         rpTypeName = rpList[0]['detailName'];
       });
@@ -368,7 +392,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
         .get(Api.dataDicUrl + '?dictId=${tab1Active ? 16 : 21}', {});
     if (res['code'] == 200) {
       List data = res['data'];
-      print("loadDataForFreqTYpe------" + data.toString());
+      // print("loadDataForFreqTYpe------" + data.toString());
       List<String> pickerData = [];
       for (var item in data) {
         pickerData.add(item['detailName']);
@@ -522,7 +546,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         Text(
-                          '处方分类',
+                          '处方',
                           style: GSYConstant.textStyle(color: '#333333'),
                         ),
                         Row(
@@ -543,15 +567,28 @@ class _MakePrescriptionState extends State<MakePrescription> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    PickerUtil.showPicker(context, _scaffoldKey,
-                        pickerData: rpData,
-                        confirmCallback: (Picker picker, List<int> selected) {
-                      setState(() {
-                        rpTypeId =
-                            rpList[selected[0]]['detailValue'].toString();
-                        rpTypeName = rpList[selected[0]]['detailName'];
+                    if (rpName == "中药处方") {
+                      PickerUtil.showPicker(context, _scaffoldKey,
+                      pickerData: tcmData,
+                      confirmCallback: (Picker picker, List<int> selected) {
+                        setState(() {
+                          rpTypeId =
+                          tcmList[selected[0]]['detailValue'].toString();
+                          rpTypeName = tcmList[selected[0]]['detailName'];
+                        });
                       });
-                    });
+                    }
+                    else {
+                      PickerUtil.showPicker(context, _scaffoldKey,
+                      pickerData: rpData,
+                      confirmCallback: (Picker picker, List<int> selected) {
+                        setState(() {
+                          rpTypeId =
+                          rpList[selected[0]]['detailValue'].toString();
+                          rpTypeName = rpList[selected[0]]['detailName'];
+                        });
+                      });
+                    }
                   },
                   child: Container(
                     height: 44.0,
@@ -568,13 +605,13 @@ class _MakePrescriptionState extends State<MakePrescription> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         Text(
-                          '处方类型',
+                          '处方分类',
                           style: GSYConstant.textStyle(color: '#333333'),
                         ),
                         Row(
                           children: <Widget>[
                             Text(
-                              rpTypeName,
+                                rpTypeName,
                               style: GSYConstant.textStyle(color: '#666666'),
                             ),
                             const SizedBox(
