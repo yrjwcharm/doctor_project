@@ -294,7 +294,7 @@ class _AddChineseMedicineListState extends State<AddChineseMedicineList> {
                               // if(res['code']==200) {
                               //   detailDataList[index]['stockNum']=res['data']??0;
                               // }
-                              if(detailDataList[index]['stockNum']=='0'){
+                              if(int.parse(detailDataList[index]['stockNum'])==0){
                                 return;
                               }
                               setState(() {
@@ -322,7 +322,7 @@ class _AddChineseMedicineListState extends State<AddChineseMedicineList> {
                                     child: SvgUtil.svg('add_drug.svg'),)
                               ),
                               decoration: BoxDecoration(
-                                  color:detailDataList[index]['stockNum']=='0'?Colors.grey: Colors.white,
+                                  color:int.parse(detailDataList[index]['stockNum'])==0?Colors.grey: Colors.white,
                                   border: Border(bottom: BorderSide(width: 1.0,color: ColorsUtil.hexStringColor('#cccccc',alpha: 0.3)))
                               ),
                             ),

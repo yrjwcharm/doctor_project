@@ -308,7 +308,7 @@ class _AddDrugListState extends State<AddDrugList> {
                           return GestureDetector(
                             onTap: () async{
 
-                                if(detailDataList[index]['stockNum']=='0'){
+                                if(int.parse(detailDataList[index]['stockNum'])==0){
                                   return;
                                 }
                                 Navigator.pushReplacement(context,
@@ -328,7 +328,7 @@ class _AddDrugListState extends State<AddDrugList> {
                                   Text(detailDataList[index]["medicinename"] +" " +detailDataList[index]["specification"] +"/" +detailDataList[index]["packageUnit"],style: GSYConstant.textStyle(color: '#333333'),),
                                 ],),
                               decoration: BoxDecoration(
-                                  color:  detailDataList[index]['stockNum']=='0'?Colors.grey:Colors.white,
+                                  color:  int.parse(detailDataList[index]['stockNum'])==0?Colors.grey:Colors.white,
                                   border: Border(bottom: BorderSide(width: 1.0,color: ColorsUtil.hexStringColor('#cccccc',alpha: 0.3)))
                               ),
                             ),
