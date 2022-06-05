@@ -1,5 +1,6 @@
 import 'package:doctor_project/common/style/gsy_style.dart';
 import 'package:doctor_project/http/http_request.dart';
+import 'package:doctor_project/utils/toast_util.dart';
 import 'package:doctor_project/widget/custom_app_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -306,17 +307,16 @@ class _AddDrugListState extends State<AddDrugList> {
                         if (index < detailDataList.length){
                           return GestureDetector(
                             onTap: () async{
-                              var request  =HttpRequest.getInstance();
-                              var res  =await request.get(Api.westernDrugInventoryApi+'?id=${detailDataList[index]['medicineid']}',
-                                  {});
-                              if(res['code']==200) {
-                                detailDataList[index]['stockNum']=res['data']??0;
+
+                                if(detailDataList[index]['stockNum']=='0'){
+                                  return;
+                                }
                                 Navigator.pushReplacement(context,
                                     MaterialPageRoute(builder: (context) =>
                                         UseDrugInfo(
                                           drugInfoMap: detailDataList[index],
                                           instructionsMap: instructionsMap,)));
-                              }
+
                             },
                             child: Container(
                               height: 44.0,
@@ -328,7 +328,7 @@ class _AddDrugListState extends State<AddDrugList> {
                                   Text(detailDataList[index]["medicinename"] +" " +detailDataList[index]["specification"] +"/" +detailDataList[index]["packageUnit"],style: GSYConstant.textStyle(color: '#333333'),),
                                 ],),
                               decoration: BoxDecoration(
-                                  color: Colors.white,
+                                  color:  detailDataList[index]['stockNum']=='0'?Colors.grey:Colors.white,
                                   border: Border(bottom: BorderSide(width: 1.0,color: ColorsUtil.hexStringColor('#cccccc',alpha: 0.3)))
                               ),
                             ),

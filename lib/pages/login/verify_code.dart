@@ -9,6 +9,7 @@ import 'package:doctor_project/widget/custom_elevated_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../widget/code_input_row.dart';
 
@@ -104,6 +105,8 @@ class _VerifyCodeState extends State<VerifyCode> {
                   "type": "reset", //操作类型，register=注册；reset=重置密码
                   "code": _code});
               if(res['code']==200) {
+              SharedPreferences perfer = await SharedPreferences.getInstance();
+              perfer.setString('tokenValue', res['data']['tokenValue']);
                 Navigator.push(context, MaterialPageRoute(builder: (context)=>const SetNewPassword()));
               }else{
                 ToastUtil.showToast(msg: res['msg']);

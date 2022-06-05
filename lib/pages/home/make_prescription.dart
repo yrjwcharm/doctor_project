@@ -36,7 +36,6 @@ class MakePrescription extends StatefulWidget {
   String registeredId; //挂号Id
   MakePrescription({Key? key, required this.registeredId}) : super(key: key);
 
-  @override
   _MakePrescriptionState createState() =>
       _MakePrescriptionState(registeredId: this.registeredId);
 }
@@ -1235,7 +1234,10 @@ class _MakePrescriptionState extends State<MakePrescription> {
                               "baseUnit": baseUnitList,
                               "_baseUnit": _baseUnitList,
                             };
-
+                            if(pharmacyId.isEmpty){
+                              ToastUtil.showToast(msg: '请先选择药方');
+                              return;
+                            }
                             Navigator.push(
                                 //中药药品选择
                                 context,

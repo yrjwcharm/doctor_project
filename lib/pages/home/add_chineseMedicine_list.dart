@@ -288,12 +288,14 @@ class _AddChineseMedicineListState extends State<AddChineseMedicineList> {
                         if (index < detailDataList.length){
                           return GestureDetector(
                             onTap: () async{
-                              print('3333333,id=${detailDataList[index]['medicineid']}');
-                              var request  =HttpRequest.getInstance();
-                              var res  =await request.get(Api.eastDrugInventoryApi+'?id=${detailDataList[index]['medicineid']}',
-                                  {});
-                              if(res['code']==200) {
-                                detailDataList[index]['stockNum']=res['data']??0;
+                              // var request  =HttpRequest.getInstance();
+                              // var res  =await request.get(Api.eastDrugInventoryApi+'?id=${detailDataList[index]['medicineid']}',
+                              //     {});
+                              // if(res['code']==200) {
+                              //   detailDataList[index]['stockNum']=res['data']??0;
+                              // }
+                              if(detailDataList[index]['stockNum']=='0'){
+                                return;
                               }
                               setState(() {
                                 detailDataList[index]["count"] = 1;
@@ -320,7 +322,7 @@ class _AddChineseMedicineListState extends State<AddChineseMedicineList> {
                                     child: SvgUtil.svg('add_drug.svg'),)
                               ),
                               decoration: BoxDecoration(
-                                  color: Colors.white,
+                                  color:detailDataList[index]['stockNum']=='0'?Colors.grey: Colors.white,
                                   border: Border(bottom: BorderSide(width: 1.0,color: ColorsUtil.hexStringColor('#cccccc',alpha: 0.3)))
                               ),
                             ),
