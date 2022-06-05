@@ -328,6 +328,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
       });
     }
   }
+
   //初始化加载处方类型列表---中药
   loadtDataForTCM() async {
     HttpRequest? request = HttpRequest.getInstance();
@@ -568,22 +569,21 @@ class _MakePrescriptionState extends State<MakePrescription> {
                   onTap: () {
                     if (rpName == "中药处方") {
                       PickerUtil.showPicker(context, _scaffoldKey,
-                      pickerData: tcmData,
-                      confirmCallback: (Picker picker, List<int> selected) {
+                          pickerData: tcmData,
+                          confirmCallback: (Picker picker, List<int> selected) {
                         setState(() {
                           rpTypeId =
-                          tcmList[selected[0]]['detailValue'].toString();
+                              tcmList[selected[0]]['detailValue'].toString();
                           rpTypeName = tcmList[selected[0]]['detailName'];
                         });
                       });
-                    }
-                    else {
+                    } else {
                       PickerUtil.showPicker(context, _scaffoldKey,
-                      pickerData: rpData,
-                      confirmCallback: (Picker picker, List<int> selected) {
+                          pickerData: rpData,
+                          confirmCallback: (Picker picker, List<int> selected) {
                         setState(() {
                           rpTypeId =
-                          rpList[selected[0]]['detailValue'].toString();
+                              rpList[selected[0]]['detailValue'].toString();
                           rpTypeName = rpList[selected[0]]['detailName'];
                         });
                       });
@@ -610,7 +610,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
                         Row(
                           children: <Widget>[
                             Text(
-                                rpTypeName,
+                              rpTypeName,
                               style: GSYConstant.textStyle(color: '#666666'),
                             ),
                             const SizedBox(
@@ -775,10 +775,14 @@ class _MakePrescriptionState extends State<MakePrescription> {
                                                 mainAxisSize: MainAxisSize.min,
                                                 children: <Widget>[
                                                   Row(
-                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
                                                     children: <Widget>[
                                                       Radio(
-                                                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                                        materialTapTargetSize:
+                                                            MaterialTapTargetSize
+                                                                .shrinkWrap,
                                                         activeColor: ColorsUtil
                                                             .hexStringColor(
                                                                 '#06b48d'),
@@ -808,7 +812,9 @@ class _MakePrescriptionState extends State<MakePrescription> {
                                                             .setWidth(5.0),
                                                       ),
                                                       Radio(
-                                                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                                        materialTapTargetSize:
+                                                            MaterialTapTargetSize
+                                                                .shrinkWrap,
                                                         activeColor: ColorsUtil
                                                             .hexStringColor(
                                                                 '#06b48d'),
@@ -1234,7 +1240,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
                               "baseUnit": baseUnitList,
                               "_baseUnit": _baseUnitList,
                             };
-                            if(pharmacyId.isEmpty){
+                            if (pharmacyId.isEmpty) {
                               ToastUtil.showToast(msg: '请先选择药方');
                               return;
                             }
@@ -1244,10 +1250,11 @@ class _MakePrescriptionState extends State<MakePrescription> {
                                 MaterialPageRoute(
                                     builder: (context) => tab1Active
                                         ? AddDrugList(
-                                            pharmacyId:pharmacyId,
+                                            pharmacyId: pharmacyId,
                                             instructionsMap: map,
                                           )
                                         : AddChineseMedicineList(
+                                            pharmacyId: pharmacyId,
                                             selectedDrugList: [],
                                           ))).then((value) {
                               print(value);

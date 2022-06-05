@@ -19,23 +19,23 @@ import '../../widget/numberwidget.dart';
 
 
 class AddChineseMedicineList extends StatefulWidget {
-
+  String pharmacyId='';
   List selectedDrugList ; //中药选中的药品列表数据
-  AddChineseMedicineList({Key? key, required this.selectedDrugList}) : super(key: key);
+  AddChineseMedicineList({Key? key, required this.selectedDrugList,required this.pharmacyId}) : super(key: key);
 
   @override
-  _AddChineseMedicineListState createState() => _AddChineseMedicineListState(selectedDrugList: this.selectedDrugList);
+  _AddChineseMedicineListState createState() => _AddChineseMedicineListState(selectedDrugList: this.selectedDrugList,pharmacyId:this.pharmacyId);
 }
 
 class _AddChineseMedicineListState extends State<AddChineseMedicineList> {
 
   List selectedDrugList ;
-  _AddChineseMedicineListState({required this.selectedDrugList});
+  _AddChineseMedicineListState({required this.selectedDrugList,required this.pharmacyId});
 
   final TextEditingController _editingController1 = TextEditingController(); //搜索关键词TF
   final FocusNode _contentFocusNode = FocusNode();
   final ScrollController _scrollController = ScrollController(); //listview的控制器
-
+  String pharmacyId='';
   double screenWidth = window.physicalSize.width;
   double ratio = window.devicePixelRatio;
   bool tab1Active = true;
@@ -83,7 +83,7 @@ class _AddChineseMedicineListState extends State<AddChineseMedicineList> {
       "token": tokenValueStr,
     };
 
-    String urlStr =Api.BASE_URL+ "/doctor/dr-service/herbalMedicine/getList?keyword=" + _editingController1.text + "&type=" +type.toString() +"&page=" +_page.toString() + "&size=" +pageSize.toString();
+    String urlStr =Api.BASE_URL+ "/doctor/dr-service/herbalMedicine/getList?keyword=" + _editingController1.text + "&type=" +type.toString() +"&page=" +_page.toString() + "&size=" +pageSize.toString()+'&pharmacyId=$pharmacyId';
     var response = await dio.get(urlStr);
 
     if(response.data['code'] == 200){
