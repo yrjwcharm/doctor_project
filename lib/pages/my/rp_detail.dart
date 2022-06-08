@@ -91,7 +91,6 @@ class _RecipeDetailState extends State<RecipeDetail> {
     if (res['code'] == 200) {
       medicineMap = res['data'];
       print("medicineMap------" + medicineMap.toString());
-      // print("getNet_medicineMap------" + medicineMap);
       if (medicineMap['doctorSign'].isNotEmpty) {
         doctorSign = medicineMap['doctorSign'];
       }
@@ -108,12 +107,16 @@ class _RecipeDetailState extends State<RecipeDetail> {
       if (medicineMap['medicineVOS'].isNotEmpty) {
         medicineVOS = medicineMap['medicineVOS'];
       }
-      countNum = res['data']['countNum'].toString();
-      pharmacistsName = res['data']['pharName'];
-      auditingTime = res['data']['checkDate'];
+      // if(medicineMap['countNum'].toString.isNotEmpty) {
+        countNum = medicineMap['countNum'].toString();
+      // }
+      if(null !=res['data']['pharName']) {
+        pharmacistsName = res['data']['pharName'];
+      }
+      auditingTime = res['data']['checkDate']??'';
       useType_dictText=res['data']['useType_dictText']??'';
       freq_dictText=res['data']['freq_dictText']??'';
-      remarks = res['data']['remarks'];
+      remarks = res['data']['remarks']??'';
       setState(() {});
     }
   }
@@ -582,7 +585,8 @@ class _RecipeDetailState extends State<RecipeDetail> {
                                               ),
                                               Text(
                                                 herbalMedicineVOS[index]
-                                                    ['specification'],
+                                                    ['medicineNum'].toString() + herbalMedicineVOS[index]
+                                                    ['packageUnitid_dictText'],
                                                 style: GSYConstant.textStyle(
                                                     fontSize: 14.0,
                                                     color: '#666666'),

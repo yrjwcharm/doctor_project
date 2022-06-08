@@ -184,7 +184,7 @@ class _AddChineseMedicineListState extends State<AddChineseMedicineList> {
     return Scaffold(
       backgroundColor: ColorsUtil.bgColor,
       appBar: CustomAppBar(
-        '添加药品',
+        '添加药品1',
         onBackPressed: () {
           Navigator.pop(context);
         },
@@ -310,7 +310,7 @@ class _AddChineseMedicineListState extends State<AddChineseMedicineList> {
                                   title: Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: <Widget>[
-                                      Text(detailDataList[index]["medicinename"] +" " +detailDataList[index]["specification"] +"  ", style: GSYConstant.textStyle(color: '#333333'),),
+                                      Text(detailDataList[index]["medicinename"] +" " +detailDataList[index]["specification"] +"  ", style: GSYConstant.textStyle(color:int.parse(detailDataList[index]['stockNum'])==0?'#999999': '#333333'),),
                                       Expanded(child: Text(detailDataList[index]["manuname"],style: GSYConstant.textStyle(color: '#999999'),overflow: TextOverflow.ellipsis,maxLines: 1,),),
                                     ],
                                   ),
@@ -319,10 +319,10 @@ class _AddChineseMedicineListState extends State<AddChineseMedicineList> {
                                       alignment: Alignment.centerRight,
                                       padding:EdgeInsets.zero,
                                     ),
-                                    child: SvgUtil.svg('add_drug.svg'),)
+                                    child:int.parse(detailDataList[index]['stockNum'])==0?SvgUtil.svg('add_graydrug.svg'): SvgUtil.svg('add_drug.svg'),)
                               ),
                               decoration: BoxDecoration(
-                                  color:int.parse(detailDataList[index]['stockNum'])==0?Colors.grey: Colors.white,
+                                  color:Colors.white,
                                   border: Border(bottom: BorderSide(width: 1.0,color: ColorsUtil.hexStringColor('#cccccc',alpha: 0.3)))
                               ),
                             ),

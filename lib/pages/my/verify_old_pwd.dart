@@ -75,8 +75,9 @@ class _VerifyOldPwdState extends State<VerifyOldPwd> {
           ),
           SafeAreaButton(margin: const EdgeInsets.only(top: 90.0), text: '下一步', onPressed:() async{
             var res = await HttpRequest.getInstance().post(Api.verifyOldPwdApi, {'password':oldPwd});
+            print('verify_old_pwd----'+res.toString());
             if(res['code']==200){
-              // Navigator.push(context, MaterialPageRoute(builder: (context)=>const UpdatePassword()));
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>const UpdatePassword()));
             }else{
               ToastUtil.showToast(msg: res['msg']);
             }

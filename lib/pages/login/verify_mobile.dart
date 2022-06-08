@@ -106,6 +106,7 @@ class _VerifyMobileState extends State<VerifyMobile>  {
                       }
                       var res = await HttpRequest.getInstance().get(Api.sendVerifyCode+'?phone=$phone&type=reset',
                           {});
+                          print('verify_mobile======'+res.toString());
                       if(res['code']==200){
                         Navigator.push(context, MaterialPageRoute(builder: (context)=> VerifyCode(phone: phone,)));
                       }
