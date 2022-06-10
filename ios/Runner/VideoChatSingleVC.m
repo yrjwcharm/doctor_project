@@ -50,8 +50,8 @@
 -(void)backBtnClick
 {
     [self.navigationController popViewControllerAnimated:YES];
-    
 }
+
 - (void)startLive {
     // Start preview
     ZegoCanvas *previewCavas = [ZegoCanvas canvasWithView:self.bigView];

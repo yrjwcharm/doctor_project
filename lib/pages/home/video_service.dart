@@ -47,7 +47,7 @@ class _HealthConsultServiceState extends State<VideoService> {
                      Navigator.push(context, MaterialPageRoute(builder: (context)=>const TopicPriceSet()));
                      break;
                    case 2:
-                     Navigator.push(context, MaterialPageRoute(builder: (context)=>const ClinicReceptionPersonSet()));
+                     Navigator.push(context, MaterialPageRoute(builder: (context)=>const ChoiceClinicReceptTimePerson()));
                      break;
                  }
                },

@@ -76,7 +76,7 @@ class _HealthConsultServiceState extends State<PictureService> {
                 child:Container(
                   alignment: Alignment.bottomCenter,
                   child:  SafeAreaButton(
-                    text: '提交审核', onPressed: () {  },
+                    text: '提交', onPressed: () {  },
                   ),
                 )
 

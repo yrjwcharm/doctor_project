@@ -21,7 +21,7 @@ class _HealthConsultServiceState extends State<HealthConsultService> {
   @override
   void initState() {
     super.initState();
-     list.add({'title':'价格','detail':59.00,'isFlag':true});
+     list.add({'title':'健康咨询','detail':59.00,'isFlag':true});
      list.add({'title':'价格','detail':59.00,'isFlag':false});
      list.add({'title':'接诊人数','detail':20,'isFlag':false});
   }
@@ -67,7 +67,7 @@ class _HealthConsultServiceState extends State<HealthConsultService> {
                 child:Container(
                   alignment: Alignment.bottomCenter,
                   child:  SafeAreaButton(
-                    text: '提交审核', onPressed: () { 
+                    text: '提交', onPressed: () { 
                       Navigator.push(context, MaterialPageRoute(builder: (context)=>const SubmitSuccess()));
                   },
                   ),
