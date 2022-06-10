@@ -1,4 +1,4 @@
-import 'package:doctor_project/pages/my/add-common-words.dart';
+import 'package:doctor_project/pages/my/add_common_words.dart';
 import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:doctor_project/utils/svg_util.dart';
 import 'package:doctor_project/widget/custom_app_bar.dart';
@@ -83,7 +83,7 @@ class _CommonWordsState extends State<CommonWords> {
           )),
           CustomSafeAreaButton(
               margin: const EdgeInsets.only(bottom: 16.0),
-              customChild:true,
+              custom:true,
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[

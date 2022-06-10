@@ -9,7 +9,7 @@ import 'dart:math';
 import 'dart:convert' as convert;
 import 'package:doctor_project/http/http_request.dart';
 import 'package:doctor_project/pages/home/make_prescription.dart';
-import 'package:doctor_project/pages/my/write-case.dart';
+import 'package:doctor_project/pages/my/write_case.dart';
 import 'package:doctor_project/utils/toast_util.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:permission_handler/permission_handler.dart';

@@ -236,7 +236,7 @@ class _CaseTemplateState extends State<CaseTemplate> {
           )),
           CustomSafeAreaButton(
               margin: const EdgeInsets.only(bottom: 16.0),
-              customChild:true,
+              custom:true,
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[

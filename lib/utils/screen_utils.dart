@@ -15,7 +15,7 @@ import 'dart:ui' as ui;
 ///默认设计稿尺寸（单位 dp or pt）
 double _designW = 375.0;
 double _designH = 812.0;
-double _designD = 3.0;
+double _designD = 2.0;
 
 /**
  * 配置设计稿尺寸（单位 dp or pt）

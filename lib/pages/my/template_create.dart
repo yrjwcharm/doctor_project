@@ -6,6 +6,8 @@ import 'package:doctor_project/widget/custom_app_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'common_drug.dart';
+
 class TemplateCreate extends StatefulWidget {
   const TemplateCreate({Key? key}) : super(key: key);
 
@@ -48,6 +50,11 @@ class _TemplateCreateState extends State<TemplateCreate> {
                           case 1:
                             break;
                           case 2:
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                    const CommonDrug()));
                             break;
                           case 3:
                             Navigator.push(context, MaterialPageRoute(builder: (context)=>const CaseTemplate()));

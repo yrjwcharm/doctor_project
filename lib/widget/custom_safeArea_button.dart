@@ -14,7 +14,7 @@ class CustomSafeAreaButton extends StatelessWidget {
     this.width = 343.0,
     this.textColor = '#ffffff',
     this.radius = 25.0,
-    this.customChild = false,
+    this.custom = false,
     this.child,
   }) : super(key: key);
   final String title;
@@ -25,7 +25,7 @@ class CustomSafeAreaButton extends StatelessWidget {
   final VoidCallback onPressed;
   final double radius;
   final Widget? child;
-  final bool customChild;
+  final bool custom;
   EdgeInsetsGeometry? margin;
 
   @override
@@ -55,7 +55,7 @@ class CustomSafeAreaButton extends StatelessWidget {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(radius),
                     )),
-                child: customChild
+                child: custom
                     ? child
                     : Text(
                         title,

@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:math';
-import 'package:doctor_project/pages/home/add_drug_list.dart';
+import 'package:doctor_project/pages/home/add_western_drug_list.dart';
 import 'package:doctor_project/pages/home/diagnosis.dart';
 import 'package:doctor_project/utils/picker_utils.dart';
 import 'package:doctor_project/utils/screen_utils.dart';
@@ -23,7 +23,7 @@ import 'dart:ui';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:doctor_project/pages/home/add_chineseMedicine_list.dart';
+import 'package:doctor_project/pages/home/add_chinese_drug_list.dart';
 import 'package:doctor_project/pages/home/webviewVC.dart';
 import 'package:doctor_project/pages/home/electronicSgnature.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';

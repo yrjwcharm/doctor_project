@@ -9,7 +9,7 @@ import 'package:doctor_project/widget/custom_safeArea_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'case_template.dart';
-import 'package:doctor_project/pages/my/write-caseDetail.dart';
+import 'package:doctor_project/pages/my/write_case_detail.dart';
 import '../../http/api.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
