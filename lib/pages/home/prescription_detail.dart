@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import '../../http/http_request.dart';
 import '../../http/api.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:doctor_project/widget/safe_area_button.dart';
+import 'package:doctor_project/widget/custom_safeArea_button.dart';
 import '../../utils/svg_util.dart';
 import 'dart:convert';
 import 'dart:math' as math;
@@ -556,7 +556,7 @@ class _PrescriptDetailState extends State<PrescriptDetail> {
               Container(
                 margin: const EdgeInsets.only(top: 30.0,bottom: 34.0),
                 alignment: Alignment.bottomCenter,
-                child: SafeAreaButton(text: '发送处方', onPressed: () {
+                child: CustomSafeAreaButton(title: '发送处方', onPressed: () {
 
 
                 }),

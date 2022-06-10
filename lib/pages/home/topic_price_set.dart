@@ -2,7 +2,7 @@ import 'package:doctor_project/common/style/gsy_style.dart';
 import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:doctor_project/widget/custom_app_bar.dart';
 import 'package:doctor_project/widget/custom_input_widget.dart';
-import 'package:doctor_project/widget/safe_area_button.dart';
+import 'package:doctor_project/widget/custom_safeArea_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -101,7 +101,7 @@ class _TopicPriceSetState extends State<TopicPriceSet> {
                   Expanded(
                       child: Container(
                         alignment: Alignment.bottomCenter,
-                        child:SafeAreaButton(height: 50, onPressed: () {  }, text: '确定',) ,
+                        child:CustomSafeAreaButton(height: 50, onPressed: () {  }, title: '确定',) ,
                       ))
                 ],
               ))
@@ -119,9 +119,7 @@ class _TopicPriceSetState extends State<TopicPriceSet> {
           CustomAppBar(
             '问诊价格设置',
             isBack: true,
-            onBackPressed: () {
-              Navigator.pop(context);
-            },
+            
           ),
           Container(
             height: 148,
@@ -179,9 +177,9 @@ class _TopicPriceSetState extends State<TopicPriceSet> {
           Expanded(
               child: Container(
             alignment: Alignment.bottomCenter,
-            child: SafeAreaButton(
+            child: CustomSafeAreaButton(
               onPressed: () {},
-              text: '确定',
+              title: '确定',
             ),
           ))
         ],

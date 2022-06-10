@@ -46,9 +46,6 @@ class _ChoiceClinicReceptTimePersonState
         children: [
           CustomAppBar(
             '接诊时间/人数',
-            onBackPressed: () {
-              Navigator.pop(context);
-            },
           ),
           Container(
             height: 44,

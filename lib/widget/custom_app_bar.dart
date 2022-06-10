@@ -22,7 +22,11 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
 
-    return Container(
+    return GestureDetector(
+      onTap: (){
+        Navigator.pop(context);
+      },
+        child: Container(
       decoration: BoxDecoration(
           gradient:  LinearGradient(
             begin: Alignment.topLeft,
@@ -69,7 +73,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           ],
         ),
       ),
-    );
+    ));
   }
 
   @override

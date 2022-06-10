@@ -4,7 +4,7 @@ import 'package:doctor_project/pages/home/submit_success.dart';
 import 'package:doctor_project/pages/home/topic_price_set.dart';
 import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:doctor_project/widget/custom_app_bar.dart';
-import 'package:doctor_project/widget/safe_area_button.dart';
+import 'package:doctor_project/widget/custom_safeArea_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -66,8 +66,8 @@ class _HealthConsultServiceState extends State<HealthConsultService> {
             Expanded(
                 child:Container(
                   alignment: Alignment.bottomCenter,
-                  child:  SafeAreaButton(
-                    text: '提交', onPressed: () { 
+                  child:  CustomSafeAreaButton(
+                    title: '提交', onPressed: () {
                       Navigator.push(context, MaterialPageRoute(builder: (context)=>const SubmitSuccess()));
                   },
                   ),

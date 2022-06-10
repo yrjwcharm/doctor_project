@@ -476,9 +476,7 @@ class _PatientConsultState extends State<PatientConsult> {
                 : type == '0'
                     ? '图文问诊'
                     : '视频问诊',
-            onBackPressed: () {
-              Navigator.pop(context);
-            },
+            
           ),
           Container(
             margin: const EdgeInsets.only(top: 10.0, bottom: 14.0),

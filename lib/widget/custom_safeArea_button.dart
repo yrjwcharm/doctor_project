@@ -3,25 +3,29 @@ import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class SafeAreaButton extends StatelessWidget {
-  SafeAreaButton(
-      {Key? key,
-      required this.text,
-      this.height = 40.0,
-      this.backgroundColor = '#06B48D',
-      this.margin = EdgeInsets.zero,
-      required this.onPressed,
-      this.width = 343.0,
-      this.textColor = '#ffffff',
-      this.radius = 25.0})
-      : super(key: key);
-  final String text;
+class CustomSafeAreaButton extends StatelessWidget {
+  CustomSafeAreaButton({
+    Key? key,
+     this.title='',
+    this.height = 40.0,
+    this.backgroundColor = '#06B48D',
+    this.margin = EdgeInsets.zero,
+    required this.onPressed,
+    this.width = 343.0,
+    this.textColor = '#ffffff',
+    this.radius = 25.0,
+    this.customChild = false,
+    this.child,
+  }) : super(key: key);
+  final String title;
   final String textColor;
   final String backgroundColor;
   final double height;
   final double width;
   final VoidCallback onPressed;
   final double radius;
+  final Widget? child;
+  final bool customChild;
   EdgeInsetsGeometry? margin;
 
   @override
@@ -51,10 +55,12 @@ class SafeAreaButton extends StatelessWidget {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(radius),
                     )),
-                child: Text(
-                  text,
-                  style:
-                      GSYConstant.textStyle(fontSize: 16.0, color: textColor),
-                ))));
+                child: customChild
+                    ? child
+                    : Text(
+                        title,
+                        style: GSYConstant.textStyle(
+                            fontSize: 16.0, color: textColor),
+                      ))));
   }
 }

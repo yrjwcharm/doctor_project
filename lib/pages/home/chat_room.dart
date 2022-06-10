@@ -43,9 +43,7 @@ class ChatRoom extends StatelessWidget {
       home: Scaffold(
         appBar: CustomAppBar(
           '${userInfoMap['name']}患者',
-          onBackPressed: () {
-            Navigator.pop(context);
-          },
+          
         ),
         body: ChatPage(
           userInfoMap: this.userInfoMap,

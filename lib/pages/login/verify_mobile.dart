@@ -35,9 +35,7 @@ class _VerifyMobileState extends State<VerifyMobile>  {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
-      appBar: CustomAppBar('验证手机号',onBackPressed: (){
-        Navigator.pop(context);
-      },),
+      appBar: CustomAppBar('验证手机号',),
       body: Column(
         children: <Widget>[
            Container(

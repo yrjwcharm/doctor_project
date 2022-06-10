@@ -121,6 +121,7 @@ class Assets {
   static const String svgEmptyData = 'assets/images/svg/empty_data.svg';
   static const String svgEvaluateDoc = 'assets/images/svg/evaluate_doc.svg';
   static const String svgForward = 'assets/images/svg/forward.svg';
+  static const String svgForwardArrow = 'assets/images/svg/forward_arrow.svg';
   static const String svgFront = 'assets/images/svg/front.svg';
   static const String svgHidePsa = 'assets/images/svg/hidePsa.svg';
   static const String svgInPass = 'assets/images/svg/in_pass.svg';

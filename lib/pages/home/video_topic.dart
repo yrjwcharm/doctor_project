@@ -566,9 +566,6 @@ class _VideoTopicState extends State<VideoTopic> {
     return Scaffold(
       appBar: CustomAppBar(
         '${userInfoMap['name']}患者',
-        onBackPressed: () {
-          Navigator.pop(context);
-        },
       ),
       body: GestureDetector(
         child: mainContent(),

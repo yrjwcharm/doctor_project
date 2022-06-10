@@ -10,7 +10,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../widget/custom_elevated_button.dart';
-import 'package:doctor_project/widget/safe_area_button.dart';
+import 'package:doctor_project/widget/custom_safeArea_button.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
@@ -452,7 +452,7 @@ void getNet_diagnosisList () async{
             Container(
             margin: const EdgeInsets.only(bottom:30.0),
             alignment: Alignment.bottomCenter,
-            child: SafeAreaButton(text: '确认', onPressed:(){
+            child: CustomSafeAreaButton(title: '确认', onPressed:(){
 
               Navigator.of(context).pop(checkedDataList);
 

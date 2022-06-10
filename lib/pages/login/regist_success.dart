@@ -16,9 +16,7 @@ class _RegisterSuccessState extends State<RegisterSuccess> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar('注册成功',onBackPressed: (){
-        Navigator.pop(context);
-      },),
+      appBar: CustomAppBar('注册成功',),
       backgroundColor: Colors.white,
       body: Column(
         children: <Widget>[

@@ -13,7 +13,7 @@ import 'package:doctor_project/widget/custom_elevated_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../widget/safe_area_button.dart';
+import '../../widget/custom_safeArea_button.dart';
 import 'package:doctor_project/pages/login/login.dart';
 
 class Settings extends StatefulWidget {
@@ -37,9 +37,7 @@ class _SettingsState extends State<Settings> {
       backgroundColor: ColorsUtil.bgColor,
       appBar: CustomAppBar(
         '设置',
-        onBackPressed: () {
-          Navigator.pop(context);
-        },
+      
       ),
       body: Column(children: <Widget>[
         const SizedBox(height: 10.0,),
@@ -90,9 +88,9 @@ class _SettingsState extends State<Settings> {
                       ))
                   .toList()),
         ),
-        SafeAreaButton(
+        CustomSafeAreaButton(
           margin: const EdgeInsets.only(bottom: 16.0),
-          text: '安全退出',
+          title: '安全退出',
           onPressed: () async {
             SharedPreferences perfer = await SharedPreferences.getInstance();
             // getNet_signOut();

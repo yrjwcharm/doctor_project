@@ -8,7 +8,7 @@ import 'package:doctor_project/utils/svg_util.dart';
 import 'package:doctor_project/utils/text_util.dart';
 import 'package:doctor_project/utils/toast_util.dart';
 import 'package:doctor_project/widget/custom_elevated_button.dart';
-import 'package:doctor_project/widget/safe_area_button.dart';
+import 'package:doctor_project/widget/custom_safeArea_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:doctor_project/common/style/gsy_style.dart';
@@ -1647,8 +1647,8 @@ class _MakePrescriptionState extends State<MakePrescription> {
           margin: const EdgeInsets.only(bottom: 16.0),
           // margin: const EdgeInsets.only(top: 30.0),
           alignment: Alignment.bottomCenter,
-          child: SafeAreaButton(
-              text: '电子签名',
+          child: CustomSafeAreaButton(
+              title: '电子签名',
               onPressed: () {
                 if (prescriptionId.isEmpty) {
                   CommonUtils.throttle(getNet_createPrescription,

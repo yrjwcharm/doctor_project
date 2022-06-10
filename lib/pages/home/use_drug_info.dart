@@ -6,7 +6,7 @@ import 'package:doctor_project/common/style/gsy_style.dart';
 import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:doctor_project/utils/toast_util.dart';
 import 'package:doctor_project/widget/custom_app_bar.dart';
-import 'package:doctor_project/widget/safe_area_button.dart';
+import 'package:doctor_project/widget/custom_safeArea_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -147,9 +147,7 @@ class _UseDrugInfoState extends State<UseDrugInfo> {
       key: _scaffoldKey,
       appBar: CustomAppBar(
         '用药信息',
-        onBackPressed: () {
-          Navigator.pop(context);
-        },
+      
       ),
       backgroundColor: ColorsUtil.bgColor,
       body: Column(
@@ -440,8 +438,8 @@ class _UseDrugInfoState extends State<UseDrugInfo> {
           )),
           Container(
             alignment: Alignment.center,
-            child: SafeAreaButton(
-              text: '确认',
+            child: CustomSafeAreaButton(
+              title: '确认',
               onPressed: () {
                 String dosageStr = drugInfoMap['dosage'];
                 String usageStr = drugInfoMap["usage"];

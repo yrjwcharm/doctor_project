@@ -5,7 +5,7 @@ import 'package:doctor_project/pages/my/upate_password.dart';
 import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:doctor_project/utils/toast_util.dart';
 import 'package:doctor_project/widget/custom_app_bar.dart';
-import 'package:doctor_project/widget/safe_area_button.dart';
+import 'package:doctor_project/widget/custom_safeArea_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -25,9 +25,7 @@ class _VerifyOldPwdState extends State<VerifyOldPwd> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar('修改密码',onBackPressed: (){
-        Navigator.pop(context);
-      },),
+      appBar: CustomAppBar('修改密码',),
       backgroundColor: Colors.white,
       body: Column(
         children: <Widget>[
@@ -73,7 +71,7 @@ class _VerifyOldPwdState extends State<VerifyOldPwd> {
               ],
             ),
           ),
-          SafeAreaButton(margin: const EdgeInsets.only(top: 90.0), text: '下一步', onPressed:() async{
+          CustomSafeAreaButton(margin: const EdgeInsets.only(top: 90.0), title: '下一步', onPressed:() async{
             var res = await HttpRequest.getInstance().post(Api.verifyOldPwdApi, {'password':oldPwd});
             print('verify_old_pwd----'+res.toString());
             if(res['code']==200){

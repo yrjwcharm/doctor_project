@@ -2,7 +2,7 @@ import 'package:doctor_project/common/style/gsy_style.dart';
 import 'package:doctor_project/pages/home/service_settings.dart';
 import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:doctor_project/widget/custom_app_bar.dart';
-import 'package:doctor_project/widget/safe_area_button.dart';
+import 'package:doctor_project/widget/custom_safeArea_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -66,9 +66,7 @@ class _OpenServiceState extends State<OpenService> {
           appBar:  CustomAppBar(
             '开通服务',
             isBack: true,
-            onBackPressed: () {
-              Navigator.pop(context);
-            },
+            
           ),
           backgroundColor: Colors.white,
           body: SingleChildScrollView(
@@ -179,14 +177,14 @@ class _OpenServiceState extends State<OpenService> {
               Expanded(
                 child: Container(
                     alignment: Alignment.bottomCenter,
-                    child: SafeAreaButton(
+                    child: CustomSafeAreaButton(
                       onPressed: () {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => const ServiceSettings()));
                       },
-                      text: '申请开通',
+                      title: '申请开通',
                     )),
               ),
             ],

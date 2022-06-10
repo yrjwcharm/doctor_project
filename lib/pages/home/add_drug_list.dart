@@ -174,9 +174,7 @@ class _AddDrugListState extends State<AddDrugList> {
       backgroundColor: ColorsUtil.bgColor,
       appBar: CustomAppBar(
         '添加药品',
-        onBackPressed: () {
-          Navigator.pop(context);
-        },
+      
       ),
       body: Column(
           children: <Widget>[

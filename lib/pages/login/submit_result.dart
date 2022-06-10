@@ -16,9 +16,7 @@ class _SubmitResultState extends State<SubmitResult> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar('提交结果',onBackPressed: (){
-        Navigator.pop(context);
-      },),
+      appBar: CustomAppBar('提交结果',),
       backgroundColor: Colors.white,
       body: Column(
         children: <Widget>[

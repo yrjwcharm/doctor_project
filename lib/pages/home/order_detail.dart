@@ -55,9 +55,7 @@ class _OrderDetailState extends State<OrderDetail> {
       appBar: CustomAppBar(
         '订单详情',
         isBack: true,
-        onBackPressed: () {
-          Navigator.pop(context);
-        },
+      
       ),
       body: Column(
         children: [

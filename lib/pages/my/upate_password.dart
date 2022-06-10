@@ -32,9 +32,7 @@ class _UpdatePasswordState extends State<UpdatePassword> {
       resizeToAvoidBottomInset: false,
       appBar: CustomAppBar(
         '修改密码',
-        onBackPressed: () {
-          Navigator.pop(context);
-        },
+      
       ),
       backgroundColor: Colors.white,
       body: Column(

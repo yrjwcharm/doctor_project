@@ -22,9 +22,7 @@ class _IncomeStatisticState extends State<IncomeStatistic> {
     return Scaffold(
         appBar: CustomAppBar(
           '统计',
-          onBackPressed: () {
-            Navigator.pop(context);
-          },
+          
           leftIcon: 'assets/images/icon_back.png',
           titleColor: '#ffffff',
           startColor: ColorsUtil.hexStringColor('#06B48D'),

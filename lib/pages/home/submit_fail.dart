@@ -15,9 +15,7 @@ class SubmitSuccess extends StatelessWidget {
         CustomAppBar(
           '提交结果',
           isBack: true,
-          onBackPressed: () {
-            Navigator.pop(context);
-          },
+          
         ),
         Container(
           margin: const EdgeInsets.only(top:74.0),

@@ -32,9 +32,7 @@ class _SetNewPasswordState extends State<SetNewPassword> {
       resizeToAvoidBottomInset: false,
       appBar: CustomAppBar(
         '设置新密码',
-        onBackPressed: () {
-          Navigator.pop(context);
-        },
+      
       ),
       backgroundColor: Colors.white,
       body: Column(

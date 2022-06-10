@@ -5,7 +5,7 @@ import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:doctor_project/utils/toast_util.dart';
 import 'package:doctor_project/widget/custom_app_bar.dart';
 import 'package:doctor_project/widget/custom_elevated_button.dart';
-import 'package:doctor_project/widget/safe_area_button.dart';
+import 'package:doctor_project/widget/custom_safeArea_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'case_template.dart';
@@ -119,9 +119,7 @@ class _WriteCaseState extends State<WriteCase> {
       backgroundColor: ColorsUtil.bgColor,
       appBar: CustomAppBar(
         '写病历',
-        onBackPressed: () {
-          Navigator.pop(context);
-        },
+      
         //   isForward:true,child: Text('引入病例模板',style: GSYConstant.textStyle(color: '#06B48D'),),onForwardPressed: (){
         //   Navigator.push(context, MaterialPageRoute(builder: (context)=> const CaseTemplate()));
         // },

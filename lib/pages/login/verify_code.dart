@@ -34,9 +34,7 @@ class _VerifyCodeState extends State<VerifyCode> {
       resizeToAvoidBottomInset: false,
       appBar: CustomAppBar(
         '验证码',
-        onBackPressed: () {
-          Navigator.pop(context);
-        },
+      
       ),
       backgroundColor: Colors.white,
       body: Column(

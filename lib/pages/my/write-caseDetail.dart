@@ -31,9 +31,7 @@ class _WriteCaseDetailState extends State<WriteCaseDetail> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: ColorsUtil.bgColor,
-      appBar: CustomAppBar(dataMap["name"],onBackPressed: (){
-        Navigator.pop(context);
-      },),
+      appBar: CustomAppBar(dataMap["name"],),
       body:Container(
         color: ColorsUtil.bgColor,
         child: Column(

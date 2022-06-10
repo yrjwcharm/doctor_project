@@ -97,10 +97,11 @@ class PatientState extends State<Patient> {
             tileColor: Colors.white,
             subtitle: Row(
               children: <Widget>[
+                Flexible(child:
                 Text(
                   '最近诊断：${list[index]['diagnosis'] ?? ''}',
                   style: GSYConstant.textStyle(color: '#333333'),
-                )
+                )),
               ],
             ),
             title: Row(

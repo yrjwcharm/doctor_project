@@ -83,9 +83,7 @@ class RegisterContentStates extends State<RegisterContent> {
       resizeToAvoidBottomInset: false,
       appBar: CustomAppBar(
         '',
-        onBackPressed: () {
-          Navigator.pop(context);
-        },
+      
       ),
       backgroundColor: Colors.white,
       body: Column(

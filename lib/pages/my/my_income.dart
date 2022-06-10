@@ -24,9 +24,7 @@ class _MyIncomeState extends State<MyIncome> {
         children: [
           CustomAppBar(
             '我的收入',
-            onBackPressed: () {
-              Navigator.pop(context);
-            },
+            
           ),
           Container(
             height: 72,

@@ -91,10 +91,6 @@ class _electronicSignaturePageState extends State<electronicSignaturePage> {
     return Scaffold(
         appBar: CustomAppBar(
           '电子签名',
-          onBackPressed: () {
-            Navigator.pop(context);
-            // Navigator.of(context).pop(this);
-          },
         ),
         backgroundColor: ColorsUtil.bgColor, //Container
         body: Column(

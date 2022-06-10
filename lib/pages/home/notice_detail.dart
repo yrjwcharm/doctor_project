@@ -15,9 +15,7 @@ class _NoticeDetailState extends State<NoticeDetail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-       appBar: CustomAppBar('详情',onBackPressed: (){
-         Navigator.pop(context);
-       },),
+       appBar: CustomAppBar('详情'),
       backgroundColor: Colors.white,
       body: Column(
         children: <Widget>[

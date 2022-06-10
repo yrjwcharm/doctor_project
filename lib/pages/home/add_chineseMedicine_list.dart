@@ -12,7 +12,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dio/dio.dart';
 import 'package:doctor_project/pages/home/use_drug_info.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:doctor_project/widget/safe_area_button.dart';
+import 'package:doctor_project/widget/custom_safeArea_button.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 import '../../widget/numberwidget.dart';
@@ -185,9 +185,7 @@ class _AddChineseMedicineListState extends State<AddChineseMedicineList> {
       backgroundColor: ColorsUtil.bgColor,
       appBar: CustomAppBar(
         '添加药品',
-        onBackPressed: () {
-          Navigator.pop(context);
-        },
+      
       ),
       body: Column(
           children: <Widget>[
@@ -444,7 +442,7 @@ class _AddChineseMedicineListState extends State<AddChineseMedicineList> {
               Container(
                 margin: const EdgeInsets.only(bottom:30.0),
                 alignment: Alignment.bottomCenter,
-                child: SafeAreaButton(text: '确认', onPressed:(){
+                child: CustomSafeAreaButton(title: '确认', onPressed:(){
 
                   Navigator.of(context).pop(selectedDrugList);
 

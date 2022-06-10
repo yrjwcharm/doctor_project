@@ -16,9 +16,7 @@ class _IdentityChoiceState extends State<IdentityChoice> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar('身份选择',onBackPressed: (){
-        Navigator.pop(context);
-      },),
+      appBar: CustomAppBar('身份选择',),
       backgroundColor: Colors.white,
       body: Column(
         children: <Widget>[

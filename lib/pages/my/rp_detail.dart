@@ -139,9 +139,7 @@ class _RecipeDetailState extends State<RecipeDetail> {
       // primary: true,
       appBar: CustomAppBar(
         '处方详情',
-        onBackPressed: () {
-          Navigator.pop(context);
-        },
+      
       ),
       body: Column(
         children: <Widget>[

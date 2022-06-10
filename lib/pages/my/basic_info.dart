@@ -32,9 +32,7 @@ class _BasicInfoState extends State<BasicInfo> {
       backgroundColor: ColorsUtil.bgColor,
       appBar: CustomAppBar(
         '基本信息',
-        onBackPressed: () {
-          Navigator.pop(context);
-        },
+      
       ),
       body: Column(
         children: <Widget>[

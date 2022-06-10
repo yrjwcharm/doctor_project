@@ -54,9 +54,6 @@ class _MyDoctorCodeState extends State<MyDoctorCode> {
 
   //获取医生信息
   getNet_doctorCode() async {
-    SharedPreferences perfer = await SharedPreferences.getInstance();
-    String phone_str = (perfer.getString("phone") ?? "");
-    phoneStr = DesensitizationUtil.desensitizationMobile(phone_str);
     HttpRequest? request = HttpRequest.getInstance();
     var res = await request.get(Api.getDoctorCode, {});
     print("getNet_doctorCode------" + res.toString());
@@ -112,9 +109,7 @@ class _MyDoctorCodeState extends State<MyDoctorCode> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: CustomAppBar('我的名片',onBackPressed: (){
-         Navigator.pop(context);
-       },),
+        appBar: CustomAppBar('我的名片',),
        backgroundColor: Colors.white,
               body: Column(
         children: <Widget>[

@@ -7,7 +7,7 @@ import 'package:doctor_project/pages/home/topic_price_set.dart';
 import 'package:doctor_project/pages/home/clinical_reception_person_set.dart';
 import 'package:doctor_project/utils/text_util.dart';
 import 'package:doctor_project/widget/custom_app_bar.dart';
-import 'package:doctor_project/widget/safe_area_button.dart';
+import 'package:doctor_project/widget/custom_safeArea_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -77,8 +77,8 @@ class _HealthConsultServiceState extends State<VideoService> {
             Expanded(
                 child:Container(
                   alignment: Alignment.bottomCenter,
-                  child: SafeAreaButton(
-                    text: '提交审核', onPressed: () {  },
+                  child: CustomSafeAreaButton(
+                    title: '提交审核', onPressed: () {  },
                   ),
                 )
 

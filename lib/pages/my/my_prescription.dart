@@ -124,9 +124,7 @@ class _MyPrescriptionState extends State<MyPrescription> {
       backgroundColor: ColorsUtil.bgColor,
       appBar: CustomAppBar(
         '我的处方',
-        onBackPressed: () {
-          Navigator.pop(context);
-        },
+      
       ),
       body: Column(
         children: <Widget>[
