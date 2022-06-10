@@ -36,32 +36,51 @@ class MyState extends State<My> {
   late File _image;
   List listRow = [
     {
-      'label': '问诊记录',
+      'label': '医生资质上传',
       'borderRadius': const BorderRadius.vertical(top: Radius.circular(5.0)),
-      'icon':'assets/images/my/consultation_record.png'
+      'icon': 'assets/images/my/qualifications.png'
+    },
+    {
+      'label': '基本信息',
+      'borderRadius': const BorderRadius.vertical(bottom: Radius.circular(5.0)),
+      'icon': 'assets/images/my/information.png'
+    },
+    {
+      'label': '维护问诊信息',
+      'borderRadius': const BorderRadius.vertical(top: Radius.circular(5.0)),
+      'icon': 'assets/images/my/consultation_information.png'
+    },
+    {
+      'label': '问诊记录',
+      'borderRadius': const BorderRadius.vertical(bottom: Radius.circular(0)),
+      'icon': 'assets/images/my/consultation_record.png'
     },
     {
       'label': '我的处方',
+      'borderRadius': const BorderRadius.vertical(bottom: Radius.circular(0.0)),
+      'icon': 'assets/images/my/my_rp.png'
+    },
+    {
+      'label': '我的收入',
+      'borderRadius': const BorderRadius.vertical(bottom: Radius.circular(0.0)),
+      'icon': 'assets/images/my/my_income.png'
+    },
+    {
+      'label': '模版创建',
       'borderRadius': const BorderRadius.vertical(bottom: Radius.circular(5.0)),
-      'icon':'assets/images/my/my_rp.png'
+      'icon': 'assets/images/my/template_creation.png'
     },
     {
       'label': '我的名片',
       'borderRadius': const BorderRadius.vertical(bottom: Radius.circular(5.0)),
-      'icon':'assets/images/my/card.png'
+      'icon': 'assets/images/my/card.png'
     },
-    {
-      'label': '维护问诊信息',
-      'borderRadius': const BorderRadius.vertical(bottom: Radius.circular(5.0)),
-      'icon': 'assets/images/my/consultation_information.png'
-    }
     // {
     //   'label': '基本信息',
     //   'borderRadius': const BorderRadius.vertical(bottom: Radius.circular(5.0)),
     //   'icon': 'assets/images/my/information.png'
     // }
   ];
-  List<Widget> items = [];
   Map doctorInfoMap = {};
   String phoneStr = "";
   String doctorName = '';
@@ -101,62 +120,6 @@ class MyState extends State<My> {
   @override
   initState() {
     super.initState();
-    items = [
-      // _buildListTile(
-      //     id: 0,
-      //     icon: 'assets/images/my/qualifications.png',
-      //     title: '医生资质上传',
-      //     onTap: () {}),
-      // _buildListTile(
-      //     id: 1,
-      //     icon: 'assets/images/my/information.png',
-      //     title: '基本信息',
-      //     onTap: () {
-      //       Navigator.push(context,
-      //           MaterialPageRoute(builder: (context) => const BasicInfo()));
-      //     }),
-      // _buildListTile(
-      //     id: 2,
-      //     icon: 'assets/images/my/consultation_information.png',
-      //     title: '维护问诊信息',
-      //     onTap: () {}),
-      // _buildListTile(
-      //     id: 3,
-      //     icon: 'assets/images/my/consultation_record.png',
-      //     title: '问诊记录',
-      //     onTap: () {
-      //
-      //     }),
-      // _buildListTile(
-      //     id: 4,
-      //     icon: 'assets/images/my/my_rp.png',
-      //     title: '我的处方',
-      //     onTap: () {
-      //       Navigator.push(
-      //           context,
-      //           MaterialPageRoute(
-      //               builder: (context) =>  MyPrescription(userId:userId,)));
-      //     }),
-      // _buildListTile(
-      //     id: 5,
-      //     icon: 'assets/images/my/my_income.png',
-      //     title: '我的收入',
-      //     onTap: () {
-      //       Navigator.push(context,
-      //           MaterialPageRoute(builder: (context) => const MyIncome()));
-      //     }),
-      // _buildListTile(
-      //     id: 6,
-      //     icon: 'assets/images/my/template_creation.png',
-      //     title: '模版创建',
-      //     onTap: () {
-      //       Navigator.push(
-      //           context,
-      //           MaterialPageRoute(
-      //               builder: (context) => const TemplateCreate()));
-      //     }),
-    ];
-
     getNet_doctorInfo();
   }
 
@@ -388,20 +351,50 @@ class MyState extends State<My> {
                 .map<Widget>(
                   (index) => GestureDetector(
                     onTap: () {
-                      switch(index){
+                      switch (index) {
                         case 0:
                           break;
                         case 1:
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>MyPrescription(userId: userId)));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const BasicInfo()));
                           break;
                         case 2:
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>MyDoctorCode(userId: userId)));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                  const ServiceSettings()));
                           break;
                         case 3:
-                          Navigator.push(context,MaterialPageRoute(builder: (context) => const ServiceSettings()));
+
                           break;
                         case 4:
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => const BasicInfo()));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      MyPrescription(userId: userId)));
+                          break;
+                        case 5:
+                          // Navigator.push(context,
+                          //     MaterialPageRoute(builder: (context) => const MyIncome()));
+
+                          break;
+                        case 6:
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const TemplateCreate()));
+                          break;
+                        case 7:
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      MyDoctorCode(userId: userId)));
                           break;
                       }
                     },
@@ -409,7 +402,10 @@ class MyState extends State<My> {
                       children: <Widget>[
                         Container(
                           height: 48.0,
-                          margin: const EdgeInsets.symmetric(horizontal: 16.0),
+                          margin: EdgeInsets.only(
+                              left: 16.0,
+                              right: 16.0,
+                              top: (index == 0 || index == 2) ? 8.0 : 0.0),
                           padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                           decoration: BoxDecoration(
                             color: Colors.white,
@@ -424,8 +420,7 @@ class MyState extends State<My> {
                                   //     font-family: PingFangSC-Regular, PingFang SC;
                                   // font-weight: 400;
                                   // color: #333333;
-                                  Image.asset(
-                                      listRow[index]['icon']),
+                                  Image.asset(listRow[index]['icon']),
                                   const SizedBox(
                                     width: 8.0,
                                   ),
