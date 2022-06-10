@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:doctor_project/pages/my/my_prescription.dart';
+import 'package:doctor_project/pages/my/my_doctorCode.dart';
+import 'package:doctor_project/pages/home/service_settings.dart';
 import 'package:doctor_project/utils/common_utils.dart';
 import 'package:doctor_project/utils/svg_util.dart';
 import 'package:flutter/services.dart';
@@ -35,12 +37,29 @@ class MyState extends State<My> {
   List listRow = [
     {
       'label': '问诊记录',
-      'borderRadius': const BorderRadius.vertical(top: Radius.circular(5.0))
+      'borderRadius': const BorderRadius.vertical(top: Radius.circular(5.0)),
+      'icon':'assets/images/my/consultation_record.png'
     },
     {
       'label': '我的处方',
-      'borderRadius': const BorderRadius.vertical(bottom: Radius.circular(5.0))
+      'borderRadius': const BorderRadius.vertical(bottom: Radius.circular(5.0)),
+      'icon':'assets/images/my/my_rp.png'
+    },
+    {
+      'label': '我的名片',
+      'borderRadius': const BorderRadius.vertical(bottom: Radius.circular(5.0)),
+      'icon':'assets/images/my/card.png'
+    },
+    {
+      'label': '维护问诊信息',
+      'borderRadius': const BorderRadius.vertical(bottom: Radius.circular(5.0)),
+      'icon': 'assets/images/my/consultation_information.png'
     }
+    // {
+    //   'label': '基本信息',
+    //   'borderRadius': const BorderRadius.vertical(bottom: Radius.circular(5.0)),
+    //   'icon': 'assets/images/my/information.png'
+    // }
   ];
   List<Widget> items = [];
   Map doctorInfoMap = {};
@@ -372,17 +391,26 @@ class MyState extends State<My> {
                       switch(index){
                         case 0:
                           break;
-                          case 1:
-                           Navigator.push(context, MaterialPageRoute(builder: (context)=>MyPrescription(userId: userId)));
-                            break;
+                        case 1:
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>MyPrescription(userId: userId)));
+                          break;
+                        case 2:
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>MyDoctorCode(userId: userId)));
+                          break;
+                        case 3:
+                          Navigator.push(context,MaterialPageRoute(builder: (context) => const ServiceSettings()));
+                          break;
+                        case 4:
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => const BasicInfo()));
+                          break;
                       }
                     },
                     child: Column(
                       children: <Widget>[
                         Container(
-                          height: 42.0,
+                          height: 48.0,
                           margin: const EdgeInsets.symmetric(horizontal: 16.0),
-                          padding: const EdgeInsets.only(left: 7.0, right: 8.0),
+                          padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                           decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: listRow[index]['borderRadius'],
@@ -397,7 +425,7 @@ class MyState extends State<My> {
                                   // font-weight: 400;
                                   // color: #333333;
                                   Image.asset(
-                                      'assets/images/my/consultation_record.png'),
+                                      listRow[index]['icon']),
                                   const SizedBox(
                                     width: 8.0,
                                   ),

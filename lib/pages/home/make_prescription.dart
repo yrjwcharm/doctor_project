@@ -519,12 +519,14 @@ class _MakePrescriptionState extends State<MakePrescription> {
                           tab1Active = true;
                           tab2Active = false;
                           rpName = rpArray[0];
+                          rpTypeName = rpList[0]['detailName'];
                         });
                       } else {
                         setState(() {
                           tab1Active = false;
                           tab2Active = true;
                           rpName = rpArray[1];
+                          rpTypeName = tcmList[0]['detailName'];
                         });
                       }
                       loadDataForFreqTYpe();
@@ -573,7 +575,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
                           confirmCallback: (Picker picker, List<int> selected) {
                         setState(() {
                           rpTypeId =
-                              tcmList[selected[0]]['detailValue'].toString();
+                          tcmList[selected[0]]['detailValue'].toString();
                           rpTypeName = tcmList[selected[0]]['detailName'];
                         });
                       });
@@ -583,7 +585,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
                           confirmCallback: (Picker picker, List<int> selected) {
                         setState(() {
                           rpTypeId =
-                              rpList[selected[0]]['detailValue'].toString();
+                          rpList[selected[0]]['detailValue'].toString();
                           rpTypeName = rpList[selected[0]]['detailName'];
                         });
                       });
@@ -1241,7 +1243,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
                               "_baseUnit": _baseUnitList,
                             };
                             if (pharmacyId.isEmpty) {
-                              ToastUtil.showToast(msg: '请先选择药方');
+                              ToastUtil.showToast(msg: '请先选择药');
                               return;
                             }
                             Navigator.push(
@@ -1291,8 +1293,9 @@ class _MakePrescriptionState extends State<MakePrescription> {
                                         onPressed: (BuildContext context) {
                                           setState(() {
                                             drugList.removeAt(index);
+                                            calculateThePrice();
                                           });
-                                          calculateThePrice();
+                                          
                                         },
                                         backgroundColor:
                                             const Color(0xFFFE4A49),

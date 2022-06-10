@@ -319,16 +319,27 @@ class _AddDrugListState extends State<AddDrugList> {
 
                             },
                             child: Container(
-                              height: 44.0,
+                              height: 60.0,
                               padding: const EdgeInsets.only(left: 16.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[ // packageUnitid_dictText
-                                  Text(detailDataList[index]["medicinename"] +" " +detailDataList[index]["specification"] +"/" +detailDataList[index]["packageUnit"],style: GSYConstant.textStyle(color: '#333333'),),
-                                ],),
+                              child: ListTile(
+                                  title: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: <Widget>[
+                                      Text(detailDataList[index]["medicinename"] +" " +detailDataList[index]["specification"] +"  ", style: GSYConstant.textStyle(fontSize: 14.0,color:int.parse(detailDataList[index]['stockNum'])==0?'#999999': '#333333'),),
+                                      Expanded(child: Text(detailDataList[index]["manuname"],style: GSYConstant.textStyle(fontSize: 14.0,color: '#999999'),overflow: TextOverflow.ellipsis,maxLines: 1,),),
+                                    ],
+                                  ),
+                                  trailing: TextButton(onPressed: null,
+                                    style: TextButton.styleFrom(
+                                      alignment: Alignment.centerRight,
+                                      padding:EdgeInsets.zero,
+                                    ),
+                                    child:int.parse(detailDataList[index]['stockNum'])==0?SvgUtil.svg('add_graydrug.svg'): SvgUtil.svg('add_drug.svg'),
+                                  ),
+                                  subtitle: Text("库存:"+detailDataList[index]['stockNum'],style:GSYConstant.textStyle(fontSize: 11.0,color:int.parse(detailDataList[index]['stockNum'])==0?'#999999': '#666666')),
+                              ),
                               decoration: BoxDecoration(
-                                  color:  int.parse(detailDataList[index]['stockNum'])==0?Colors.grey:Colors.white,
+                                  color:Colors.white,
                                   border: Border(bottom: BorderSide(width: 1.0,color: ColorsUtil.hexStringColor('#cccccc',alpha: 0.3)))
                               ),
                             ),

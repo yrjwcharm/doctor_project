@@ -156,6 +156,7 @@ class _SetNewPasswordState extends State<SetNewPassword> {
                         builder: (context) => LoginPage(),
                       ),
                       (route) => route == null);
+                  ToastUtil.showToast(msg: '修改成功，请您重新登录');
                 } else {
                   ToastUtil.showToast(msg: res['msg']);
                 }

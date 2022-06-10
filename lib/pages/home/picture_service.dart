@@ -3,6 +3,8 @@ import 'dart:collection';
 import 'package:doctor_project/common/style/gsy_style.dart';
 import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:doctor_project/utils/text_util.dart';
+import 'package:doctor_project/pages/home/clinical_reception_person_set.dart';
+import 'package:doctor_project/pages/home/topic_price_set.dart';
 import 'package:doctor_project/widget/custom_app_bar.dart';
 import 'package:doctor_project/widget/safe_area_button.dart';
 import 'package:flutter/cupertino.dart';
@@ -37,6 +39,14 @@ class _HealthConsultServiceState extends State<PictureService> {
            Column(
              children:ListTile.divideTiles(tiles: list.asMap().keys.map((index) => ListTile(
                onTap: (){
+                 switch(index){
+                   case 1:
+                     Navigator.push(context, MaterialPageRoute(builder: (context)=>const TopicPriceSet()));
+                     break;
+                   case 2:
+                     Navigator.push(context, MaterialPageRoute(builder: (context)=>const ClinicReceptionPersonSet()));
+                     break;
+                 }
 
                },
                leading:TextUtil.isEmpty(list[index]['subTitle'].toString())?Row(

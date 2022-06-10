@@ -151,12 +151,13 @@ class _UpdatePasswordState extends State<UpdatePassword> {
                 if(res['code']==200){
                   preference.remove('tokenValue');
                   preference.remove('phone');
+                  ToastUtil.showToast(msg: '修改成功，请您重新登录');
                   Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => LoginPage(),), (route) => route == null);
                 }else{
                   ToastUtil.showToast(msg: res['msg']);
                 }
               },
-              title: '设置完成',
+              title: '提交',
             ),
           )
         ],

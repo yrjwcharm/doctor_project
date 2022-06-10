@@ -1058,23 +1058,23 @@ class _RecipeDetailState extends State<RecipeDetail> {
                                 const SizedBox(
                                   width: 8.0,
                                 ),
-                                Visibility(
-                                    visible: rpDetailItem['status'] == 4 ||
-                                        rpDetailItem['status'] == 2,
-                                    child: Expanded(
-                                        child: CustomOutlineButton(
-                                            title: '重新开方',
-                                            onPressed: () {
-                                              // Navigator.popUntil(context, (route) => false);
-                                            },
-                                            borderRadius:
-                                                BorderRadius.circular(5.0),
-                                            borderColor:
-                                                ColorsUtil.hexStringColor(
-                                                    '#06B48D')))),
-                                const SizedBox(
-                                  width: 8.0,
-                                ),
+                                // Visibility(
+                                //     visible: rpDetailItem['status'] == 4 ||
+                                //         rpDetailItem['status'] == 2,
+                                //     child: Expanded(
+                                //         child: CustomOutlineButton(
+                                //             title: '重新开方',
+                                //             onPressed: () {
+                                //               // Navigator.popUntil(context, (route) => false);
+                                //             },
+                                //             borderRadius:
+                                //                 BorderRadius.circular(5.0),
+                                //             borderColor:
+                                //                 ColorsUtil.hexStringColor(
+                                //                     '#06B48D')))),
+                                // const SizedBox(
+                                //   width: 8.0,
+                                // ),
                                 Visibility(
                                     visible: rpDetailItem['status'] == 3 ||
                                         rpDetailItem['status'] == 4 ||
@@ -1097,7 +1097,7 @@ class _RecipeDetailState extends State<RecipeDetail> {
                                                                 .symmetric(
                                                             vertical: 21.0),
                                                     contentTextStyle: TextStyle(
-                                                        fontSize: 16.0,
+                                                        fontSize: 15.0,
                                                         color: ColorsUtil
                                                             .hexStringColor(
                                                                 '#333333')),

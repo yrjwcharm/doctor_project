@@ -184,7 +184,7 @@ class _AddChineseMedicineListState extends State<AddChineseMedicineList> {
     return Scaffold(
       backgroundColor: ColorsUtil.bgColor,
       appBar: CustomAppBar(
-        '添加药品1',
+        '添加药品',
         onBackPressed: () {
           Navigator.pop(context);
         },
@@ -298,20 +298,20 @@ class _AddChineseMedicineListState extends State<AddChineseMedicineList> {
                                 return;
                               }
                               setState(() {
-                                detailDataList[index]["count"] = 1;
+                                detailDataList[index]["count"] = 0;
                                 selectedDrugList.add(detailDataList[index]);
                                 drugListIsHidden = true;
                                 selectedDrugIsHidden = false ;
                               });
                             },
                             child: Container(
-                              height: 44.0,
+                              height: 60.0,
                               child: ListTile(
                                   title: Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: <Widget>[
-                                      Text(detailDataList[index]["medicinename"] +" " +detailDataList[index]["specification"] +"  ", style: GSYConstant.textStyle(color:int.parse(detailDataList[index]['stockNum'])==0?'#999999': '#333333'),),
-                                      Expanded(child: Text(detailDataList[index]["manuname"],style: GSYConstant.textStyle(color: '#999999'),overflow: TextOverflow.ellipsis,maxLines: 1,),),
+                                      Text(detailDataList[index]["medicinename"] +" " +detailDataList[index]["specification"] +"  ", style: GSYConstant.textStyle(fontSize: 14.0,color:int.parse(detailDataList[index]['stockNum'])==0?'#999999': '#333333'),),
+                                      Expanded(child: Text(detailDataList[index]["manuname"],style: GSYConstant.textStyle(fontSize: 14.0,color: '#999999'),overflow: TextOverflow.ellipsis,maxLines: 1,),),
                                     ],
                                   ),
                                   trailing: TextButton(onPressed: null,
@@ -319,7 +319,9 @@ class _AddChineseMedicineListState extends State<AddChineseMedicineList> {
                                       alignment: Alignment.centerRight,
                                       padding:EdgeInsets.zero,
                                     ),
-                                    child:int.parse(detailDataList[index]['stockNum'])==0?SvgUtil.svg('add_graydrug.svg'): SvgUtil.svg('add_drug.svg'),)
+                                    child:int.parse(detailDataList[index]['stockNum'])==0?SvgUtil.svg('add_graydrug.svg'): SvgUtil.svg('add_drug.svg'),
+                                  ),
+                                  subtitle: Text("库存:"+detailDataList[index]['stockNum'],style:GSYConstant.textStyle(fontSize: 11.0,color:int.parse(detailDataList[index]['stockNum'])==0?'#999999': '#666666')),
                               ),
                               decoration: BoxDecoration(
                                   color:Colors.white,

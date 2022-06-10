@@ -144,13 +144,13 @@ class _PatientConsultState extends State<PatientConsult> {
     var item = list[index];
     return GestureDetector(
         onTap: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => OrderDetail(
-                        map: list[index],
-                        docName: docName,
-                      )));
+          // Navigator.push(
+          //     context,
+          //     MaterialPageRoute(
+          //         builder: (context) => OrderDetail(
+          //               map: list[index],
+          //               docName: docName,
+          //             )));
         },
         child: Container(
             margin: const EdgeInsets.fromLTRB(16.0, 0, 16.0, 10.0),

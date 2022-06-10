@@ -107,7 +107,7 @@ class _VerifyCodeState extends State<VerifyCode> {
               if(res['code']==200) {
               SharedPreferences perfer = await SharedPreferences.getInstance();
               perfer.setString('tokenValue', res['data']['tokenValue']);
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>const SetNewPassword()));
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>const SetNewPassword()));
               }else{
                 ToastUtil.showToast(msg: res['msg']);
               }

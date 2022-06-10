@@ -46,6 +46,7 @@ class MessageState extends State<Message> {
       setState(() {
         list = res['data']['records'];
         isMore = true;
+        print('messageList ===='+list.toString());
       });
     } else {
       ToastUtil.showToast(msg: res['msg']);

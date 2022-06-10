@@ -21,6 +21,7 @@ class Api {
   static const getToken = '/doctor/dr-service/order-room/getToken';
   static const signOutUrl = "/doctor/dr-service/ba-doctor-user/doExit"; //退出登录 登出
   static const getDoctorInfoUrl = "/doctor/dr-service/ba-doctor-user/getInfo"; //获取医生信息
+  static const getDoctorCode = "/doctor/dr-service/ba-doctor-user/getQrCode"; //获取医生名片
   static const getMessageListApi = "/doctor/dr-service/push/getList"; //获取医生信息
   static const getMyPatientListApi = "/doctor/dr-service/patient/getList"; //获取患者列表
   static const finishTopicApi = "/doctor/dr-service/register/finish";
