@@ -6,13 +6,15 @@ import 'package:doctor_project/widget/custom_app_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'common_diagnosis.dart';
 import 'common_drug.dart';
 
 class TemplateCreate extends StatefulWidget {
-  const TemplateCreate({Key? key}) : super(key: key);
+  String doctorId;
+  TemplateCreate({Key? key,required  this.doctorId}) : super(key: key);
 
   @override
-  _TemplateCreateState createState() => _TemplateCreateState();
+  _TemplateCreateState createState() => _TemplateCreateState(this.doctorId);
 }
 
 class _TemplateCreateState extends State<TemplateCreate> {
@@ -27,17 +29,18 @@ class _TemplateCreateState extends State<TemplateCreate> {
       'subTitle': '常用病历模板维护',
     }
   ];
+  String doctorId;
+  _TemplateCreateState(this.doctorId);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorsUtil.bgColor,
+      appBar:  CustomAppBar(
+        '模版创建',
+      ),
       body: Column(
         children: [
-          CustomAppBar(
-            '模版创建',
-            
-          ),
           Column(
             children: ListTile.divideTiles(
                 color: ColorsUtil.hexStringColor('#cccccc', alpha: 0.3),
@@ -45,9 +48,14 @@ class _TemplateCreateState extends State<TemplateCreate> {
                       onTap: (){
                         switch(index){
                           case 0:
-                            Navigator.push(context, MaterialPageRoute(builder: (context)=>CommonWords()));
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>CommonWords(doctorId:doctorId ,)));
                             break;
                           case 1:
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                     AddCommonDiagnosis(doctorId: doctorId,)));
                             break;
                           case 2:
                             Navigator.push(

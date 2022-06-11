@@ -44,6 +44,9 @@ class Api {
   static const exitLogin ='/doctor/dr-service/ba-doctor-user/doExit';
   static const verifyOldPwdApi ='/doctor/dr-service/ba-doctor-user/validOldPwd';
   static const getPatientIdApi ='/doctor/dr-service/patient/getPaId';
-
+  static const getCommonWordsTemplateApi ='/doctor/dr-service/template/getCommonWords';
+  static const getCommonDiagnosisTemplateApi ='/doctor/dr-service/template/getDiagnoses';
+  static const  addCommonWordsListApi='/doctor/dr-service/template/addCommonWord';
+  static const delTemplateApi = '/doctor/dr-service/template/delete';
 
 }

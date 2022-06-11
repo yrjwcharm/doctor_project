@@ -1,18 +1,27 @@
 import 'package:doctor_project/common/style/gsy_style.dart';
+import 'package:doctor_project/http/http_request.dart';
 import 'package:doctor_project/utils/colors_utils.dart';
+import 'package:doctor_project/utils/toast_util.dart';
 import 'package:doctor_project/widget/custom_app_bar.dart';
 import 'package:doctor_project/widget/custom_safeArea_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../http/api.dart';
+
 class AddCommonWords extends StatefulWidget {
-  const AddCommonWords({Key? key}) : super(key: key);
+  String doctorId;
+  AddCommonWords({Key? key,required this.doctorId}) : super(key: key);
 
   @override
-  _AddCommonWordsState createState() => _AddCommonWordsState();
+  _AddCommonWordsState createState() => _AddCommonWordsState(this.doctorId);
 }
 
 class _AddCommonWordsState extends State<AddCommonWords> {
+  String doctorId;
+  String remark='';
+  _AddCommonWordsState(this.doctorId);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,9 +38,16 @@ class _AddCommonWordsState extends State<AddCommonWords> {
              TextField(
               maxLines: 5,
               inputFormatters: [],
+              onChanged: (value){
+                remark = value;
+                setState(() {
+
+                });
+              },
               cursorColor: ColorsUtil.hexStringColor('#666666'),
               style: GSYConstant.textStyle(fontSize: 14.0, color: '#666666'),
               decoration: InputDecoration(
+
                   hintText: '请输入您的常用回复，请不要填写QQ、微信等联系方式或广告信息，否则系统将封禁您的账号',
                   // fillColor: Colors.transparent,
                   // filled: true,
@@ -42,8 +58,19 @@ class _AddCommonWordsState extends State<AddCommonWords> {
             ),),
            CustomSafeAreaButton(
              margin: const EdgeInsets.only(bottom: 16.0),
-             onPressed: (){
-                Navigator.pop(context);
+             onPressed: ()async{
+               if(remark.isEmpty){
+                 ToastUtil.showToast(msg: '请输入常用语回复');
+                 return;
+               }
+               var res =await HttpRequest.getInstance().post(Api.addCommonWordsListApi,
+                   {
+                     "doctorId": doctorId, //测试使用
+                     "remark": "常用语061101" //常用语
+                   });
+               if(res['code']==200){
+                 Navigator.pop(context);
+               }
            },title: '保存',)
         ],
       ),

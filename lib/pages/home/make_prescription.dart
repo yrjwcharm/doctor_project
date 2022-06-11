@@ -1230,7 +1230,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                       SvgUtil.svg(
-                        'increment.svg',
+                        'add_drug.svg',
                       ),
                       TextButton(
                           onPressed: () {

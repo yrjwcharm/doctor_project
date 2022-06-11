@@ -15,6 +15,7 @@ import 'package:doctor_project/widget/custom_app_bar.dart';
 import 'package:doctor_project/widget/custom_elevated_button.dart';
 import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart'
     show MethodChannel, PlatformException, SystemChannels, rootBundle;
@@ -47,7 +48,6 @@ class ChatRoom extends StatelessWidget {
             Navigator.pop(context);
           },
         ),
-
         body: ChatPage(
           userInfoMap: this.userInfoMap,
         ),
@@ -71,6 +71,16 @@ class _ChatPageState extends State<ChatPage> {
   _ChatPageState({required this.userInfoMap});
 
   List<types.Message> _messages = [];
+  List commonWordsList = [
+    '症状持续几天了？',
+    '我建议你先去医院检查一下，这里我也没办法您…',
+    '请问还有什么可以帮到您的？',
+    '患病多久了，是否复诊过？'
+        '正在开方，请您稍等……',
+    '对不起，让您久等了',
+    '请您稍等，医生正在为你开立处方...',
+    '您好，请问哪里不舒服？',
+  ];
 
   // final _user = const types.User(id: '06c33e8b-e835-4736-80f4-63f44b66666c');
   types.User _user = const types.User(id: '');
@@ -78,6 +88,7 @@ class _ChatPageState extends State<ChatPage> {
   bool _isMore = false;
   double keyboardHeight = 270.0;
   bool _emojiState = false;
+  bool _common_word_state = false;
   FocusNode _focusNode = new FocusNode();
   final String _roomID = ZegoConfig.instance.roomID;
   final request = HttpRequest.getInstance();
@@ -121,6 +132,7 @@ class _ChatPageState extends State<ChatPage> {
         setState(() {
           _emojiState = false;
           _isMore = false;
+          _common_word_state = false;
         });
       }
     });
@@ -143,7 +155,8 @@ class _ChatPageState extends State<ChatPage> {
         Api.getRecordListApi + '?roomId=${ZegoConfig.instance.roomID}', {});
     if (res['code'] == 200) {
       List<dynamic> list = res['data']['record'];
-      list.sort((a,b)=>b['sendTime'].toString().compareTo(a['sendTime'].toString()));
+      list.sort((a, b) =>
+          b['sendTime'].toString().compareTo(a['sendTime'].toString()));
       list.forEach((item) {
         if (item['type'] == '1') {
           types.Message _message = types.TextMessage.fromJson({
@@ -177,7 +190,7 @@ class _ChatPageState extends State<ChatPage> {
             "id": const Uuid().v4(),
             "name": "image",
             "size": 0,
-            'width':12,
+            'width': 12,
             "status": item['roleCode'] == '2' ? "seen" : "sent",
             "type": "image",
             "uri": item['info'],
@@ -357,7 +370,9 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   void appendMessage(ZegoBroadcastMessageInfo message) {
-    print('msg,${message.message}',);
+    print(
+      'msg,${message.message}',
+    );
     if (CommonUtils.isImageEnd(message.message)) {
       print('11111,走了');
       types.Message _message = types.ImageMessage.fromJson(
@@ -382,13 +397,15 @@ class _ChatPageState extends State<ChatPage> {
       //     userInfoMap['name'], '2');
       _addMessage(_message);
     } else {
-      print('111111,${userInfoMap['photo']}',);
+      print(
+        '111111,${userInfoMap['photo']}',
+      );
 
       // appendMessage('💬 ${message.message} [ID:${message.messageID}] [From:${message.fromUser.userName}]');
       types.Message _message = types.TextMessage.fromJson({
         "author": {
-          "firstName": userInfoMap['name']??'',
-          "id": userInfoMap['patientId']??'',
+          "firstName": userInfoMap['name'] ?? '',
+          "id": userInfoMap['patientId'] ?? '',
           "imageUrl": userInfoMap['photo']
         },
         "createdAt": message.sendTime,
@@ -418,7 +435,7 @@ class _ChatPageState extends State<ChatPage> {
 
     if (result != null && result.files.single.path != null) {
       final message = types.FileMessage(
-        author:_user,
+        author: _user,
         createdAt: DateTime.now().millisecondsSinceEpoch,
         id: const Uuid().v4(),
         mimeType: lookupMimeType(result.files.single.path!),
@@ -448,7 +465,7 @@ class _ChatPageState extends State<ChatPage> {
       var $result = await request.uploadFile(Api.uploadImgApi, formData);
       if ($result['code'] == 200) {
         final message = types.ImageMessage(
-          author:_user,
+          author: _user,
           createdAt: DateTime.now().millisecondsSinceEpoch,
           height: image.height.toDouble(),
           id: const Uuid().v4(),
@@ -462,33 +479,36 @@ class _ChatPageState extends State<ChatPage> {
         ZegoExpressEngine.instance
             .sendBroadcastMessage(_roomID, $result['data']['url'])
             .then((value) {
-              if(value.errorCode==0){
-                _addMessage(message);
-                saveRecord($result['data']['url'], '2', doctorMap['userId'].toString(), doctorMap['realName'],'1');
-              }else{
-                ToastUtil.showToast(msg: '发送消息失败${value.errorCode},请重新进入房间');
-              }
+          if (value.errorCode == 0) {
+            _addMessage(message);
+            saveRecord($result['data']['url'], '2',
+                doctorMap['userId'].toString(), doctorMap['realName'], '1');
+          } else {
+            ToastUtil.showToast(msg: '发送消息失败${value.errorCode},请重新进入房间');
+          }
         });
       }
     }
   }
-  void saveRecord(String info,String type,String userId,String userName,String roleCode) async{
+
+  void saveRecord(String info, String type, String userId, String userName,
+      String roleCode) async {
     var request = HttpRequest.getInstance();
-    Map<String,dynamic> map ={};
-    DateTime now = DateTime.now();//获取当前时间
-    String formattedDate = DateFormat('yyyy-MM-dd HH:mm:ss').format(now);//格式化日期
+    Map<String, dynamic> map = {};
+    DateTime now = DateTime.now(); //获取当前时间
+    String formattedDate =
+        DateFormat('yyyy-MM-dd HH:mm:ss').format(now); //格式化日期
     map['roomId'] = ZegoConfig.instance.roomID;
     map['userId'] = userId;
     map['userName'] = userName;
-    map['roleCode'] =roleCode;
+    map['roleCode'] = roleCode;
     map['info'] = info;
     map['type'] = type;
-    map['sendTime'] =formattedDate;
-    var $res = await request.post(Api.saveChatRecordApi,map);
-    if($res.code==200){
-
-    }
+    map['sendTime'] = formattedDate;
+    var $res = await request.post(Api.saveChatRecordApi, map);
+    if ($res.code == 200) {}
   }
+
   void _handleMessageTap(BuildContext context, types.Message message) async {
     if (message is types.FileMessage) {
       await OpenFile.open(message.uri);
@@ -510,17 +530,20 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   void _handleSendPressed(types.PartialText message) async {
-    final textMessage = types.TextMessage.fromPartial(  createdAt: DateTime.now().millisecondsSinceEpoch,
+    final textMessage = types.TextMessage.fromPartial(
+        createdAt: DateTime.now().millisecondsSinceEpoch,
         id: const Uuid().v4(),
         status: Status.sent,
-        author: _user, partialText: message);
+        author: _user,
+        partialText: message);
     ZegoExpressEngine.instance
         .sendBroadcastMessage(_roomID, textMessage.text)
         .then((value) {
-      if(value.errorCode==0){
+      if (value.errorCode == 0) {
         _addMessage(textMessage);
-        saveRecord(textMessage.text, '1', doctorMap['userId'].toString(), doctorMap['realName'],'1');
-      }else{
+        saveRecord(textMessage.text, '1', doctorMap['userId'].toString(),
+            doctorMap['realName'], '1');
+      } else {
         ToastUtil.showToast(msg: '发送消息失败${value.errorCode}');
       }
       print(
@@ -541,56 +564,68 @@ class _ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
     return Chat(
-      
-        imageMessageBuilder: (types.ImageMessage imageMessage, {required int messageWidth}){
-          return SizedBox(
-            width:100.0,
-            height:80.0 ,
-            // height: 50.0,
-            child: Image.network(imageMessage.uri,fit: BoxFit.contain,),
-          );
-       },
-        disableImageGallery: false,
-        usePreviewData:false,
-        theme: DefaultChatTheme(
+      imageMessageBuilder: (types.ImageMessage imageMessage,
+          {required int messageWidth}) {
+        return SizedBox(
+          width: 100.0,
+          height: 80.0,
+          // height: 50.0,
+          child: Image.network(
+            imageMessage.uri,
+            fit: BoxFit.contain,
+          ),
+        );
+      },
+      disableImageGallery: false,
+      usePreviewData: false,
+      theme: DefaultChatTheme(
           backgroundColor: ColorsUtil.hexStringColor('#f9f9f9'),
-            // seenIcon: SizedBox.shrink(),
-            // userNameTextStyle:GSYConstant.textStyle(fontSize:14.0,color: '#333333' ),
+          // seenIcon: SizedBox.shrink(),
+          // userNameTextStyle:GSYConstant.textStyle(fontSize:14.0,color: '#333333' ),
           statusIconPadding: const EdgeInsets.all(10.0),
-          messageBorderRadius:4.0,
-            userAvatarNameColors:[
+          messageBorderRadius: 4.0,
+          userAvatarNameColors: [
             //   // Color(0xffff6767),
             //   // Color(0xff66e0da),
             //   // Color(0xfff5a2d9),
             //   // Color(0xfff0c722),
             //   // Color(0xff6a85e5),
             //   Color(0xfffd9a6f),
-              Color(0xff92db6e),
+            Color(0xff92db6e),
             //   // Color(0xff73b8e5),
             //   // Color(0xfffd7590),
             //   // Color(0xffc78ae5),
-            ],
-            messageInsetsVertical:10.0,
-          messageInsetsHorizontal:10.0,
+          ],
+          messageInsetsVertical: 10.0,
+          messageInsetsHorizontal: 10.0,
           // statusIconPadding: EdgeInsets.zero,
           // dateDividerMargin: EdgeInsets.zero,
-          deliveredIcon:Stack(children: [
-            Container(
-            // margin: const EdgeInsets.symmetric(horizontal: 10.0),
-          width: 34.0, height: 34.0,
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(17)
-          ),
-          clipBehavior: Clip.hardEdge,
-          child:doctorMap['photoUrl']==null?const SizedBox.shrink():Image.network(doctorMap['photoUrl'],fit: BoxFit.cover,),
-        )],)),
-        hideBackgroundOnEmojiMessages:false,
+          deliveredIcon: Stack(
+            children: [
+              Container(
+                // margin: const EdgeInsets.symmetric(horizontal: 10.0),
+                width: 34.0,
+                height: 34.0,
+                decoration:
+                    BoxDecoration(borderRadius: BorderRadius.circular(17)),
+                clipBehavior: Clip.hardEdge,
+                child: doctorMap['photoUrl'] == null
+                    ? const SizedBox.shrink()
+                    : Image.network(
+                        doctorMap['photoUrl'],
+                        fit: BoxFit.cover,
+                      ),
+              )
+            ],
+          )),
+      hideBackgroundOnEmojiMessages: false,
       emptyState: const SizedBox.shrink(),
-      dateFormat:DateFormat('yyyy/MM/dd') ,
+      dateFormat: DateFormat('yyyy/MM/dd'),
       // dateLocale:'HH:mm',
       timeFormat: DateFormat('HH:mm'),
-      isLastPage:true,
-      customBottomWidget: SafeArea(
+      isLastPage: true,
+      customBottomWidget: SingleChildScrollView(
+        physics: new NeverScrollableScrollPhysics(),
         child: Column(
           children: <Widget>[
             Container(
@@ -645,7 +680,9 @@ class _ChatPageState extends State<ChatPage> {
                         onTap: () {
                           setState(() {
                             _emojiState = !_emojiState;
+                            _common_word_state = false;
                             _isMore = false;
+                            setState(() {});
                           });
                           SystemChannels.textInput
                               .invokeMethod('TextInput.hide');
@@ -660,6 +697,8 @@ class _ChatPageState extends State<ChatPage> {
                           setState(() {
                             _isMore = !_isMore;
                             _emojiState = false;
+                            _common_word_state = false;
+                            setState(() {});
                           });
                           SystemChannels.textInput
                               .invokeMethod('TextInput.hide');
@@ -679,6 +718,7 @@ class _ChatPageState extends State<ChatPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
                       Column(
+                        mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
                           GestureDetector(
                             onTap: () {
@@ -697,6 +737,7 @@ class _ChatPageState extends State<ChatPage> {
                         ],
                       ),
                       Column(
+                        mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
                           GestureDetector(
                             onTap: () {
@@ -810,6 +851,7 @@ class _ChatPageState extends State<ChatPage> {
                       Visibility(
                         visible: userInfoMap['type'] == '0',
                         child: Column(
+                          mainAxisSize: MainAxisSize.min,
                           children: <Widget>[
                             GestureDetector(
                               onTap: () async {
@@ -835,6 +877,28 @@ class _ChatPageState extends State<ChatPage> {
                           ],
                         ),
                       ),
+                      Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          GestureDetector(
+                            onTap: () {
+                              _common_word_state = !_common_word_state;
+                              _isMore = false;
+                              _emojiState = false;
+                              setState(() {});
+                            },
+                            child: SvgUtil.svg('common_words_model.dart.svg'),
+                          ),
+                          const SizedBox(
+                            height: 9.0,
+                          ),
+                          Text(
+                            '常用语',
+                            style: GSYConstant.textStyle(
+                                color: '#333333', fontSize: 12.0),
+                          )
+                        ],
+                      ),
                       // Column(
                       //   children: <Widget>[
                       //     GestureDetector(
@@ -846,6 +910,38 @@ class _ChatPageState extends State<ChatPage> {
                     ],
                   ),
                 )),
+            Visibility(
+              visible: _common_word_state,
+              child:SizedBox(height: 200.0,child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: commonWordsList.length,
+                itemBuilder: (context, index) => GestureDetector(
+                  onTap: () {
+                    _common_word_state = false;
+                    _handleSendPressed(
+                        PartialText(text: commonWordsList[index]));
+
+                    // setState(() {});
+                  },
+                  child: Container(
+                    height: 44.0,
+                    padding: const EdgeInsets.only(left: 16.0),
+                    alignment: Alignment.centerLeft,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border(
+                            bottom: BorderSide(
+                                color: ColorsUtil.hexStringColor('#cccccc',
+                                    alpha: 0.3)))),
+                    child: Text(
+                      commonWordsList[index],
+                      style: GSYConstant.textStyle(
+                          fontSize: 14.0, color: '#666666'),
+                    ),
+                  ),
+                ),
+              ),),
+            ),
             Offstage(
               offstage: !_emojiState,
               child: SizedBox(

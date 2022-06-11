@@ -387,7 +387,7 @@ class MyState extends State<My> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      const TemplateCreate()));
+                                       TemplateCreate(doctorId: userId,)));
                           break;
                         case 7:
                           Navigator.push(
