@@ -55,7 +55,7 @@ class _TemplateCreateState extends State<TemplateCreate> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                     AddCommonDiagnosis(doctorId: doctorId,)));
+                                     CommonDiagnosis(doctorId: doctorId,)));
                             break;
                           case 2:
                             Navigator.push(

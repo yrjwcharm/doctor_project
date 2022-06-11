@@ -35,7 +35,7 @@ lib/generated_plugin_registrant.dart
 
 # Symbolication related
 app.*.symbols
-
+pubspec.lock
 # Obfuscation related
 app.*.map.json
 
@@ -43,5 +43,3 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
-.lock
-/generated/

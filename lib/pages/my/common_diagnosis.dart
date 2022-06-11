@@ -1,6 +1,7 @@
 import 'package:doctor_project/common/style/gsy_style.dart';
 import 'package:doctor_project/http/http_request.dart';
 import 'package:doctor_project/model/common_diagnosis_model.dart';
+import 'package:doctor_project/pages/my/add_common_diagnosis.dart';
 import 'package:doctor_project/pages/tabs/main.dart';
 import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:doctor_project/utils/svg_util.dart';
@@ -14,20 +15,19 @@ import '../../http/api.dart';
 import '../../utils/toast_util.dart';
 import '../../widget/custom_app_bar.dart';
 
-class AddCommonDiagnosis extends StatefulWidget {
+class CommonDiagnosis extends StatefulWidget {
   String doctorId;
 
-  AddCommonDiagnosis({Key? key, required this.doctorId}) : super(key: key);
+  CommonDiagnosis({Key? key, required this.doctorId}) : super(key: key);
 
   @override
-  _AddCommonDiagnosisState createState() =>
-      _AddCommonDiagnosisState(this.doctorId);
+  _CommonDiagnosisState createState() => _CommonDiagnosisState(this.doctorId);
 }
 
-class _AddCommonDiagnosisState extends State<AddCommonDiagnosis> {
+class _CommonDiagnosisState extends State<CommonDiagnosis> {
   String doctorId;
 
-  _AddCommonDiagnosisState(this.doctorId);
+  _CommonDiagnosisState(this.doctorId);
 
   List<Data> commonDiagnosisList = [];
 
@@ -212,7 +212,9 @@ class _AddCommonDiagnosisState extends State<AddCommonDiagnosis> {
                   )
                 ],
               ),
-              onPressed: () {})
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (contenxt)=>AddCommonDiagnosis()));
+              })
         ]));
   }
 }
