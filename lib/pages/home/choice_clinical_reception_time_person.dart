@@ -7,35 +7,75 @@ import 'package:doctor_project/widget/custom_input_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import '../../http/http_request.dart';
+import '../../http/api.dart';
+import '../../utils/toast_util.dart';
 
 class ChoiceClinicReceptTimePerson extends StatefulWidget {
-  const ChoiceClinicReceptTimePerson({Key? key}) : super(key: key);
+  const ChoiceClinicReceptTimePerson({Key? key,required this.treatId}) : super(key: key);
+  final String treatId;
 
   @override
   _ChoiceClinicReceptTimePersonState createState() =>
-      _ChoiceClinicReceptTimePersonState();
+      _ChoiceClinicReceptTimePersonState(treatId);
 }
 
 class _ChoiceClinicReceptTimePersonState
     extends State<ChoiceClinicReceptTimePerson> {
   String startTime = '';
   String endTime = '';
+  String treatId;
   List list = [];
+  List timeList = [];
+  List dataList = [];
+  String patientCount = '';
+  int weekDay = 0;
+  bool isOpen = false;
+
+  _ChoiceClinicReceptTimePersonState(this.treatId);
 
   _selStartTime() {}
 
   @override
   void initState() {
     super.initState();
+    getData();
     list = [
-      {'day': '周一', 'time': '12:30', 'checked': false},
-      {'day': '周二', 'time': '12:31', 'checked': true},
-      {'day': '周三', 'time': '01:01', 'checked': false},
-      {'day': '周四', 'time': '01:02', 'checked': false},
-      {'day': '周五', 'time': '01:03', 'checked': false},
-      {'day': '周六', 'time': '01:04', 'checked': false},
-      {'day': '周日', 'time': '01:05', 'checked': false}
+      {'day': '周一','startTime':'','endTime':'','patientCount':'','checked': isOpen},
+      {'day': '周二','startTime':'','endTime':'','patientCount':'','checked': isOpen},
+      {'day': '周三','startTime':'','endTime':'','patientCount':'','checked': isOpen},
+      {'day': '周四','startTime':'','endTime':'','patientCount':'','checked': isOpen},
+      {'day': '周五','startTime':'','endTime':'','patientCount':'','checked': isOpen},
+      {'day': '周六','startTime':'','endTime':'','patientCount':'','checked': isOpen},
+      {'day': '周日','startTime':'','endTime':'','patientCount':'','checked': isOpen}
     ];
+
+  }
+
+  Future getData() async {
+    var request = HttpRequest.getInstance();
+    var res = await request.get(
+        Api.checkDetailByTreatId+'?treatId=$treatId', {});
+    if (res['code'] == 200) {
+        setState(() {
+        dataList = res['data'];
+        print('timeList ===='+dataList.toString());
+
+        for (int i = 0;i<dataList.length;i++){
+          weekDay = dataList[i]['weekDay'];
+          if(weekDay != 0){
+            timeList[weekDay-1]['startTime'] = dataList[i]['startTime'];
+            timeList[weekDay-1]['endTime'] = dataList[i]['endTime'];
+            timeList[weekDay-1]['patientCount'] = dataList[i]['patientCount'];
+            timeList[weekDay-1]['checked'] = true;
+          }
+        }
+        print('timeList----List ===='+timeList.toString());
+
+      });
+    } else {
+      ToastUtil.showToast(msg: res['msg']);
+    }
   }
 
   @override
@@ -118,14 +158,6 @@ class _ChoiceClinicReceptTimePersonState
                                             color: list[index]['checked']
                                                 ? '#06B48D'
                                                 : '#333333'),
-                                      ),
-                                      Text(
-                                        list[index]['time'],
-                                        style: GSYConstant.textStyle(
-                                            color: list[index]['checked']
-                                                ? '#06B48D'
-                                                : '#333333',
-                                            fontSize: 12.0),
                                       ),
                                     ],
                                   ),

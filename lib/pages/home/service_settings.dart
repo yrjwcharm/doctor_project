@@ -6,6 +6,9 @@ import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:doctor_project/widget/custom_app_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import '../../http/http_request.dart';
+import '../../http/api.dart';
+import '../../utils/toast_util.dart';
 
 import '../../model/ServiceSettingsBean.dart';
 
@@ -18,14 +21,44 @@ class ServiceSettings extends StatefulWidget {
 
 class _ServiceSettingsState extends State<ServiceSettings> {
   final List<ServiceSettingsBean> list=[];
+  List dataList = [];
+  // int treatType;
+  // int state;
+  // String  stateStr = '';
+
   @override
   void initState() {
     super.initState();
-    list.add(ServiceSettingsBean('assets/images/home/consult.png','健康咨询','开通图文方式的咨询服务，无需处方','已开通',1));
-    list.add(ServiceSettingsBean('assets/images/home/picture.png','图文问诊-复诊开药','图文方式的问诊服务','审核中',0));
-    list.add(ServiceSettingsBean('assets/images/home/video.png','视频问诊-复诊开药','患者预约后进行视频问诊服务','未开通',0));
+    getData();
+    // list.add(ServiceSettingsBean('assets/images/home/consult.png','健康咨询','开通图文方式的咨询服务，无需处方','已开通',1));
+    // list.add(ServiceSettingsBean('assets/images/home/picture.png','图文问诊-复诊开药','图文方式的问诊服务','审核中',0));
+    // list.add(ServiceSettingsBean('assets/images/home/video.png','视频问诊-复诊开药','患者预约后进行视频问诊服务','未开通',0));
 
   }
+
+  Future getData() async {
+    var request = HttpRequest.getInstance();
+    var res = await request.get(
+        Api.serviceByDocIdAndState, {});
+    if (res['code'] == 200) {
+        setState(() {
+        dataList = res['data'];
+        for (int i = 0;i<dataList.length;i++){
+          if (dataList[i]['treatType']== 0){
+              list.add(ServiceSettingsBean('assets/images/home/picture.png','图文问诊-复诊开药','图文方式的问诊服务',dataList[i]['state']==1 ?'已开通':'未开通',dataList[i]['state'],dataList[i]['treatType'],''));
+          }else if (dataList[i]['treatType']== 1) {
+              list.add(ServiceSettingsBean('assets/images/home/consult.png','健康咨询','开通图文方式的咨询服务，无需处方',dataList[i]['state']==1 ?'已开通':'未开通',dataList[i]['state'],dataList[i]['treatType'],''));
+          }else if(dataList[i]['treatType']== 2) {
+              list.add(ServiceSettingsBean('assets/images/home/video.png','视频问诊-复诊开药','患者预约后进行视频问诊服务',dataList[i]['state']==1 ?'已开通':'未开通',dataList[i]['state'],dataList[i]['treatType'],''));
+          }
+        }
+        print('messageList ===='+dataList.toString());
+      });
+    } else {
+      ToastUtil.showToast(msg: res['msg']);
+    }
+  }
+
   Widget buildListTile(String icon,String title,String subTitle,String detailTitle,int status,{ required VoidCallback callback}){
     return ListTile(
       leading:   CircleAvatar(
@@ -59,18 +92,26 @@ class _ServiceSettingsState extends State<ServiceSettings> {
            },),
           Column(
             children:ListTile.divideTiles(
-                tiles:list.asMap().keys.map((index) =>buildListTile(list[index].icon, list[index].title, list[index].subTitle, list[index].detailTitle, list[index].status, callback: () {
-                  switch(index){
-                    case 0:
-                      Navigator.push(context,MaterialPageRoute(builder: (context)=>const HealthConsultService()));
-                      break;
-                    case 1:
-                      Navigator.push(context,MaterialPageRoute(builder: (context)=>const PictureService()));
-                      break;
-                    case 2:
-                      Navigator.push(context,MaterialPageRoute(builder: (context)=>const VideoService()));
-                      break;
+                tiles:list.asMap().keys.map((index) =>buildListTile(list[index].icon, list[index].title, list[index].subTitle, list[index].detailTitle, list[index].status,callback: () {
+                  if (dataList[index]['treatType']== 0){
+                    Navigator.push(context,MaterialPageRoute(settings: RouteSettings(name:"ServiceSettings"),builder: (context)=>PictureService(treatId:dataList[index]['treatId'].toString(),fee:dataList[index]['fee'].toString(),patientCount:dataList[index]['patientCount'].toString(),state:dataList[index]['state'])));
+                  }else if (dataList[index]['treatType']== 1) {
+                    Navigator.push(context,MaterialPageRoute(settings: RouteSettings(name:"ServiceSettings"),builder: (context)=>HealthConsultService(treatId:dataList[index]['treatId'].toString(),fee:dataList[index]['fee'].toString(),patientCount:dataList[index]['patientCount'].toString(),state:dataList[index]['state'])));
+                  }else if (dataList[index]['treatType']== 2) {
+                    Navigator.push(context,MaterialPageRoute(settings: RouteSettings(name:"ServiceSettings"),builder: (context)=>VideoService(treatId:dataList[index]['treatId'].toString(),fee:dataList[index]['fee'].toString(),patientCount:dataList[index]['patientCount'].toString(),state:dataList[index]['state'])));
                   }
+                  // switch(index){
+                  //   case 0:
+                    
+                  //     Navigator.push(context,MaterialPageRoute(builder: (context)=>const HealthConsultService()));
+                  //     break;
+                  //   case 1:
+                  //     Navigator.push(context,MaterialPageRoute(builder: (context)=>const PictureService()));
+                  //     break;
+                  //   case 2:
+                  //     Navigator.push(context,MaterialPageRoute(builder: (context)=>const VideoService()));
+                  //     break;
+                  // }
                 },
                 )),color: ColorsUtil.hexStringColor('#cccccc',alpha: 0.3)
             ).toList(),

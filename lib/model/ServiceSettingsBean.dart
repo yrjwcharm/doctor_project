@@ -4,6 +4,8 @@ class ServiceSettingsBean{
    String _subTitle;
    String _detailTitle;
    int _status;
+   int _pageRouteType;
+   String _bodyStr;
 
    String get icon => _icon;
   set icon(String value) {
@@ -11,7 +13,7 @@ class ServiceSettingsBean{
   }
 
    ServiceSettingsBean(
-      this._icon, this._title, this._subTitle, this._detailTitle, this._status);
+      this._icon, this._title, this._subTitle, this._detailTitle, this._status, this._pageRouteType,this._bodyStr);
 
    String get title => _title;
 
@@ -36,4 +38,15 @@ class ServiceSettingsBean{
   set title(String value) {
     _title = value;
   }
+
+  int get pageRouteType => _pageRouteType;
+  set pageRouteType(int value) {
+    _pageRouteType = value;
+  }
+
+  String get bodyStr => _bodyStr;
+  set bodyStr(String value) {
+    _bodyStr = value;
+  }
+
 }

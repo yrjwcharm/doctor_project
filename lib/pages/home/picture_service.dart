@@ -3,29 +3,47 @@ import 'dart:collection';
 import 'package:doctor_project/common/style/gsy_style.dart';
 import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:doctor_project/utils/text_util.dart';
+import 'package:doctor_project/pages/home/submit_success.dart';
+import 'package:doctor_project/pages/home/submit_fail.dart';
 import 'package:doctor_project/pages/home/clinical_reception_person_set.dart';
 import 'package:doctor_project/pages/home/topic_price_set.dart';
 import 'package:doctor_project/widget/custom_app_bar.dart';
 import 'package:doctor_project/widget/custom_safeArea_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import '../../utils/toast_util.dart';
+import '../../http/http_request.dart';
+import '../../http/api.dart';
 
 class PictureService extends StatefulWidget {
-  const PictureService({Key? key}) : super(key: key);
+  const PictureService({Key? key,required this.treatId,required this.fee,required this.patientCount,required this.state}) : super(key: key);
+  final String treatId;
+  final String fee;
+  final String patientCount;
+  final int state;
 
   @override
-  _HealthConsultServiceState createState() => _HealthConsultServiceState();
+  _HealthConsultServiceState createState() => _HealthConsultServiceState(treatId,fee,patientCount,state);
 }
 
 class _HealthConsultServiceState extends State<PictureService> {
   List list = [];
   bool isChecked = true;
+  String treatId;
+  String fee;
+  String patientCount;
+  int state;
+  _HealthConsultServiceState(this.treatId,this.fee,this.patientCount,this.state);
+
   @override
   void initState() {
     super.initState();
-     list.add({'title':'复诊开药-图文问诊','subTitle':'','detail':59.00,'isFlag':true});
-     list.add({'title':'价格','subTitle':'','detail':59.00,'isFlag':false});
-     list.add({'title':'接诊时间/人数','subTitle':'','detail':20,'isFlag':false});
+    if(state == 0){
+      isChecked = false;
+    }
+     list.add({'title':'复诊开药-图文问诊','subTitle':'','detail':59.00,'isFlag':isChecked});
+     list.add({'title':'价格','subTitle':'','detail':fee,'isFlag':false});
+     list.add({'title':'接诊人数','subTitle':'','detail':patientCount,'isFlag':false});
   }
   @override
   Widget build(BuildContext context) {
@@ -33,7 +51,7 @@ class _HealthConsultServiceState extends State<PictureService> {
         backgroundColor: ColorsUtil.hexStringColor('#f9f9f9'),
         body: Column(
           children: <Widget>[
-            CustomAppBar('健康咨询',onBackPressed: (){
+            CustomAppBar('图文问诊',onBackPressed: (){
               Navigator.pop(context);
             },isBack: true,),
            Column(
@@ -77,7 +95,23 @@ class _HealthConsultServiceState extends State<PictureService> {
                   alignment: Alignment.bottomCenter,
                   child:  CustomSafeAreaButton(
                     margin: const EdgeInsets.only(bottom: 16.0),
-                    title: '提交', onPressed: () {  },
+                    title: '提交', 
+                    onPressed: () async  {
+                      var res = await HttpRequest.getInstance().post(Api.updateDoctorTimeService, {
+                        "treatId":treatId, 
+                        "treatType": 0,
+                        "fee": fee,
+                        "state":state,
+                        "patientCount":patientCount
+
+                      });
+                      print('health+++++-------------------'+res.toString());
+                      if(res['code']==200){
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>const SubmitSuccess()));
+                      }else {                        
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>const SubmitFail()));
+                      } 
+                    },
                   ),
                 )
 

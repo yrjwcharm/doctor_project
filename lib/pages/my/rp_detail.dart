@@ -49,6 +49,7 @@ class _RecipeDetailState extends State<RecipeDetail> {
   String  useType_dictText='';
   String freq_dictText='';
   String remarks ='';
+  bool hasDoctorSign = false;
   Map<String, dynamic> medicineMap = {};
 
   _RecipeDetailState(this.rpDetailItem, this.diagnosis);
@@ -68,7 +69,7 @@ class _RecipeDetailState extends State<RecipeDetail> {
     Map data = res['data'];
     if (res['code'] == 200) {
       if (data["signatureImg"] != null) {
-        Navigator.pop(context);
+        // Navigator.pop(context);
       } else {
         String url = data["data"]["oauthURL"];
         // Navigator.pop(context);
@@ -93,6 +94,9 @@ class _RecipeDetailState extends State<RecipeDetail> {
       print("medicineMap------" + medicineMap.toString());
       if (medicineMap['doctorSign'].isNotEmpty) {
         doctorSign = medicineMap['doctorSign'];
+      }
+      if (doctorSign.length == 0) {
+        hasDoctorSign = true;
       }
       if (medicineMap['pharmacistSign'].isNotEmpty) {
         pharmacistSign = medicineMap['pharmacistSign'];
@@ -139,7 +143,9 @@ class _RecipeDetailState extends State<RecipeDetail> {
       // primary: true,
       appBar: CustomAppBar(
         '处方详情',
-      
+          isForward:hasDoctorSign,child: Text('补签名',style: GSYConstant.textStyle(color: '#06B48D'),),onForwardPressed: (){
+          getNet_userSignature();
+        },
       ),
       body: Column(
         children: <Widget>[
@@ -1056,23 +1062,6 @@ class _RecipeDetailState extends State<RecipeDetail> {
                                 const SizedBox(
                                   width: 8.0,
                                 ),
-                                // Visibility(
-                                //     visible: rpDetailItem['status'] == 4 ||
-                                //         rpDetailItem['status'] == 2,
-                                //     child: Expanded(
-                                //         child: CustomOutlineButton(
-                                //             title: '重新开方',
-                                //             onPressed: () {
-                                //               // Navigator.popUntil(context, (route) => false);
-                                //             },
-                                //             borderRadius:
-                                //                 BorderRadius.circular(5.0),
-                                //             borderColor:
-                                //                 ColorsUtil.hexStringColor(
-                                //                     '#06B48D')))),
-                                // const SizedBox(
-                                //   width: 8.0,
-                                // ),
                                 Visibility(
                                     visible: rpDetailItem['status'] == 3 ||
                                         rpDetailItem['status'] == 4 ||

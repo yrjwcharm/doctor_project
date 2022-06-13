@@ -3,9 +3,12 @@ import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:doctor_project/widget/custom_app_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:doctor_project/utils/svg_util.dart';
+import 'package:doctor_project/pages/tabs/main.dart';
 
-class SubmitSuccess extends StatelessWidget {
-  const SubmitSuccess({Key? key}) : super(key: key);
+
+class SubmitFail extends StatelessWidget {
+  const SubmitFail({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -32,11 +35,11 @@ class SubmitSuccess extends StatelessWidget {
                 height: 17,
               ),
               Text(
-                '提交成功',
+                '提交失败',
                 style: GSYConstant.textStyle(color: '#333333', fontSize: 16.0),
               ),
               const SizedBox(height: 6),
-              Text('请耐心等待审核', style: GSYConstant.textStyle(color: '#888888')),
+              Text('请重新开通服务', style: GSYConstant.textStyle(color: '#888888')),
             ],
           ),
         ),
@@ -51,8 +54,13 @@ class SubmitSuccess extends StatelessWidget {
                     style: ButtonStyle(
                         padding:
                             ButtonStyleButton.allOrNull<EdgeInsetsGeometry>(
-                                const EdgeInsets.all(0.0))),
-                    onPressed: backHome,
+                                const EdgeInsets.all(0.0))
+                            ),
+                    onPressed: (){
+                      Navigator.pop(context);
+                      Navigator.pop(context);
+                      Navigator.pop(context);
+                    },
                     child: Container(
                       width: 125,
                       height: 40,
@@ -75,7 +83,10 @@ class SubmitSuccess extends StatelessWidget {
                                     const EdgeInsets.all(0.0),
                                 )),
 
-                        onPressed: keepOpen,
+                        onPressed: (){
+                          Navigator.pop(context);
+                          Navigator.pop(context);
+                        },
                         child: Container(
                           height: 40,
                           alignment: Alignment.center,
@@ -94,10 +105,11 @@ class SubmitSuccess extends StatelessWidget {
       ]),
     );
   }
-
-  void backHome() {}
+  void backHome() {
+    // Navigator.popUntil(content,ModalRoute.withName("/TabHome"));
+  }
 
   void keepOpen() {
-
+    // Navigator.popUntil(content,ModalRoute.withName("ServiceSettings"));
   }
 }

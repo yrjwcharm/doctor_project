@@ -48,5 +48,9 @@ class Api {
   static const getCommonDiagnosisTemplateApi ='/doctor/dr-service/template/getDiagnoses';
   static const  addCommonWordsListApi='/doctor/dr-service/template/addCommonWord';
   static const delTemplateApi = '/doctor/dr-service/template/delete';
+  static const insertDoctorTimeService = '/doctor/dr-service/baDoctorTime/insertDoctorTimeService';
+  static const serviceByDocIdAndState = '/doctor/dr-service/baDoctorTime/selectDoctorTimeServiceByDocIdAndState';
+  static const updateDoctorTimeService = '/doctor/dr-service/baDoctorTime/updateDoctorTimeService';
+  static const checkDetailByTreatId = '/doctor/dr-service/baDoctorTime/checkDetailByTreatId';
 
 }

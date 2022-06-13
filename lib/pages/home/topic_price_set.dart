@@ -15,6 +15,7 @@ class TopicPriceSet extends StatefulWidget {
 
 class _TopicPriceSetState extends State<TopicPriceSet> {
   List list = [];
+  String price = '';
 
   @override
   void initState() {
@@ -152,6 +153,8 @@ class _TopicPriceSetState extends State<TopicPriceSet> {
                                 onPressed: () {
                                   if (index == 5) {
                                     showBottomSheet();
+                                  }else {
+                                    price = list[index]['text'];
                                   }
                                 },
                                 style: OutlinedButton.styleFrom(
@@ -178,7 +181,9 @@ class _TopicPriceSetState extends State<TopicPriceSet> {
               child: Container(
             alignment: Alignment.bottomCenter,
             child: CustomSafeAreaButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pop(context,price);
+              },
               title: '确定',
             ),
           ))
