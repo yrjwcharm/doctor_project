@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:doctor_project/common/style/gsy_style.dart';
 import 'package:doctor_project/http/http_request.dart';
+import 'package:doctor_project/pages/home/common_rp.dart';
 import 'package:doctor_project/pages/home/make_prescription.dart';
 import 'package:doctor_project/pages/home/video_topic.dart';
 import 'package:doctor_project/pages/my/write_case.dart';
@@ -41,17 +42,12 @@ class ChatRoom extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
+    return Scaffold(
         appBar: CustomAppBar(
           '${userInfoMap['name']}患者',
-          onBackPressed: () {
-            Navigator.pop(context);
-          },
         ),
         body: ChatPage(
           userInfoMap: this.userInfoMap,
-        ),
       ),
     );
   }
@@ -72,7 +68,16 @@ class _ChatPageState extends State<ChatPage> {
   _ChatPageState({required this.userInfoMap});
 
   List<types.Message> _messages = [];
-  List commonWordsList = [];
+  List commonWordsList = [
+    '症状持续几天了？',
+    '我建议你先去医院检查一下，这里我也没办法您…',
+    '请问还有什么可以帮到您的？',
+    '患病多久了，是否复诊过？'
+        '正在开方，请您稍等……',
+    '对不起，让您久等了',
+    '请您稍等，医生正在为你开立处方...',
+    '您好，请问哪里不舒服？',
+  ];
 
   // final _user = const types.User(id: '06c33e8b-e835-4736-80f4-63f44b66666c');
   types.User _user = const types.User(id: '');
@@ -156,8 +161,8 @@ class _ChatPageState extends State<ChatPage> {
         Api.getRecordListApi + '?roomId=${ZegoConfig.instance.roomID}', {});
     if (res['code'] == 200) {
       List<dynamic> list = res['data']['record'];
-      list.sort((a, b) =>
-          b['sendTime'].toString().compareTo(a['sendTime'].toString()));
+      // list.sort((a, b) =>
+      //     b['sendTime'].toString().compareTo(a['sendTime'].toString()));
       list.forEach((item) {
         if (item['type'] == '1') {
           types.Message _message = types.TextMessage.fromJson({
@@ -221,7 +226,7 @@ class _ChatPageState extends State<ChatPage> {
             firstName: res['data']['realName'],
             imageUrl: res['data']['photoUrl'] ?? '');
       });
-      getCommonWordsList(res['data']['userId'].toString());
+      // getCommonWordsList(res['data']['userId'].toString());
     }
   }
 
@@ -901,14 +906,27 @@ class _ChatPageState extends State<ChatPage> {
                           )
                         ],
                       ),
-                      // Column(
-                      //   children: <Widget>[
-                      //     GestureDetector(
-                      //      child: SvgUtil.svg('words.svg'),),
-                      //     const SizedBox(height: 9.0,),
-                      //     Text('常用语',style: GSYConstant.textStyle(color: '#333333',fontSize: 12.0),)
-                      //   ],
-                      // ),
+                      Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>CommonRp(registerId: userInfoMap[
+                              "id"]
+                                  .toString())));
+                            },
+                            child: SvgUtil.svg('prescription.svg'),
+                          ),
+                          const SizedBox(
+                            height: 9.0,
+                          ),
+                          Text(
+                            '常用处方',
+                            style: GSYConstant.textStyle(
+                                color: '#333333', fontSize: 12.0),
+                          )
+                        ],
+                      ),
                     ],
                   ),
                 )),
@@ -921,7 +939,7 @@ class _ChatPageState extends State<ChatPage> {
                   onTap: () {
                     _common_word_state = false;
                     _handleSendPressed(
-                        PartialText(text: commonWordsList[index].remark));
+                        PartialText(text: commonWordsList[index]));
 
                     // setState(() {});
                   },
@@ -936,7 +954,7 @@ class _ChatPageState extends State<ChatPage> {
                                 color: ColorsUtil.hexStringColor('#cccccc',
                                     alpha: 0.3)))),
                     child: Text(
-                      commonWordsList[index].remark,
+                      commonWordsList[index],
                       style: GSYConstant.textStyle(
                           fontSize: 14.0, color: '#666666'),
                     ),

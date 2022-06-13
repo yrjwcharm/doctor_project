@@ -29,20 +29,22 @@ import 'package:doctor_project/pages/home/electronicSgnature.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter/services.dart';
 
+import '../../model/western_rp_template.dart';
 import '../../utils/common_utils.dart';
 import '../../utils/event_bus_util.dart';
-
 class MakePrescription extends StatefulWidget {
   String registeredId; //挂号Id
-  MakePrescription({Key? key, required this.registeredId}) : super(key: key);
+  WesternRpTemplate? westernRp;
+  MakePrescription({Key? key, required this.registeredId,this.westernRp}) : super(key: key);
 
   _MakePrescriptionState createState() =>
-      _MakePrescriptionState(registeredId: this.registeredId);
+      _MakePrescriptionState(this.westernRp,registeredId: this.registeredId);
 }
 
 class _MakePrescriptionState extends State<MakePrescription> {
   String registeredId; //挂号Id
-  _MakePrescriptionState({required this.registeredId});
+  WesternRpTemplate? westernRp;
+  _MakePrescriptionState(this.westernRp,{required this.registeredId});
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final TextEditingController _editingController1 = TextEditingController();
@@ -98,10 +100,70 @@ class _MakePrescriptionState extends State<MakePrescription> {
   List<String> baseUnitList = [];
   StreamSubscription? stream;
   String onceDosageDesc = '';
-
+  List<MedicineVos> medicineVosList =[] ;
   @override
   void initState() {
     super.initState();
+      if(westernRp != null) {
+        List<String> diagnosis = [];
+        WesternRpTemplate? item = westernRp;
+        (item?.diagnosisVOS ?? []).forEach((element) {
+          diagnosis.add(element.diagnosisName!);
+        });
+        String str = '';
+        diagnosis.forEach((f) {
+          if (str == '') {
+            str = "$f";
+          } else {
+            str = "$str"",""$f";
+          }
+        });
+        print('11111111,${item?.medicineVOS}');
+        List list = [],
+            listData = [];
+        item?.medicineVOS?.forEach((item) {
+          Map map = {
+            "medicineid": 74516,
+            "specification": item.specification,
+            "baseUnitid": item.baseUnitid,
+            "dosage": item.wmOnceDosage,
+            "_frequency": item.freq,
+            "packageUnitid": item.packageUnitid,
+            "unitprice": item.amt,
+            "specification": item.specification,
+            "_usage": "01",
+            "baseUnit": item.baseUnitidDictText,
+            "medicinename": item.medicineName,
+            "packageUnit": item.packageUnitidDictText,
+            "num": item.medicineNum,
+            "count": item.medicineNum,
+            "frequency": item.freqDictText,
+            "manuname": item.manuname,
+            "medicationDays": item.dayNum,
+            "usage": item.useTypeDictText,
+            "id": item.id,
+            "remark": item.remarks
+          };
+          list.add(map);
+        });
+        item?.diagnosisVOS?.forEach((item) {
+          Map map = {
+            "diagnosisName": "诊断会谈和评价  ＮＯＳ",
+            "isMain": item.isMaster == 1 ? true : false,
+            "id": 34022,
+            "isMaster_dictText": "是"
+          };
+          listData.add(map);
+        });
+        setState(() {
+          diagnosisName = str;
+          pharmacyName = (item?.drugRoom)!;
+          pharmacyId = '2';
+          checkDataList = listData;
+          drugList = list;
+          calculateThePrice();
+        });
+      }
 
     loadtDataForRP();
     loadtDataForTCM();
@@ -129,16 +191,17 @@ class _MakePrescriptionState extends State<MakePrescription> {
       {'title': '频次', 'detail': '请选择频次', 'isArrow': true, 'value': ''}
     ];
     stream = EventBusUtil.getInstance().on<Map>().listen((event) {
+      print('33333,${event.toString()}');
       setState(() {
         drugList.add(event);
         calculateThePrice();
       });
     });
+
   }
 
   //新建处方接口
   void getNet_createPrescription() async {
-    print('55555555,${drugList.toString()}');
     if (pharmacyId.isEmpty) {
       Fluttertoast.showToast(msg: "请选择药房", gravity: ToastGravity.CENTER);
       return;
@@ -1360,7 +1423,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
                                                                 ['frequency'] +
                                                             "," +
                                                             drugList[index]
-                                                                ['dosage'] +
+                                                                ['dosage'].toString() +
                                                             drugList[index]
                                                                 ['baseUnit'],
                                                         style: GSYConstant
