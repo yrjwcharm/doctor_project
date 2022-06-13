@@ -12,6 +12,8 @@ import '../../http/api.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dio/dio.dart';
+import 'package:doctor_project/widget/custom_outline_button.dart';
+import 'package:doctor_project/widget/custom_elevated_button.dart';
 
 import '../../utils/toast_util.dart';
 
@@ -58,12 +60,13 @@ class _InquiryRecordState extends State<InquiryRecord> {
   Future getData() async {
     var request = HttpRequest.getInstance();
     var res = await request.get(
-        Api.getRpListApi +
-            '?status=$status&page=$_page&size=10',
+        Api.getDictListApi +
+            '?status=&page=$_page&size=10',
         {});
     if (res['code'] == 200) {
       setState(() {
         list = res['data']['records'];
+        print('list+++++++++++++++++----'+list.toString());
         isMore = true;
       });
     } else {
@@ -86,8 +89,8 @@ class _InquiryRecordState extends State<InquiryRecord> {
       _page += 1;
       var request = HttpRequest.getInstance();
       var res = await request.get(
-          Api.getRpListApi +
-              '?status=$status&page=$_page&size=10',
+          Api.getDictListApi +
+              '?status=&page=$_page&size=10',
           {});
       if (res['code'] == 200) {
         var total = res['data']['total'];
@@ -124,41 +127,6 @@ class _InquiryRecordState extends State<InquiryRecord> {
       ),
       body: Column(
         children: <Widget>[
-        //   Container(
-        //     height: 48.0,
-        //     decoration: const BoxDecoration(color: Colors.white),
-        //     child: Row(
-        //       mainAxisAlignment: MainAxisAlignment.spaceAround,
-        //       children: tabList
-        //           .map(
-        //             (item) => GestureDetector(
-        //               onTap: () {
-        //                 tabList.forEach(($item) => {
-        //                       $item['checked'] = false,
-        //                       if (mapEquals($item, item))
-        //                         $item['checked'] = true,
-        //                     });
-        //                 status = item['value'];
-        //                 setState(() {
-        //                   // tabList=tabList;
-        //                 });
-        //                 getData();
-        //               },
-        //               child: Text(
-        //                 item['label'],
-        //                 style: GSYConstant.textStyle(
-        //                     fontSize: 15.0,
-        //                     color: item['checked'] ? '#06B48D' : '#333333',
-        //                     fontWeight: item['checked']
-        //                         ? FontWeight.w500
-        //                         : FontWeight.w400,
-        //                     fontFamily: item['checked'] ? 'Medium' : 'Regular'),
-        //               ),
-        //             ),
-        //           )
-        //           .toList(),
-        //     ),
-        //   ),
           Container(
             child: RefreshIndicator(
                 displacement: 10.0,
@@ -169,26 +137,26 @@ class _InquiryRecordState extends State<InquiryRecord> {
                     controller: _scrollController,
                     itemBuilder: (BuildContext context, int index) {
                       var item = list[index];
-                      List<String>  diagnosis = [];
-                      (item['diagnosisVOS']??[]).forEach((element) {
-                          diagnosis.add(element['diagnosisName']);
-                      });
-                      print('111111111$diagnosis');
-                      String str = '';
-                      diagnosis.forEach((f){
-                        if(str == ''){
-                          str = "$f";
-                        }else {
-                          str = "$str"",""$f";
-                        }
-                      });
-
+                      // List<String>  diagnosis = [];
+                      // (item['diagnosisVOS']??[]).forEach((element) {
+                      //     diagnosis.add(element['diagnosisName']);
+                      // });
+                      // print('111111111$diagnosis');
+                      // String str = '';
+                      // diagnosis.forEach((f){
+                      //   if(str == ''){
+                      //     str = "$f";
+                      //   }else {
+                      //     str = "$str"",""$f";
+                      //   }
+                      // });
+        
                       return GestureDetector(
-                        onTap: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>  RecipeDetail(rpDetailItem: {...item},diagnosis:str))).then((value) => {
-                            getData()
-                          });
-                        },
+                        // onTap: (){
+                          // Navigator.push(context, MaterialPageRoute(builder: (context)=>  RecipeDetail(rpDetailItem: {...item},diagnosis:str))).then((value) => {
+                          //   getData()
+                          // });
+                        // },
                           child: Column(
                         children: [
                           Container(
@@ -235,7 +203,7 @@ class _InquiryRecordState extends State<InquiryRecord> {
                                         height: 4.0,
                                       ),
                                       Text(
-                                        '图文问诊：${item['recipeNo']}',
+                                        '${item['type_dictText']}',
                                         style: GSYConstant.textStyle(
                                             color: '#333333'),
                                       ),
@@ -243,7 +211,7 @@ class _InquiryRecordState extends State<InquiryRecord> {
                                         height: 4.0,
                                       ),
                                       Text(
-                                        '诊断：$str',
+                                        '诊断：${item['diseaseDesc']}',
                                         style: GSYConstant.textStyle(
                                             color: '#333333'),
                                       ),
@@ -254,7 +222,7 @@ class _InquiryRecordState extends State<InquiryRecord> {
                                   width: 10.0,
                                 ),
                                 Text(
-                                    '已完成',
+                                    '${item['status_dictText']}',
                                     style:
                                         GSYConstant.textStyle(color: '#DE5347'),
                                 ),
@@ -262,7 +230,7 @@ class _InquiryRecordState extends State<InquiryRecord> {
                                   width: 16.0,
                                 ),
                                 Text(
-                                    '¥50.00',
+                                    '${item['cost']}',
                                     style:GSYConstant.textStyle(color: '#FF0020'),
                                     ),
                                 const SizedBox(
@@ -286,7 +254,7 @@ class _InquiryRecordState extends State<InquiryRecord> {
                             alignment: Alignment.centerLeft,
                             color: Colors.white,
                             child: Text(
-                              item['repictDate'],
+                              item['times'],
                               style: GSYConstant.textStyle(color: '#666666'),
                             ),
                           ),
@@ -297,6 +265,8 @@ class _InquiryRecordState extends State<InquiryRecord> {
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 13.0),
                               height: 28.0,
+                              borderRadius: BorderRadius.circular(14.0),
+                              borderColor: ColorsUtil.hexStringColor('#09BB8F'),
                               onPressed: () async {
 
                               },

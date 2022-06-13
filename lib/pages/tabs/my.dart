@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:doctor_project/pages/my/my_prescription.dart';
 import 'package:doctor_project/pages/my/my_doctorCode.dart';
 import 'package:doctor_project/pages/home/service_settings.dart';
+import 'package:doctor_project/pages/home/inquiry_record.dart';
 import 'package:doctor_project/utils/common_utils.dart';
 import 'package:doctor_project/utils/svg_util.dart';
 import 'package:flutter/services.dart';
@@ -35,11 +36,11 @@ class My extends StatefulWidget {
 class MyState extends State<My> {
   late File _image;
   List listRow = [
-    {
-      'label': '医生资质上传',
-      'borderRadius': const BorderRadius.vertical(top: Radius.circular(5.0)),
-      'icon': 'assets/images/my/qualifications.png'
-    },
+    // {
+    //   'label': '医生资质上传',
+    //   'borderRadius': const BorderRadius.vertical(top: Radius.circular(5.0)),
+    //   'icon': 'assets/images/my/qualifications.png'
+    // },
     {
       'label': '基本信息',
       'borderRadius': const BorderRadius.vertical(bottom: Radius.circular(5.0)),
@@ -60,11 +61,11 @@ class MyState extends State<My> {
       'borderRadius': const BorderRadius.vertical(bottom: Radius.circular(0.0)),
       'icon': 'assets/images/my/my_rp.png'
     },
-    {
-      'label': '我的收入',
-      'borderRadius': const BorderRadius.vertical(bottom: Radius.circular(0.0)),
-      'icon': 'assets/images/my/my_income.png'
-    },
+    // {
+    //   'label': '我的收入',
+    //   'borderRadius': const BorderRadius.vertical(bottom: Radius.circular(0.0)),
+    //   'icon': 'assets/images/my/my_income.png'
+    // },
     {
       'label': '模版创建',
       'borderRadius': const BorderRadius.vertical(bottom: Radius.circular(5.0)),
@@ -352,44 +353,48 @@ class MyState extends State<My> {
                   (index) => GestureDetector(
                     onTap: () {
                       switch (index) {
+                        // case 0:
+                        //   break;
                         case 0:
-                          break;
-                        case 1:
                           Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => const BasicInfo()));
                           break;
-                        case 2:
+                        case 1:
                           Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
                                   const ServiceSettings()));
                           break;
-                        case 3:
-
+                        case 2:
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      InquiryRecord(userId: userId)));
                           break;
-                        case 4:
+                        case 3:
                           Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
                                       MyPrescription(userId: userId)));
                           break;
-                        case 5:
+                        // case 5:
                           // Navigator.push(context,
                           //     MaterialPageRoute(builder: (context) => const MyIncome()));
 
-                          break;
-                        case 6:
+                          // break;
+                        case 4:
                           Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
                                        TemplateCreate(doctorId: userId,)));
                           break;
-                        case 7:
+                        case 5:
                           Navigator.push(
                               context,
                               MaterialPageRoute(

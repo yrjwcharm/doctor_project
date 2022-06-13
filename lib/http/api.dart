@@ -33,6 +33,7 @@ class Api {
   static const saveChatRecordApi = "/doctor/dr-service/order-room/record/save";
   static const getRecordListApi = "/doctor/dr-service/order-room/record/list";
   static const getRpListApi = "/doctor/dr-service/recipe/getList";
+  static const getDictListApi = "/doctor/dr-service/register/getList";//接诊列表
   static const getRpDetailApi = "/doctor/dr-service/recipe/queryRecipe";
   static const  revokeRpApi = '/doctor/dr-service/recipe/cancel';
   static const  view360Api =Api.BASE_URL+'/360view/#/';
@@ -52,5 +53,7 @@ class Api {
   static const serviceByDocIdAndState = '/doctor/dr-service/baDoctorTime/selectDoctorTimeServiceByDocIdAndState';
   static const updateDoctorTimeService = '/doctor/dr-service/baDoctorTime/updateDoctorTimeService';
   static const checkDetailByTreatId = '/doctor/dr-service/baDoctorTime/checkDetailByTreatId';
+  static const getNoticeByPlatform = '/patient/pt-service/baNotice/getNoticeByPlatform';
+
 
 }
