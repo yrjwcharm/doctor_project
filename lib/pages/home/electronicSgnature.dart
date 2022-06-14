@@ -73,7 +73,7 @@ class _electronicSignaturePageState extends State<electronicSignaturePage> {
          }
        });
        // Navigator.pop(context);
-      Navigator.push(context, MaterialPageRoute(builder: (context)=> RecipeDetail(rpDetailItem: {...item,...patientVO}, diagnosis: str,)));
+      Navigator.push(context, MaterialPageRoute(builder: (context)=> RecipeDetail(rpDetailItem: {...item,...patientVO}, diagnosis: str,prescriptionId:prescriptionId,registeredId:registeredId)));
 
     }else{
       Fluttertoast.showToast(msg: res['msg'], gravity: ToastGravity.CENTER);

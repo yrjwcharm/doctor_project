@@ -68,6 +68,7 @@ class _MyPrescriptionState extends State<MyPrescription> {
     if (res['code'] == 200) {
       setState(() {
         list = res['data']['records'];
+        print('list--------'+list.toString());
         isMore = true;
       });
     } else {
@@ -173,11 +174,16 @@ class _MyPrescriptionState extends State<MyPrescription> {
                     controller: _scrollController,
                     itemBuilder: (BuildContext context, int index) {
                       var item = list[index];
+                      String prescriptionId = item['id'].toString();
+                      String registeredId = item['registerId'].toString();
                       List<String>  diagnosis = [];
                       (item['diagnosisVOS']??[]).forEach((element) {
                           diagnosis.add(element['diagnosisName']);
                       });
                       print('111111111$diagnosis');
+                      print('prescriptionId-------'+prescriptionId);
+                      print('registeredId-------'+registeredId);
+
                       String str = '';
                       diagnosis.forEach((f){
                         if(str == ''){
@@ -189,7 +195,7 @@ class _MyPrescriptionState extends State<MyPrescription> {
 
                       return GestureDetector(
                         onTap: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>  RecipeDetail(rpDetailItem: {...item},diagnosis:str))).then((value) => {
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>  RecipeDetail(rpDetailItem: {...item},diagnosis:str,prescriptionId:prescriptionId,registeredId:registeredId))).then((value) => {
                             getData()
                           });
                         },

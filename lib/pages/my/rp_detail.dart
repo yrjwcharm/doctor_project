@@ -19,23 +19,27 @@ import 'package:fluttertoast/fluttertoast.dart';
 import '../../http/api.dart';
 import '../../utils/num_util.dart';
 import '../home/electronicSgnature.dart';
+import 'package:doctor_project/pages/home/electronicSgnature.dart';
 import '../home/webviewVC.dart';
 import '../tabs/main.dart';
 
 class RecipeDetail extends StatefulWidget {
-  RecipeDetail({Key? key, required this.rpDetailItem, required this.diagnosis})
+  RecipeDetail({Key? key, required this.rpDetailItem, required this.diagnosis,required this.prescriptionId,required this.registeredId})
       : super(key: key);
   Map rpDetailItem;
 
   String diagnosis;
-
+  String prescriptionId; 
+  String registeredId;
   @override
   _RecipeDetailState createState() =>
-      _RecipeDetailState(this.rpDetailItem, this.diagnosis);
+      _RecipeDetailState(this.rpDetailItem, this.diagnosis,this.prescriptionId,this.registeredId);
 }
 
 class _RecipeDetailState extends State<RecipeDetail> {
   Map rpDetailItem;
+  String prescriptionId = ''; //处方id
+  String registeredId=''; //挂号Id
   String diagnosis;
   List<dynamic> list = [];
   List<dynamic> herbalMedicineVOS = [];
@@ -52,7 +56,7 @@ class _RecipeDetailState extends State<RecipeDetail> {
   bool hasDoctorSign = false;
   Map<String, dynamic> medicineMap = {};
 
-  _RecipeDetailState(this.rpDetailItem, this.diagnosis);
+  _RecipeDetailState(this.rpDetailItem, this.diagnosis,this.prescriptionId,this.registeredId);
 
   @override
   void initState() {
@@ -69,7 +73,16 @@ class _RecipeDetailState extends State<RecipeDetail> {
     Map data = res['data'];
     if (res['code'] == 200) {
       if (data["signatureImg"] != null) {
-        // Navigator.pop(context);
+        Navigator.pop(context);
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => electronicSignaturePage(
+                  YXQDataMap: data,
+                  registeredId: registeredId,
+                  category: "1",
+                  prescriptionId: prescriptionId),
+            ));
       } else {
         String url = data["data"]["oauthURL"];
         // Navigator.pop(context);

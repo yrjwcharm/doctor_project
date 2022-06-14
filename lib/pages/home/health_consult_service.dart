@@ -64,10 +64,12 @@ class _HealthConsultServiceState extends State<HealthConsultService> {
 
                      break;
                    case 2:
-                      _navigateAndDisplaySelection(BuildContext context) async {
-                        final result = await Navigator.push(context, MaterialPageRoute(builder: (context)=>const ClinicReceptionPersonSet()));
-                        print('time-----------------'+new Text("$result").toString());
-                      }
+                      // _navigateAndDisplaySelection(BuildContext context) async {
+                      //   final result = await Navigator.push(context, MaterialPageRoute(builder: (context)=>const ClinicReceptionPersonSet()));
+
+                      //   print('time-----------------'+new Text("$result").toString());
+                      // }
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>const ClinicReceptionPersonSet()));
 
                      break;
                  }
