@@ -127,7 +127,7 @@ class _InquiryRecordState extends State<InquiryRecord> {
       ),
       body: Column(
         children: <Widget>[
-          Container(
+          Expanded(
             child: RefreshIndicator(
                 displacement: 10.0,
                 onRefresh: _onRefresh,
@@ -193,7 +193,7 @@ class _InquiryRecordState extends State<InquiryRecord> {
                                             width: 16.0,
                                           ),
                                           Text(
-                                            '${item['sex'] == '1' ? '男' : '女'} | ${item['age']}岁}',
+                                            '${item['sex'] == '1' ? '男' : '女'} | ${item['age']}岁',
                                             style: GSYConstant.textStyle(
                                                 color: '#666666'),
                                           ),
