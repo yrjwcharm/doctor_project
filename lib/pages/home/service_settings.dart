@@ -30,9 +30,6 @@ class _ServiceSettingsState extends State<ServiceSettings> {
   void initState() {
     super.initState();
     getData();
-    // list.add(ServiceSettingsBean('assets/images/home/consult.png','健康咨询','开通图文方式的咨询服务，无需处方','已开通',1));
-    // list.add(ServiceSettingsBean('assets/images/home/picture.png','图文问诊-复诊开药','图文方式的问诊服务','审核中',0));
-    // list.add(ServiceSettingsBean('assets/images/home/video.png','视频问诊-复诊开药','患者预约后进行视频问诊服务','未开通',0));
 
   }
 
@@ -51,6 +48,11 @@ class _ServiceSettingsState extends State<ServiceSettings> {
           }else if(dataList[i]['treatType']== 2) {
               list.add(ServiceSettingsBean('assets/images/home/video.png','视频问诊-复诊开药','患者预约后进行视频问诊服务',dataList[i]['state']==1 ?'已开通':'未开通',dataList[i]['state'],dataList[i]['treatType'],''));
           }
+        }
+        if (dataList.length == 0){
+          list.add(ServiceSettingsBean('assets/images/home/consult.png','健康咨询','开通图文方式的咨询服务，无需处方','未开通',1,1,''));
+          list.add(ServiceSettingsBean('assets/images/home/picture.png','图文问诊-复诊开药','图文方式的问诊服务','未开通',1,1,''));
+          list.add(ServiceSettingsBean('assets/images/home/video.png','视频问诊-复诊开药','患者预约后进行视频问诊服务','未开通',1,1,''));
         }
         print('messageList ===='+dataList.toString());
       });

@@ -14,6 +14,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dio/dio.dart';
 import 'package:doctor_project/widget/custom_outline_button.dart';
 import 'package:doctor_project/widget/custom_elevated_button.dart';
+import 'package:doctor_project/pages/my/write_case.dart';
 
 import '../../utils/toast_util.dart';
 
@@ -158,31 +159,31 @@ class _InquiryRecordState extends State<InquiryRecord> {
                           // });
                         // },
                           child: Column(
-                        children: [
-                          Container(
+                            children: [
+                              Container(
                             // height: 100.0,
-                            width: double.infinity,
-                            padding:
+                                width: double.infinity,
+                                padding:
                                 const EdgeInsets.only(left: 16.0, top: 16.0,bottom: 13.0),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                ClipOval(
-                                  child:item['photo'].isNotEmpty?Image.network(item['photo'],width: 40.0,height: 40.0,):(item['sex']=='1'?Image.asset('assets/images/boy.png'):Image.asset('assets/images/girl.png'))
-                                ),
-                                const SizedBox(
-                                  width: 16.0,
-                                ),
-                                Expanded(
-                                  flex: 1,
-                                  child: Column(
-                                    crossAxisAlignment:
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    ClipOval(
+                                      child:item['photo'].isNotEmpty?Image.network(item['photo'],width: 40.0,height: 40.0,):(item['sex']=='1'?Image.asset('assets/images/boy.png'):Image.asset('assets/images/girl.png'))
+                                    ),
+                                    const SizedBox(
+                                     width: 16.0,
+                                    ),
+                                    Expanded(
+                                      flex: 1,
+                                      child: Column(
+                                        crossAxisAlignment:
                                         CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Row(
-                                        children: [
-                                          Text(item['name']??'',
-                                              style: TextStyle(
+                                        children: <Widget>[
+                                        Row(
+                                          children: [
+                                             Text(item['name']??'',
+                                                 style: TextStyle(
                                                   fontSize: 14.0,
                                                   fontFamily: 'Medium',
                                                   fontWeight: FontWeight.w400,
@@ -224,13 +225,13 @@ class _InquiryRecordState extends State<InquiryRecord> {
                                 Text(
                                     '${item['status_dictText']}',
                                     style:
-                                        GSYConstant.textStyle(color: '#DE5347'),
+                                        GSYConstant.textStyle(color: '#333333'),
                                 ),
                                 const SizedBox(
                                   width: 16.0,
                                 ),
                                 Text(
-                                    '${item['cost']}',
+                                    '¥${item['cost']}',
                                     style:GSYConstant.textStyle(color: '#FF0020'),
                                     ),
                                 const SizedBox(
@@ -253,24 +254,36 @@ class _InquiryRecordState extends State<InquiryRecord> {
                             padding: const EdgeInsets.only(left: 16.0),
                             alignment: Alignment.centerLeft,
                             color: Colors.white,
-                            child: Text(
-                              item['times'],
-                              style: GSYConstant.textStyle(color: '#666666'),
-                            ),
-                          ),
-                          CustomOutlineButton(
-                              title: '写病历',
-                              textStyle: GSYConstant.textStyle(
-                                  fontSize: 13.0, color: '#666666'),
-                              padding:
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                    child:
+                                      Text(
+                                        item['times'],
+                                        style: GSYConstant.textStyle(color: '#666666'),
+                                        )),
+                                CustomOutlineButton(
+                                  title: '写病历',
+                                  textStyle: GSYConstant.textStyle(
+                                      fontSize: 13.0, color: '#666666'),
+                                  padding:
                                   const EdgeInsets.symmetric(horizontal: 13.0),
-                              height: 28.0,
-                              borderRadius: BorderRadius.circular(14.0),
-                              borderColor: ColorsUtil.hexStringColor('#09BB8F'),
-                              onPressed: () async {
+                                  height: 28.0,
+                                  borderRadius: BorderRadius.circular(14.0),
+                                  borderColor: ColorsUtil.hexStringColor('#09BB8F'),
+                                  onPressed: () async {
+                                    Navigator.push(context,MaterialPageRoute(builder: (context) => WriteCase(registeredId:item['id'],
+  
+                                                  userInfoMap: item,)));
 
-                              },
+                                  },
+                                ),
+                              ],
+                            )
+
                           ),
+                          
                           const SizedBox(
                             height: 8.0,
                             width: double.infinity,
