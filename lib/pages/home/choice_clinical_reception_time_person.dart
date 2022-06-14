@@ -34,8 +34,8 @@ class _ChoiceClinicReceptTimePersonState
   String patientCount = '';
   int weekDay = 0;
   bool isOpen = false;
-  List<Widget> listComponent = [];
-
+  List listComponent = [];
+  int index=0;
   _ChoiceClinicReceptTimePersonState(this.treatId);
 
   _selStartTime() {}
@@ -121,7 +121,6 @@ class _ChoiceClinicReceptTimePersonState
       ToastUtil.showToast(msg: res['msg']);
     }
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -145,8 +144,9 @@ class _ChoiceClinicReceptTimePersonState
                 ),
                 GestureDetector(
                   onTap: () {
+                    listComponent.add({'startTime':'开始时间','endTime':'结束时间','receiveNum':'10'});
                     setState(() {
-                      listComponent.add(const SizedBox.shrink());
+
                     });
                   },
                   child: SvgUtil.svg('add_time.svg'),
@@ -219,106 +219,109 @@ class _ChoiceClinicReceptTimePersonState
               Column(
                 children: listComponent.asMap().keys
                     .map<Widget>((index) => Padding(
-                          padding:
-                              const EdgeInsets.only(left: 8.0, bottom: 10.0),
-                          child: Row(
-                            children: <Widget>[
-                              Container(
-                                padding: const EdgeInsets.only(
-                                    left: 8.0,
-                                    right: 10.0,
-                                    top: 8.0,
-                                    bottom: 9.0),
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(5.0),
-                                    border: Border.all(
-                                        width: 1.0,
-                                        color: ColorsUtil.hexStringColor(
-                                            '#cccccc',
-                                            alpha: 0.3))),
-                                child: Row(
-                                  children: <Widget>[
-                                    SizedBox(
-                                      width: ScreenUtil().setWidth(53.0),
-                                      child: Text(
-                                        '开始时间',
-                                        style: GSYConstant.textStyle(
-                                            fontSize: ScreenUtil().setSp(13),
-                                            color: '#999999'),
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      width: 5.0,
-                                    ),
-                                    Text(
-                                      '至',
-                                      style: GSYConstant.textStyle(
-                                          color: '#888880',
-                                          fontSize: ScreenUtil().setSp(14.0)),
-                                    ),
-                                    const SizedBox(
-                                      width: 7.0,
-                                    ),
-                                    SizedBox(
-                                      width: ScreenUtil().setWidth(53.0),
-                                      child: Text(
-                                        '结束时间',
-                                        style: GSYConstant.textStyle(
-                                            fontSize: ScreenUtil().setSp(13),
-                                            color: '#999999'),
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      width: 10.0,
-                                    ),
-                                    SvgUtil.svg('calendar.svg')
-                                  ],
-                                ),
+                  padding:
+                  const EdgeInsets.only(left: 8.0, bottom: 10.0),
+                  child: Row(
+                    children: <Widget>[
+                      Container(
+                        padding: const EdgeInsets.only(
+                            left: 8.0,
+                            right: 10.0,
+                            top: 8.0,
+                            bottom: 9.0),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5.0),
+                            border: Border.all(
+                                width: 1.0,
+                                color: ColorsUtil.hexStringColor(
+                                    '#cccccc',
+                                    alpha: 0.3))),
+                        child: Row(
+                          children: <Widget>[
+                            SizedBox(
+                              width: ScreenUtil().setWidth(53.0),
+                              child: Text(
+                                '开始时间',
+                                style: GSYConstant.textStyle(
+                                    fontSize: ScreenUtil().setSp(13),
+                                    color: '#999999'),
                               ),
-                              Container(
-                                width: ScreenUtil().setWidth(71.0),
-                                height: 37.0,
-                                alignment: Alignment.center,
-                                margin: const EdgeInsets.only(left: 8.0),
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(5.0),
-                                    border: Border.all(
-                                        width: 1.0,
-                                        color: ColorsUtil.hexStringColor(
-                                            '#cccccc',
-                                            alpha: 0.3))),
-                                child: TextField(
-                                  textAlign: TextAlign.center,
-                                  style: GSYConstant.textStyle(
-                                      fontSize: ScreenUtil().setSp(13),
-                                      color: '#666666'),
-                                  cursorColor:
-                                      ColorsUtil.hexStringColor('#666666'),
-                                  inputFormatters: [],
-                                  decoration: InputDecoration(
-                                      contentPadding: EdgeInsets.zero,
-                                      fillColor: Colors.transparent,
-                                      filled: true,
-                                      isCollapsed: true,
-                                      hintText: '10人',
-                                      border: InputBorder.none,
-                                      hintStyle: GSYConstant.textStyle(
-                                          fontSize: ScreenUtil().setSp(13),
-                                          color: '#333333')),
-                                ),
+                            ),
+                            const SizedBox(
+                              width: 5.0,
+                            ),
+                            Text(
+                              '至',
+                              style: GSYConstant.textStyle(
+                                  color: '#888880',
+                                  fontSize: ScreenUtil().setSp(14.0)),
+                            ),
+                            const SizedBox(
+                              width: 7.0,
+                            ),
+                            SizedBox(
+                              width: ScreenUtil().setWidth(53.0),
+                              child: Text(
+                                '结束时间',
+                                style: GSYConstant.textStyle(
+                                    fontSize: ScreenUtil().setSp(13),
+                                    color: '#999999'),
                               ),
-                              const SizedBox(
-                                width: 10.0,
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  listComponent.remove(listComponent[index]);
-                                },
-                                child: SvgUtil.svg('minus.svg'),
-                              )
-                            ],
-                          ),
-                        ))
+                            ),
+                            const SizedBox(
+                              width: 10.0,
+                            ),
+                            SvgUtil.svg('calendar.svg')
+                          ],
+                        ),
+                      ),
+                      Container(
+                        width: ScreenUtil().setWidth(71.0),
+                        height: 37.0,
+                        alignment: Alignment.center,
+                        margin: const EdgeInsets.only(left: 8.0),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5.0),
+                            border: Border.all(
+                                width: 1.0,
+                                color: ColorsUtil.hexStringColor(
+                                    '#cccccc',
+                                    alpha: 0.3))),
+                        child: TextField(
+                          textAlign: TextAlign.center,
+                          style: GSYConstant.textStyle(
+                              fontSize: ScreenUtil().setSp(13),
+                              color: '#666666'),
+                          cursorColor:
+                          ColorsUtil.hexStringColor('#666666'),
+                          inputFormatters: [],
+                          decoration: InputDecoration(
+                              contentPadding: EdgeInsets.zero,
+                              fillColor: Colors.transparent,
+                              filled: true,
+                              isCollapsed: true,
+                              hintText: '10人',
+                              border: InputBorder.none,
+                              hintStyle: GSYConstant.textStyle(
+                                  fontSize: ScreenUtil().setSp(13),
+                                  color: '#333333')),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 10.0,
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            ToastUtil.showError(200, '点击了');
+                            listComponent.removeAt(index);
+                          });
+                        },
+                        child: SvgUtil.svg('minus.svg'),
+                      )
+                    ],
+                  ),
+                ))
                     .toList(),
               ),
             ],
