@@ -124,7 +124,6 @@ class _InquiryRecordState extends State<InquiryRecord> {
       backgroundColor: ColorsUtil.bgColor,
       appBar: CustomAppBar(
         '问诊记录',
-      
       ),
       body: Column(
         children: <Widget>[

@@ -125,11 +125,19 @@ class _ChatPageState extends State<ChatPage> {
 
     // _loadMessages();
     _focusNode.addListener(() {
-      if (_focusNode.hasFocus) {
+      print('foucus1111,${_focusNode.hasFocus}');
+      print('foucus2222,$_emojiState');
+      if(_focusNode.hasFocus){
         setState(() {
-          _emojiState = false;
-          _isMore = false;
-          _common_word_state = false;
+          if(_emojiState){
+            _emojiState = false;
+          }
+          if(_isMore){
+            _isMore = false;
+          }
+          if(_common_word_state) {
+            _common_word_state = false;
+          }
         });
       }
     });
@@ -685,6 +693,7 @@ class _ChatPageState extends State<ChatPage> {
                     children: <Widget>[
                       GestureDetector(
                         onTap: () {
+                          _focusNode.unfocus();
                           setState(() {
                             _emojiState = !_emojiState;
                             _common_word_state = false;
@@ -701,6 +710,7 @@ class _ChatPageState extends State<ChatPage> {
                       ),
                       GestureDetector(
                         onTap: () {
+                          _focusNode.unfocus();
                           setState(() {
                             _isMore = !_isMore;
                             _emojiState = false;
@@ -717,8 +727,8 @@ class _ChatPageState extends State<ChatPage> {
                 ],
               ),
             ),
-            Offstage(
-                offstage: !_isMore,
+            Visibility(
+                visible: _isMore,
                 child: Container(
                   padding: const EdgeInsets.only(top: 11.0, bottom: 10.0),
                   child: Row(
@@ -932,7 +942,7 @@ class _ChatPageState extends State<ChatPage> {
                 )),
             Visibility(
               visible: _common_word_state,
-              child:SizedBox(height: 200.0,child: ListView.builder(
+              child:SizedBox(height: 150.0,child: ListView.builder(
                 shrinkWrap: true,
                 itemCount: commonWordsList.length,
                 itemBuilder: (context, index) => GestureDetector(
@@ -962,10 +972,10 @@ class _ChatPageState extends State<ChatPage> {
                 ),
               ),),
             ),
-            Offstage(
-              offstage: !_emojiState,
+            Visibility(
+              visible:_emojiState,
               child: SizedBox(
-                  height: 250,
+                  height: 150,
                   child: EmojiPicker(
                     onEmojiSelected: (category, emoji) {
                       _handleSendPressed(PartialText(text: emoji.emoji));
