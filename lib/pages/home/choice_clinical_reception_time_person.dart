@@ -9,7 +9,8 @@ import 'package:doctor_project/widget/custom_safeArea_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+//import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+//import 'package:flutter_cupertino_datetime_picker/flutter_cupertino_datetime_picker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../http/http_request.dart';
 import '../../http/api.dart';
@@ -98,6 +99,7 @@ class _ChoiceClinicReceptTimePersonState
         'checked': isOpen
       }
     ];
+    list[0]['checked'] = true;
   }
 
   Future getData() async {
@@ -153,8 +155,8 @@ class _ChoiceClinicReceptTimePersonState
                       GestureDetector(
                         onTap: () {
                           listComponent.add({
-                            'startTime': '开始时间',
-                            'endTime': '结束时间',
+                            'startTime': '09:00',
+                            'endTime': '09:30',
                             'receiveNum': '10'
                           });
                           setState(() {});
@@ -260,24 +262,24 @@ class _ChoiceClinicReceptTimePersonState
                                         children: <Widget>[
                                           GestureDetector(
                                             onTap: () async {
-                                              DatePicker.showTimePicker(context, showTitleActions: true,
-                                                  onChanged: (date) {
-                                                    print('change $date in time zone ' +
-                                                        date.timeZoneOffset.inHours.toString());
-                                                    listComponent[index]['startTime']=date.timeZoneOffset.inHours.toString();
-                                                    setState(() {
-
-                                                    });
-                                                  }, onConfirm: (date) {
-                                                    print('confirm $date');
-                                                  }, currentTime: DateTime.now());
+//                                              DatePicker.showTimePicker(context, showTitleActions: true,
+//                                                  onChanged: (date) {
+//                                                    print('change $date in time zone ' +
+//                                                        date.timeZoneOffset.inHours.toString());
+//                                                    listComponent[index]['startTime']=date.timeZoneOffset.inHours.toString();
+//                                                    setState(() {
+//
+//                                                    });
+//                                                  }, onConfirm: (date) {
+//                                                    print('confirm $date');
+//                                                  }, currentTime: DateTime.now());
 
                                             },
                                             child: SizedBox(
                                               width:
                                                   ScreenUtil().setWidth(53.0),
                                               child: Text(
-                                                '开始时间',
+                                                '09：00',
                                                 style: GSYConstant.textStyle(
                                                     fontSize:
                                                         ScreenUtil().setSp(13),
@@ -300,23 +302,23 @@ class _ChoiceClinicReceptTimePersonState
                                           ),
                                           GestureDetector(
                                             onTap: () async {
-                                              DatePicker.showTimePicker(context, showTitleActions: true,
-                                                  onChanged: (date) {
-                                                    print('change $date in time zone ' +
-                                                        date.timeZoneOffset.inHours.toString());
-                                                    listComponent[index]['endTime']=date.timeZoneOffset.inHours.toString();
-                                                    setState(() {
-
-                                                    });
-                                                  }, onConfirm: (date) {
-                                                    print('confirm $date');
-                                                  }, currentTime: DateTime.now());
+//                                              DatePicker.showTimePicker(context, showTitleActions: true,
+//                                                  onChanged: (date) {
+//                                                    print('change $date in time zone ' +
+//                                                        date.timeZoneOffset.inHours.toString());
+//                                                    listComponent[index]['endTime']=date.timeZoneOffset.inHours.toString();
+//                                                    setState(() {
+//
+//                                                    });
+//                                                  }, onConfirm: (date) {
+//                                                    print('confirm $date');
+//                                                  }, currentTime: DateTime.now());
                                             },
                                             child: SizedBox(
                                               width:
                                                   ScreenUtil().setWidth(53.0),
                                               child: Text(
-                                                '结束时间',
+                                                '09：30',
                                                 style: GSYConstant.textStyle(
                                                     fontSize:
                                                         ScreenUtil().setSp(13),
@@ -389,7 +391,9 @@ class _ChoiceClinicReceptTimePersonState
           )),
           CustomSafeAreaButton(
             margin: const EdgeInsets.only(bottom: 16.0),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pop(context,'10人');
+            },
             title: '提交',
           )
         ],
