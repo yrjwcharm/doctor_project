@@ -28,7 +28,6 @@ import '../home/open_service.dart';
 import '../home/order_detail.dart';
 import '../home/patient-consult.dart';
 import '../../http/http_request.dart';
-import 'package:marquee/marquee.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 class Home extends StatefulWidget {
@@ -58,16 +57,10 @@ class HomeState extends State<Home> {
   String receiveNum = '';
   String waitReceiveNum = '';
   String videoRegisterNum = '';
-  List noticeList = [];
-  String noticeStr = '';
-  String noticeContent = '';
-  String noticeTime = '';
-  bool _useRtlText = true;
 
   @override
   void initState() {
     super.initState();
-    getNoticeByPlatform();
     getNet_doctorInfo();
     getData();
     getCount();
@@ -82,20 +75,6 @@ class HomeState extends State<Home> {
       getData();
       getCount();
     });
-  }
-  getNoticeByPlatform() async {
-    HttpRequest request = HttpRequest.getInstance();
-    var res = await request.get(Api.getNoticeByPlatform+'?orgId=1', {});
-    if(res['code']==200){
-      noticeList = res['data'];
-      noticeStr = noticeList[2]['title'];
-      noticeContent = noticeList[2]['content'];
-      noticeTime = '2022-06-13';
-    }
-    print("noticeStr------" + noticeStr.toString());
-    print("noticeContent------" + noticeContent.toString());
-
-
   }
 
   //获取医生信息
@@ -219,7 +198,7 @@ class HomeState extends State<Home> {
                   subtitle: Text(
                     item['type_dictText'] ?? '',
                     style:
-                        GSYConstant.textStyle(fontSize: 13.0, color: '#666666'),
+                    GSYConstant.textStyle(fontSize: 13.0, color: '#666666'),
                   ),
                   title: Row(mainAxisSize: MainAxisSize.max, children: [
                     Expanded(
@@ -275,12 +254,12 @@ class HomeState extends State<Home> {
                         borderRadius: BorderRadius.circular(20.0)),
                     child: item['photo'] != null
                         ? Image.network(
-                            item['photo'] ?? '',
-                            fit: BoxFit.cover,
-                          )
+                      item['photo'] ?? '',
+                      fit: BoxFit.cover,
+                    )
                         : item['sex_dictText'] == '男'
-                            ? Image.asset('assets/images/boy.png')
-                            : Image.asset('assets/images/girl.png'),
+                        ? Image.asset('assets/images/boy.png')
+                        : Image.asset('assets/images/girl.png'),
                   ),
                 ),
                 Container(
@@ -295,10 +274,10 @@ class HomeState extends State<Home> {
                     ),
                     Flexible(
                         child: Text(
-                      item['diseaseDesc'] ?? '',
-                      style: GSYConstant.textStyle(
-                          fontSize: 13.0, color: '#666666'),
-                    ))
+                          item['diseaseDesc'] ?? '',
+                          style: GSYConstant.textStyle(
+                              fontSize: 13.0, color: '#666666'),
+                        ))
                   ]),
                 ),
                 const SizedBox(
@@ -316,145 +295,145 @@ class HomeState extends State<Home> {
                     children: [
                       Expanded(
                           child: Text(
-                        item['times'] ?? '',
-                        style: GSYConstant.textStyle(color: '#888888'),
-                      )),
+                            item['times'] ?? '',
+                            style: GSYConstant.textStyle(color: '#888888'),
+                          )),
                       status == 1
                           ? CustomOutlineButton(
-                              title: '结束问诊',
-                              textStyle: GSYConstant.textStyle(
-                                  fontSize: 13.0, color: '#666666'),
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 13.0),
-                              height: 28.0,
-                              onPressed: () async {
-                                showDialog(
-                                    barrierDismissible: false,
-                                    context: context,
-                                    builder: (_) => WillPopScope(
-                                          onWillPop: () async {
-                                            return Future.value(false);
-                                          },
-                                          child: AlertDialog(
-                                            contentPadding:
-                                                const EdgeInsets.symmetric(
-                                                    vertical: 45.0),
-                                            contentTextStyle: TextStyle(
-                                                fontSize: 16.0,
-                                                color:
-                                                    ColorsUtil.hexStringColor(
-                                                        '#333333')),
-                                            // title: Text("提示信息"),
-                                            content: const Text(
-                                              "请确认是否结束问诊？",
-                                              textAlign: TextAlign.center,
-                                            ),
-                                            buttonPadding: EdgeInsets.zero,
-                                            actions: [
-                                              Row(
-                                                children: <Widget>[
-                                                  Expanded(
-                                                      child: GestureDetector(
-                                                          onTap: () {
-                                                            Navigator.pop(
-                                                                context);
-                                                          },
-                                                          child: Container(
-                                                            height: 40.0,
-                                                            alignment: Alignment
-                                                                .center,
-                                                            decoration: BoxDecoration(
-                                                                border: Border(
-                                                                    right: BorderSide(
-                                                                        width:
-                                                                            0.5,
-                                                                        color: ColorsUtil.hexStringColor(
-                                                                            '#cccccc',
-                                                                            alpha:
-                                                                                0.4)),
-                                                                    top: BorderSide(
-                                                                        width:
-                                                                            1.0,
-                                                                        color: ColorsUtil.hexStringColor(
-                                                                            '#cccccc',
-                                                                            alpha:
-                                                                                0.4)))),
-                                                            child: Text(
-                                                              '取消',
-                                                              style: GSYConstant
-                                                                  .textStyle(
-                                                                      fontSize:
-                                                                          16.0,
-                                                                      color:
-                                                                          '#333333'),
-                                                            ),
-                                                          ))),
-                                                  Expanded(
-                                                      child: GestureDetector(
-                                                    onTap: () async {
-                                                      var request = HttpRequest
-                                                          .getInstance();
-                                                      Map<String, dynamic> map =
-                                                          {};
-                                                      map['registerId'] =
-                                                          item['id'];
-                                                      var res =
-                                                          await request.post(
-                                                              Api.finishTopicApi,
-                                                              map);
-                                                      if (res['code'] == 200) {
-                                                        _page = 1;
-                                                        list = [];
-                                                        setState(() {});
-                                                        getData();
-                                                        getCount();
-                                                        getNet_doctorInfo();
-
-                                                        Navigator.pop(context);
-                                                      } else {
-                                                        ToastUtil.showToast(
-                                                            msg: res['msg']);
-                                                        Navigator.pop(context);
-                                                      }
-                                                    },
-                                                    child: Container(
-                                                      alignment:
-                                                          Alignment.center,
-                                                      height: 40.0,
-                                                      decoration: BoxDecoration(
-                                                          border: Border(
-                                                              left: BorderSide(
-                                                                  width: 0.5,
-                                                                  color: ColorsUtil
-                                                                      .hexStringColor(
-                                                                          '#cccccc',
-                                                                          alpha:
-                                                                              0.4)),
-                                                              top: BorderSide(
-                                                                  width: 1.0,
-                                                                  color: ColorsUtil
-                                                                      .hexStringColor(
-                                                                          '#cccccc',
-                                                                          alpha:
-                                                                              0.4)))),
-                                                      child: Text(
-                                                        '确定',
-                                                        style: GSYConstant
-                                                            .textStyle(
-                                                                fontSize: 16.0,
-                                                                color:
-                                                                    '#06B48D'),
-                                                      ),
+                          title: '结束问诊',
+                          textStyle: GSYConstant.textStyle(
+                              fontSize: 13.0, color: '#666666'),
+                          padding:
+                          const EdgeInsets.symmetric(horizontal: 13.0),
+                          height: 28.0,
+                          onPressed: () async {
+                            showDialog(
+                                barrierDismissible: false,
+                                context: context,
+                                builder: (_) => WillPopScope(
+                                  onWillPop: () async {
+                                    return Future.value(false);
+                                  },
+                                  child: AlertDialog(
+                                    contentPadding:
+                                    const EdgeInsets.symmetric(
+                                        vertical: 45.0),
+                                    contentTextStyle: TextStyle(
+                                        fontSize: 16.0,
+                                        color:
+                                        ColorsUtil.hexStringColor(
+                                            '#333333')),
+                                    // title: Text("提示信息"),
+                                    content: const Text(
+                                      "请确认是否结束问诊？",
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    buttonPadding: EdgeInsets.zero,
+                                    actions: [
+                                      Row(
+                                        children: <Widget>[
+                                          Expanded(
+                                              child: GestureDetector(
+                                                  onTap: () {
+                                                    Navigator.pop(
+                                                        context);
+                                                  },
+                                                  child: Container(
+                                                    height: 40.0,
+                                                    alignment: Alignment
+                                                        .center,
+                                                    decoration: BoxDecoration(
+                                                        border: Border(
+                                                            right: BorderSide(
+                                                                width:
+                                                                0.5,
+                                                                color: ColorsUtil.hexStringColor(
+                                                                    '#cccccc',
+                                                                    alpha:
+                                                                    0.4)),
+                                                            top: BorderSide(
+                                                                width:
+                                                                1.0,
+                                                                color: ColorsUtil.hexStringColor(
+                                                                    '#cccccc',
+                                                                    alpha:
+                                                                    0.4)))),
+                                                    child: Text(
+                                                      '取消',
+                                                      style: GSYConstant
+                                                          .textStyle(
+                                                          fontSize:
+                                                          16.0,
+                                                          color:
+                                                          '#333333'),
                                                     ),
-                                                  ))
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                        ));
-                              },
-                              borderRadius: BorderRadius.circular(14.0),
-                              borderColor: ColorsUtil.hexStringColor('#06B48D'))
+                                                  ))),
+                                          Expanded(
+                                              child: GestureDetector(
+                                                onTap: () async {
+                                                  var request = HttpRequest
+                                                      .getInstance();
+                                                  Map<String, dynamic> map =
+                                                  {};
+                                                  map['registerId'] =
+                                                  item['id'];
+                                                  var res =
+                                                  await request.post(
+                                                      Api.finishTopicApi,
+                                                      map);
+                                                  if (res['code'] == 200) {
+                                                    _page = 1;
+                                                    list = [];
+                                                    setState(() {});
+                                                    getData();
+                                                    getCount();
+                                                    getNet_doctorInfo();
+
+                                                    Navigator.pop(context);
+                                                  } else {
+                                                    ToastUtil.showToast(
+                                                        msg: res['msg']);
+                                                    Navigator.pop(context);
+                                                  }
+                                                },
+                                                child: Container(
+                                                  alignment:
+                                                  Alignment.center,
+                                                  height: 40.0,
+                                                  decoration: BoxDecoration(
+                                                      border: Border(
+                                                          left: BorderSide(
+                                                              width: 0.5,
+                                                              color: ColorsUtil
+                                                                  .hexStringColor(
+                                                                  '#cccccc',
+                                                                  alpha:
+                                                                  0.4)),
+                                                          top: BorderSide(
+                                                              width: 1.0,
+                                                              color: ColorsUtil
+                                                                  .hexStringColor(
+                                                                  '#cccccc',
+                                                                  alpha:
+                                                                  0.4)))),
+                                                  child: Text(
+                                                    '确定',
+                                                    style: GSYConstant
+                                                        .textStyle(
+                                                        fontSize: 16.0,
+                                                        color:
+                                                        '#06B48D'),
+                                                  ),
+                                                ),
+                                              ))
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ));
+                          },
+                          borderRadius: BorderRadius.circular(14.0),
+                          borderColor: ColorsUtil.hexStringColor('#06B48D'))
                           : Container(),
                       const SizedBox(
                         width: 10.0,
@@ -484,46 +463,46 @@ class HomeState extends State<Home> {
                                 ZegoConfig.instance.userID =
                                     res1['data']['userId'].toString();
                                 ZegoConfig.instance.userName =
-                                    res1['data']['userName'];
+                                res1['data']['userName'];
                                 ZegoConfig.instance.roomID =
-                                    res1['data']['roomId'];
+                                res1['data']['roomId'];
                                 var res2 = await request.get(Api.getToken,
                                     {'roomId': res1['data']['roomId']});
                                 if (res2['code'] == 200) {
                                   ZegoConfig.instance.token =
-                                      res2['data']['token'];
+                                  res2['data']['token'];
                                   if (item['type'] == '2') {
                                     // LocalStorage.save('userMap', item);
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) => VideoTopic(
-                                                  regId: item['id'],
-                                                  docName: doctorInfoMap[
-                                                          "realName"] ??
-                                                      '',
-                                                  userInfoMap: item,
-                                                ))).then((value) => {
-                                          _page = 1,
-                                          list = [],
-                                          setState(() {}),
-                                          getData(),
-                                          getCount()
-                                        });
+                                              regId: item['id'],
+                                              docName: doctorInfoMap[
+                                              "realName"] ??
+                                                  '',
+                                              userInfoMap: item,
+                                            ))).then((value) => {
+                                      _page = 1,
+                                      list = [],
+                                      setState(() {}),
+                                      getData(),
+                                      getCount()
+                                    });
                                   } else {
                                     // LocalStorage.save('userMap', item);
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) => ChatRoom(
-                                                  userInfoMap: item,
-                                                ))).then((value) => {
-                                          _page = 1,
-                                          list = [],
-                                          setState(() {}),
-                                          getData(),
-                                          getCount()
-                                        });
+                                              userInfoMap: item,
+                                            ))).then((value) => {
+                                      _page = 1,
+                                      list = [],
+                                      setState(() {}),
+                                      getData(),
+                                      getCount()
+                                    });
                                   }
                                 } else {
                                   ToastUtil.showToast(msg: res2['msg']);
@@ -580,30 +559,30 @@ class HomeState extends State<Home> {
 
       return Expanded(
           child: GestureDetector(
-        onTap: onTap,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image(
-              image: AssetImage(assetName),
-              fit: BoxFit.cover,
-            ),
-            Container(
-              margin: const EdgeInsets.only(top: 7.0),
-              child: Text(
-                label,
-                style: TextStyle(
-                  fontSize: 14,
-                  fontFamily: 'PingFangSC-Regular, PingFang SC',
-                  fontWeight: FontWeight.w400,
-                  color: color,
+            onTap: onTap,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image(
+                  image: AssetImage(assetName),
+                  fit: BoxFit.cover,
                 ),
-              ),
+                Container(
+                  margin: const EdgeInsets.only(top: 7.0),
+                  child: Text(
+                    label,
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontFamily: 'PingFangSC-Regular, PingFang SC',
+                      fontWeight: FontWeight.w400,
+                      color: color,
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
-      ));
+          ));
     }
 
     Widget buildBg = Stack(
@@ -682,10 +661,10 @@ class HomeState extends State<Home> {
                                           title: protitle,
                                           onPressed: () {},
                                           borderRadius:
-                                              BorderRadius.circular(9.0),
+                                          BorderRadius.circular(9.0),
                                           borderColor:
-                                              ColorsUtil.hexStringColor(
-                                                  '#06B48D')))
+                                          ColorsUtil.hexStringColor(
+                                              '#06B48D')))
                                 ],
                               ),
                               const SizedBox(height: 6.0,),
@@ -809,9 +788,9 @@ class HomeState extends State<Home> {
                 context,
                 MaterialPageRoute(
                     builder: (context) => PatientConsult(
-                          type: '1',
-                          docName: doctorInfoMap['realName'] ?? '',
-                        )));
+                      type: '1',
+                      docName: doctorInfoMap['realName'] ?? '',
+                    )));
           }),
           buildButtonColumn('assets/images/home/picture1.png', '图文问诊', () {
             Navigator.push(
@@ -830,48 +809,6 @@ class HomeState extends State<Home> {
         ],
       ),
     );
-
-    Widget _buildMarquee() {
-      return Marquee(
-        key: Key("$_useRtlText"),
-        text: !_useRtlText
-            ? 'There once was a boy who told this story about a boy: "'
-            : 'פעם היה ילד אשר סיפר סיפור על ילד:"',
-        velocity: 50.0,
-      );
-    }
-
-    Widget _buildComplexMarquee() {
-      return Marquee(
-        key: Key("$_useRtlText"),
-        text: !_useRtlText
-            ? 'Some sample text that takes some space.'
-            : 'זהו משפט ראשון של הטקסט הארוך. זהו המשפט השני של הטקסט הארוך',
-        style: TextStyle(fontWeight: FontWeight.bold),
-        scrollAxis: Axis.horizontal,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        blankSpace: 20,
-        velocity: 100,
-        pauseAfterRound: Duration(seconds: 1),
-        showFadingOnlyWhenScrolling: true,
-        fadingEdgeStartFraction: 0.1,
-        fadingEdgeEndFraction: 0.1,
-        numberOfRounds: 3,
-        startPadding: 10,
-        accelerationDuration: Duration(seconds: 1),
-        accelerationCurve: Curves.linear,
-        decelerationDuration: Duration(milliseconds: 500),
-        decelerationCurve: Curves.easeOut,
-        textDirection: _useRtlText ? TextDirection.rtl : TextDirection.ltr,
-      );
-    }
-
-    Widget _wrapWithStuff(Widget child) {
-      return Padding(
-        padding: EdgeInsets.all(16),
-        child: Container(height: 50, color: Colors.white, child: child),
-      );
-    }
     Widget noticeSection = Container(
       height: 44,
       margin: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -887,37 +824,28 @@ class HomeState extends State<Home> {
                 Image.asset('assets/images/home/notice.png', fit: BoxFit.cover),
                 Container(
                   margin: const EdgeInsets.only(left: 6.0),
-                  child:ListView(
-                    children: [
-                      _buildMarquee(),
-                      _buildComplexMarquee(),
-                    ].map(_wrapWithStuff).toList(),
+                  child: Text(
+                    '北京市区委领导来我区考察、交流…',
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: ColorsUtil.hexStringColor('#333333'),
+                      fontWeight: FontWeight.w400,
+                    ),
                   ),
-//                  Text(
-//                    noticeStr,
-//                    style: TextStyle(
-//                      fontSize: 14,
-//                      color: ColorsUtil.hexStringColor('#333333'),
-//                      fontWeight: FontWeight.w400,
-//                    ),
-//                  ),
                 ),
               ])),
-              Text(
-                '今天',
-                style: TextStyle(
-                fontSize: 13,
-                fontFamily: 'PingFangSC-Regular, PingFang SC',
-                fontWeight: FontWeight.w400,
-                color: ColorsUtil.hexStringColor('#999999'),
-              ),
-            )
+          Text(
+            '今天',
+            style: TextStyle(
+              fontSize: 13,
+              fontFamily: 'PingFangSC-Regular, PingFang SC',
+              fontWeight: FontWeight.w400,
+              color: ColorsUtil.hexStringColor('#999999'),
+            ),
+          )
         ],
       ),
     );
-
-
-
     Widget buildTextRow(String label, String value, double fontSize,
         String labelColor, String valueColor) {
       return Container(
@@ -957,7 +885,7 @@ class HomeState extends State<Home> {
       children: [
         Container(
           margin:
-              const EdgeInsets.only(top: 0, right: 0, bottom: 13.0, left: 0),
+          const EdgeInsets.only(top: 0, right: 0, bottom: 13.0, left: 0),
           child: const Image(
             image: AssetImage('assets/images/home/avatar.png'),
             fit: BoxFit.cover,
@@ -1052,13 +980,10 @@ class HomeState extends State<Home> {
           buttonSection,
           GestureDetector(
             onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => NoticeDetail(
-                          titleStr: noticeStr,
-                          contentStr: noticeContent,
-                          utstampStr: noticeTime)));
+              // Navigator.push(
+              //     context,
+              //     MaterialPageRoute(
+              //         builder: (context) => const NoticeDetail()));
             },
             child: noticeSection,
           ),
@@ -1069,72 +994,72 @@ class HomeState extends State<Home> {
               children: <Widget>[
                 Expanded(
                     child: GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      tab1Active = true;
-                      tab2Active = false;
-                      status = 1;
-                      list = [];
-                      _page = 1;
-                    });
-                    getData();
-                    getCount();
-                  },
-                  child: Column(
-                    children: [
-                      Text(
-                        '接诊中($receiving)',
-                        style: GSYConstant.textStyle(color: '#333333'),
+                      onTap: () {
+                        setState(() {
+                          tab1Active = true;
+                          tab2Active = false;
+                          status = 1;
+                          list = [];
+                          _page = 1;
+                        });
+                        getData();
+                        getCount();
+                      },
+                      child: Column(
+                        children: [
+                          Text(
+                            '接诊中($receiving)',
+                            style: GSYConstant.textStyle(color: '#333333'),
+                          ),
+                          const SizedBox(
+                            height: 2,
+                          ),
+                          tab1Active
+                              ? Container(
+                            height: 2,
+                            width: 69,
+                            decoration: BoxDecoration(
+                                color: ColorsUtil.shallowColor,
+                                borderRadius: BorderRadius.circular(2.0)),
+                          )
+                              : const SizedBox()
+                        ],
                       ),
-                      const SizedBox(
-                        height: 2,
-                      ),
-                      tab1Active
-                          ? Container(
-                              height: 2,
-                              width: 69,
-                              decoration: BoxDecoration(
-                                  color: ColorsUtil.shallowColor,
-                                  borderRadius: BorderRadius.circular(2.0)),
-                            )
-                          : const SizedBox()
-                    ],
-                  ),
-                )),
+                    )),
                 Expanded(
                     child: GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      tab2Active = true;
-                      tab1Active = false;
-                      status = 0;
-                      list = [];
-                      _page = 1;
-                    });
-                    getData();
-                    getCount();
-                  },
-                  child: Column(
-                    children: [
-                      Text(
-                        '待接诊($waitReceive)',
-                        style: GSYConstant.textStyle(color: '#333333'),
+                      onTap: () {
+                        setState(() {
+                          tab2Active = true;
+                          tab1Active = false;
+                          status = 0;
+                          list = [];
+                          _page = 1;
+                        });
+                        getData();
+                        getCount();
+                      },
+                      child: Column(
+                        children: [
+                          Text(
+                            '待接诊($waitReceive)',
+                            style: GSYConstant.textStyle(color: '#333333'),
+                          ),
+                          const SizedBox(
+                            height: 2,
+                          ),
+                          tab2Active
+                              ? Container(
+                            height: 2,
+                            width: 69,
+                            decoration: BoxDecoration(
+                                color: ColorsUtil.shallowColor,
+                                borderRadius: BorderRadius.circular(2.0)),
+                          )
+                              : const SizedBox()
+                        ],
                       ),
-                      const SizedBox(
-                        height: 2,
-                      ),
-                      tab2Active
-                          ? Container(
-                              height: 2,
-                              width: 69,
-                              decoration: BoxDecoration(
-                                  color: ColorsUtil.shallowColor,
-                                  borderRadius: BorderRadius.circular(2.0)),
-                            )
-                          : const SizedBox()
-                    ],
-                  ),
-                ))
+                    ))
               ],
             ),
           ),
