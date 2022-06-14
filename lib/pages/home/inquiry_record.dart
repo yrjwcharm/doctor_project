@@ -24,7 +24,7 @@ class InquiryRecord extends StatefulWidget {
   const InquiryRecord({Key? key, required this.userId}) : super(key: key);
 
   @override
-  _InquiryRecordState createState() => _InquiryRecordState(this.userId);
+  _InquiryRecordState createState() => _InquiryRecordState(userId);
 }
 
 class _InquiryRecordState extends State<InquiryRecord> {
@@ -138,6 +138,8 @@ class _InquiryRecordState extends State<InquiryRecord> {
                     controller: _scrollController,
                     itemBuilder: (BuildContext context, int index) {
                       var item = list[index];
+                      bool state = item['status_dictText']=='已取消'?false:true;
+
                       // List<String>  diagnosis = [];
                       // (item['diagnosisVOS']??[]).forEach((element) {
                       //     diagnosis.add(element['diagnosisName']);
@@ -263,6 +265,7 @@ class _InquiryRecordState extends State<InquiryRecord> {
                                         item['times'],
                                         style: GSYConstant.textStyle(color: '#666666'),
                                         )),
+
                                 CustomOutlineButton(
                                   title: '写病历',
                                   textStyle: GSYConstant.textStyle(

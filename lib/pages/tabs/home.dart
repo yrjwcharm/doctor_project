@@ -57,10 +57,16 @@ class HomeState extends State<Home> {
   String receiveNum = '';
   String waitReceiveNum = '';
   String videoRegisterNum = '';
+  List noticeList = [];
+  String noticeStr = '';
+  String noticeContent = '';
+  String noticeTime = '';
+
 
   @override
   void initState() {
     super.initState();
+    getNoticeByPlatform();
     getNet_doctorInfo();
     getData();
     getCount();
@@ -75,6 +81,20 @@ class HomeState extends State<Home> {
       getData();
       getCount();
     });
+  }
+  getNoticeByPlatform() async {
+    HttpRequest request = HttpRequest.getInstance();
+    var res = await request.get(Api.getNoticeByPlatform+'?orgId=1', {});
+    if(res['code']==200){
+      noticeList = res['data'];
+      noticeStr = noticeList[2]['title'];
+      noticeContent = noticeList[2]['content'];
+      noticeTime = '2022-06-13';
+    }
+    print("noticeStr------" + noticeStr.toString());
+    print("noticeContent------" + noticeContent.toString());
+
+
   }
 
   //获取医生信息
@@ -825,7 +845,7 @@ class HomeState extends State<Home> {
             Container(
               margin: const EdgeInsets.only(left: 6.0),
               child: Text(
-                '北京市区委领导来我区考察、交流…',
+                noticeStr,
                 style: TextStyle(
                   fontSize: 14,
                   color: ColorsUtil.hexStringColor('#333333'),
@@ -983,7 +1003,10 @@ class HomeState extends State<Home> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const NoticeDetail()));
+                      builder: (context) => NoticeDetail(
+                          titleStr: noticeStr,
+                          contentStr: noticeContent,
+                          utstampStr: noticeTime)));
             },
             child: noticeSection,
           ),
