@@ -73,6 +73,7 @@ dependencies:
   record: ^4.1.1
   flutter_easyloading: ^3.0.3
   open_file: ^3.2.1
+  flutter_datetime_picker: ^1.5.1
   # tpns_flutter_plugin:
   #   path: /Users/xingchenhe/Documents/work/TPNS-Flutter-Plugin
   localstorage: ^4.0.0+1
