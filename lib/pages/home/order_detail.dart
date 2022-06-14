@@ -109,7 +109,8 @@ class _OrderDetailState extends State<OrderDetail> {
                               : _map['sex_dictText'] == '男'
                                   ? Image.asset('assets/images/boy.png')
                                   : Image.asset('assets/images/girl.png')),
-                      trailing: SvgUtil.svg('arrow_right.svg')),
+                      // trailing: SvgUtil.svg('arrow_right.svg')
+                      ),
                 ),
                 const SizedBox(
                   height: 10.0,

@@ -28,6 +28,7 @@ import '../home/open_service.dart';
 import '../home/order_detail.dart';
 import '../home/patient-consult.dart';
 import '../../http/http_request.dart';
+import 'package:marquee/marquee.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 class Home extends StatefulWidget {
@@ -61,7 +62,7 @@ class HomeState extends State<Home> {
   String noticeStr = '';
   String noticeContent = '';
   String noticeTime = '';
-
+  bool _useRtlText = true;
 
   @override
   void initState() {
@@ -829,6 +830,48 @@ class HomeState extends State<Home> {
         ],
       ),
     );
+
+    Widget _buildMarquee() {
+      return Marquee(
+        key: Key("$_useRtlText"),
+        text: !_useRtlText
+            ? 'There once was a boy who told this story about a boy: "'
+            : 'פעם היה ילד אשר סיפר סיפור על ילד:"',
+        velocity: 50.0,
+      );
+    }
+
+    Widget _buildComplexMarquee() {
+      return Marquee(
+        key: Key("$_useRtlText"),
+        text: !_useRtlText
+            ? 'Some sample text that takes some space.'
+            : 'זהו משפט ראשון של הטקסט הארוך. זהו המשפט השני של הטקסט הארוך',
+        style: TextStyle(fontWeight: FontWeight.bold),
+        scrollAxis: Axis.horizontal,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        blankSpace: 20,
+        velocity: 100,
+        pauseAfterRound: Duration(seconds: 1),
+        showFadingOnlyWhenScrolling: true,
+        fadingEdgeStartFraction: 0.1,
+        fadingEdgeEndFraction: 0.1,
+        numberOfRounds: 3,
+        startPadding: 10,
+        accelerationDuration: Duration(seconds: 1),
+        accelerationCurve: Curves.linear,
+        decelerationDuration: Duration(milliseconds: 500),
+        decelerationCurve: Curves.easeOut,
+        textDirection: _useRtlText ? TextDirection.rtl : TextDirection.ltr,
+      );
+    }
+
+    Widget _wrapWithStuff(Widget child) {
+      return Padding(
+        padding: EdgeInsets.all(16),
+        child: Container(height: 50, color: Colors.white, child: child),
+      );
+    }
     Widget noticeSection = Container(
       height: 44,
       margin: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -841,31 +884,40 @@ class HomeState extends State<Home> {
         children: [
           Expanded(
               child: Row(children: [
-            Image.asset('assets/images/home/notice.png', fit: BoxFit.cover),
-            Container(
-              margin: const EdgeInsets.only(left: 6.0),
-              child: Text(
-                noticeStr,
-                style: TextStyle(
-                  fontSize: 14,
-                  color: ColorsUtil.hexStringColor('#333333'),
-                  fontWeight: FontWeight.w400,
+                Image.asset('assets/images/home/notice.png', fit: BoxFit.cover),
+                Container(
+                  margin: const EdgeInsets.only(left: 6.0),
+                  child:ListView(
+                    children: [
+                      _buildMarquee(),
+                      _buildComplexMarquee(),
+                    ].map(_wrapWithStuff).toList(),
+                  ),
+//                  Text(
+//                    noticeStr,
+//                    style: TextStyle(
+//                      fontSize: 14,
+//                      color: ColorsUtil.hexStringColor('#333333'),
+//                      fontWeight: FontWeight.w400,
+//                    ),
+//                  ),
                 ),
+              ])),
+              Text(
+                '今天',
+                style: TextStyle(
+                fontSize: 13,
+                fontFamily: 'PingFangSC-Regular, PingFang SC',
+                fontWeight: FontWeight.w400,
+                color: ColorsUtil.hexStringColor('#999999'),
               ),
-            ),
-          ])),
-          Text(
-            '今天',
-            style: TextStyle(
-              fontSize: 13,
-              fontFamily: 'PingFangSC-Regular, PingFang SC',
-              fontWeight: FontWeight.w400,
-              color: ColorsUtil.hexStringColor('#999999'),
-            ),
-          )
+            )
         ],
       ),
     );
+
+
+
     Widget buildTextRow(String label, String value, double fontSize,
         String labelColor, String valueColor) {
       return Container(

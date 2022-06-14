@@ -142,7 +142,7 @@ class _BasicInfoState extends State<BasicInfo> {
                               const SizedBox(
                                 width: 10.0,
                               ),
-                              SvgUtil.svg('arrow_rp.svg')
+                              // SvgUtil.svg('arrow_rp.svg')
                             ],
                           ),
                             // child: TextField(
