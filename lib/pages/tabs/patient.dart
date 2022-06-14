@@ -93,7 +93,7 @@ class PatientState extends State<Patient> {
                       : Image.asset('assets/images/girl.png'),
             ),
             contentPadding: const EdgeInsets.only(left: 16.0, right: 16.0),
-            trailing: SvgUtil.svg('keyboard_arrow_right.svg'),
+            // trailing: SvgUtil.svg('keyboard_arrow_right.svg'),
             tileColor: Colors.white,
             subtitle: Row(
               children: <Widget>[
