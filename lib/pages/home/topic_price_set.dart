@@ -188,7 +188,7 @@ class _TopicPriceSetState extends State<TopicPriceSet> {
             alignment: Alignment.bottomCenter,
             child: CustomSafeAreaButton(
               onPressed: () {
-                Navigator.pop(context,{price});
+                Navigator.pop(context,price);
               },
               title: '确定',
             ),

@@ -201,7 +201,7 @@ class _ClinicReceptionPersonSetState extends State<ClinicReceptionPersonSet> {
             alignment: Alignment.bottomCenter,
             child: CustomSafeAreaButton(
               onPressed: () {
-                Navigator.pop(context,{personStr});
+                Navigator.pop(context,personStr);
               },
               title: '确定',
             ),

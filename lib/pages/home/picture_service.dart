@@ -60,16 +60,18 @@ class _HealthConsultServiceState extends State<PictureService> {
                  switch(index){
                    case 1:
                      Navigator.push(context, MaterialPageRoute(builder: (context)=>const TopicPriceSet())).then((value) {
-                       print(value);
-                       list[index]['detail'] = value;
-                       setState(() {});
+                       if(null != value){
+                         list[index]['detail'] = value;
+                         setState(() {});
+                       }
                      });
                      break;
                    case 2:
                      Navigator.push(context, MaterialPageRoute(builder: (context)=>const ClinicReceptionPersonSet())).then((value) {
-                       print(value);
-                       list[index]['detail'] = value;
-                       setState(() {});
+                       if(null != value){
+                         list[index]['detail'] = value;
+                         setState(() {});
+                       }
                      });
                      break;
                  }
