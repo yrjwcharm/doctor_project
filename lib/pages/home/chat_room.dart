@@ -125,6 +125,9 @@ class _ChatPageState extends State<ChatPage> {
 
     // _loadMessages();
     _focusNode.addListener(() {
+      print('333,${_focusNode.hasFocus}');
+      print('wwwwwww$_emojiState');
+
       if (_focusNode.hasFocus) {
         setState(() {
           _emojiState = false;
@@ -717,8 +720,8 @@ class _ChatPageState extends State<ChatPage> {
                 ],
               ),
             ),
-            Offstage(
-                offstage: !_isMore,
+            Visibility(
+                visible: _isMore,
                 child: Container(
                   padding: const EdgeInsets.only(top: 11.0, bottom: 10.0),
                   child: Row(
@@ -962,8 +965,8 @@ class _ChatPageState extends State<ChatPage> {
                 ),
               ),),
             ),
-            Offstage(
-              offstage: !_emojiState,
+            Visibility(
+              visible:_emojiState,
               child: SizedBox(
                   height: 250,
                   child: EmojiPicker(
