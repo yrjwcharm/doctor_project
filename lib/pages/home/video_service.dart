@@ -43,7 +43,7 @@ class _HealthConsultServiceState extends State<VideoService> {
     if(state == 0){
       isOpenChecked = false;
     }
-     list.add({'title':'复诊开药-视频问诊','subTitle':'','detail':59.00,'isFlag':isOpenChecked});
+     list.add({'title':'复诊开药-视频问诊','subTitle':'','detail':59.00,'isFlag':false});
      list.add({'title':'价格','subTitle':'','detail':fee,'isFlag':false});
      list.add({'title':'接诊时间/人数','subTitle':'','detail':patientCount,'isFlag':false});
      list.add({'title':'循环排班','detail':20,'subTitle':'开启后将按周自动生成排班','isFlag':isOpenCircular});
@@ -62,10 +62,18 @@ class _HealthConsultServiceState extends State<VideoService> {
                onTap: (){
                  switch(index){
                    case 1:
-                     Navigator.push(context, MaterialPageRoute(builder: (context)=>const TopicPriceSet()));
+                     Navigator.push(context, MaterialPageRoute(builder: (context)=>const TopicPriceSet())).then((value) {
+                       print(value);
+                       list[index]['detail'] = value;
+                       setState(() {});
+                     });
                      break;
                    case 2:
-                     Navigator.push(context, MaterialPageRoute(builder: (context)=>ChoiceClinicReceptTimePerson(treatId:treatId)));
+                     Navigator.push(context, MaterialPageRoute(builder: (context)=>ChoiceClinicReceptTimePerson(treatId:treatId))).then((value) {
+                       print(value);
+                       list[index]['detail'] = value;
+                       setState(() {});
+                     });
                      break;
                  }
                },

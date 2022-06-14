@@ -41,7 +41,7 @@ class _HealthConsultServiceState extends State<PictureService> {
     if(state == 0){
       isChecked = false;
     }
-     list.add({'title':'复诊开药-图文问诊','subTitle':'','detail':59.00,'isFlag':isChecked});
+     list.add({'title':'复诊开药-图文问诊','subTitle':'','detail':'','isFlag':true});
      list.add({'title':'价格','subTitle':'','detail':fee,'isFlag':false});
      list.add({'title':'接诊人数','subTitle':'','detail':patientCount,'isFlag':false});
   }
@@ -59,10 +59,18 @@ class _HealthConsultServiceState extends State<PictureService> {
                onTap: (){
                  switch(index){
                    case 1:
-                     Navigator.push(context, MaterialPageRoute(builder: (context)=>const TopicPriceSet()));
+                     Navigator.push(context, MaterialPageRoute(builder: (context)=>const TopicPriceSet())).then((value) {
+                       print(value);
+                       list[index]['detail'] = value;
+                       setState(() {});
+                     });
                      break;
                    case 2:
-                     Navigator.push(context, MaterialPageRoute(builder: (context)=>const ClinicReceptionPersonSet()));
+                     Navigator.push(context, MaterialPageRoute(builder: (context)=>const ClinicReceptionPersonSet())).then((value) {
+                       print(value);
+                       list[index]['detail'] = value;
+                       setState(() {});
+                     });
                      break;
                  }
 

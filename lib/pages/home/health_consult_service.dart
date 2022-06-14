@@ -60,7 +60,11 @@ class _HealthConsultServiceState extends State<HealthConsultService> {
                onTap: (){
                  switch(index){
                    case 1:
-                     Navigator.push(context, MaterialPageRoute(builder: (context)=>const TopicPriceSet()));
+                     Navigator.push(context, MaterialPageRoute(builder: (context)=>const TopicPriceSet())).then((value) {
+                       print(value);
+                       list[index]['detail'] = value;
+                       setState(() {});
+                     });
 
                      break;
                    case 2:
@@ -69,7 +73,11 @@ class _HealthConsultServiceState extends State<HealthConsultService> {
 
                       //   print('time-----------------'+new Text("$result").toString());
                       // }
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>const ClinicReceptionPersonSet()));
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>const ClinicReceptionPersonSet())).then((value) {
+                        print(value);
+                        list[index]['detail'] = value;
+                        setState(() {});
+                      });
 
                      break;
                  }

@@ -15,16 +15,17 @@ class ClinicReceptionPersonSet extends StatefulWidget {
 
 class _ClinicReceptionPersonSetState extends State<ClinicReceptionPersonSet> {
   List list = [];
+  String personStr = '';
 
   @override
   void initState() {
     super.initState();
-    list.add({'text': '10'});
-    list.add({'text': '20'});
-    list.add({'text': '30'});
-    list.add({'text': '40'});
-    list.add({'text': '50'});
-    list.add({'text': '自定义'});
+    list.add({'text': '10','isSeleted':false});
+    list.add({'text': '20','isSeleted':false});
+    list.add({'text': '30','isSeleted':false});
+    list.add({'text': '40','isSeleted':false});
+    list.add({'text': '50','isSeleted':false});
+    list.add({'text': '自定义','isSeleted':false});
   }
 
   void showBottomSheet() {
@@ -164,8 +165,15 @@ class _ClinicReceptionPersonSetState extends State<ClinicReceptionPersonSet> {
                             height: 33,
                             child: OutlinedButton(
                                 onPressed: () {
+                                  for(int i = 0;i<list.length;i++){
+                                    list[i]['isSeleted']=false;
+                                  }
                                   if (index == 5) {
                                     showBottomSheet();
+                                  }else {
+                                    list[index]['isSeleted']=true;
+                                    personStr = list[index]['text'];
+                                    setState(() {});
                                   }
                                 },
                                 style: OutlinedButton.styleFrom(
@@ -175,7 +183,7 @@ class _ClinicReceptionPersonSetState extends State<ClinicReceptionPersonSet> {
                                   side: BorderSide(
                                       width: 1,
                                       color:
-                                          ColorsUtil.hexStringColor('#cccccc')),
+                                          list[index]['isSeleted']==true?ColorsUtil.hexStringColor('#06B48D'):ColorsUtil.hexStringColor('#cccccc')),
                                 ),
                                 child: Text(
                                   list[index]['text'],
@@ -192,7 +200,9 @@ class _ClinicReceptionPersonSetState extends State<ClinicReceptionPersonSet> {
               child: Container(
             alignment: Alignment.bottomCenter,
             child: CustomSafeAreaButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pop(context,{personStr});
+              },
               title: '确定',
             ),
           ))
