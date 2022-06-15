@@ -264,11 +264,14 @@ class _ChoiceClinicReceptTimePersonState
                                                   onChanged: (date) {
                                                     print('change $date in time zone ' +
                                                         date.timeZoneOffset.inHours.toString());
+
+                                                  }, onConfirm: (date) {
+
                                                     listComponent[index]['startTime']=date.timeZoneOffset.inHours.toString();
                                                     setState(() {
+                                                      listComponent= listComponent;
 
                                                     });
-                                                  }, onConfirm: (date) {
                                                     print('confirm $date');
                                                   }, currentTime: DateTime.now());
 
