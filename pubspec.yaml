@@ -99,6 +99,7 @@ dependencies:
   jpush_flutter: 2.2.5
   emoji_picker_flutter: ^1.1.2
   marquee: ^2.2.3
+  date_time_picker: ^2.1.0
 
 dev_dependencies:
   flutter_test:

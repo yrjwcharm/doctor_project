@@ -11,6 +11,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 //import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 //import 'package:flutter_cupertino_datetime_picker/flutter_cupertino_datetime_picker.dart';
+import 'package:date_time_picker/date_time_picker.dart';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../http/http_request.dart';
 import '../../http/api.dart';
@@ -39,6 +41,9 @@ class _ChoiceClinicReceptTimePersonState
   bool isOpen = false;
   List listComponent = [];
   int index = 0;
+  String _valueChanged2 = '';
+  String _valueToValidate2 = '';
+  String _valueSaved2 = '';
 
   _ChoiceClinicReceptTimePersonState(this.treatId);
 
@@ -111,15 +116,15 @@ class _ChoiceClinicReceptTimePersonState
         dataList = res['data'];
         print('timeList ====' + dataList.toString());
 
-        for (int i = 0; i < dataList.length; i++) {
-          weekDay = dataList[i]['weekDay'];
-          if (weekDay != 0) {
-            timeList[weekDay - 1]['startTime'] = dataList[i]['startTime'];
-            timeList[weekDay - 1]['endTime'] = dataList[i]['endTime'];
-            timeList[weekDay - 1]['patientCount'] = dataList[i]['patientCount'];
-            timeList[weekDay - 1]['checked'] = true;
-          }
-        }
+//        for (int i = 0; i < dataList.length; i++) {
+//          weekDay = dataList[i]['weekDay'];
+//          if (weekDay != 0) {
+//            timeList[weekDay - 1]['startTime'] = dataList[i]['startTime'];
+//            timeList[weekDay - 1]['endTime'] = dataList[i]['endTime'];
+//            timeList[weekDay - 1]['patientCount'] = dataList[i]['patientCount'];
+//            timeList[weekDay - 1]['checked'] = true;
+//          }
+//        }
         print('timeList----List ====' + timeList.toString());
       });
     } else {
@@ -262,6 +267,29 @@ class _ChoiceClinicReceptTimePersonState
                                         children: <Widget>[
                                           GestureDetector(
                                             onTap: () async {
+                                              DateTimePicker(
+                                                type: DateTimePickerType.dateTimeSeparate,
+                                                dateMask: 'd MMM, yyyy',
+                                                initialValue: DateTime.now().toString(),
+                                                firstDate: DateTime(2000),
+                                                lastDate: DateTime(2100),
+                                                icon: Icon(Icons.event),
+                                                dateLabelText: 'Date',
+                                                timeLabelText: "Hour",
+                                                selectableDayPredicate: (date) {
+                                                  // Disable weekend days to select from the calendar
+                                                  if (date.weekday == 6 || date.weekday == 7) {
+                                                    return false;
+                                                  }
+                                                  return true;
+                                                },
+                                                onChanged: (val) => print(val),
+                                                validator: (val) {
+                                                  print(val);
+                                                  return null;
+                                                },
+                                                onSaved: (val) => print(val),
+                                              );
 //                                              DatePicker.showTimePicker(context, showTitleActions: true,
 //                                                  onChanged: (date) {
 //                                                    print('change $date in time zone ' +
@@ -368,13 +396,14 @@ class _ChoiceClinicReceptTimePersonState
                                       ),
                                     ),
                                     const SizedBox(
-                                      width: 10.0,
+                                      width: 20.0,
                                     ),
                                     GestureDetector(
                                       onTap: () {
                                         setState(() {
-                                          ToastUtil.showError(200, '点击了');
+//                                          ToastUtil.showError(200, '点击了');
                                           listComponent.removeAt(index);
+                                          setState(() {});
                                         });
                                       },
                                       child: SvgUtil.svg('minus.svg'),

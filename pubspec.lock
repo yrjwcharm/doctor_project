@@ -253,6 +253,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.2.2"
+  date_time_picker:
+    dependency: "direct main"
+    description:
+      name: date_time_picker
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "2.1.0"
   decimal:
     dependency: "direct main"
     description:
