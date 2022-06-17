@@ -41,7 +41,7 @@ class _HealthConsultServiceState extends State<PictureService> {
     if(state == 0){
       isChecked = false;
     }
-     list.add({'title':'复诊开药-图文问诊','subTitle':'','detail':'','isFlag':true});
+     list.add({'title':'复诊开药-图文问诊','subTitle':'','detail':'','isFlag':isChecked});
      list.add({'title':'价格','subTitle':'','detail':fee,'isFlag':false});
      list.add({'title':'接诊人数','subTitle':'','detail':patientCount,'isFlag':false});
   }
@@ -111,7 +111,7 @@ class _HealthConsultServiceState extends State<PictureService> {
                         "treatId":treatId, 
                         "treatType": 0,
                         "fee": fee,
-                        "state":state,
+                        "state":isChecked,
                         "patientCount":patientCount
 
                       });

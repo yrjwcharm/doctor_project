@@ -43,9 +43,9 @@ class _HealthConsultServiceState extends State<VideoService> {
     if(state == 0){
       isOpenChecked = false;
     }
-     list.add({'title':'复诊开药-视频问诊','subTitle':'','detail':59.00,'isFlag':false});
+     list.add({'title':'复诊开药-视频问诊','subTitle':'','detail':59.00,'isFlag':isOpenChecked});
      list.add({'title':'价格','subTitle':'','detail':fee,'isFlag':false});
-     list.add({'title':'接诊时间/人数','subTitle':'','detail':patientCount,'isFlag':false});
+     list.add({'title':'接诊时间/人数','subTitle':'','detail':'','isFlag':false});
      list.add({'title':'循环排班','detail':20,'subTitle':'开启后将按周自动生成排班','isFlag':isOpenCircular});
   }
   @override
@@ -113,7 +113,7 @@ class _HealthConsultServiceState extends State<VideoService> {
                         "treatId":treatId, 
                         "treatType": 0,
                         "fee": fee,
-                        "state":state,
+                        "state":isOpenChecked,
                         "patientCount":patientCount
                       });
                       print('health+++++-------------------'+res.toString());

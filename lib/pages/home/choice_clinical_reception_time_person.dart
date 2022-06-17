@@ -41,6 +41,7 @@ class _ChoiceClinicReceptTimePersonState
   bool isOpen = false;
   List listComponent = [];
   int index = 0;
+  int chooseDay = 0;
   String _valueChanged2 = '';
   String _valueToValidate2 = '';
   String _valueSaved2 = '';
@@ -53,12 +54,14 @@ class _ChoiceClinicReceptTimePersonState
   void initState() {
     super.initState();
     getData();
+
     list = [
       {
         'day': '周一',
         'startTime': '',
         'endTime': '',
         'patientCount': '',
+        'timeList': timeList,
         'checked': isOpen
       },
       {
@@ -66,6 +69,7 @@ class _ChoiceClinicReceptTimePersonState
         'startTime': '',
         'endTime': '',
         'patientCount': '',
+        'timeList': [],
         'checked': isOpen
       },
       {
@@ -73,6 +77,7 @@ class _ChoiceClinicReceptTimePersonState
         'startTime': '',
         'endTime': '',
         'patientCount': '',
+        'timeList': [],
         'checked': isOpen
       },
       {
@@ -80,6 +85,7 @@ class _ChoiceClinicReceptTimePersonState
         'startTime': '',
         'endTime': '',
         'patientCount': '',
+        'timeList': [],
         'checked': isOpen
       },
       {
@@ -87,6 +93,7 @@ class _ChoiceClinicReceptTimePersonState
         'startTime': '',
         'endTime': '',
         'patientCount': '',
+        'timeList': [],
         'checked': isOpen
       },
       {
@@ -94,6 +101,7 @@ class _ChoiceClinicReceptTimePersonState
         'startTime': '',
         'endTime': '',
         'patientCount': '',
+        'timeList': [],
         'checked': isOpen
       },
       {
@@ -101,6 +109,7 @@ class _ChoiceClinicReceptTimePersonState
         'startTime': '',
         'endTime': '',
         'patientCount': '',
+        'timeList': [],
         'checked': isOpen
       }
     ];
@@ -114,20 +123,56 @@ class _ChoiceClinicReceptTimePersonState
     if (res['code'] == 200) {
       setState(() {
         dataList = res['data'];
-        print('timeList ====' + dataList.toString());
+        print('timeList ====' + list.toString());
 
-//        for (int i = 0; i < dataList.length; i++) {
-//          weekDay = dataList[i]['weekDay'];
-//          if (weekDay != 0) {
-//            timeList[weekDay - 1]['startTime'] = dataList[i]['startTime'];
-//            timeList[weekDay - 1]['endTime'] = dataList[i]['endTime'];
-//            timeList[weekDay - 1]['patientCount'] = dataList[i]['patientCount'];
-//            timeList[weekDay - 1]['checked'] = true;
-//          }
-//        }
-        print('timeList----List ====' + timeList.toString());
+        for (int i = 0; i < dataList.length; i++) {
+          int weekDay = dataList[i]['weekDay'];
+          print('weekDay--- ====' + weekDay.toString());
+          list[weekDay-1]['timeList'].add(dataList[i]);
+        }
+        print('timeList----List ====' + list.toString());
       });
     } else {
+      ToastUtil.showToast(msg: res['msg']);
+    }
+  }
+
+  Future deleteTime(String id) async {
+    var request = HttpRequest.getInstance();
+    var res =
+    await request.post(Api.checkUpdateDetail, {
+      'id':id,
+      'useflag':'0'
+    });
+    if (res['code'] == 200) {
+      setState(() {});
+    }else{
+      ToastUtil.showToast(msg: res['msg']);
+    }
+  }
+
+  Future insertTime(String startTime,int weekDay,String endTime,String patientCount) async {
+    var request = HttpRequest.getInstance();
+    print('insertTime ====weekDay' + weekDay.toString() +'startTime  '+startTime +'endTime  '+endTime+' patientCount '+patientCount);
+
+    var res =
+    await request.post(Api.checkInsertDetail, {
+      'treatId':treatId,
+      'weekDay':weekDay,
+      'startTime':startTime,
+      'endTime':endTime,
+      'patientCount':patientCount
+    });
+
+    if (res['code'] == 200) {
+      list[weekDay-1]['timeList'].add({
+        'startTime': startTime,
+        'endTime': endTime,
+        'patientCount': patientCount,
+        'weekDay':weekDay
+      });
+      setState(() {});
+    }else{
       ToastUtil.showToast(msg: res['msg']);
     }
   }
@@ -159,12 +204,9 @@ class _ChoiceClinicReceptTimePersonState
                       ),
                       GestureDetector(
                         onTap: () {
-                          listComponent.add({
-                            'startTime': '09:00',
-                            'endTime': '09:30',
-                            'receiveNum': '10'
-                          });
-                          setState(() {});
+
+//                          setState(() {});
+                        insertTime('15:00', chooseDay+1, '16:00', '20');
                         },
                         child: SvgUtil.svg('add_time.svg'),
                       )
@@ -205,9 +247,11 @@ class _ChoiceClinicReceptTimePersonState
                                         onPressed: () {
                                           list.forEach((item) => {
                                                 item['checked'] = false,
+                                                chooseDay = index,
                                                 if (mapEquals(
                                                     item, list[index]))
                                                   item['checked'] = true,
+
                                               });
                                           setState(() {});
                                         },
@@ -241,7 +285,7 @@ class _ChoiceClinicReceptTimePersonState
                                 ))
                             .toList()),
                     Column(
-                      children: listComponent
+                      children: list[chooseDay]['timeList']
                           .asMap()
                           .keys
                           .map<Widget>((index) => Padding(
@@ -267,47 +311,12 @@ class _ChoiceClinicReceptTimePersonState
                                         children: <Widget>[
                                           GestureDetector(
                                             onTap: () async {
-                                              DateTimePicker(
-                                                type: DateTimePickerType.dateTimeSeparate,
-                                                dateMask: 'd MMM, yyyy',
-                                                initialValue: DateTime.now().toString(),
-                                                firstDate: DateTime(2000),
-                                                lastDate: DateTime(2100),
-                                                icon: Icon(Icons.event),
-                                                dateLabelText: 'Date',
-                                                timeLabelText: "Hour",
-                                                selectableDayPredicate: (date) {
-                                                  // Disable weekend days to select from the calendar
-                                                  if (date.weekday == 6 || date.weekday == 7) {
-                                                    return false;
-                                                  }
-                                                  return true;
-                                                },
-                                                onChanged: (val) => print(val),
-                                                validator: (val) {
-                                                  print(val);
-                                                  return null;
-                                                },
-                                                onSaved: (val) => print(val),
-                                              );
-//                                              DatePicker.showTimePicker(context, showTitleActions: true,
-//                                                  onChanged: (date) {
-//                                                    print('change $date in time zone ' +
-//                                                        date.timeZoneOffset.inHours.toString());
-//                                                    listComponent[index]['startTime']=date.timeZoneOffset.inHours.toString();
-//                                                    setState(() {
-//
-//                                                    });
-//                                                  }, onConfirm: (date) {
-//                                                    print('confirm $date');
-//                                                  }, currentTime: DateTime.now());
-
                                             },
                                             child: SizedBox(
                                               width:
                                                   ScreenUtil().setWidth(53.0),
                                               child: Text(
-                                                '09：00',
+                                                list[chooseDay]['timeList'][index]['startTime'],
                                                 style: GSYConstant.textStyle(
                                                     fontSize:
                                                         ScreenUtil().setSp(13),
@@ -330,23 +339,12 @@ class _ChoiceClinicReceptTimePersonState
                                           ),
                                           GestureDetector(
                                             onTap: () async {
-//                                              DatePicker.showTimePicker(context, showTitleActions: true,
-//                                                  onChanged: (date) {
-//                                                    print('change $date in time zone ' +
-//                                                        date.timeZoneOffset.inHours.toString());
-//                                                    listComponent[index]['endTime']=date.timeZoneOffset.inHours.toString();
-//                                                    setState(() {
-//
-//                                                    });
-//                                                  }, onConfirm: (date) {
-//                                                    print('confirm $date');
-//                                                  }, currentTime: DateTime.now());
                                             },
                                             child: SizedBox(
                                               width:
                                                   ScreenUtil().setWidth(53.0),
                                               child: Text(
-                                                '09：30',
+                                                list[chooseDay]['timeList'][index]['endTime'],
                                                 style: GSYConstant.textStyle(
                                                     fontSize:
                                                         ScreenUtil().setSp(13),
@@ -387,7 +385,7 @@ class _ChoiceClinicReceptTimePersonState
                                             fillColor: Colors.transparent,
                                             filled: true,
                                             isCollapsed: true,
-                                            hintText: '10人',
+                                            hintText: list[chooseDay]['timeList'][index]['patientCount'].toString(),
                                             border: InputBorder.none,
                                             hintStyle: GSYConstant.textStyle(
                                                 fontSize:
@@ -401,9 +399,9 @@ class _ChoiceClinicReceptTimePersonState
                                     GestureDetector(
                                       onTap: () {
                                         setState(() {
-//                                          ToastUtil.showError(200, '点击了');
-                                          listComponent.removeAt(index);
-                                          setState(() {});
+                                          list[chooseDay]['timeList'].removeAt(index);
+                                          deleteTime(list[chooseDay]['timeList'][index]['id']);
+//                                          setState(() {});
                                         });
                                       },
                                       child: SvgUtil.svg('minus.svg'),

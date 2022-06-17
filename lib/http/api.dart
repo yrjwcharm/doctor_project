@@ -53,6 +53,8 @@ class Api {
   static const serviceByDocIdAndState = '/doctor/dr-service/baDoctorTime/selectDoctorTimeServiceByDocIdAndState';
   static const updateDoctorTimeService = '/doctor/dr-service/baDoctorTime/updateDoctorTimeService';
   static const checkDetailByTreatId = '/doctor/dr-service/baDoctorTime/checkDetailByTreatId';
+  static const checkUpdateDetail= '/doctor/dr-service/baDoctorTime/updateDetail';
+  static const checkInsertDetail= '/doctor/dr-service/baDoctorTime/insertDetail';
   static const getNoticeByPlatform = '/patient/pt-service/baNotice/getNoticeByPlatform';
 
 

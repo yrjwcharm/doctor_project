@@ -40,7 +40,9 @@ class _HealthConsultServiceState extends State<HealthConsultService> {
     if(state == 0){
       isChecked = false;
     }
-     list.add({'title':'健康咨询','detail':50.00,'isFlag':isChecked});
+    print('state+++++-------------------'+state.toString());
+
+    list.add({'title':'健康咨询','detail':50.00,'isFlag':isChecked});
      list.add({'title':'价格','detail':fee,'isFlag':false});
      list.add({'title':'接诊人数','detail':patientCount,'isFlag':false});
   }
@@ -106,7 +108,7 @@ class _HealthConsultServiceState extends State<HealthConsultService> {
                         "treatId":treatId, //密码
                         "treatType": 1,
                         "fee": fee,
-                        "state":state,
+                        "state":isChecked,
                         "patientCount":patientCount
                       });
                       print('health+++++-------------------'+res.toString());

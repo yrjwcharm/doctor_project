@@ -36,6 +36,11 @@ class _BasicInfoState extends State<BasicInfo> {
   String videoRegisterNum = '';
   String codeData = '';
   String expertIn  = '';
+  String birthday = '';
+  String address = '';
+  String drInfo = '';
+  String sex = '';
+
 
   getNet_doctorInfo() async {
     SharedPreferences perfer = await SharedPreferences.getInstance();
@@ -55,17 +60,22 @@ class _BasicInfoState extends State<BasicInfo> {
       waitReceiveNum = res['data']['waitReceiveNum'].toString();
       videoRegisterNum = res['data']['videoRegisterNum'].toString();
       expertIn = res['data']['expertIn'] ?? '';
+      birthday = res['data']['birthday'] ?? '';
+      address = res['data']['address'] ?? '';
+      drInfo = res['data']['drInfo'] ?? '';
+      sex = res['data']['sex'].toString() ?? '';
+
 
       list.add({'label':'姓名','placeholder':name,'enabled':false});
-      list.add({'label':'性别','placeholder':'','enabled':false});
-      list.add({'label':'出生日期','placeholder':'','enabled':false});
+      list.add({'label':'性别','placeholder':sex=='0'?'男':'女','enabled':false});
+      list.add({'label':'出生日期','placeholder':birthday,'enabled':false});
       list.add({'label':'手机号','placeholder':phoneStr,'enabled':false});
       list.add({'label':'所属医院','placeholder':orgName,'enabled':false});
       list.add({'label':'所在科室','placeholder':deptName,'enabled':false});
       list.add({'label':'职称','placeholder':protitle,'enabled':false});
       list.add({'label':'擅长','placeholder':expertIn,'enabled':false});
-      list.add({'label':'医生简介','placeholder':'','enabled':false});
-      list.add({'label':'所在城市','placeholder':'','enabled':false});
+      list.add({'label':'医生简介','placeholder':drInfo,'enabled':false});
+      list.add({'label':'所在城市','placeholder':address,'enabled':false});
 
       setState(() {});
     }
@@ -83,7 +93,6 @@ class _BasicInfoState extends State<BasicInfo> {
       backgroundColor: ColorsUtil.bgColor,
       appBar: CustomAppBar(
         '基本信息',
-      
       ),
       body: Column(
         children: <Widget>[
