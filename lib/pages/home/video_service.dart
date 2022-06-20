@@ -42,8 +42,10 @@ class _HealthConsultServiceState extends State<VideoService> {
     super.initState();
     if(state == 0){
       isOpenChecked = false;
+    }else {
+      isOpenChecked = true;
     }
-     list.add({'title':'复诊开药-视频问诊','subTitle':'','detail':59.00,'isFlag':isOpenChecked});
+     list.add({'title':'复诊开药-视频问诊','subTitle':'','detail':59.00,'isFlag':true});
      list.add({'title':'价格','subTitle':'','detail':fee,'isFlag':false});
      list.add({'title':'接诊时间/人数','subTitle':'','detail':'','isFlag':false});
      list.add({'title':'循环排班','detail':20,'subTitle':'开启后将按周自动生成排班','isFlag':isOpenCircular});
@@ -65,19 +67,27 @@ class _HealthConsultServiceState extends State<VideoService> {
                      Navigator.push(context, MaterialPageRoute(builder: (context)=>const TopicPriceSet())).then((value) {
                        if(null != value){
                          list[index]['detail'] = value;
+                         fee = value;
                        setState(() {});
                        }
                        
                      });
                      break;
                    case 2:
-                     Navigator.push(context, MaterialPageRoute(builder: (context)=>ChoiceClinicReceptTimePerson(treatId:treatId))).then((value) {
-                       if(null != value){
-                         list[index]['detail'] = value;
-                         setState(() {});
-                       }
+                     if(treatId == ''){
+                       ToastUtil.showToast(msg: '请先开通时间问诊服务！');
 
-                     });
+                     }else {
+                       Navigator.push(context, MaterialPageRoute(builder: (context)=>ChoiceClinicReceptTimePerson(treatId:treatId))).then((value) {
+                         if(null != value){
+                           list[index]['detail'] = value;
+                           patientCount = value;
+                           setState(() {});
+                         }
+
+                       });
+                     }
+
                      break;
                  }
                },
@@ -108,20 +118,36 @@ class _HealthConsultServiceState extends State<VideoService> {
                 child:Container(
                   alignment: Alignment.bottomCenter,
                   child: CustomSafeAreaButton(
-                    title: '提交审核', onPressed: () async  { 
-                      var res = await HttpRequest.getInstance().post(Api.updateDoctorTimeService, {
-                        "treatId":treatId, 
-                        "treatType": 0,
+                    title: '提交审核', onPressed: () async  {
+                      if(treatId == ''){
+                        var res = await HttpRequest.getInstance().post(Api.insertDoctorTimeService, {
+                        "treatType": 2,
                         "fee": fee,
-                        "state":isOpenChecked,
-                        "patientCount":patientCount
-                      });
-                      print('health+++++-------------------'+res.toString());
-                      if(res['code']==200){
+                        "patientCount":patientCount,
+                        "regType":2
+                        });
+                        if(res['code']==200){
                         Navigator.push(context, MaterialPageRoute(builder: (context)=>const SubmitSuccess()));
-                      }else {                        
+                        }else {
                         Navigator.push(context, MaterialPageRoute(builder: (context)=>const SubmitFail()));
-                      }         
+                        }
+                      }else {
+                        state == 1?isOpenChecked=true:false;
+                        print('state+++++-------------------'+state.toString());
+                        var res = await HttpRequest.getInstance().post(Api.updateDoctorTimeService, {
+                          "treatId":treatId,
+                          "treatType": 2,
+                          "fee": fee,
+                          "state":state,
+                          "patientCount":patientCount
+                        });
+                        print('health+++++-------------------'+res.toString());
+                        if(res['code']==200){
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>const SubmitSuccess()));
+                        }else {
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>const SubmitFail()));
+                        }
+                      }
                     },
                   ),
                 )

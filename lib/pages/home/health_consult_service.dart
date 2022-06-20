@@ -42,7 +42,7 @@ class _HealthConsultServiceState extends State<HealthConsultService> {
     }
     print('state+++++-------------------'+state.toString());
 
-    list.add({'title':'健康咨询','detail':50.00,'isFlag':isChecked});
+    list.add({'title':'健康咨询','detail':50.00,'isFlag':true});
      list.add({'title':'价格','detail':fee,'isFlag':false});
      list.add({'title':'接诊人数','detail':patientCount,'isFlag':false});
   }
@@ -65,6 +65,7 @@ class _HealthConsultServiceState extends State<HealthConsultService> {
                      Navigator.push(context, MaterialPageRoute(builder: (context)=>const TopicPriceSet())).then((value) {
                        if(null != value){
                          list[index]['detail'] = value;
+                         fee = value;
                          setState(() {});
                        }
                      });
@@ -74,6 +75,7 @@ class _HealthConsultServiceState extends State<HealthConsultService> {
                       Navigator.push(context, MaterialPageRoute(builder: (context)=>const ClinicReceptionPersonSet())).then((value) {
                         if(null != value){
                           list[index]['detail'] = value;
+                          patientCount = value;
                           setState(() {});
                         }
                       });
@@ -103,20 +105,35 @@ class _HealthConsultServiceState extends State<HealthConsultService> {
                   alignment: Alignment.bottomCenter,
                   child:  CustomSafeAreaButton(
                     title: '提交', onPressed: () async {
-                        var res = await HttpRequest.getInstance().post(Api.updateDoctorTimeService, 
-                        {
-                        "treatId":treatId, //密码
+                      if(treatId == ''){
+                        var res = await HttpRequest.getInstance().post(Api.insertDoctorTimeService, {
                         "treatType": 1,
                         "fee": fee,
-                        "state":isChecked,
-                        "patientCount":patientCount
-                      });
-                      print('health+++++-------------------'+res.toString());
-                      if(res['code']==200){
+                        "patientCount":patientCount,
+                        "regType":2
+                        });
+                        if(res['code']==200){
                         Navigator.push(context, MaterialPageRoute(builder: (context)=>const SubmitSuccess()));
-                      }else {                        
+                        }else {
                         Navigator.push(context, MaterialPageRoute(builder: (context)=>const SubmitFail()));
-                      }                
+                        }
+                      }else {
+                        var res = await HttpRequest.getInstance().post(Api.updateDoctorTimeService,
+                            {
+                              "treatId":treatId, //密码
+                              "treatType": 1,
+                              "fee": fee,
+                              "state":isChecked,
+                              "patientCount":patientCount
+                            });
+                        print('health+++++-------------------'+res.toString());
+                        if(res['code']==200){
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>const SubmitSuccess()));
+                        }else {
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>const SubmitFail()));
+                        }
+                      }
+
                     },
                   ),
                 )
