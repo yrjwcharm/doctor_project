@@ -24,22 +24,28 @@ import '../home/webviewVC.dart';
 import '../tabs/main.dart';
 
 class RecipeDetail extends StatefulWidget {
-  RecipeDetail({Key? key, required this.rpDetailItem, required this.diagnosis,required this.prescriptionId,required this.registeredId})
+  RecipeDetail(
+      {Key? key,
+      required this.rpDetailItem,
+      required this.diagnosis,
+      required this.prescriptionId,
+      required this.registeredId})
       : super(key: key);
   Map rpDetailItem;
 
   String diagnosis;
-  String prescriptionId; 
+  String prescriptionId;
   String registeredId;
+
   @override
-  _RecipeDetailState createState() =>
-      _RecipeDetailState(this.rpDetailItem, this.diagnosis,this.prescriptionId,this.registeredId);
+  _RecipeDetailState createState() => _RecipeDetailState(this.rpDetailItem,
+      this.diagnosis, this.prescriptionId, this.registeredId);
 }
 
 class _RecipeDetailState extends State<RecipeDetail> {
   Map rpDetailItem;
   String prescriptionId = ''; //处方id
-  String registeredId=''; //挂号Id
+  String registeredId = ''; //挂号Id
   String diagnosis;
   List<dynamic> list = [];
   List<dynamic> herbalMedicineVOS = [];
@@ -50,13 +56,14 @@ class _RecipeDetailState extends State<RecipeDetail> {
   String countNum = '';
   String pharmacistsName = '';
   String auditingTime = '';
-  String  useType_dictText='';
-  String freq_dictText='';
-  String remarks ='';
+  String useType_dictText = '';
+  String freq_dictText = '';
+  String remarks = '';
   bool hasDoctorSign = false;
   Map<String, dynamic> medicineMap = {};
 
-  _RecipeDetailState(this.rpDetailItem, this.diagnosis,this.prescriptionId,this.registeredId);
+  _RecipeDetailState(this.rpDetailItem, this.diagnosis, this.prescriptionId,
+      this.registeredId);
 
   @override
   void initState() {
@@ -125,15 +132,15 @@ class _RecipeDetailState extends State<RecipeDetail> {
         medicineVOS = medicineMap['medicineVOS'];
       }
       // if(medicineMap['countNum'].toString.isNotEmpty) {
-        countNum = medicineMap['countNum'].toString();
+      countNum = medicineMap['countNum'].toString();
       // }
-      if(null !=res['data']['pharName']) {
+      if (null != res['data']['pharName']) {
         pharmacistsName = res['data']['pharName'];
       }
-      auditingTime = res['data']['checkDate']??'';
-      useType_dictText=res['data']['useType_dictText']??'';
-      freq_dictText=res['data']['freq_dictText']??'';
-      remarks = res['data']['remarks']??'';
+      auditingTime = res['data']['checkDate'] ?? '';
+      useType_dictText = res['data']['useType_dictText'] ?? '';
+      freq_dictText = res['data']['freq_dictText'] ?? '';
+      remarks = res['data']['remarks'] ?? '';
       setState(() {});
     }
   }
@@ -156,7 +163,12 @@ class _RecipeDetailState extends State<RecipeDetail> {
       // primary: true,
       appBar: CustomAppBar(
         '处方详情',
-          isForward:hasDoctorSign,child: Text('补签名',style: GSYConstant.textStyle(color: '#06B48D'),),onForwardPressed: (){
+        isForward: hasDoctorSign,
+        child: Text(
+          '补签名',
+          style: GSYConstant.textStyle(color: '#06B48D'),
+        ),
+        onForwardPressed: () {
           getNet_userSignature();
         },
       ),
@@ -252,7 +264,7 @@ class _RecipeDetailState extends State<RecipeDetail> {
                           Text(
                             pharmacistsName,
                             style: GSYConstant.textStyle(
-                            fontSize: 14.0, color: '#666666'),
+                                fontSize: 14.0, color: '#666666'),
                           )
                           // medicineMap['pharmacistSign'] != null
                           //     ? Transform.rotate(
@@ -602,8 +614,10 @@ class _RecipeDetailState extends State<RecipeDetail> {
                                               ),
                                               Text(
                                                 herbalMedicineVOS[index]
-                                                    ['medicineNum'].toString() + herbalMedicineVOS[index]
-                                                    ['packageUnitid_dictText'],
+                                                            ['medicineNum']
+                                                        .toString() +
+                                                    herbalMedicineVOS[index][
+                                                        'packageUnitid_dictText'],
                                                 style: GSYConstant.textStyle(
                                                     fontSize: 14.0,
                                                     color: '#666666'),
@@ -712,39 +726,41 @@ class _RecipeDetailState extends State<RecipeDetail> {
                               ),
                             ),
                           ),
-                          Container(
-                            height: 40.0,
-                            decoration: const BoxDecoration(
-                              color: Colors.white,
-                            ),
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 16.0),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                border: Border(
-                                    bottom: BorderSide(
-                                        width: 1.0,
-                                        color: ColorsUtil.hexStringColor(
-                                            '#cccccc',
-                                            alpha: 0.3))),
-                              ),
-                              child: Row(
-                                children: <Widget>[
-                                  Text(
-                                    '备注',
-                                    style: GSYConstant.textStyle(
-                                        fontSize: 14.0, color: '#333333'),
+                          Visibility(
+                              visible: remarks.isNotEmpty,
+                              child: Container(
+                                height: 40.0,
+                                decoration: const BoxDecoration(
+                                  color: Colors.white,
+                                ),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 16.0),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    border: Border(
+                                        bottom: BorderSide(
+                                            width: 1.0,
+                                            color: ColorsUtil.hexStringColor(
+                                                '#cccccc',
+                                                alpha: 0.3))),
                                   ),
-                                  const SizedBox(width:15.0),
-                                  Text(
-                                    remarks,
-                                    style: GSYConstant.textStyle(
-                                        fontSize: 14.0, color: '#666666'),
+                                  child: Row(
+                                    children: <Widget>[
+                                      Text(
+                                        '备注',
+                                        style: GSYConstant.textStyle(
+                                            fontSize: 14.0, color: '#333333'),
+                                      ),
+                                      const SizedBox(width: 15.0),
+                                      Text(
+                                        remarks,
+                                        style: GSYConstant.textStyle(
+                                            fontSize: 14.0, color: '#666666'),
+                                      ),
+                                    ],
                                   ),
-                                ],
-                              ),
-                            ),
-                          )
+                                ),
+                              ))
                         ])),
                     Visibility(
                       visible: medicineVOS.isNotEmpty,
@@ -946,9 +962,11 @@ class _RecipeDetailState extends State<RecipeDetail> {
                                             borderColor:
                                                 ColorsUtil.hexStringColor(
                                                     '#06B48D')))),
-                                const SizedBox(
+                                Visibility(
+                                  visible: rpDetailItem['status'] == 2,
+                                  child:const SizedBox(
                                   width: 8.0,
-                                ),
+                                ),),
                                 Visibility(
                                     visible: rpDetailItem['status'] == 2 ||
                                         rpDetailItem['status'] == 4,
@@ -1072,9 +1090,12 @@ class _RecipeDetailState extends State<RecipeDetail> {
                                             borderColor:
                                                 ColorsUtil.hexStringColor(
                                                     '#06B48D')))),
-                                const SizedBox(
+                                Visibility(
+                                  visible: rpDetailItem['status'] == 2 ||
+                                      rpDetailItem['status'] == 4,
+                                child: const SizedBox(
                                   width: 8.0,
-                                ),
+                                ),),
                                 Visibility(
                                     visible: rpDetailItem['status'] == 3 ||
                                         rpDetailItem['status'] == 4 ||
