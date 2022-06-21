@@ -26,7 +26,7 @@ class PictureService extends StatefulWidget {
   _HealthConsultServiceState createState() => _HealthConsultServiceState(treatId,fee,patientCount,state);
 }
 
-class _HealthConsultServiceState extends State<PictureService> {
+class _HealthConsultServiceState extends State<PictureService>{
   List list = [];
   bool isChecked = true;
   String treatId;
