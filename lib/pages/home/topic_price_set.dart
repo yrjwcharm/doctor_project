@@ -20,17 +20,18 @@ class _TopicPriceSetState extends State<TopicPriceSet> {
   @override
   void initState() {
     super.initState();
-    list.add({'text': '免费','isSeleted':false});
-    list.add({'text': '10.00','isSeleted':false});
-    list.add({'text': '20.00','isSeleted':false});
-    list.add({'text': '30.00','isSeleted':false});
-    list.add({'text': '40.00','isSeleted':false});
-    list.add({'text': '自定义','isSeleted':false});
+    list.add({'text': '免费', 'isSeleted': false});
+    list.add({'text': '10.00', 'isSeleted': false});
+    list.add({'text': '20.00', 'isSeleted': false});
+    list.add({'text': '30.00', 'isSeleted': false});
+    list.add({'text': '40.00', 'isSeleted': false});
+    list.add({'text': '自定义', 'isSeleted': false});
   }
 
   void showBottomSheet() {
     //用于在底部打开弹框的效果
     showModalBottomSheet(
+        isScrollControlled: true,
         builder: (BuildContext context) {
           //构建弹框中的内容
           return buildBottomSheetWidget(context);
@@ -40,8 +41,8 @@ class _TopicPriceSetState extends State<TopicPriceSet> {
   }
 
   Widget buildBottomSheetWidget(BuildContext context) {
-    return Container(
-      height: 229,
+    return SingleChildScrollView(child:Container(
+      padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
       decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.vertical(top: Radius.circular(20.0))),
@@ -70,13 +71,14 @@ class _TopicPriceSetState extends State<TopicPriceSet> {
                 onChanged: (String value) {
                   price = value;
                 },
-                textStyle: GSYConstant.textStyle(fontSize: 16.0,color: '#333333'),
+                textStyle:
+                    GSYConstant.textStyle(fontSize: 16.0, color: '#333333'),
               )),
           const SizedBox(
             height: 24.0,
           ),
           Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              padding: const EdgeInsets.only(bottom: 16.0,left: 16.0,right: 16.0),
               child: Row(
                 children: [
                   Expanded(
@@ -113,9 +115,8 @@ class _TopicPriceSetState extends State<TopicPriceSet> {
                                 ),
                               ),
                               onPressed: () {
-                                Navigator.pop(context,price);
+                                Navigator.pop(context, price);
                               },
-
                               child: Text(
                                 '确定',
                                 style: GSYConstant.textStyle(
@@ -124,22 +125,20 @@ class _TopicPriceSetState extends State<TopicPriceSet> {
                 ],
               ))
         ],
-      ),
+      ),)
     );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset:false,
+      resizeToAvoidBottomInset: false,
+      appBar:CustomAppBar(
+        '问诊价格设置',
+      ),
       backgroundColor: ColorsUtil.hexStringColor('#f9f9f9'),
       body: Column(
         children: [
-          CustomAppBar(
-            '问诊价格设置',
-            isBack: true,
-            
-          ),
           Container(
             height: 148,
             padding: const EdgeInsets.only(
@@ -169,16 +168,16 @@ class _TopicPriceSetState extends State<TopicPriceSet> {
                             height: 33,
                             child: OutlinedButton(
                                 onPressed: () {
-                                  for(int i = 0;i<list.length;i++){
-                                    list[i]['isSeleted']=false;
+                                  for (int i = 0; i < list.length; i++) {
+                                    list[i]['isSeleted'] = false;
                                   }
                                   if (index == 5) {
                                     showBottomSheet();
-                                  }else {
-                                    list[index]['isSeleted']=true;
-                                    if(index == 0){
+                                  } else {
+                                    list[index]['isSeleted'] = true;
+                                    if (index == 0) {
                                       price = '0';
-                                    }else {
+                                    } else {
                                       price = list[index]['text'];
                                     }
                                     setState(() {});
@@ -190,8 +189,10 @@ class _TopicPriceSetState extends State<TopicPriceSet> {
                                   ),
                                   side: BorderSide(
                                       width: 1,
-                                      color:
-                                      list[index]['isSeleted']==true?ColorsUtil.hexStringColor('#06B48D'):ColorsUtil.hexStringColor('#cccccc')),
+                                      color: list[index]['isSeleted'] == true
+                                          ? ColorsUtil.hexStringColor('#06B48D')
+                                          : ColorsUtil.hexStringColor(
+                                              '#cccccc')),
                                 ),
                                 child: Text(
                                   list[index]['text'],
@@ -208,8 +209,9 @@ class _TopicPriceSetState extends State<TopicPriceSet> {
               child: Container(
             alignment: Alignment.bottomCenter,
             child: CustomSafeAreaButton(
+              margin: const EdgeInsets.only(bottom: 16.0),
               onPressed: () {
-                Navigator.pop(context,price);
+                Navigator.pop(context, price);
               },
               title: '确定',
             ),

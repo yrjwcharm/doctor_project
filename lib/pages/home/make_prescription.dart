@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:math';
+import 'package:doctor_project/pages/home/add_common_template.dart';
 import 'package:doctor_project/pages/home/add_western_drug_list.dart';
 import 'package:doctor_project/pages/home/diagnosis.dart';
 import 'package:doctor_project/utils/picker_utils.dart';
@@ -560,12 +561,9 @@ class _MakePrescriptionState extends State<MakePrescription> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: CustomAppBar(
-        '开处方',
-        isBack: true,
-        onBackPressed: () {
-          Navigator.of(context).pop(this);
-        },
-      ),
+        '开处方',isForward:true,onForwardPressed: (){
+          Navigator.push(context,MaterialPageRoute(builder: (context)=>const AddCommonTemplate()));
+      }, child:Text('另存为',style: GSYConstant.textStyle(fontSize: 16.0,color: '#00b78b'),)),
       backgroundColor: ColorsUtil.bgColor,
       body: Column(children: <Widget>[
         Expanded(

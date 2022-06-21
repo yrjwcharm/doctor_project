@@ -957,8 +957,7 @@ class _RecipeDetailState extends State<RecipeDetail> {
                                         child: CustomOutlineButton(
                                             title: '再次提交',
                                             onPressed: () {},
-                                            borderRadius:
-                                                BorderRadius.circular(5.0),
+                                            borderRadius: BorderRadius.circular(5.0),
                                             borderColor:
                                                 ColorsUtil.hexStringColor(
                                                     '#06B48D')))),

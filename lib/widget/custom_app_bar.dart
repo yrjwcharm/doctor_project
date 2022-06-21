@@ -68,7 +68,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                       padding: EdgeInsets.zero,
                     ),
                     onPressed: onForwardPressed, child:child!)
-            ):Container(child:const Text(''))
+            ):const SizedBox(child:Text(''))
             )
           ],
         ),
