@@ -81,7 +81,6 @@ class _ServiceSettingsState extends State<ServiceSettings> {
           for (int i = 0;i<dataList.length;i++){
             if (dataList[i]['treatType']== 0){
               settinglist[0]['state'] = dataList[i]['state']??'';
-              print('dataList State ===='+dataList[i]['state'].toString());
               print('settinglist State ===='+settinglist[i]['state'].toString());
 
               settinglist[0]['fee'] = dataList[i]['fee']??'';
@@ -102,14 +101,18 @@ class _ServiceSettingsState extends State<ServiceSettings> {
 
             }
           }
-          for(int i = 0;i<3;i++){
-            list.add(ServiceSettingsBean(settinglist[i]['icon'],settinglist[i]['title'],settinglist[i]['subtitle'],settinglist[i]['state']==1 ?'已开通':'未开通',settinglist[i]['state'],settinglist[i]['treatType'],''));
+          if(list.isEmpty){
+            for(int i = 0;i<3;i++){
+              list.add(ServiceSettingsBean(settinglist[i]['icon'],settinglist[i]['title'],settinglist[i]['subtitle'],settinglist[i]['state']==1 ?'已开通':'未开通',settinglist[i]['state'],settinglist[i]['treatType'],''));
+            }
+          }else {
+            list.clear();
+            for(int i = 0;i<3;i++){
+              list.add(ServiceSettingsBean(settinglist[i]['icon'],settinglist[i]['title'],settinglist[i]['subtitle'],settinglist[i]['state']==1 ?'已开通':'未开通',settinglist[i]['state'],settinglist[i]['treatType'],''));
+            }
           }
 
-//        }
-
-
-        print('settinglist ===='+settinglist.toString());
+//        print('settinglist ===='+settinglist.toString());
       });
     } else {
       ToastUtil.showToast(msg: res['msg']);
@@ -151,11 +154,30 @@ class _ServiceSettingsState extends State<ServiceSettings> {
             children:ListTile.divideTiles(
                 tiles:list.asMap().keys.map((index) =>buildListTile(list[index].icon, list[index].title, list[index].subTitle, list[index].detailTitle, list[index].status,callback: () {
                   if (settinglist[index]['treatType']== 0){
-                    Navigator.push(context,MaterialPageRoute(settings: RouteSettings(name:"ServiceSettings"),builder: (context)=>PictureService(treatId:settinglist[index]['treatId'].toString(),fee:settinglist[index]['fee'].toString(),patientCount:settinglist[index]['patientCount'].toString(),state:settinglist[index]['state'])));
+                    Navigator.push(context,MaterialPageRoute(settings: RouteSettings(name:"ServiceSettings"),builder: (context)=>PictureService(treatId:settinglist[index]['treatId'].toString(),fee:settinglist[index]['fee'].toString(),patientCount:settinglist[index]['patientCount'].toString(),state:settinglist[index]['state']))).then((value) {
+
+                        setState(() {
+                          getData();
+
+
+                        });
+                    });
                   }else if (settinglist[index]['treatType']== 1) {
-                    Navigator.push(context,MaterialPageRoute(settings: RouteSettings(name:"ServiceSettings"),builder: (context)=>HealthConsultService(treatId:settinglist[index]['treatId'].toString(),fee:settinglist[index]['fee'].toString(),patientCount:settinglist[index]['patientCount'].toString(),state:settinglist[index]['state'])));
+                    Navigator.push(context,MaterialPageRoute(settings: RouteSettings(name:"ServiceSettings"),builder: (context)=>HealthConsultService(treatId:settinglist[index]['treatId'].toString(),fee:settinglist[index]['fee'].toString(),patientCount:settinglist[index]['patientCount'].toString(),state:settinglist[index]['state']))).then((value) {
+
+                        setState(() {
+                          getData();
+
+                        });
+                    });
                   }else if (settinglist[index]['treatType']== 2) {
-                    Navigator.push(context,MaterialPageRoute(settings: RouteSettings(name:"ServiceSettings"),builder: (context)=>VideoService(treatId:settinglist[index]['treatId'].toString(),fee:settinglist[index]['fee'].toString(),patientCount:settinglist[index]['patientCount'].toString(),state:settinglist[index]['state'])));
+                    Navigator.push(context,MaterialPageRoute(settings: RouteSettings(name:"ServiceSettings"),builder: (context)=>VideoService(treatId:settinglist[index]['treatId'].toString(),fee:settinglist[index]['fee'].toString(),patientCount:settinglist[index]['patientCount'].toString(),state:settinglist[index]['state']))).then((value) {
+                        setState(() {
+                          getData();
+
+                        });
+
+                    });
                   }
                 },
                 )),color: ColorsUtil.hexStringColor('#cccccc',alpha: 0.3)

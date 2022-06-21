@@ -130,7 +130,7 @@ class _HealthConsultServiceState extends State<PictureService> {
                           "treatId":treatId,
                           "treatType": 0,
                           "fee": fee,
-                          "state":state,
+                          "state":isChecked,
                           "patientCount":patientCount
 
                         });

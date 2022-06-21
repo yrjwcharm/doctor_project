@@ -132,13 +132,11 @@ class _HealthConsultServiceState extends State<VideoService> {
                         Navigator.push(context, MaterialPageRoute(builder: (context)=>const SubmitFail()));
                         }
                       }else {
-                        state == 1?isOpenChecked=true:false;
-                        print('state+++++-------------------'+state.toString());
                         var res = await HttpRequest.getInstance().post(Api.updateDoctorTimeService, {
                           "treatId":treatId,
                           "treatType": 2,
                           "fee": fee,
-                          "state":state,
+                          "state":isOpenChecked,
                           "patientCount":patientCount
                         });
                         print('health+++++-------------------'+res.toString());
