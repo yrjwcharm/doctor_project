@@ -118,6 +118,7 @@ class _HealthConsultServiceState extends State<VideoService> {
                 child:Container(
                   alignment: Alignment.bottomCenter,
                   child: CustomSafeAreaButton(
+                    margin: const EdgeInsets.only(bottom: 16.0),
                     title: '提交审核', onPressed: () async  {
                       if(treatId == ''){
                         var res = await HttpRequest.getInstance().post(Api.insertDoctorTimeService, {

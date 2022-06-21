@@ -3,6 +3,7 @@ import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:doctor_project/utils/svg_util.dart';
 import 'package:doctor_project/widget/custom_app_bar.dart';
 import 'package:doctor_project/widget/custom_elevated_button.dart';
+import 'package:doctor_project/widget/custom_safeArea_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -276,19 +277,9 @@ class _DoctorQualificationState extends State<DoctorQualification> {
                 ],
               ),
             )),
-            Container(
-              margin: const EdgeInsets.only(top: 20.0),
-              child:SafeArea(
-                child: CustomElevatedButton(
-                  primary: '#999999',
-                  borderRadius: BorderRadius.circular(0.0),
-                  onPressed: () { 
-                  
-                }, title: '提交审核',
-
-                ),
-              ),
-            )
+           CustomSafeAreaButton(
+             margin: const EdgeInsets.only(bottom: 16.0),
+             onPressed: (){},title: '提交审核',)
           ],)
       ),
     );
