@@ -41,6 +41,7 @@ class _ClinicReceptionPersonSetState extends State<ClinicReceptionPersonSet> {
 
   Widget buildBottomSheetWidget(BuildContext context) {
     return Container(
+
       height: 229,
       decoration: const BoxDecoration(
           color: Colors.white,
@@ -67,7 +68,9 @@ class _ClinicReceptionPersonSetState extends State<ClinicReceptionPersonSet> {
               ),
               child: CustomInputWidget(
                 hintText: '请输入自定义人数，1～100',
-                onChanged: (String value) {}, textStyle: TextStyle(fontSize: 16.0, color: ColorsUtil.hexStringColor('#666666')),
+                onChanged: (String value) {
+                  personStr = value;
+                }, textStyle: TextStyle(fontSize: 16.0, color: ColorsUtil.hexStringColor('#666666')),
               )),
           const SizedBox(
             height: 24.0,
@@ -110,7 +113,7 @@ class _ClinicReceptionPersonSetState extends State<ClinicReceptionPersonSet> {
                                 ),
                               ),
                               onPressed: () {
-                                Navigator.pop(context);
+                                Navigator.pop(context,personStr);
                               },
 
                               child: Text(
@@ -128,6 +131,7 @@ class _ClinicReceptionPersonSetState extends State<ClinicReceptionPersonSet> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset:false,
       backgroundColor: ColorsUtil.hexStringColor('#f9f9f9'),
       body: Column(
         children: [

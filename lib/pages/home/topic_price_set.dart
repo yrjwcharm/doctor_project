@@ -67,7 +67,10 @@ class _TopicPriceSetState extends State<TopicPriceSet> {
               ),
               child: CustomInputWidget(
                 hintText: '请输入自定义金额，1～200',
-                onChanged: (String value) {}, textStyle: GSYConstant.textStyle(fontSize: 16.0,color: '#333333'),
+                onChanged: (String value) {
+                  price = value;
+                },
+                textStyle: GSYConstant.textStyle(fontSize: 16.0,color: '#333333'),
               )),
           const SizedBox(
             height: 24.0,
@@ -100,10 +103,24 @@ class _TopicPriceSetState extends State<TopicPriceSet> {
                     width: 8.0,
                   ),
                   Expanded(
-                      child: Container(
-                        alignment: Alignment.bottomCenter,
-                        child:CustomSafeAreaButton(height: 50, onPressed: () {  }, title: '确定',) ,
-                      ))
+                      child: SizedBox(
+                          height: 50,
+                          child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                primary: ColorsUtil.hexStringColor('#f9f9f9'),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(25.0),
+                                ),
+                              ),
+                              onPressed: () {
+                                Navigator.pop(context,price);
+                              },
+
+                              child: Text(
+                                '确定',
+                                style: GSYConstant.textStyle(
+                                    fontSize: 16.0, color: '#666660'),
+                              ))))
                 ],
               ))
         ],
@@ -114,6 +131,7 @@ class _TopicPriceSetState extends State<TopicPriceSet> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset:false,
       backgroundColor: ColorsUtil.hexStringColor('#f9f9f9'),
       body: Column(
         children: [
@@ -158,8 +176,11 @@ class _TopicPriceSetState extends State<TopicPriceSet> {
                                     showBottomSheet();
                                   }else {
                                     list[index]['isSeleted']=true;
-                                    print('list---'+list.toString());
-                                    price = list[index]['text'];
+                                    if(index == 0){
+                                      price = '0';
+                                    }else {
+                                      price = list[index]['text'];
+                                    }
                                     setState(() {});
                                   }
                                 },

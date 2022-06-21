@@ -209,6 +209,8 @@ class _ChoiceClinicReceptTimePersonState
                         if(list[chooseDay]['timeList'].length == 0){
                           insertTime('09:00', chooseDay+1, '10:00', '20');
                         }else if(list[chooseDay]['timeList'].length == 1){
+                          String startTime = list[chooseDay]['timeList'][0]["startTime"];
+
                           insertTime('10:00', chooseDay+1, '11:00', '20');
                         }else if(list[chooseDay]['timeList'].length == 2){
                           insertTime('11:00', chooseDay+1, '12:00', '20');
