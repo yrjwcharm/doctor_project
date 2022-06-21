@@ -143,7 +143,7 @@ class HomeState extends State<Home> {
         isMore = true;
       });
     } else {
-      ToastUtil.showToast(msg: res['msg']);
+      // ToastUtil.showToast(msg: res['msg']);
     }
   }
 
