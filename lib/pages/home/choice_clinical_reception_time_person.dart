@@ -206,7 +206,22 @@ class _ChoiceClinicReceptTimePersonState
                         onTap: () {
 
 //                          setState(() {});
-                        insertTime('15:00', chooseDay+1, '16:00', '20');
+                        if(list[chooseDay]['timeList'].length == 0){
+                          insertTime('09:00', chooseDay+1, '10:00', '20');
+                        }else if(list[chooseDay]['timeList'].length == 1){
+                          insertTime('10:00', chooseDay+1, '11:00', '20');
+                        }else if(list[chooseDay]['timeList'].length == 2){
+                          insertTime('11:00', chooseDay+1, '12:00', '20');
+                        }else if(list[chooseDay]['timeList'].length == 3){
+                          insertTime('13:00', chooseDay+1, '14:00', '20');
+                        }else if(list[chooseDay]['timeList'].length == 4){
+                          insertTime('14:00', chooseDay+1, '15:00', '20');
+                        }else if(list[chooseDay]['timeList'].length == 5){
+                          insertTime('15:00', chooseDay+1, '16:00', '20');
+                        }else if(list[chooseDay]['timeList'].length == 6){
+                          insertTime('16:00', chooseDay+1, '17:00', '20');
+                        }
+
                         },
                         child: SvgUtil.svg('add_time.svg'),
                       )
@@ -419,7 +434,7 @@ class _ChoiceClinicReceptTimePersonState
           CustomSafeAreaButton(
             margin: const EdgeInsets.only(bottom: 16.0),
             onPressed: () {
-              Navigator.pop(context,'10人');
+              Navigator.pop(context,20);
             },
             title: '提交',
           )

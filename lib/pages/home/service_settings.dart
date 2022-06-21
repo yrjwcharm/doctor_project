@@ -38,8 +38,8 @@ class _ServiceSettingsState extends State<ServiceSettings> {
         'title': '图文问诊-复诊开药',
         'subtitle': '图文方式的问诊服务',
         'state': 0,
-        'fee':'',
-        'patientCount':'',
+        'fee':'0',
+        'patientCount':'0',
         'treatType':0
       },
       {
@@ -48,18 +48,18 @@ class _ServiceSettingsState extends State<ServiceSettings> {
         'title': '健康咨询',
         'subtitle': '开通图文方式的咨询服务，无需处方',
         'state': 0,
-        'fee':'',
-        'patientCount':'',
+        'fee':'0',
+        'patientCount':'0',
         'treatType':1
       },
       {
         'treatId' : '',
         'icon': 'assets/images/home/video.png',
-        'title': '健康咨询',
+        'title': '视频问诊',
         'subtitle': '患者预约后进行视频问诊服务',
         'state': 0,
-        'fee':'',
-        'patientCount':'',
+        'fee':'0',
+        'patientCount':'0',
         'treatType':2
       }
     ];
@@ -75,34 +75,40 @@ class _ServiceSettingsState extends State<ServiceSettings> {
         setState(() {
         dataList = res['data'];
         print('dataList22222 ===='+dataList.toString());
+//        if(dataList.length == 0){
 
-        for (int i = 0;i<dataList.length;i++){
-          if (dataList[i]['treatType']== 0){
-            settinglist[0]['state'] = dataList[i]['state']??'';
-            print('dataList State ===='+dataList[i]['state'].toString());
-            print('settinglist State ===='+settinglist[i]['state'].toString());
+//        }else {
+          for (int i = 0;i<dataList.length;i++){
+            if (dataList[i]['treatType']== 0){
+              settinglist[0]['state'] = dataList[i]['state']??'';
+              print('dataList State ===='+dataList[i]['state'].toString());
+              print('settinglist State ===='+settinglist[i]['state'].toString());
 
-            settinglist[0]['fee'] = dataList[i]['fee']??'';
-            settinglist[0]['patientCount'] = dataList[i]['patientCount']??'';
-            settinglist[0]['treatId'] = dataList[i]['treatId']??'';
+              settinglist[0]['fee'] = dataList[i]['fee']??'';
+              settinglist[0]['patientCount'] = dataList[i]['patientCount']??'';
+              settinglist[0]['treatId'] = dataList[i]['treatId']??'';
 
-          }else if (dataList[i]['treatType']== 1) {
-            settinglist[1]['state'] = dataList[i]['state']??'';
-            settinglist[1]['fee'] = dataList[i]['fee']??'';
-            settinglist[1]['patientCount'] = dataList[i]['patientCount']??'';
-            settinglist[1]['treatId'] = dataList[i]['treatId']??'';
+            }else if (dataList[i]['treatType']== 1) {
+              settinglist[1]['state'] = dataList[i]['state']??'';
+              settinglist[1]['fee'] = dataList[i]['fee']??'';
+              settinglist[1]['patientCount'] = dataList[i]['patientCount']??'';
+              settinglist[1]['treatId'] = dataList[i]['treatId']??'';
 
-          }else if(dataList[i]['treatType']== 2) {
-            settinglist[2]['state'] = dataList[i]['state']??'';
-            settinglist[2]['fee'] = dataList[i]['fee']??'';
-            settinglist[2]['patientCount'] = dataList[i]['patientCount']??'';
-            settinglist[2]['treatId'] = dataList[i]['treatId']??'';
+            }else if(dataList[i]['treatType']== 2) {
+              settinglist[2]['state'] = dataList[i]['state']??'';
+              settinglist[2]['fee'] = dataList[i]['fee']??'';
+              settinglist[2]['patientCount'] = dataList[i]['patientCount']??'';
+              settinglist[2]['treatId'] = dataList[i]['treatId']??'';
 
+            }
           }
-        }
-        for(int i = 0;i<3;i++){
-          list.add(ServiceSettingsBean(settinglist[i]['icon'],settinglist[i]['title'],settinglist[i]['subtitle'],settinglist[i]['state']==1 ?'已开通':'未开通',settinglist[i]['state'],settinglist[i]['treatType'],''));
-        }
+          for(int i = 0;i<3;i++){
+            list.add(ServiceSettingsBean(settinglist[i]['icon'],settinglist[i]['title'],settinglist[i]['subtitle'],settinglist[i]['state']==1 ?'已开通':'未开通',settinglist[i]['state'],settinglist[i]['treatType'],''));
+          }
+
+//        }
+
+
         print('settinglist ===='+settinglist.toString());
       });
     } else {
@@ -146,12 +152,11 @@ class _ServiceSettingsState extends State<ServiceSettings> {
                 tiles:list.asMap().keys.map((index) =>buildListTile(list[index].icon, list[index].title, list[index].subTitle, list[index].detailTitle, list[index].status,callback: () {
                   if (settinglist[index]['treatType']== 0){
                     Navigator.push(context,MaterialPageRoute(settings: RouteSettings(name:"ServiceSettings"),builder: (context)=>PictureService(treatId:settinglist[index]['treatId'].toString(),fee:settinglist[index]['fee'].toString(),patientCount:settinglist[index]['patientCount'].toString(),state:settinglist[index]['state'])));
-                  }else if (dataList[index]['treatType']== 1) {
+                  }else if (settinglist[index]['treatType']== 1) {
                     Navigator.push(context,MaterialPageRoute(settings: RouteSettings(name:"ServiceSettings"),builder: (context)=>HealthConsultService(treatId:settinglist[index]['treatId'].toString(),fee:settinglist[index]['fee'].toString(),patientCount:settinglist[index]['patientCount'].toString(),state:settinglist[index]['state'])));
-                  }else if (dataList[index]['treatType']== 2) {
+                  }else if (settinglist[index]['treatType']== 2) {
                     Navigator.push(context,MaterialPageRoute(settings: RouteSettings(name:"ServiceSettings"),builder: (context)=>VideoService(treatId:settinglist[index]['treatId'].toString(),fee:settinglist[index]['fee'].toString(),patientCount:settinglist[index]['patientCount'].toString(),state:settinglist[index]['state'])));
                   }
-
                 },
                 )),color: ColorsUtil.hexStringColor('#cccccc',alpha: 0.3)
             ).toList(),
