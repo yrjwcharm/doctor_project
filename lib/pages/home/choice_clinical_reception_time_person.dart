@@ -9,6 +9,7 @@ import 'package:doctor_project/widget/custom_safeArea_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'dart:math';
 //import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 //import 'package:flutter_cupertino_datetime_picker/flutter_cupertino_datetime_picker.dart';
 import 'package:date_time_picker/date_time_picker.dart';
@@ -54,7 +55,6 @@ class _ChoiceClinicReceptTimePersonState
   void initState() {
     super.initState();
     getData();
-
     list = [
       {
         'day': '周一',
@@ -128,7 +128,7 @@ class _ChoiceClinicReceptTimePersonState
         for (int i = 0; i < dataList.length; i++) {
           int weekDay = dataList[i]['weekDay'];
           print('weekDay--- ====' + weekDay.toString());
-          list[weekDay-1]['timeList'].add(dataList[i]);
+          list[weekDay - 1]['timeList'].add(dataList[i]);
         }
         print('timeList----List ====' + list.toString());
       });
@@ -140,39 +140,43 @@ class _ChoiceClinicReceptTimePersonState
   Future deleteTime(String id) async {
     var request = HttpRequest.getInstance();
     var res =
-    await request.post(Api.checkUpdateDetail, {
-      'id':id,
-      'useflag':'0'
-    });
+        await request.post(Api.checkUpdateDetail, {'id': id, 'useflag': '0'});
     if (res['code'] == 200) {
       setState(() {});
-    }else{
+    } else {
       ToastUtil.showToast(msg: res['msg']);
     }
   }
 
-  Future insertTime(String startTime,int weekDay,String endTime,String patientCount) async {
+  Future insertTime(String startTime, int weekDay, String endTime,
+      String patientCount) async {
     var request = HttpRequest.getInstance();
-    print('insertTime ====weekDay' + weekDay.toString() +'startTime  '+startTime +'endTime  '+endTime+' patientCount '+patientCount);
+    print('insertTime ====weekDay' +
+        weekDay.toString() +
+        'startTime  ' +
+        startTime +
+        'endTime  ' +
+        endTime +
+        ' patientCount ' +
+        patientCount);
 
-    var res =
-    await request.post(Api.checkInsertDetail, {
-      'treatId':treatId,
-      'weekDay':weekDay,
-      'startTime':startTime,
-      'endTime':endTime,
-      'patientCount':patientCount
+    var res = await request.post(Api.checkInsertDetail, {
+      'treatId': treatId,
+      'weekDay': weekDay,
+      'startTime': startTime,
+      'endTime': endTime,
+      'patientCount': patientCount
     });
 
     if (res['code'] == 200) {
-      list[weekDay-1]['timeList'].add({
+      list[weekDay - 1]['timeList'].add({
         'startTime': startTime,
         'endTime': endTime,
         'patientCount': patientCount,
-        'weekDay':weekDay
+        'weekDay': weekDay
       });
       setState(() {});
-    }else{
+    } else {
       ToastUtil.showToast(msg: res['msg']);
     }
   }
@@ -204,26 +208,25 @@ class _ChoiceClinicReceptTimePersonState
                       ),
                       GestureDetector(
                         onTap: () {
-
 //                          setState(() {});
-                        if(list[chooseDay]['timeList'].length == 0){
-                          insertTime('09:00', chooseDay+1, '10:00', '20');
-                        }else if(list[chooseDay]['timeList'].length == 1){
-                          String startTime = list[chooseDay]['timeList'][0]["startTime"];
+                          if (list[chooseDay]['timeList'].length == 0) {
+                            insertTime('09:00', chooseDay + 1, '10:00', '20');
+                          } else if (list[chooseDay]['timeList'].length == 1) {
+                            String startTime =
+                                list[chooseDay]['timeList'][0]["startTime"];
 
-                          insertTime('10:00', chooseDay+1, '11:00', '20');
-                        }else if(list[chooseDay]['timeList'].length == 2){
-                          insertTime('11:00', chooseDay+1, '12:00', '20');
-                        }else if(list[chooseDay]['timeList'].length == 3){
-                          insertTime('13:00', chooseDay+1, '14:00', '20');
-                        }else if(list[chooseDay]['timeList'].length == 4){
-                          insertTime('14:00', chooseDay+1, '15:00', '20');
-                        }else if(list[chooseDay]['timeList'].length == 5){
-                          insertTime('15:00', chooseDay+1, '16:00', '20');
-                        }else if(list[chooseDay]['timeList'].length == 6){
-                          insertTime('16:00', chooseDay+1, '17:00', '20');
-                        }
-
+                            insertTime('10:00', chooseDay + 1, '11:00', '20');
+                          } else if (list[chooseDay]['timeList'].length == 2) {
+                            insertTime('11:00', chooseDay + 1, '12:00', '20');
+                          } else if (list[chooseDay]['timeList'].length == 3) {
+                            insertTime('13:00', chooseDay + 1, '14:00', '20');
+                          } else if (list[chooseDay]['timeList'].length == 4) {
+                            insertTime('14:00', chooseDay + 1, '15:00', '20');
+                          } else if (list[chooseDay]['timeList'].length == 5) {
+                            insertTime('15:00', chooseDay + 1, '16:00', '20');
+                          } else if (list[chooseDay]['timeList'].length == 6) {
+                            insertTime('16:00', chooseDay + 1, '17:00', '20');
+                          }
                         },
                         child: SvgUtil.svg('add_time.svg'),
                       )
@@ -268,7 +271,6 @@ class _ChoiceClinicReceptTimePersonState
                                                 if (mapEquals(
                                                     item, list[index]))
                                                   item['checked'] = true,
-
                                               });
                                           setState(() {});
                                         },
@@ -327,13 +329,13 @@ class _ChoiceClinicReceptTimePersonState
                                       child: Row(
                                         children: <Widget>[
                                           GestureDetector(
-                                            onTap: () async {
-                                            },
+                                            onTap: () async {},
                                             child: SizedBox(
                                               width:
                                                   ScreenUtil().setWidth(53.0),
                                               child: Text(
-                                                list[chooseDay]['timeList'][index]['startTime'],
+                                                list[chooseDay]['timeList']
+                                                    [index]['startTime'],
                                                 style: GSYConstant.textStyle(
                                                     fontSize:
                                                         ScreenUtil().setSp(13),
@@ -355,13 +357,13 @@ class _ChoiceClinicReceptTimePersonState
                                             width: 7.0,
                                           ),
                                           GestureDetector(
-                                            onTap: () async {
-                                            },
+                                            onTap: () async {},
                                             child: SizedBox(
                                               width:
                                                   ScreenUtil().setWidth(53.0),
                                               child: Text(
-                                                list[chooseDay]['timeList'][index]['endTime'],
+                                                list[chooseDay]['timeList']
+                                                    [index]['endTime'],
                                                 style: GSYConstant.textStyle(
                                                     fontSize:
                                                         ScreenUtil().setSp(13),
@@ -402,7 +404,10 @@ class _ChoiceClinicReceptTimePersonState
                                             fillColor: Colors.transparent,
                                             filled: true,
                                             isCollapsed: true,
-                                            hintText: list[chooseDay]['timeList'][index]['patientCount'].toString(),
+                                            hintText: list[chooseDay]
+                                                        ['timeList'][index]
+                                                    ['patientCount']
+                                                .toString(),
                                             border: InputBorder.none,
                                             hintStyle: GSYConstant.textStyle(
                                                 fontSize:
@@ -410,18 +415,24 @@ class _ChoiceClinicReceptTimePersonState
                                                 color: '#333333')),
                                       ),
                                     ),
-                                    const SizedBox(
-                                      width: 20.0,
-                                    ),
+                                    // const SizedBox(
+                                    //   width: 20.0,
+                                    // ),
                                     GestureDetector(
+                                      behavior: HitTestBehavior.translucent,
                                       onTap: () {
                                         setState(() {
-                                          list[chooseDay]['timeList'].removeAt(index);
-                                          deleteTime(list[chooseDay]['timeList'][index]['id']);
+                                          list[chooseDay]['timeList']
+                                              .removeAt(index);
+                                          deleteTime(list[chooseDay]['timeList']
+                                              [index]['id']);
 //                                          setState(() {});
                                         });
                                       },
-                                      child: SvgUtil.svg('minus.svg'),
+                                      child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 10.0),
+                                          child: SvgUtil.svg('minus.svg')),
                                     )
                                   ],
                                 ),
@@ -436,7 +447,7 @@ class _ChoiceClinicReceptTimePersonState
           CustomSafeAreaButton(
             margin: const EdgeInsets.only(bottom: 16.0),
             onPressed: () {
-              Navigator.pop(context,20);
+              Navigator.pop(context, 20);
             },
             title: '提交',
           )

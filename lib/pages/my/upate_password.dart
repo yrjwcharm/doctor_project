@@ -62,6 +62,7 @@ class _UpdatePasswordState extends State<UpdatePassword> {
                       contentPadding:  EdgeInsets.only(left: ScreenUtil().setWidth(30.0)),
                       suffixIconConstraints: const BoxConstraints(),
                       suffixIcon: GestureDetector(
+                        behavior: HitTestBehavior.opaque,
                         onTap: () {
                           setState(() {
                             obscure = !obscure;
