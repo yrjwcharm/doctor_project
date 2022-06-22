@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 //import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 //import 'package:flutter_cupertino_datetime_picker/flutter_cupertino_datetime_picker.dart';
 import 'package:date_time_picker/date_time_picker.dart';
+import 'dart:math';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../http/http_request.dart';
@@ -36,6 +37,7 @@ class _ChoiceClinicReceptTimePersonState
   List list = [];
   List timeList = [];
   List dataList = [];
+  List startTimeList = [];
   String patientCount = '';
   int weekDay = 0;
   bool isOpen = false;
@@ -120,24 +122,59 @@ class _ChoiceClinicReceptTimePersonState
     var request = HttpRequest.getInstance();
     var res =
         await request.get(Api.checkDetailByTreatId + '?treatId=$treatId', {});
+
     if (res['code'] == 200) {
       setState(() {
         dataList = res['data'];
-        print('timeList ====' + list.toString());
-
         for (int i = 0; i < dataList.length; i++) {
           int weekDay = dataList[i]['weekDay'];
-          print('weekDay--- ====' + weekDay.toString());
           list[weekDay-1]['timeList'].add(dataList[i]);
         }
-        print('timeList----List ====' + list.toString());
       });
     } else {
       ToastUtil.showToast(msg: res['msg']);
     }
   }
 
-  Future deleteTime(String id) async {
+  Future reloadData() async {
+    var request = HttpRequest.getInstance();
+    var res =
+    await request.get(Api.checkDetailByTreatId + '?treatId=$treatId', {});
+    if (res['code']==200){
+      setState(() {
+        dataList = res['data'];
+        for (int i = 0; i < dataList.length; i++) {
+          int weekDay = dataList[i]['weekDay'];
+          if(list[weekDay-1]['timeList'].length>0){
+            list[weekDay-1]['timeList'].clear();
+          }
+        }
+        for (int i = 0; i < dataList.length; i++) {
+          int weekDay = dataList[i]['weekDay'];
+          list[weekDay-1]['timeList'].add(dataList[i]);
+        }
+      });
+    } else {
+      ToastUtil.showToast(msg: res['msg']);
+    }
+  }
+
+  Future updateTime(int id,String patientCount) async {
+    var request = HttpRequest.getInstance();
+    var res =
+    await request.post(Api.checkUpdateDetail, {
+      'id':id,
+      'patientCount':patientCount
+    });
+    print("updateTime+++++++++++++"+res.toString());
+    if (res['code'] == 200) {
+      setState(() {});
+    }else{
+      ToastUtil.showToast(msg: res['msg']);
+    }
+  }
+
+  Future deleteTime(int id,index) async {
     var request = HttpRequest.getInstance();
     var res =
     await request.post(Api.checkUpdateDetail, {
@@ -145,6 +182,7 @@ class _ChoiceClinicReceptTimePersonState
       'useflag':'0'
     });
     if (res['code'] == 200) {
+      reloadData();
       setState(() {});
     }else{
       ToastUtil.showToast(msg: res['msg']);
@@ -165,12 +203,13 @@ class _ChoiceClinicReceptTimePersonState
     });
 
     if (res['code'] == 200) {
-      list[weekDay-1]['timeList'].add({
-        'startTime': startTime,
-        'endTime': endTime,
-        'patientCount': patientCount,
-        'weekDay':weekDay
-      });
+//      list[weekDay-1]['timeList'].add({
+//        'startTime': startTime,
+//        'endTime': endTime,
+//        'patientCount': patientCount,
+//        'weekDay':weekDay
+//      });
+      reloadData();
       setState(() {});
     }else{
       ToastUtil.showToast(msg: res['msg']);
@@ -206,26 +245,82 @@ class _ChoiceClinicReceptTimePersonState
                         onTap: () {
 
 //                          setState(() {});
-                        if(list[chooseDay]['timeList'].length == 0){
-                          insertTime('09:00', chooseDay+1, '10:00', '20');
-                        }else if(list[chooseDay]['timeList'].length == 1){
-                          String startTime = list[chooseDay]['timeList'][0]["startTime"];
+                          startTimeList.clear();
+                        for(int i = 0;i < list[chooseDay]['timeList'].length;i++){
+                          String startTime = list[chooseDay]['timeList'][i]["startTime"];
+                          startTime=startTime.substring(0,2);
+                          startTimeList.add(int.parse(startTime));
+                        }
+                        startTimeList.sort((left,right)=>left.compareTo(right));
+                        print("startTimeList--------"+startTimeList.toString());
+                        if(list[chooseDay]['timeList'].length >0){
+                          final min_num = startTimeList.cast<num>().reduce(min);
+                          final max_num = startTimeList.cast<num>().reduce(max);
+                          print("min_num=="+min_num.toString()+"\nmax_num==="+max_num.toString()+"\n");
+                          final m = max_num-min_num;
+                          if(m==1){
+                            final time = max_num+1;
+                            final end_time = max_num+2;
+                            String newStartTime = time.toString()+':00';
+                            String newEndTime = end_time.toString()+':00';
+                            print("newStartTime=="+newStartTime+"\newEndTime==="+newEndTime+"\n");
+                            insertTime(newStartTime, chooseDay+1, newEndTime, '20');
+                          }else if(m>1){
+                            print("----------------in11111111------------");
+                            print("-------list[chooseDay]['timeList'].length-----------"+list[chooseDay]['timeList'].length.toString());
+                            print("-------m==-------"+m.toString());
 
-                          insertTime('10:00', chooseDay+1, '11:00', '20');
-                        }else if(list[chooseDay]['timeList'].length == 2){
-                          insertTime('11:00', chooseDay+1, '12:00', '20');
-                        }else if(list[chooseDay]['timeList'].length == 3){
-                          insertTime('13:00', chooseDay+1, '14:00', '20');
-                        }else if(list[chooseDay]['timeList'].length == 4){
-                          insertTime('14:00', chooseDay+1, '15:00', '20');
-                        }else if(list[chooseDay]['timeList'].length == 5){
-                          insertTime('15:00', chooseDay+1, '16:00', '20');
-                        }else if(list[chooseDay]['timeList'].length == 6){
-                          insertTime('16:00', chooseDay+1, '17:00', '20');
+                            if(list[chooseDay]['timeList'].length==m+1){
+                              final time = max_num+1;
+                              final end_time = max_num+2;
+                              String newStartTime = time.toString()+':00';
+                              String newEndTime = end_time.toString()+':00';
+                              insertTime(newStartTime, chooseDay+1, newEndTime, '20');
+                            }else {
+                              print("----------------in------------");
+                              for(int i = 0;i<startTimeList.length;i++){
+                                int min = startTimeList[i];
+                                int max = startTimeList[i+1];
+                                if(max-min>1){
+                                  print("----------------YES------------");
+                                  final time = min+1;
+                                  final end_time = min+2;
+                                  String newStartTime = time.toString()+':00';
+                                  String newEndTime = end_time.toString()+':00';
+                                  insertTime(newStartTime, chooseDay+1, newEndTime, '20');
+                                  return;
+                                }
+                                print("----------------NO------------");
+                              }
+
+                            }
+
+                          }
+                        }else {
+                          insertTime('09:00', chooseDay+1, '10:00', '20');
                         }
 
+//                        if(list[chooseDay]['timeList'].length == 0){
+//                          insertTime('09:00', chooseDay+1, '10:00', '20');
+//                        }else if(list[chooseDay]['timeList'].length == 1){
+//                          insertTime('10:00', chooseDay+1, '11:00', '20');
+//                        }else if(list[chooseDay]['timeList'].length == 2){
+//                          insertTime('11:00', chooseDay+1, '12:00', '20');
+//                        }else if(list[chooseDay]['timeList'].length == 3){
+//                          insertTime('12:00', chooseDay+1, '13:00', '20');
+//                        }else if(list[chooseDay]['timeList'].length == 4){
+//                          insertTime('13:00', chooseDay+1, '14:00', '20');
+//                        }else if(list[chooseDay]['timeList'].length == 5){
+//                          insertTime('14:00', chooseDay+1, '15:00', '20');
+//                        }else if(list[chooseDay]['timeList'].length == 6){
+//                          insertTime('15:00', chooseDay+1, '16:00', '20');
+//                        }else if(list[chooseDay]['timeList'].length == 7){
+//                          insertTime('16:00', chooseDay+1, '17:00', '20');
+//                        }
+
                         },
-                        child: SvgUtil.svg('add_time.svg'),
+                        child:
+                           SvgUtil.svg('add_time.svg'),
                       )
                     ],
                   ),
@@ -307,7 +402,7 @@ class _ChoiceClinicReceptTimePersonState
                           .keys
                           .map<Widget>((index) => Padding(
                                 padding: const EdgeInsets.only(
-                                    left: 8.0, bottom: 10.0),
+                                    left: 8.0, bottom: 10.0,right: 0.0),
                                 child: Row(
                                   children: <Widget>[
                                     Container(
@@ -377,7 +472,7 @@ class _ChoiceClinicReceptTimePersonState
                                       ),
                                     ),
                                     Container(
-                                      width: ScreenUtil().setWidth(71.0),
+                                      width: ScreenUtil().setWidth(53.0),
                                       height: 37.0,
                                       alignment: Alignment.center,
                                       margin: const EdgeInsets.only(left: 8.0),
@@ -397,6 +492,9 @@ class _ChoiceClinicReceptTimePersonState
                                         cursorColor: ColorsUtil.hexStringColor(
                                             '#666666'),
                                         inputFormatters: [],
+                                        keyboardType:
+                                        TextInputType
+                                            .number,
                                         decoration: InputDecoration(
                                             contentPadding: EdgeInsets.zero,
                                             fillColor: Colors.transparent,
@@ -408,20 +506,33 @@ class _ChoiceClinicReceptTimePersonState
                                                 fontSize:
                                                     ScreenUtil().setSp(13),
                                                 color: '#333333')),
+                                        onChanged: (Value) {
+                                          print("patientCount =="+Value.toString());
+                                          String patient = Value.toString();
+                                          updateTime(list[chooseDay]['timeList'][index]['id'], patient);
+                                        },
                                       ),
                                     ),
-                                    const SizedBox(
-                                      width: 20.0,
-                                    ),
+//                                    const SizedBox(
+//                                      width: 25.0,
+//                                    ),
                                     GestureDetector(
+                                      behavior: HitTestBehavior.opaque,
                                       onTap: () {
                                         setState(() {
+                                          int id = list[chooseDay]['timeList'][index]['id'];
                                           list[chooseDay]['timeList'].removeAt(index);
-                                          deleteTime(list[chooseDay]['timeList'][index]['id']);
-//                                          setState(() {});
+                                          deleteTime(id,index);
+                                          setState(() {});
                                         });
                                       },
-                                      child: SvgUtil.svg('minus.svg'),
+                                      child:
+                                        Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                              horizontal:10.0,
+                                            ),
+                                            child:SvgUtil.svg('minus.svg')
+                                        ),
                                     )
                                   ],
                                 ),

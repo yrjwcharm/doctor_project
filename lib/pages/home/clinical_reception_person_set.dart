@@ -31,6 +31,7 @@ class _ClinicReceptionPersonSetState extends State<ClinicReceptionPersonSet> {
   void showBottomSheet() {
     //用于在底部打开弹框的效果
     showModalBottomSheet(
+        isScrollControlled: true,
         builder: (BuildContext context) {
           //构建弹框中的内容
           return buildBottomSheetWidget(context);
@@ -40,9 +41,9 @@ class _ClinicReceptionPersonSetState extends State<ClinicReceptionPersonSet> {
   }
 
   Widget buildBottomSheetWidget(BuildContext context) {
-    return Container(
-
-      height: 229,
+    return SingleChildScrollView(
+        child:Container(
+      padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
       decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.vertical(top: Radius.circular(20.0))),
@@ -70,13 +71,15 @@ class _ClinicReceptionPersonSetState extends State<ClinicReceptionPersonSet> {
                 hintText: '请输入自定义人数，1～100',
                 onChanged: (String value) {
                   personStr = value;
-                }, textStyle: TextStyle(fontSize: 16.0, color: ColorsUtil.hexStringColor('#666666')),
+                },
+                textStyle:
+                GSYConstant.textStyle(fontSize: 16.0, color: '#333333'),
               )),
           const SizedBox(
             height: 24.0,
           ),
           Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              padding: const EdgeInsets.only(bottom: 16.0,left: 16.0,right: 16.0),
               child: Row(
                 children: [
                   Expanded(
@@ -113,9 +116,9 @@ class _ClinicReceptionPersonSetState extends State<ClinicReceptionPersonSet> {
                                 ),
                               ),
                               onPressed: () {
-                                Navigator.pop(context,personStr);
+                                Navigator.pop(context);
+                                Navigator.pop(context, personStr);
                               },
-
                               child: Text(
                                 '确定',
                                 style: GSYConstant.textStyle(
@@ -124,9 +127,10 @@ class _ClinicReceptionPersonSetState extends State<ClinicReceptionPersonSet> {
                 ],
               ))
         ],
-      ),
+      ),)
     );
   }
+
 
   @override
   Widget build(BuildContext context) {
