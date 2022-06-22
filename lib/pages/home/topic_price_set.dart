@@ -115,6 +115,8 @@ class _TopicPriceSetState extends State<TopicPriceSet> {
                                 ),
                               ),
                               onPressed: () {
+                                print("price+++++++++++"+price);
+                                Navigator.pop(context);
                                 Navigator.pop(context, price);
                               },
                               child: Text(
