@@ -1,4 +1,5 @@
 import 'package:doctor_project/common/style/gsy_style.dart';
+import 'package:doctor_project/model/common_diagnosis_model.dart';
 import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:doctor_project/utils/svg_util.dart';
 import 'package:doctor_project/utils/text_util.dart';
@@ -9,6 +10,7 @@ import 'package:doctor_project/widget/custom_safeArea_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 //import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 //import 'package:flutter_cupertino_datetime_picker/flutter_cupertino_datetime_picker.dart';
 import 'package:date_time_picker/date_time_picker.dart';
@@ -47,6 +49,8 @@ class _ChoiceClinicReceptTimePersonState
   String _valueChanged2 = '';
   String _valueToValidate2 = '';
   String _valueSaved2 = '';
+  Duration timer = const Duration();
+  DateTime time = DateTime.now();
 
   _ChoiceClinicReceptTimePersonState(this.treatId);
 
@@ -159,12 +163,14 @@ class _ChoiceClinicReceptTimePersonState
     }
   }
 
-  Future updateTime(int id,String patientCount) async {
+  Future updateTime(int id,String patientCount,String startTime,String endTime) async {
     var request = HttpRequest.getInstance();
     var res =
     await request.post(Api.checkUpdateDetail, {
       'id':id,
-      'patientCount':patientCount
+      'patientCount':patientCount,
+      'startTime':startTime,
+      'endTime':endTime
     });
     print("updateTime+++++++++++++"+res.toString());
     if (res['code'] == 200) {
@@ -216,6 +222,28 @@ class _ChoiceClinicReceptTimePersonState
     }
   }
 
+
+  // This shows a CupertinoModalPopup with a reasonable fixed height which hosts CupertinoDatePicker.
+  void _showDialog(Widget child) {
+    showCupertinoModalPopup<void>(
+        context: context,
+        builder: (BuildContext context) => Container(
+          height: 216,
+          padding: const EdgeInsets.only(top: 6.0),
+          // The Bottom margin is provided to align the popup above the system navigation bar.
+          margin: EdgeInsets.only(
+            bottom: MediaQuery.of(context).viewInsets.bottom,
+          ),
+          // Provide a background color for the popup.
+          color: CupertinoColors.systemBackground.resolveFrom(context),
+          // Use a SafeArea widget to avoid system overlaps.
+          child: SafeArea(
+            top: false,
+            child: child,
+          ),
+        ));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -242,6 +270,7 @@ class _ChoiceClinicReceptTimePersonState
                             color: '#333333'),
                       ),
                       GestureDetector(
+                        behavior: HitTestBehavior.opaque,
                         onTap: () {
 
 //                          setState(() {});
@@ -251,50 +280,84 @@ class _ChoiceClinicReceptTimePersonState
                           startTime=startTime.substring(0,2);
                           startTimeList.add(int.parse(startTime));
                         }
+                        //把时间列表里的时间前面两位数字排序 放在数组里
                         startTimeList.sort((left,right)=>left.compareTo(right));
-                        print("startTimeList--------"+startTimeList.toString());
+                          String newStartTime='';
+                          String newEndTime='';
                         if(list[chooseDay]['timeList'].length >0){
                           final min_num = startTimeList.cast<num>().reduce(min);
                           final max_num = startTimeList.cast<num>().reduce(max);
-                          print("min_num=="+min_num.toString()+"\nmax_num==="+max_num.toString()+"\n");
                           final m = max_num-min_num;
-                          if(m==1){
+                          if(m==1){//说明只有两条 只增加后边的时间
                             final time = max_num+1;
                             final end_time = max_num+2;
-                            String newStartTime = time.toString()+':00';
-                            String newEndTime = end_time.toString()+':00';
+                            if(time.toString().length==1){
+                              newStartTime = "0"+time.toString()+':00';
+                            }else{
+                              newStartTime = time.toString()+':00';
+                            }
+                            if(end_time.toString().length==1){
+                              newEndTime = "0"+end_time.toString()+':00';
+                            }else{
+                              newEndTime = end_time.toString()+':00';
+                            }
                             print("newStartTime=="+newStartTime+"\newEndTime==="+newEndTime+"\n");
                             insertTime(newStartTime, chooseDay+1, newEndTime, '20');
-                          }else if(m>1){
-                            print("----------------in11111111------------");
-                            print("-------list[chooseDay]['timeList'].length-----------"+list[chooseDay]['timeList'].length.toString());
-                            print("-------m==-------"+m.toString());
-
-                            if(list[chooseDay]['timeList'].length==m+1){
+                          }else if(m>1){//大于两条
+                            if(list[chooseDay]['timeList'].length==m+1){//每个时间段都是相邻的
                               final time = max_num+1;
                               final end_time = max_num+2;
-                              String newStartTime = time.toString()+':00';
-                              String newEndTime = end_time.toString()+':00';
+                              if(time.toString().length==1){
+                                newStartTime = "0"+time.toString()+':00';
+                              }else{
+                                newStartTime = time.toString()+':00';
+                              }
+                              if(end_time.toString().length==1){
+                                newEndTime = "0"+end_time.toString()+':00';
+                              }else{
+                                newEndTime = end_time.toString()+':00';
+                              }
                               insertTime(newStartTime, chooseDay+1, newEndTime, '20');
-                            }else {
-                              print("----------------in------------");
+                            }
+                            else {//不相邻
                               for(int i = 0;i<startTimeList.length;i++){
                                 int min = startTimeList[i];
                                 int max = startTimeList[i+1];
                                 if(max-min>1){
-                                  print("----------------YES------------");
+                                  print("**********************");
+                                  print("min=="+min.toString()+"\n"+"max===="+max.toString());
                                   final time = min+1;
                                   final end_time = min+2;
-                                  String newStartTime = time.toString()+':00';
-                                  String newEndTime = end_time.toString()+':00';
+                                  if(time.toString().length==1){
+                                    newStartTime = "0"+time.toString()+':00';
+                                  }else{
+                                    newStartTime = time.toString()+':00';
+                                  }
+                                  if(end_time.toString().length==1){
+                                    newEndTime = "0"+end_time.toString()+':00';
+                                  }else{
+                                    newEndTime = end_time.toString()+':00';
+                                  }
                                   insertTime(newStartTime, chooseDay+1, newEndTime, '20');
                                   return;
                                 }
-                                print("----------------NO------------");
                               }
-
                             }
-
+                          }else if(m==0){//只有一条
+                            final time = max_num+1;
+                            final end_time = max_num+2;
+                            if(time.toString().length==1){
+                              newStartTime = "0"+time.toString()+':00';
+                            }else{
+                              newStartTime = time.toString()+':00';
+                            }
+                            if(end_time.toString().length==1){
+                              String newEndTime = "0"+end_time.toString()+':00';
+                            }else{
+                              newEndTime = end_time.toString()+':00';
+                            }
+                            print("newStartTime=="+newStartTime+"\newEndTime==="+newEndTime+"\n");
+                            insertTime(newStartTime, chooseDay+1, newEndTime, '20');
                           }
                         }else {
                           insertTime('09:00', chooseDay+1, '10:00', '20');
@@ -320,7 +383,14 @@ class _ChoiceClinicReceptTimePersonState
 
                         },
                         child:
-                           SvgUtil.svg('add_time.svg'),
+                        Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal:0.0,
+                                vertical: 10.0
+                            ),
+                            child:SvgUtil.svg('add_time.svg')
+                        ),
+
                       )
                     ],
                   ),
@@ -423,6 +493,21 @@ class _ChoiceClinicReceptTimePersonState
                                         children: <Widget>[
                                           GestureDetector(
                                             onTap: () async {
+                                              _showDialog(
+                                                CupertinoDatePicker(
+                                                  initialDateTime: time,
+                                                  mode: CupertinoDatePickerMode.time,
+                                                  use24hFormat: true,
+                                                  // This is called when the user changes the time.
+                                                  onDateTimeChanged: (DateTime newTime) {
+                                                    String timeStr = newTime.toString();
+                                                    timeStr = timeStr.substring(10);
+                                                    timeStr = timeStr.substring(0, 6);
+                                                    setState(() => list[chooseDay]['timeList'][index]['startTime'] = timeStr);
+                                                    updateTime(list[chooseDay]['timeList'][index]['id'], list[chooseDay]['timeList'][index]['patientCount'].toString(),list[chooseDay]['timeList'][index]['startTime'],list[chooseDay]['timeList'][index]['endTime']);
+                                                  },
+                                                ),
+                                              );
                                             },
                                             child: SizedBox(
                                               width:
@@ -451,6 +536,21 @@ class _ChoiceClinicReceptTimePersonState
                                           ),
                                           GestureDetector(
                                             onTap: () async {
+                                              _showDialog(
+                                                CupertinoDatePicker(
+                                                  initialDateTime: time,
+                                                  mode: CupertinoDatePickerMode.time,
+                                                  use24hFormat: true,
+                                                  // This is called when the user changes the time.
+                                                  onDateTimeChanged: (DateTime newTime) {
+                                                    String timeStr = newTime.toString();
+                                                    timeStr = timeStr.substring(10);
+                                                    timeStr = timeStr.substring(0, 6);
+                                                    setState(() => list[chooseDay]['timeList'][index]['endTime'] = timeStr);
+                                                    updateTime(list[chooseDay]['timeList'][index]['id'], list[chooseDay]['timeList'][index]['patientCount'].toString(),list[chooseDay]['timeList'][index]['startTime'],list[chooseDay]['timeList'][index]['endTime']);
+                                                  },
+                                                ),
+                                              );
                                             },
                                             child: SizedBox(
                                               width:
@@ -509,7 +609,7 @@ class _ChoiceClinicReceptTimePersonState
                                         onChanged: (Value) {
                                           print("patientCount =="+Value.toString());
                                           String patient = Value.toString();
-                                          updateTime(list[chooseDay]['timeList'][index]['id'], patient);
+                                          updateTime(list[chooseDay]['timeList'][index]['id'], patient,list[chooseDay]['timeList'][index]['startTime'],list[chooseDay]['timeList'][index]['endTime']);
                                         },
                                       ),
                                     ),
@@ -529,7 +629,8 @@ class _ChoiceClinicReceptTimePersonState
                                       child:
                                         Padding(
                                             padding: const EdgeInsets.symmetric(
-                                              horizontal:10.0,
+                                              horizontal:25.0,
+                                              vertical: 10.0
                                             ),
                                             child:SvgUtil.svg('minus.svg')
                                         ),
