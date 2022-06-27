@@ -1319,6 +1319,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
                                         : AddChineseMedicineList(
                                             pharmacyId: pharmacyId,
                                             selectedDrugList: [],
+                                            isYinpian: rpTypeName=='饮片'?true:false,
                                           ))).then((value) {
                               print(value);
                               if (tab2Active) {
@@ -1556,7 +1557,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
                                                       height: 4.0,
                                                     ),
                                                     Text(
-                                                      "用量：${drugList[index]['specification']}",
+                                                      "用量：${drugList[index]['specification']}${drugList[index]['decocting_method']==null?'':','+drugList[index]['decocting_method']}",
                                                       style:
                                                           GSYConstant.textStyle(
                                                               fontSize: 13.0,

@@ -14,6 +14,8 @@ import 'package:doctor_project/pages/home/use_drug_info.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:doctor_project/widget/custom_safeArea_button.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:doctor_project/utils/picker_utils.dart';
+import 'package:flutter_picker/Picker.dart';
 
 import '../../widget/numberwidget.dart';
 
@@ -21,23 +23,27 @@ import '../../widget/numberwidget.dart';
 class AddChineseMedicineList extends StatefulWidget {
   String pharmacyId='';
   List selectedDrugList ; //中药选中的药品列表数据
-  AddChineseMedicineList({Key? key, required this.selectedDrugList,required this.pharmacyId}) : super(key: key);
+  bool isYinpian=false;
+  AddChineseMedicineList({Key? key, required this.selectedDrugList,required this.pharmacyId,required this.isYinpian}) : super(key: key);
 
   @override
-  _AddChineseMedicineListState createState() => _AddChineseMedicineListState(selectedDrugList: this.selectedDrugList,pharmacyId:this.pharmacyId);
+  _AddChineseMedicineListState createState() => _AddChineseMedicineListState(selectedDrugList: this.selectedDrugList,pharmacyId:this.pharmacyId,isYinpian:this.isYinpian);
 }
 
 class _AddChineseMedicineListState extends State<AddChineseMedicineList> {
 
   List selectedDrugList ;
-  _AddChineseMedicineListState({required this.selectedDrugList,required this.pharmacyId});
+  _AddChineseMedicineListState({required this.selectedDrugList,required this.pharmacyId,required this.isYinpian});
 
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final TextEditingController _editingController1 = TextEditingController(); //搜索关键词TF
   final FocusNode _contentFocusNode = FocusNode();
   final ScrollController _scrollController = ScrollController(); //listview的控制器
   String pharmacyId='';
   double screenWidth = window.physicalSize.width;
   double ratio = window.devicePixelRatio;
+  String jianzhuStr ='无';
+  bool isYinpian =false;
   bool tab1Active = true;
   bool tab2Active = false;
   int type = 1; //类型（1医保内，2医保外）
@@ -47,7 +53,7 @@ class _AddChineseMedicineListState extends State<AddChineseMedicineList> {
   String loadText = ""; //加载时显示的文字
   bool drugListIsHidden = true ; //药品列表是否隐藏
   bool selectedDrugIsHidden = true ; //选中药品列表是否隐藏
-
+  List<String> yinpianList = ["无","先煎","后下","包煎","另煎","捣碎","烊化","冲服","兑服","其他"];
   List commonlyUsedList = [
     {"title" : "[阿莫灵]阿莫西林胶囊 0.25*24粒/盒", "description" : "口服：一次3粒，4次/天"},
     {"title" : "[阿莫灵]阿莫西林胶囊 0.25*24粒/盒", "description" : "口服：一次3粒，4次/天"},
@@ -365,74 +371,115 @@ class _AddChineseMedicineListState extends State<AddChineseMedicineList> {
                                 ),
                               ],
                             ),
-                            child: Container(
-                          margin: const EdgeInsets.only(bottom: 1.0),
-                          padding: const EdgeInsets.only(
-                              top: 10, bottom: 14.0, left: 16.0, right: 16.0),
-                          decoration: const BoxDecoration(color: Colors.white),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: <Widget>[
-                                  const SizedBox(
-                                    height: 3.0,
-                                  ),
-                                  Text(
-                                    selectedDrugList[index]["medicinename"],
-                                    style: GSYConstant.textStyle(
-                                        fontSize: 15.0, color: '#333333'),
-                                  ),
-                                  const SizedBox(
-                                    height: 6.0,
-                                  ),
-                                  Text(
-                                    '规格：' +selectedDrugList[index]["specification"],
-                                    style: GSYConstant.textStyle(
-                                        fontSize: 13.0, color: '#888888'),
-                                  ),
-                                  Text(
-                                    selectedDrugList[index]["manuname"],
-                                    style: GSYConstant.textStyle(
-                                        fontSize: 13.0, color: '#888888'),
-                                  )
-                                ],
-                              ),
-                              Column(
-                                children: [
-                                  NumberControllerWidget(
-                                    // iconWidth:10,
-                                    numText: selectedDrugList[index]['count'].toString(),
-                                    addValueChanged: (num){
+                            child: Column(children: [
+                              Container(
+                                margin: const EdgeInsets.only(bottom: 1.0),
+                                padding: const EdgeInsets.only(
+                                    top: 10, bottom: 14.0, left: 16.0, right: 16.0),
+                                decoration: const BoxDecoration(color: Colors.white),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: <Widget>[
+                                        const SizedBox(
+                                          height: 3.0,
+                                        ),
+                                        Text(
+                                          selectedDrugList[index]["medicinename"],
+                                          style: GSYConstant.textStyle(
+                                              fontSize: 15.0, color: '#333333'),
+                                        ),
+                                        const SizedBox(
+                                          height: 6.0,
+                                        ),
+                                        Text(
+                                          '规格：' +selectedDrugList[index]["specification"],
+                                          style: GSYConstant.textStyle(
+                                              fontSize: 13.0, color: '#888888'),
+                                        ),
+                                        Text(
+                                          selectedDrugList[index]["manuname"],
+                                          style: GSYConstant.textStyle(
+                                              fontSize: 13.0, color: '#888888'),
+                                        )
+                                      ],
+                                    ),
+                                    Column(
+                                      children: [
+                                        NumberControllerWidget(
+                                          // iconWidth:10,
+                                          numText: selectedDrugList[index]['count'].toString(),
+                                          addValueChanged: (num){
 
-                                    },
-                                    removeValueChanged: (num){
-                                    },
-                                    updateValueChanged: (num){
-                                      setState(() {
-                                        selectedDrugList[index]['count']=num;
-                                      });
-                                      // setState(() {
-                                      //   _productNum = num;
-                                      //   setState(() {
-                                      //     _saleprice = _productNum * widget.saleprice;
-                                      //   });
-                                      // });
-                                    },
-                                  ),
-                                  const SizedBox(height: 10.0,),
-                                  Text(
-                                    '库存：${selectedDrugList[index]["stockNum"].toString().isEmpty?'0':selectedDrugList[index]["stockNum"].toString()}' ,
-                                    style: GSYConstant.textStyle(
-                                        color: '#888888', fontSize: 13.0),
-                                  )
-                                ],
-                              )
-                            ],
-                          ),
-                        ));
+                                          },
+                                          removeValueChanged: (num){
+                                          },
+                                          updateValueChanged: (num){
+                                            setState(() {
+                                              selectedDrugList[index]['count']=num;
+                                            });
+                                            // setState(() {
+                                            //   _productNum = num;
+                                            //   setState(() {
+                                            //     _saleprice = _productNum * widget.saleprice;
+                                            //   });
+                                            // });
+                                          },
+                                        ),
+                                        const SizedBox(height: 10.0,),
+                                        Text(
+                                          '库存：${selectedDrugList[index]["stockNum"].toString().isEmpty?'0':selectedDrugList[index]["stockNum"].toString()}' ,
+                                          style: GSYConstant.textStyle(
+                                              color: '#888888', fontSize: 13.0),
+                                        )
+                                      ],
+                                    ),
+                                  ],
+                                ),
+
+                              ),
+                              isYinpian?Container(
+                                height: 42.0,
+                                width: double.infinity,
+                                padding: const EdgeInsets.only(left: 16.0,right: 16.0),
+                                alignment: Alignment.centerLeft,
+                                color: Colors.white,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                     Expanded(
+                                        child:
+                                          Text(
+                                            '煎煮方法',
+                                            style: GSYConstant.textStyle(color: '#666666'),
+                                          ),
+                                      ),
+                                    TextButton.icon(
+                                      icon: const Icon(Icons.arrow_drop_down, size: 18,color:Color(0xFF888888) ,),
+                                      label: Text(jianzhuStr,style: GSYConstant.textStyle(color: '#333333')),
+                                      onPressed: () {
+                                        PickerUtil.showPicker(context, _scaffoldKey,
+                                            pickerData: yinpianList,
+                                            confirmCallback: (Picker picker, List<int> selected) {
+
+                                                setState(() {
+//                                                  int i = int.parse(selected.toString());
+                                                  jianzhuStr = yinpianList[selected[0]];
+
+                                                  print("jianzhufangfa-------"+selected.toString());
+                                                  selectedDrugList[index]['decocting_method']=yinpianList[selected[0]];
+                                                });
+                                            });
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ):Container(),
+                            ],)
+                        );
                       }),
                 ),),
 

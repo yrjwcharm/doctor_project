@@ -634,6 +634,7 @@ class _MakePrescriptionState extends State<AddCommonDrug> {
                                         : AddChineseMedicineList(
                                       pharmacyId: pharmacyId,
                                       selectedDrugList: [],
+                                      isYinpian: false,
                                     ))).then((value) {
                               print(value);
                               if (tab2Active) {
@@ -808,134 +809,136 @@ class _MakePrescriptionState extends State<AddCommonDrug> {
                                 ],
                               ))))
                           .toList()) //西药处方
-                      : ListView(
-                      shrinkWrap: true,
-                      children: drugList
-                          .asMap()
-                          .keys
-                          .map((index) => Slidable(
-                          endActionPane: ActionPane(
-                            motion: const ScrollMotion(),
-                            children: [
-                              SlidableAction(
-                                onPressed: (BuildContext context) {
-                                  setState(() {
-                                    drugList.removeAt(index);
-                                  });
-                                  calculateThePrice();
-                                },
-                                backgroundColor:
-                                const Color(0xFFFE4A49),
-                                foregroundColor: Colors.white,
-                                icon: Icons.delete,
-                                label: '删除',
-                              ),
-                            ],
-                          ),
-                          child: Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  border: Border(
-                                      bottom: BorderSide(
-                                        width: 1.0,
-                                        color: ColorsUtil.hexStringColor(
-                                            '#cccccc',
-                                            alpha: 0.3),
-                                      ))),
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 16.0),
-                              child: Column(
-                                children: <Widget>[
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        top: 11.0, bottom: 14.0),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment
-                                          .spaceBetween,
-                                      crossAxisAlignment:
-                                      CrossAxisAlignment.start,
-                                      children: <Widget>[
-                                        Column(
-                                          crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                          children: <Widget>[
-                                            Text(
-                                              drugList[index]
-                                              ['medicinename'],
-                                              style:
-                                              GSYConstant.textStyle(
-                                                  color: '#333333'),
-                                            ),
-                                            const SizedBox(
-                                              height: 4.0,
-                                            ),
-                                            Text(
-                                              "用量：${drugList[index]['specification']}",
-                                              style:
-                                              GSYConstant.textStyle(
-                                                  fontSize: 13.0,
-                                                  color: '#999999'),
-                                            ),
-                                            (drugList[index]['remark']
-                                                ?.toString() ??
-                                                '')
-                                                .isNotEmpty
-                                                ? Container(
-                                              margin:
-                                              const EdgeInsets
-                                                  .only(
-                                                  top: 4.0),
-                                              child: Text(
-                                                  '备注：${drugList[index]['remark']}',
-                                                  style: GSYConstant
-                                                      .textStyle(
-                                                      fontSize:
-                                                      13.0,
-                                                      color:
-                                                      '#999999')),
-                                            )
-                                                : Container()
-                                          ],
-                                        ),
-                                        Column(
-                                          crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                          children: <Widget>[
-                                            Text(
-                                              '¥${drugList[index]['unitprice']}',
-                                              style:
-                                              GSYConstant.textStyle(
-                                                  fontSize: 12.0,
-                                                  color: '#333333'),
-                                            ),
-                                            const SizedBox(
-                                              height: 5.0,
-                                            ),
-                                            Text(
-                                              'x ${drugList[index]['count'].toString()}',
-                                              style:
-                                              GSYConstant.textStyle(
-                                                  fontSize: 12.0,
-                                                  color: '#888888'),
-                                            )
-                                          ],
-                                        ),
-                                      ],
+                      : Center(
+                        child: ListView(
+                        shrinkWrap: true,
+                        children: drugList
+                            .asMap()
+                            .keys
+                            .map((index) => Slidable(
+                            endActionPane: ActionPane(
+                              motion: const ScrollMotion(),
+                              children: [
+                                SlidableAction(
+                                  onPressed: (BuildContext context) {
+                                    setState(() {
+                                      drugList.removeAt(index);
+                                    });
+                                    calculateThePrice();
+                                  },
+                                  backgroundColor:
+                                  const Color(0xFFFE4A49),
+                                  foregroundColor: Colors.white,
+                                  icon: Icons.delete,
+                                  label: '删除',
+                                ),
+                              ],
+                            ),
+                            child: Container(
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    border: Border(
+                                        bottom: BorderSide(
+                                          width: 1.0,
+                                          color: ColorsUtil.hexStringColor(
+                                              '#cccccc',
+                                              alpha: 0.3),
+                                        ))),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 16.0),
+                                child: Column(
+                                  children: <Widget>[
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 11.0, bottom: 14.0),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                        MainAxisAlignment
+                                            .spaceBetween,
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          Column(
+                                            crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                            children: <Widget>[
+                                              Text(
+                                                drugList[index]
+                                                ['medicinename'],
+                                                style:
+                                                GSYConstant.textStyle(
+                                                    color: '#333333'),
+                                              ),
+                                              const SizedBox(
+                                                height: 4.0,
+                                              ),
+                                              Text(
+                                                "用量：${drugList[index]['specification']}${drugList[index]['decocting_method']==null?'':','+drugList[index]['decocting_method']}",
+                                                style:
+                                                GSYConstant.textStyle(
+                                                    fontSize: 13.0,
+                                                    color: 'decocting_method#999999'),
+                                              ),
+                                              (drugList[index]['remark']
+                                                  ?.toString() ??
+                                                  '')
+                                                  .isNotEmpty
+                                                  ? Container(
+                                                margin:
+                                                const EdgeInsets
+                                                    .only(
+                                                    top: 4.0),
+                                                child: Text(
+                                                    '备注：${drugList[index]['remark']}',
+                                                    style: GSYConstant
+                                                        .textStyle(
+                                                        fontSize:
+                                                        13.0,
+                                                        color:
+                                                        '#999999')),
+                                              )
+                                                  : Container()
+                                            ],
+                                          ),
+                                          Column(
+                                            crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                            children: <Widget>[
+                                              Text(
+                                                '¥${drugList[index]['unitprice']}',
+                                                style:
+                                                GSYConstant.textStyle(
+                                                    fontSize: 12.0,
+                                                    color: '#333333'),
+                                              ),
+                                              const SizedBox(
+                                                height: 5.0,
+                                              ),
+                                              Text(
+                                                'x ${drugList[index]['count'].toString()}',
+                                                style:
+                                                GSYConstant.textStyle(
+                                                    fontSize: 12.0,
+                                                    color: '#888888'),
+                                              )
+                                            ],
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                  index != drugList.length - 1
-                                      ? Divider(
-                                    height: 0,
-                                    color:
-                                    ColorsUtil.hexStringColor(
-                                        '#cccccc',
-                                        alpha: 0.3),
-                                  )
-                                      : Container()
-                                ],
-                              ))))
-                          .toList()), //中药处方
+                                    index != drugList.length - 1
+                                        ? Divider(
+                                      height: 0,
+                                      color:
+                                      ColorsUtil.hexStringColor(
+                                          '#cccccc',
+                                          alpha: 0.3),
+                                    )
+                                        : Container()
+                                  ],
+                                ))))
+                            .toList()),
+                      ), //中药处方
                 ),
                 Offstage(
                   offstage: drugList.isNotEmpty,

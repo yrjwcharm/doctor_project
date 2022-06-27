@@ -80,21 +80,21 @@ class PatientState extends State<Patient> {
         child: Column(children: [
           ListTile(
             onTap:(){
-//              contentMap['name']='';
-//              contentMap['sex_dictText']='男';
-//              contentMap['age']='80';
-//              contentMap['photo']=null;
-//              contentMap['type_dictText']='11111';
-//              contentMap['diseaseTime_dictText']='222222';
-//              contentMap['isRepeat_dictText']='33333';
-//              contentMap['diseaseDesc']='444444';
-//              contentMap['cardNo']='5555';
-//              Navigator.push(
-//                  context,
-//                  MaterialPageRoute(
-//                      builder: (context) => PatientDetail(
-//                        dataMap: contentMap,
-//                      )));
+              contentMap['name']='';
+              contentMap['sex_dictText']='男';
+              contentMap['age']='80';
+              contentMap['photo']=null;
+              contentMap['type_dictText']='11111';
+              contentMap['diseaseTime_dictText']='222222';
+              contentMap['isRepeat_dictText']='33333';
+              contentMap['diseaseDesc']='444444';
+              contentMap['cardNo']='5555';
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => PatientDetail(
+                        dataMap: contentMap,
+                      )));
             },
             leading: Container(
               height: 40.0,
