@@ -23,7 +23,7 @@
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
    <application
-       android:name=".MainApplication"
+        android:name=".MyApplication"
         android:label="通海医生端"
         android:allowBackup="false"
         android:usesCleartextTraffic="true"
