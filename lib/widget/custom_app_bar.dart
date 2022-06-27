@@ -22,11 +22,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
 
-    return GestureDetector(
-      onTap: (){
-        Navigator.pop(context);
-      },
-        child: Container(
+    return Container(
       decoration: BoxDecoration(
           gradient:  LinearGradient(
             begin: Alignment.topLeft,
@@ -50,7 +46,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 children: [
                   isBack?IconButton(
                       padding:EdgeInsets.zero,
-                      onPressed: onBackPressed,
+                      onPressed: (){
+                        Navigator.pop(context);
+                      },
                       icon:Image.asset(leftIcon)
                   ):const Text(''),
                 ],
@@ -73,7 +71,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           ],
         ),
       ),
-    ));
+    );
   }
 
   @override
