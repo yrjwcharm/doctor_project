@@ -10,6 +10,7 @@ import 'package:flutter/services.dart';
 import '../../http/api.dart';
 import '../../http/http_request.dart';
 import '../../utils/toast_util.dart';
+import 'package:doctor_project/pages/home/patient_detail.dart';
 
 class Patient extends StatefulWidget {
   const Patient({Key? key}) : super(key: key);
@@ -20,6 +21,7 @@ class Patient extends StatefulWidget {
 
 class PatientState extends State<Patient> {
   List list = [];
+  Map contentMap = new Map();
   bool tab1Active = true;
   bool tab2Active = false;
   final ScrollController _scrollController = ScrollController(); //listview的控制器
@@ -77,6 +79,23 @@ class PatientState extends State<Patient> {
         margin: const EdgeInsets.only(bottom: 8.0),
         child: Column(children: [
           ListTile(
+            onTap:(){
+//              contentMap['name']='';
+//              contentMap['sex_dictText']='男';
+//              contentMap['age']='80';
+//              contentMap['photo']=null;
+//              contentMap['type_dictText']='11111';
+//              contentMap['diseaseTime_dictText']='222222';
+//              contentMap['isRepeat_dictText']='33333';
+//              contentMap['diseaseDesc']='444444';
+//              contentMap['cardNo']='5555';
+//              Navigator.push(
+//                  context,
+//                  MaterialPageRoute(
+//                      builder: (context) => PatientDetail(
+//                        dataMap: contentMap,
+//                      )));
+            },
             leading: Container(
               height: 40.0,
               clipBehavior: Clip.hardEdge,

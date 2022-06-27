@@ -21,10 +21,11 @@ class _WriteCaseDetailState extends State<WriteCaseDetail> {
   _WriteCaseDetailState({required this.dataMap});
 
   final TextEditingController _editingController = TextEditingController();
-
   @override
   void initState() {
     super.initState();
+    _editingController.text=dataMap['detail'];
+
   }
   @override
   Widget build(BuildContext context) {
@@ -80,6 +81,7 @@ class _WriteCaseDetailState extends State<WriteCaseDetail> {
                                 border: InputBorder.none,
                                 contentPadding: EdgeInsets.zero),
                           )),
+
                       const SizedBox(
                         width: 16.0,
                       ),

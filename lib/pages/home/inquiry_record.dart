@@ -224,7 +224,7 @@ class _InquiryRecordState extends State<InquiryRecord> {
                                   width: 10.0,
                                 ),
                                 Text(
-                                    '${item['status_dictText']}',
+                                    '${item['status_dictText']=='已接诊'?'已完成':item['status_dictText']}',
                                     style:
                                         GSYConstant.textStyle(color: '#333333'),
                                 ),
@@ -252,7 +252,7 @@ class _InquiryRecordState extends State<InquiryRecord> {
                           Container(
                             height: 42.0,
                             width: double.infinity,
-                            padding: const EdgeInsets.only(left: 16.0),
+                            padding: const EdgeInsets.only(left: 16.0,right: 16.0),
                             alignment: Alignment.centerLeft,
                             color: Colors.white,
                             child: Row(
@@ -261,26 +261,30 @@ class _InquiryRecordState extends State<InquiryRecord> {
                                 Expanded(
                                     child:
                                       Text(
-                                        item['times'],
+                                        item['lastTime'],
                                         style: GSYConstant.textStyle(color: '#666666'),
-                                        )),
+                                        ),
+                                ),
 
                                 CustomOutlineButton(
                                   title: '写病历',
                                   textStyle: GSYConstant.textStyle(
                                       fontSize: 13.0, color: '#666666'),
-                                  padding:
-                                  const EdgeInsets.symmetric(horizontal: 13.0),
+                                  padding:(
+                                      const EdgeInsets.symmetric(horizontal: 13.0)
+                                ),
+
                                   height: 28.0,
                                   borderRadius: BorderRadius.circular(14.0),
                                   borderColor: ColorsUtil.hexStringColor('#09BB8F'),
                                   onPressed: () async {
                                     Navigator.push(context,MaterialPageRoute(builder: (context) => WriteCase(registeredId:item['id'],
-  
+
                                                   userInfoMap: item,)));
 
                                   },
                                 ),
+
                               ],
                             )
 
