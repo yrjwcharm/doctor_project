@@ -152,7 +152,6 @@ class MessageState extends State<Message> {
         appBar: CustomAppBar(
           '消息',
           isBack: false,
-          onBackPressed: () {},
         ),
         backgroundColor: ColorsUtil.bgColor,
         body: Column(
