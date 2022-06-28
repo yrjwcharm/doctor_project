@@ -20,11 +20,8 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 -keep class **.zego.**{*;}
--keep class com.flutter_webview_plugin.** { *; }
-
--keep class com.taobao.sophix.**{*;}
--keep class com.ta.utdid2.device.**{*;}
--dontwarn com.alibaba.sdk.android.utils.**
 #防止inline
 -dontoptimize
 #看情况是否要混淆
+-dontwarn com.tencent.bugly.**
+-keep public class com.tencent.bugly.**{*;}
