@@ -7,6 +7,7 @@ import android.os.Handler
 import android.os.Looper
 import android.os.Process
 import android.widget.Toast
+import com.jakewharton.processphoenix.ProcessPhoenix
 
 class CrashHandler private constructor() : Thread.UncaughtExceptionHandler {
     private var mDefaultUncaughtExceptionHandler: Thread.UncaughtExceptionHandler? = null
@@ -21,31 +22,20 @@ class CrashHandler private constructor() : Thread.UncaughtExceptionHandler {
             ).show()
             Looper.loop()
         }.start()
-        try {
-            Thread.sleep(1000)
-        } catch (e: InterruptedException) {
-            e.printStackTrace()
-        }
-        //        SystemClock.sleep(2000);
-        val intent = mContext!!.packageManager.getLaunchIntentForPackage(
-            mContext!!.packageName
-        )
-        intent!!.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-        mContext!!.startActivity(intent)
-        Process.killProcess(Process.myPid())
+        ProcessPhoenix.triggerRebirth(mContext);
+//        try {
+//            Thread.sleep(1000)
+//        } catch (e: InterruptedException) {
+//            e.printStackTrace()
+//        }
+//        //        SystemClock.sleep(2000);
+//        val intent = mContext!!.packageManager.getLaunchIntentForPackage(
+//            mContext!!.packageName
+//        )
+//        intent!!.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+//        mContext!!.startActivity(intent)
+//        Process.killProcess(Process.myPid())
 
-
-//        Intent intent = new Intent(mContext, MainActivity.class);
-//        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//        mContext.startActivity(intent);
-//        android.os.Process.killProcess(android.os.Process.myPid());
-
-//        final PendingIntent pendingIntent = PendingIntent.getActivity(
-//                mContext, 0, new Intent(mContext, MainActivity.class), PendingIntent.FLAG_ONE_SHOT);
-//        Log.d(mContext.getPackageName(), "Exception not handled, relaunching", throwable);
-//        final AlarmManager alarmManager = (AlarmManager)mContext. getSystemService(Context.ALARM_SERVICE);
-//        alarmManager.set(AlarmManager.RTC, System.currentTimeMillis(), pendingIntent);
-//        System.exit(0);
         mDefaultUncaughtExceptionHandler!!.uncaughtException(thread, throwable)
     }
 

@@ -94,6 +94,7 @@ flutter {
 }
 
 dependencies {
+    implementation 'com.jakewharton:process-phoenix:2.1.2'
     implementation 'com.tencent.bugly:crashreport:latest.release' //其中latest.release指代最新Bugly SDK版本号，也可以指定明确的版本号，例如4.0.3
     implementation 'com.aliyun.ams:alicloud-android-hotfix:3.3.5'
     implementation 'com.android.support:multidex:1.0.3'
