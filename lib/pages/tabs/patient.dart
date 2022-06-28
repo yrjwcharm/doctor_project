@@ -54,6 +54,7 @@ class PatientState extends State<Patient> {
     if (res['code'] == 200) {
       setState(() {
         list = res['data']['records'];
+        print("patientList======="+list.toString());
         isMore = true;
       });
     } else {
@@ -80,15 +81,18 @@ class PatientState extends State<Patient> {
         child: Column(children: [
           ListTile(
             onTap:(){
-              contentMap['name']='';
-              contentMap['sex_dictText']='男';
-              contentMap['age']='80';
-              contentMap['photo']=null;
-              contentMap['type_dictText']='11111';
-              contentMap['diseaseTime_dictText']='222222';
-              contentMap['isRepeat_dictText']='33333';
-              contentMap['diseaseDesc']='444444';
-              contentMap['cardNo']='5555';
+              contentMap['name']=list[index]['name'];
+              contentMap['sex_dictText']=list[index]['sex_dictText'];
+              contentMap['age']=list[index]['age'];
+              contentMap['photo']=list[index]['photo'];
+              contentMap['mobile']=list[index]['mobile'];
+              contentMap['cardno']=list[index]['cardno'];
+              contentMap['province']=list[index]['province'];
+              contentMap['city']=list[index]['city'];
+              contentMap['district']=list[index]['district'];
+              contentMap['patientId']=list[index]['patientId'];
+              contentMap['diagnosis']=list[index]['diagnosis'];
+//              contentMap['cardNo']='5555';
               Navigator.push(
                   context,
                   MaterialPageRoute(
