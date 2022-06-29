@@ -730,7 +730,7 @@ class _ChatPageState extends State<ChatPage> {
             Visibility(
                 visible: _isMore,
                 child: Container(
-                  padding: const EdgeInsets.only(top: 11.0, bottom: 10.0),
+                  padding: const EdgeInsets.only(top: 11.0, bottom: 20.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
