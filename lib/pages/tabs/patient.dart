@@ -82,17 +82,18 @@ class PatientState extends State<Patient> {
           ListTile(
             onTap:(){
               contentMap['name']=list[index]['name'];
-              contentMap['sex_dictText']=list[index]['sex_dictText'];
+              contentMap['sex']=list[index]['sex_dictText'];
               contentMap['age']=list[index]['age'];
               contentMap['photo']=list[index]['photo'];
               contentMap['mobile']=list[index]['mobile'];
-              contentMap['cardno']=list[index]['cardno'];
+              contentMap['cardNo']=list[index]['cardno'];
               contentMap['province']=list[index]['province'];
               contentMap['city']=list[index]['city'];
               contentMap['district']=list[index]['district'];
               contentMap['patientId']=list[index]['patientId'];
               contentMap['diagnosis']=list[index]['diagnosis'];
-//              contentMap['cardNo']='5555';
+              contentMap['birthday']=list[index]['birthday'];
+              contentMap['deptName']=' ';
               Navigator.push(
                   context,
                   MaterialPageRoute(

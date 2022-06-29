@@ -59,6 +59,8 @@ class _RecipeDetailState extends State<RecipeDetail> {
   String useType_dictText = '';
   String freq_dictText = '';
   String remarks = '';
+  String recipeNo = '';
+  int status = 0;
   bool hasDoctorSign = false;
   Map<String, dynamic> medicineMap = {};
 
@@ -107,11 +109,15 @@ class _RecipeDetailState extends State<RecipeDetail> {
 
   initData() async {
     var request = HttpRequest.getInstance();
+    print("rpDetailItem------" + rpDetailItem.toString());
+    rpDetailItem['id']==''?prescriptionId:rpDetailItem['id'];
     var res = await request
-        .get(Api.getRpDetailApi + '?recipeId=${rpDetailItem['id']}', {});
+        .get(Api.getRpDetailApi + '?recipeId=${prescriptionId}', {});
+    print("res------" + res.toString());
+
     if (res['code'] == 200) {
       medicineMap = res['data'];
-      print("medicineMap------" + medicineMap.toString());
+//      print("medicineMap------" + medicineMap.toString());
       if (medicineMap['doctorSign'].isNotEmpty) {
         doctorSign = medicineMap['doctorSign'];
       }
@@ -131,8 +137,12 @@ class _RecipeDetailState extends State<RecipeDetail> {
       if (medicineMap['medicineVOS'].isNotEmpty) {
         medicineVOS = medicineMap['medicineVOS'];
       }
+      if(medicineMap['recipeNo'].isNotEmpty){
+        recipeNo = medicineMap['recipeNo'];
+      }
       // if(medicineMap['countNum'].toString.isNotEmpty) {
       countNum = medicineMap['countNum'].toString();
+      status = medicineMap['status'];
       // }
       if (null != res['data']['pharName']) {
         pharmacistsName = res['data']['pharName'];
@@ -183,29 +193,29 @@ class _RecipeDetailState extends State<RecipeDetail> {
                   alignment: Alignment.center,
                   width: double.infinity,
                   child: Text(
-                    rpDetailItem['status'] == 1
+                    medicineMap['status'] == 1
                         ? '已撤销'
-                        : rpDetailItem['status'] == 2
+                        : medicineMap['status'] == 2
                             ? '再次提交，待审方'
-                            : rpDetailItem['status'] == 3
+                            : medicineMap['status'] == 3
                                 ? '已审核'
-                                : rpDetailItem['status'] == 4
+                                : medicineMap['status'] == 4
                                     ? '审核中'
-                                    : rpDetailItem['status'] == 5
+                                    : medicineMap['status'] == 5
                                         ? '审核超时失效'
                                         : '已取消',
                     style: GSYConstant.textStyle(fontSize: 16.0),
                   ),
                   decoration: BoxDecoration(
                       color:
-                          ColorsUtil.hexStringColor(rpDetailItem['status'] == 5
+                          ColorsUtil.hexStringColor(medicineMap['status'] == 5
                               ? '#F39E2B'
-                              : rpDetailItem['status'] == 2
+                              : medicineMap['status'] == 2
                                   ? '#DE5347'
                                   : '#06B48D')),
                 ),
                 Visibility(
-                  visible: rpDetailItem['status'] == 2,
+                  visible: medicineMap['status'] == 2,
                   child: Container(
                     width: double.infinity,
                     decoration: const BoxDecoration(color: Colors.white),
@@ -234,14 +244,14 @@ class _RecipeDetailState extends State<RecipeDetail> {
                   ),
                 ),
                 Visibility(
-                  visible: rpDetailItem['status'] == 2,
+                  visible: medicineMap['status'] == 2,
                   child: Divider(
                     height: 0,
                     color: ColorsUtil.hexStringColor('#cccccc', alpha: 0.2),
                   ),
                 ),
                 Visibility(
-                  visible: rpDetailItem['status'] == 2,
+                  visible: medicineMap['status'] == 2,
                   child: Container(
                     decoration: const BoxDecoration(
                       color: Colors.white,
@@ -333,15 +343,15 @@ class _RecipeDetailState extends State<RecipeDetail> {
                             const SizedBox(
                               width: 23.0,
                             ),
-                            SvgUtil.svg(rpDetailItem['status'] == 1
+                            SvgUtil.svg(medicineMap['status'] == 1
                                 ? 'revoke.svg'
-                                : rpDetailItem['status'] == 2
+                                : medicineMap['status'] == 2
                                     ? 'in_pass.svg'
-                                    : rpDetailItem['status'] == 3
+                                    : medicineMap['status'] == 3
                                         ? 'already_audit.svg'
-                                        : rpDetailItem['status'] == 4
+                                        : medicineMap['status'] == 4
                                             ? 'audit.svg'
-                                            : rpDetailItem['status'] == 5
+                                            : medicineMap['status'] == 5
                                                 ? 'timeout.svg'
                                                 : 'cancel.svg'),
                           ]),
@@ -480,7 +490,7 @@ class _RecipeDetailState extends State<RecipeDetail> {
                                         GSYConstant.textStyle(color: '#333333'),
                                   ),
                                   Text(
-                                    rpDetailItem['recipeNo'],
+                                    recipeNo,
                                     style:
                                         GSYConstant.textStyle(color: '#666666'),
                                   ),
@@ -516,7 +526,7 @@ class _RecipeDetailState extends State<RecipeDetail> {
                                         GSYConstant.textStyle(color: '#333333'),
                                   ),
                                   Text(
-                                    rpDetailItem['repictDate'],
+                                    medicineMap['repictDate']==null?'':medicineMap['repictDate'],
                                     style:
                                         GSYConstant.textStyle(color: '#666666'),
                                   ),
@@ -952,7 +962,7 @@ class _RecipeDetailState extends State<RecipeDetail> {
                                 // border-radius: 5px;
                                 // border: 1px solid #06B48D;
                                 Visibility(
-                                    visible: rpDetailItem['status'] == 2,
+                                    visible: medicineMap['status'] == 2,
                                     child: Expanded(
                                         child: CustomOutlineButton(
                                             title: '再次提交',
@@ -962,13 +972,13 @@ class _RecipeDetailState extends State<RecipeDetail> {
                                                 ColorsUtil.hexStringColor(
                                                     '#06B48D')))),
                                 Visibility(
-                                  visible: rpDetailItem['status'] == 2,
+                                  visible: medicineMap['status'] == 2,
                                   child:const SizedBox(
                                   width: 8.0,
                                 ),),
                                 Visibility(
-                                    visible: rpDetailItem['status'] == 2 ||
-                                        rpDetailItem['status'] == 4,
+                                    visible: medicineMap['status'] == 2 ||
+                                        medicineMap['status'] == 4,
                                     child: Expanded(
                                         child: CustomOutlineButton(
                                             title: '撤销',
@@ -1090,16 +1100,16 @@ class _RecipeDetailState extends State<RecipeDetail> {
                                                 ColorsUtil.hexStringColor(
                                                     '#06B48D')))),
                                 Visibility(
-                                  visible: rpDetailItem['status'] == 2 ||
-                                      rpDetailItem['status'] == 4,
+                                  visible: medicineMap['status'] == 2 ||
+                                      medicineMap['status'] == 4,
                                 child: const SizedBox(
                                   width: 8.0,
                                 ),),
                                 Visibility(
-                                    visible: rpDetailItem['status'] == 3 ||
-                                        rpDetailItem['status'] == 4 ||
-                                        rpDetailItem['status'] == 2 ||
-                                        rpDetailItem['status'] == 5,
+                                    visible: medicineMap['status'] == 3 ||
+                                        medicineMap['status'] == 4 ||
+                                        medicineMap['status'] == 2 ||
+                                        medicineMap['status'] == 5,
                                     child: Expanded(
                                         child: CustomElevatedButton(
                                       title: '患者通知',

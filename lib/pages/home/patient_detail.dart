@@ -15,7 +15,9 @@ import 'package:doctor_project/widget/custom_input_widget.dart';
 import 'package:doctor_project/widget/custom_outline_button.dart';
 import 'package:doctor_project/widget/custom_webview.dart';
 import '../../utils/desensitization_utils.dart';
+import 'package:doctor_project/pages/my/write_case.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:doctor_project/pages/my/rp_detail.dart';
 import 'package:flutter/material.dart';
 import '../../http/http_request.dart';
 import '../../config/zego_config.dart';
@@ -47,15 +49,16 @@ class _PatientDetailState extends State<PatientDetail> {
   TextEditingController _textEditingController = TextEditingController();
   _PatientDetailState(this._dataMap);
 
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
 
     mobileStr = DesensitizationUtil.desensitizationMobile(_dataMap['mobile']);
-    cardnoStr = DesensitizationUtil.desensitizationMobile(_dataMap['cardno']);
+    cardnoStr = DesensitizationUtil.desensitizationMobile(_dataMap['cardNo']);
     patientId = int.parse(_dataMap['patientId']);
-    print('patientId===='+patientId.toString());
+//    print('_dataMap===='+_dataMap.toString());
     getData();
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
@@ -75,6 +78,7 @@ class _PatientDetailState extends State<PatientDetail> {
       setState(() {
         list = res['data']['consultList'];
         consultSum = res['data']['consultSum'].toString();
+
         print("List======="+list.toString());
       });
     } else {
@@ -94,18 +98,33 @@ class _PatientDetailState extends State<PatientDetail> {
 
   Widget _renderRow(BuildContext context, int index) {
     var item = list[index];
+    String dictText = item['type_dictText'];
+    if(item['type_dictText']==''){
+      dictText = '无';
+    }
+    print('recipeId ====='+item['recipeId']);
+    _dataMap['id']=item['recipeId'];
+    String registerId = item['registerId'];
     return GestureDetector(
       onTap: () {},
       child: Container(
-        margin: const EdgeInsets.fromLTRB(16.0, 0, 16.0, 10.0),
+//        margin: const EdgeInsets.symmetric(horizontal: 10.0),
+        margin: const EdgeInsets.only(top: 5.0,left: 0.0),
         decoration: BoxDecoration(
             color: Colors.white, borderRadius: BorderRadius.circular(5.0)),
         child: Column(
           children: <Widget>[
             Container(
-              height: 22,
-              margin: const EdgeInsets.only(top: 10.0,left: 21.0),
-              child: Text('问诊类型',style: GSYConstant.textStyle(color: '#333333',fontSize: 16.0)),
+              height: 46,
+              width: double.infinity,
+              padding: const EdgeInsets.only(top: 5.0,left: 10),
+              alignment: Alignment.centerLeft,
+              color: Colors.white,
+              child: Row(
+                children: [
+                  Expanded(child: Text('问诊类型:  '+dictText,style: GSYConstant.textStyle(color: '#666666'))),
+                ],
+              ),
             ),
             const SizedBox(
               height: 9.0,
@@ -115,9 +134,9 @@ class _PatientDetailState extends State<PatientDetail> {
               color: ColorsUtil.hexStringColor('#cccccc', alpha: 0.3),
             ),
             Container(
-              height: 42.0,
+              height: 43.0,
+              margin: const EdgeInsets.symmetric(horizontal: 10.0),
               width: double.infinity,
-              padding: const EdgeInsets.only(left: 16.0,right: 16.0),
               alignment: Alignment.centerLeft,
               color: Colors.white,
               child: Row(
@@ -129,6 +148,37 @@ class _PatientDetailState extends State<PatientDetail> {
                     item['createTime'],
                       style: GSYConstant.textStyle(color: '#666666'),
                     ),
+                  ),
+                  CustomOutlineButton(
+                    title: '查看处方',
+                    textStyle: GSYConstant.textStyle(
+                        fontSize: 13.0, color: '#666666'),
+                    padding:(
+                        const EdgeInsets.symmetric(horizontal: 13.0)
+                    ),
+                    height: 28.0,
+                    borderRadius: BorderRadius.circular(14.0),
+                    borderColor: ColorsUtil.hexStringColor('#09BB8F'),
+                    onPressed: () async {
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=> RecipeDetail(rpDetailItem: {..._dataMap,}, diagnosis: item['diagnosis'],prescriptionId:item['recipeId'],registeredId:item['registerId'])));
+                    },
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  CustomOutlineButton(
+                    title: '查看病历',
+                    textStyle: GSYConstant.textStyle(
+                        fontSize: 13.0, color: '#666666'),
+                    padding:(
+                        const EdgeInsets.symmetric(horizontal: 13.0)
+                    ),
+                    height: 28.0,
+                    borderRadius: BorderRadius.circular(14.0),
+                    borderColor: ColorsUtil.hexStringColor('#09BB8F'),
+                    onPressed: () async {
+                      Navigator.push(context,MaterialPageRoute(builder: (context) => WriteCase(registeredId:item['registerId'],userInfoMap: _dataMap,)));
+                    },
                   ),
                 ]
             ),),
@@ -172,7 +222,7 @@ class _PatientDetailState extends State<PatientDetail> {
                       width: 16.0,
                     ),
                     Text(
-                      _dataMap['sex_dictText'],
+                      _dataMap['sex'],
                       style: GSYConstant.textStyle(color: '#333333'),
                     ),
                     Text(
@@ -196,7 +246,7 @@ class _PatientDetailState extends State<PatientDetail> {
                     width: 40.0,
                     child: _dataMap['photo'] != null
                         ? Image.network(_dataMap['photo'] ?? '')
-                        : _dataMap['sex_dictText'] == '男'
+                        : _dataMap['sex'] == '男'
                         ? Image.asset('assets/images/boy.png')
                         : Image.asset('assets/images/girl.png')),
                 // trailing: SvgUtil.svg('arrow_right.svg')
@@ -244,7 +294,7 @@ class _PatientDetailState extends State<PatientDetail> {
             GestureDetector(
               onTap: () async{
                 var request = HttpRequest.getInstance();
-                var res = await request.get(Api.getPatientIdApi+'?cardNo=${_dataMap['cardno']}', {});
+                var res = await request.get(Api.getPatientIdApi+'?cardNo=${_dataMap['cardNo']}', {});
                 if(res['code']==200){
                   if(res['data'].isNotEmpty) {
                     Navigator.push(
@@ -281,27 +331,17 @@ class _PatientDetailState extends State<PatientDetail> {
               ),
             ),
             Container(
-              height: 22,
-              margin: const EdgeInsets.only(top: 10.0,left: 21.0),
+              height:35 ,
+              margin: const EdgeInsets.only(top: 15.0,left: 21.0),
               child:
                 Column(
                   children: <Widget>[
-                    RichText(
-                      text: const TextSpan(
-                        text: '就诊记录  ',
-                        style: TextStyle(color: Color(0xff333333),fontSize: 16.0),
-                        children: <TextSpan>[
-                          TextSpan( text: '共'),
-                          TextSpan(text:'  ' ,style: TextStyle(color: Color(0xffF54033))
-                            ),
-                          TextSpan(text:'条'),
-                        ],
-                      ),
-                    ),
-                  ],
+                    Text("就诊记录  共 "+consultSum+' 条',style: GSYConstant.textStyle(color: '#333333',fontSize: 16.0)),
+                  ]
+            )
+
                 ),
-            ),
-            Container(
+            Expanded(
               child:RefreshIndicator(
                 displacement: 10.0,
                 onRefresh: _onRefresh,

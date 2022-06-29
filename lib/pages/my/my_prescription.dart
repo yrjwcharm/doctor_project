@@ -180,10 +180,6 @@ class _MyPrescriptionState extends State<MyPrescription> {
                       (item['diagnosisVOS']??[]).forEach((element) {
                           diagnosis.add(element['diagnosisName']);
                       });
-                      print('111111111$diagnosis');
-                      print('prescriptionId-------'+prescriptionId);
-                      print('registeredId-------'+registeredId);
-
                       String str = '';
                       diagnosis.forEach((f){
                         if(str == ''){

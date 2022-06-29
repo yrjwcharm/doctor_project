@@ -33,6 +33,7 @@ class _WriteCaseState extends State<WriteCase> {
 
   _WriteCaseState({required this.registeredId, required this.userInfoMap});
 
+
   List list = [
     {'label': '就诊卡类型', 'value': '身份证', 'disabled': true, 'isArrow': false},
     {'label': '就诊卡号码', 'value': '', 'disabled': false, 'isArrow': false},
@@ -53,12 +54,13 @@ class _WriteCaseState extends State<WriteCase> {
   @override
   void initState() {
     super.initState();
+
     initData();
   }
 
   initData() async {
     // orderType: 0, sex_dictText: 男, orderId: 438473548739248128, patientId: 434594600976515072, sex: 1, photo: https://thirdwx.qlogo.cn/mmopen/vi_32/Rn6mndkYqAo7nglXbmvVnruEsh29dVRDRiaX89CrIAM8uNyiaHFFiceFaDdxNrv9yCA7guZdEMiawfBm3RFrVnU5Xw/132, type_dictText: 图文问诊, status_dictText: 接诊中, isRepeat_dictText: 是, type: 0, diseaseTime_dictText: 一月内, orderType_dictText: 复诊拿药, times: 2天前, diseaseTime: 2, diseaseData: [http://yywd-1302755873.cos.ap-nanjing.myqcloud.com/1650855302278.png], phone: 18311410379, name: 闫瑞锋, id: 438473548663750656, isRepeat: 2, age: 27, diseaseDesc: 陌陌, status: 1
-    // print('222222${userInfoMap.toString()}');
+     print('222222${userInfoMap.toString()}');
     list[1]['value'] = userInfoMap['cardNo'];
     list[2]['value'] = userInfoMap['name'];
     list[3]['value'] = userInfoMap['sex_dictText'];
