@@ -68,16 +68,7 @@ class _ChatPageState extends State<ChatPage> {
   _ChatPageState({required this.userInfoMap});
 
   List<types.Message> _messages = [];
-  List commonWordsList = [
-    '症状持续几天了？',
-    '我建议你先去医院检查一下，这里我也没办法您…',
-    '请问还有什么可以帮到您的？',
-    '患病多久了，是否复诊过？'
-        '正在开方，请您稍等……',
-    '对不起，让您久等了',
-    '请您稍等，医生正在为你开立处方...',
-    '您好，请问哪里不舒服？',
-  ];
+  List commonWordsList = [];
 
   // final _user = const types.User(id: '06c33e8b-e835-4736-80f4-63f44b66666c');
   types.User _user = const types.User(id: '');
@@ -97,7 +88,7 @@ class _ChatPageState extends State<ChatPage> {
   List<ZegoUser> _allUsers = [];
   List<ZegoUser> _customCommandSelectedUsers = [];
   TextEditingController _editingController = new TextEditingController();
-  TextEditingController _broadcastMessageController =
+  final TextEditingController _broadcastMessageController =
       new TextEditingController();
   TextEditingController _customCommandController = new TextEditingController();
   TextEditingController _barrageMessageController = new TextEditingController();
@@ -121,12 +112,8 @@ class _ChatPageState extends State<ChatPage> {
     loginRoom();
 
     setZegoEventCallback();
-    print("userInfoMap-------" + this.userInfoMap.toString());
-
     // _loadMessages();
     _focusNode.addListener(() {
-      print('foucus1111,${_focusNode.hasFocus}');
-      print('foucus2222,$_emojiState');
       if(_focusNode.hasFocus){
         setState(() {
           if(_emojiState){
@@ -234,7 +221,7 @@ class _ChatPageState extends State<ChatPage> {
             firstName: res['data']['realName'],
             imageUrl: res['data']['photoUrl'] ?? '');
       });
-      // getCommonWordsList(res['data']['userId'].toString());
+      getCommonWordsList(res['data']['userId'].toString());
     }
   }
 
@@ -535,7 +522,7 @@ class _ChatPageState extends State<ChatPage> {
     types.PreviewData previewData,
   ) {
     final index = _messages.indexWhere((element) => element.id == message.id);
-    final updatedMessage = _messages[index].copyWith(previewData: previewData);
+    final updatedMessage = _messages[index].copyWith();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       setState(() {
@@ -949,7 +936,7 @@ class _ChatPageState extends State<ChatPage> {
                   onTap: () {
                     _common_word_state = false;
                     _handleSendPressed(
-                        PartialText(text: commonWordsList[index]));
+                        PartialText(text: commonWordsList[index].remark));
 
                     // setState(() {});
                   },
@@ -964,7 +951,7 @@ class _ChatPageState extends State<ChatPage> {
                                 color: ColorsUtil.hexStringColor('#cccccc',
                                     alpha: 0.3)))),
                     child: Text(
-                      commonWordsList[index],
+                      commonWordsList[index].remark,
                       style: GSYConstant.textStyle(
                           fontSize: 14.0, color: '#666666'),
                     ),
@@ -992,7 +979,7 @@ class _ChatPageState extends State<ChatPage> {
                       verticalSpacing: 0,
                       horizontalSpacing: 0,
                       initCategory: Category.RECENT,
-                      bgColor: Color(0xFFF2F2F2),
+                      bgColor: const Color(0xFFF2F2F2),
                       indicatorColor: Colors.blue,
                       iconColor: Colors.grey,
                       iconColorSelected: Colors.blue,
@@ -1003,7 +990,7 @@ class _ChatPageState extends State<ChatPage> {
                       enableSkinTones: true,
                       showRecentsTab: true,
                       recentsLimit: 28,
-                      noRecentsText: 'No Recents',
+                      noRecents: const Text('No Recents'),
                       tabIndicatorAnimDuration: kTabScrollDuration,
                       categoryIcons: const CategoryIcons(),
                       buttonMode: ButtonMode.MATERIAL,

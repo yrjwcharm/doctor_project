@@ -12,6 +12,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:jpush_flutter/jpush_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([
@@ -107,31 +108,32 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-        designSize: const Size(375, 812),
-        minTextAdapt: true,
-        splitScreenMode: true,
-        builder: (child) {
-          return MaterialApp(
-            navigatorKey: navigatorKey,
-            localizationsDelegates: const [
-              GlobalCupertinoLocalizations.delegate,
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate
-            ],
-            supportedLocales: const [
-              Locale('zh', 'CN'), //设置语言为中文
-            ],
-            debugShowCheckedModeBanner: false,
-            // 设置这一属性即可
-            initialRoute: '/',
-            builder: EasyLoading.init(),
-            routes: {
-              '/': (context) => Main(),
-              '/login': (context) => LoginPage(),
-              '/register': (context) => RegisterContent(),
-              '/TabHome': (context) => Main(),
-            },
-          );
-        });
+      designSize: const Size(375, 812),
+      minTextAdapt: true,
+      splitScreenMode: true,
+      builder: (BuildContext context, Widget? child) {
+        return MaterialApp(
+          navigatorKey: navigatorKey,
+          localizationsDelegates: const [
+            GlobalCupertinoLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate
+          ],
+          supportedLocales: const [
+            Locale('zh', 'CN'), //设置语言为中文
+          ],
+          debugShowCheckedModeBanner: false,
+          // 设置这一属性即可
+          initialRoute: '/',
+          builder: EasyLoading.init(),
+          routes: {
+            '/': (context) => Main(),
+            '/login': (context) => LoginPage(),
+            '/register': (context) => RegisterContent(),
+            '/TabHome': (context) => Main(),
+          },
+        );
+      },
+    );
   }
 }
