@@ -66,7 +66,7 @@ class _BasicInfoState extends State<BasicInfo> {
       address = res['data']['address'] ?? '';
       drInfo = res['data']['drInfo'] ?? '';
       if(null !=res['data']['sex']){
-        sex = res['data']['sex'].toString() ?? '';
+        sex = res['data']['sex'].toString();
       }
     }
     list.add({'label':'姓名','placeholder':name,'enabled':false});

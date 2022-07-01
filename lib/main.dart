@@ -1,3 +1,4 @@
+import 'package:creator/creator.dart';
 import 'package:doctor_project/pages/home/chat_room.dart';
 import 'package:doctor_project/pages/home/make_prescription.dart';
 import 'package:doctor_project/pages/login/login.dart';
@@ -28,7 +29,7 @@ void main() async {
   //           statusBarIconBrightness: Brightness.light  // dark:一般显示黑色   light：一般显示白色
   //       ));
   // }
-  runApp(const MyApp());
+  runApp(CreatorGraph(child: const MyApp(),));
 }
 
 final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
