@@ -262,22 +262,28 @@ class _OrderDetailState extends State<OrderDetail> {
                 ),
                 GestureDetector(
                   onTap: () async{
-                    var request = HttpRequest.getInstance();
-                    var res = await request.get(Api.getPatientIdApi+'?cardNo=${_map['cardNo']}', {});
-                    if(res['code']==200){
-                      if(res['data'].isNotEmpty) {
+                    // var request = HttpRequest.getInstance();
+                    // var res = await request.get(Api.getPatientIdApi+'?cardNo=${_map['cardNo']}', {});
+                    // if(res['code']==200){
+                    //   if(res['data'].isNotEmpty) {
+                    //     Navigator.push(
+                    //         context,
+                    //         MaterialPageRoute(
+                    //             builder: (context) =>
+                    //                 GSYWebView(
+                    //                   Api.view360Api + '??paId=${res['data']}',
+                    //                 )));
+                    //   }else{
+                    //     ToastUtil.showToast(msg: '暂不支持查看360视图');
+                    //   }
+                    // }
                         Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
                                     GSYWebView(
-                                      Api.view360Api + '??paId=${res['data']}',
+                                      '',
                                     )));
-                      }else{
-                        ToastUtil.showToast(msg: '暂不支持查看360视图');
-                      }
-                    }
-
                   },
                   child: Container(
                     height: 40.0,

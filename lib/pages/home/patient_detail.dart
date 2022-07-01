@@ -255,10 +255,10 @@ class _PatientDetailState extends State<PatientDetail> {
             Container(
                 height: 42.0,
                 width: double.infinity,
-                decoration: const BoxDecoration(color: Colors.grey),
+                decoration: const BoxDecoration(color: Colors.white),
                 padding: const EdgeInsets.only(left: 21.0),
                 alignment: Alignment.centerLeft,
-                color: Colors.white,
+                // color: Colors.white,
                 child: Row(
                   children: [
                     Expanded(
@@ -275,10 +275,10 @@ class _PatientDetailState extends State<PatientDetail> {
             Container(
                 height: 42.0,
                 width: double.infinity,
-                decoration: const BoxDecoration(color: Colors.grey),
+                decoration: const BoxDecoration(color: Colors.white),
                 padding: const EdgeInsets.only(left: 21.0),
                 alignment: Alignment.centerLeft,
-                color: Colors.white,
+                // color: Colors.white,
                 child: Row(
                   children: [
                     Expanded(
