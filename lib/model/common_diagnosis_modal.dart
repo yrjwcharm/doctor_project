@@ -1,12 +1,12 @@
 import 'dart:convert';
 /// code : 200
-/// data : [{"name":"跖趾关节结核","type_dictText":"系统","details":[{"diagnosisName":"跖趾关节结核","seqNo":1,"diagnosisId":1,"diagnosisCode":"A18.012+","id":1,"templateId":4}],"id":4,"type":0}]
+/// data : [{"name":"跖趾关节结核","type_dictText":"系统","details":[{"diagnosisName":"跖趾关节结核","seqNo":1,"diagnosisId":"1","diagnosisCode":"A18.012+","id":"1","templateId":"4"}],"id":"4","type":0}]
 /// msg : "成功"
 
-CommonDiagnosisModel commonDiagnosisModelFromJson(String str) => CommonDiagnosisModel.fromJson(json.decode(str));
-String commonDiagnosisModelToJson(CommonDiagnosisModel data) => json.encode(data.toJson());
-class CommonDiagnosisModel {
-  CommonDiagnosisModel({
+CommonDiagnosisModal commonDiagnosisModalFromJson(String str) => CommonDiagnosisModal.fromJson(json.decode(str));
+String commonDiagnosisModalToJson(CommonDiagnosisModal data) => json.encode(data.toJson());
+class CommonDiagnosisModal {
+  CommonDiagnosisModal({
       int? code, 
       List<Data>? data, 
       String? msg,}){
@@ -15,7 +15,7 @@ class CommonDiagnosisModel {
     _msg = msg;
 }
 
-  CommonDiagnosisModel.fromJson(dynamic json) {
+  CommonDiagnosisModal.fromJson(dynamic json) {
     _code = json['code'];
     if (json['data'] != null) {
       _data = [];
@@ -28,10 +28,10 @@ class CommonDiagnosisModel {
   int? _code;
   List<Data>? _data;
   String? _msg;
-CommonDiagnosisModel copyWith({  int? code,
+CommonDiagnosisModal copyWith({  int? code,
   List<Data>? data,
   String? msg,
-}) => CommonDiagnosisModel(  code: code ?? _code,
+}) => CommonDiagnosisModal(  code: code ?? _code,
   data: data ?? _data,
   msg: msg ?? _msg,
 );
@@ -53,8 +53,8 @@ CommonDiagnosisModel copyWith({  int? code,
 
 /// name : "跖趾关节结核"
 /// type_dictText : "系统"
-/// details : [{"diagnosisName":"跖趾关节结核","seqNo":1,"diagnosisId":1,"diagnosisCode":"A18.012+","id":1,"templateId":4}]
-/// id : 4
+/// details : [{"diagnosisName":"跖趾关节结核","seqNo":1,"diagnosisId":"1","diagnosisCode":"A18.012+","id":"1","templateId":"4"}]
+/// id : "4"
 /// type : 0
 
 Data dataFromJson(String str) => Data.fromJson(json.decode(str));
@@ -64,7 +64,7 @@ class Data {
       String? name, 
       String? typeDictText, 
       List<Details>? details, 
-      int? id, 
+      String? id, 
       int? type,}){
     _name = name;
     _typeDictText = typeDictText;
@@ -88,12 +88,12 @@ class Data {
   String? _name;
   String? _typeDictText;
   List<Details>? _details;
-  int? _id;
+  String? _id;
   int? _type;
 Data copyWith({  String? name,
   String? typeDictText,
   List<Details>? details,
-  int? id,
+  String? id,
   int? type,
 }) => Data(  name: name ?? _name,
   typeDictText: typeDictText ?? _typeDictText,
@@ -104,7 +104,7 @@ Data copyWith({  String? name,
   String? get name => _name;
   String? get typeDictText => _typeDictText;
   List<Details>? get details => _details;
-  int? get id => _id;
+  String? get id => _id;
   int? get type => _type;
 
   Map<String, dynamic> toJson() {
@@ -123,10 +123,10 @@ Data copyWith({  String? name,
 
 /// diagnosisName : "跖趾关节结核"
 /// seqNo : 1
-/// diagnosisId : 1
+/// diagnosisId : "1"
 /// diagnosisCode : "A18.012+"
-/// id : 1
-/// templateId : 4
+/// id : "1"
+/// templateId : "4"
 
 Details detailsFromJson(String str) => Details.fromJson(json.decode(str));
 String detailsToJson(Details data) => json.encode(data.toJson());
@@ -134,10 +134,10 @@ class Details {
   Details({
       String? diagnosisName, 
       int? seqNo, 
-      int? diagnosisId, 
+      String? diagnosisId, 
       String? diagnosisCode, 
-      int? id, 
-      int? templateId,}){
+      String? id, 
+      String? templateId,}){
     _diagnosisName = diagnosisName;
     _seqNo = seqNo;
     _diagnosisId = diagnosisId;
@@ -156,16 +156,16 @@ class Details {
   }
   String? _diagnosisName;
   int? _seqNo;
-  int? _diagnosisId;
+  String? _diagnosisId;
   String? _diagnosisCode;
-  int? _id;
-  int? _templateId;
+  String? _id;
+  String? _templateId;
 Details copyWith({  String? diagnosisName,
   int? seqNo,
-  int? diagnosisId,
+  String? diagnosisId,
   String? diagnosisCode,
-  int? id,
-  int? templateId,
+  String? id,
+  String? templateId,
 }) => Details(  diagnosisName: diagnosisName ?? _diagnosisName,
   seqNo: seqNo ?? _seqNo,
   diagnosisId: diagnosisId ?? _diagnosisId,
@@ -175,10 +175,10 @@ Details copyWith({  String? diagnosisName,
 );
   String? get diagnosisName => _diagnosisName;
   int? get seqNo => _seqNo;
-  int? get diagnosisId => _diagnosisId;
+  String? get diagnosisId => _diagnosisId;
   String? get diagnosisCode => _diagnosisCode;
-  int? get id => _id;
-  int? get templateId => _templateId;
+  String? get id => _id;
+  String? get templateId => _templateId;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};

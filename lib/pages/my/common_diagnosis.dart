@@ -1,8 +1,6 @@
 import 'package:doctor_project/common/style/gsy_style.dart';
 import 'package:doctor_project/http/http_request.dart';
-import 'package:doctor_project/model/common_diagnosis_model.dart';
 import 'package:doctor_project/pages/my/add_common_diagnosis.dart';
-import 'package:doctor_project/pages/tabs/main.dart';
 import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:doctor_project/utils/svg_util.dart';
 import 'package:doctor_project/widget/custom_safeArea_button.dart';
@@ -12,6 +10,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 import '../../http/api.dart';
+import '../../model/common_diagnosis_modal.dart';
 import '../../utils/toast_util.dart';
 import '../../widget/custom_app_bar.dart';
 
@@ -39,11 +38,11 @@ class _CommonDiagnosisState extends State<CommonDiagnosis> {
 
   getCommonDiagnosisList() async {
     var response = await HttpRequest.getInstance()
-        .get(Api.getCommonDiagnosisTemplateApi + '?doctorId=${doctorId}', {});
-    var res = CommonDiagnosisModel.fromJson(response);
-    if (res.code == 200) {
-      commonDiagnosisList = res.data!;
-      setState(() {});
+        .get(Api.getCommonDiagnosisTemplateApi + '?doctorId=$doctorId', {});
+    var res = CommonDiagnosisModal.fromJson(response);
+    if(res.code==200){
+        commonDiagnosisList = res.data!;
+        setState(() {});
     }
   }
 

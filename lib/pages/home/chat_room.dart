@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:doctor_project/common/style/gsy_style.dart';
 import 'package:doctor_project/http/http_request.dart';
+import 'package:doctor_project/model/common_words_modal.dart';
 import 'package:doctor_project/pages/home/common_rp.dart';
 import 'package:doctor_project/pages/home/make_prescription.dart';
 import 'package:doctor_project/pages/home/video_topic.dart';
@@ -33,7 +34,6 @@ import 'package:zego_express_engine/zego_express_engine.dart';
 
 import '../../config/zego_config.dart';
 import '../../http/api.dart';
-import '../../model/common_words_model.dart';
 import '../../utils/svg_util.dart';
 
 class ChatRoom extends StatelessWidget {
@@ -134,7 +134,7 @@ class _ChatPageState extends State<ChatPage> {
   getCommonWordsList(String doctorId) async{
     var response = await HttpRequest.getInstance()
         .get(Api.getCommonWordsTemplateApi + '?doctorId=$doctorId', {});
-    var res = CommonWordsModel.fromJson(response);
+    var res = CommonWordsModal.fromJson(response);
     if (res.code == 200) {
       commonWordsList = res.data!;
       setState(() {});
