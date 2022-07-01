@@ -78,6 +78,7 @@ void getNet_diagnosisList () async{
     }
 
     dataMap = response.data["data"];
+    print(dataMap);
     int total = dataMap["total"];
     int size = dataMap["size"];
     int totalPage = (total ~/ size) +1 ;

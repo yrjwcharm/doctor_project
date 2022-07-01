@@ -138,7 +138,6 @@ class _InquiryRecordState extends State<InquiryRecord> {
                     itemBuilder: (BuildContext context, int index) {
                       var item = list[index];
                       bool state = item['status_dictText']=='已取消'?false:true;
-
                       // List<String>  diagnosis = [];
                       // (item['diagnosisVOS']??[]).forEach((element) {
                       //     diagnosis.add(element['diagnosisName']);
@@ -154,11 +153,11 @@ class _InquiryRecordState extends State<InquiryRecord> {
                       // });
         
                       return GestureDetector(
-                        // onTap: (){
-                          // Navigator.push(context, MaterialPageRoute(builder: (context)=>  RecipeDetail(rpDetailItem: {...item},diagnosis:str))).then((value) => {
-                          //   getData()
-                          // });
-                        // },
+//                         onTap: (){
+//                           Navigator.push(context, MaterialPageRoute(builder: (context)=>  RecipeDetail(rpDetailItem: {...item},diagnosis:str))).then((value) => {
+//                             getData()
+//                           });
+//                         },
                           child: Column(
                             children: [
                               Container(
