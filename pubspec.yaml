@@ -97,7 +97,7 @@ dependencies:
   #特殊列表滑动
   wechat_assets_picker: ^7.3.0
   flutter_picker: ^2.0.3
-  jpush_flutter: 2.2.5
+  jpush_flutter: 2.3.3
   emoji_picker_flutter: ^1.1.2
   marquee: ^2.2.3
 dev_dependencies:
