@@ -52,10 +52,10 @@ class _GSYWebViewState extends State<GSYWebView> {
           ),
           WebView(
               initialUrl: widget.url,
-              onWebViewCreated: (WebViewController webViewController){
-                _webViewController = webViewController;
-                _loadHtmlFromAssets();
-              },
+              // onWebViewCreated: (WebViewController webViewController){
+              //   _webViewController = webViewController;
+              //   _loadHtmlFromAssets();
+              // },
               javascriptMode: JavascriptMode.unrestricted,
               onPageFinished: (_) {
                 setState(() {
