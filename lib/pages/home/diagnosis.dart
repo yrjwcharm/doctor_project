@@ -1,7 +1,10 @@
+import 'package:creator/creator.dart';
 import 'package:dio/dio.dart';
+import 'package:doctor_project/common/creator/logic.dart';
 import 'package:doctor_project/common/style/gsy_style.dart';
 import 'package:doctor_project/http/api.dart';
 import 'package:doctor_project/http/http_request.dart';
+import 'package:doctor_project/model/common_diagnosis_modal.dart';
 import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:doctor_project/utils/svg_util.dart';
 import 'package:doctor_project/widget/custom_app_bar.dart';
@@ -10,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../common/creator/sample.dart';
 import '../../widget/custom_elevated_button.dart';
 import 'package:doctor_project/widget/custom_safeArea_button.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -33,20 +37,21 @@ class _DiagnosisState extends State<Diagnosis> {
 
   _DiagnosisState({required this.type, required this.checkedDataList});
 
-  Map dataMap = new Map(); //诊断列表数据
+  Map dataMap = {}; //诊断列表数据
   List detailDataList = []; //诊断列表数据
-  List commonList = [
-    {'title': '风寒感冒'},
-    {'title': '糖尿病'},
-    {'title': '腰肌劳损'},
-    {'title': '痛风'}
+  List<Data> commonList = [
+    // {'title': '风寒感冒'},
+    // {'title': '糖尿病'},
+    // {'title': '腰肌劳损'},
+    // {'title': '痛风'}
   ];
   final ScrollController _scrollController = ScrollController(); //listview的控制器
   int _page = 1; //加载的页数
   bool isLoading = false; //判断 loading框是否隐藏
   String loadText = ""; //加载时显示的文字
+  bool commonlyUsedIsHidden = true; //常用诊断是否隐藏
   bool diagnosisListIsHidden = true; //诊断列表是否隐藏
-  bool checkedDiagnosisIsHidden = true; //选中列表是否隐藏
+  bool checkedDiagnosisIsHidden = false; //选中列表是否隐藏
 
   final TextEditingController _editingController = TextEditingController();
   final FocusNode _contentFocusNode = FocusNode();
@@ -54,7 +59,9 @@ class _DiagnosisState extends State<Diagnosis> {
   @override
   void initState() {
     super.initState();
-
+    Future.delayed(Duration.zero,(){
+      getCommonDiagnosisList();
+    });
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
@@ -65,8 +72,13 @@ class _DiagnosisState extends State<Diagnosis> {
   }
 
   getCommonDiagnosisList() async {
-    var res = await HttpRequest.getInstance()
-        .post(Api.getCommonDiagnosisTemplateApi, {'docId': ''});
+    String docId = context.ref.read(docIdCreator);
+    var response = await HttpRequest.getInstance()
+        .get(Api.getCommonDiagnosisTemplateApi+'?doctorId=$docId', {});
+    var res = CommonDiagnosisModal.fromJson(response);
+    if(res.code==200){
+       commonList= res.data!;
+    }
 
   }
 
@@ -101,7 +113,7 @@ class _DiagnosisState extends State<Diagnosis> {
       print(totalPage);
 
       setState(() {
-        // commonlyUsedIsHidden = true;
+        commonlyUsedIsHidden = true;
         diagnosisListIsHidden = false;
         checkedDiagnosisIsHidden = true;
         detailDataList.addAll(dataMap["records"]);
@@ -330,7 +342,7 @@ class _DiagnosisState extends State<Diagnosis> {
                       _editingController.clear();
                       _contentFocusNode.unfocus();
                       setState(() {
-                        // commonlyUsedIsHidden = false;
+                        commonlyUsedIsHidden = false;
                         diagnosisListIsHidden = true;
                         checkedDiagnosisIsHidden =
                             checkedDataList.length > 0 ? false : true;
@@ -349,26 +361,26 @@ class _DiagnosisState extends State<Diagnosis> {
               ],
             ),
           ),
-          // Visibility(
-          //   visible: !commonlyUsedIsHidden,
-          //     child: Container(
-          //       alignment: Alignment.centerLeft,
-          //       margin: const EdgeInsets.only(left:16.0,top: 24.0,bottom: 16.0),
-          //       child: Text('常用诊断',style: GSYConstant.textStyle(fontSize: 15.0,fontWeight: FontWeight.w500,color: '#333333'),),
-          //     ),
-          // ),
-          // Visibility(
-          //   visible: !commonlyUsedIsHidden,
-          //     child: Wrap(
-          //         runSpacing: 8.0,
-          //         spacing: 8.0,
-          //         children:commonList.map((item) =>CustomElevatedButton(elevation:0,title: item['title'],
-          //           onPressed: (){
-          //
-          //           },height: 29.0,primary: '#F7F7F7',textStyle: GSYConstant.textStyle(color: '#666666'), borderRadius: BorderRadius.circular(15.0),),
-          //         ).toList()
-          //     ),
-          // ),
+          Visibility(
+            visible: !commonlyUsedIsHidden,
+              child: Container(
+                alignment: Alignment.centerLeft,
+                margin: const EdgeInsets.only(left:16.0,top: 24.0,bottom: 16.0),
+                child: Text('常用诊断',style: GSYConstant.textStyle(fontSize: 15.0,fontWeight: FontWeight.w500,color: '#333333'),),
+              ),
+          ),
+          Visibility(
+            visible: !commonlyUsedIsHidden,
+              child: Wrap(
+                  runSpacing: 8.0,
+                  spacing: 8.0,
+                  children:commonList.map((item) =>CustomElevatedButton(elevation:0,title: item.name!,
+                    onPressed: (){
+
+                    },height: 29.0,primary: '#F7F7F7',textStyle: GSYConstant.textStyle(color: '#666666'), borderRadius: BorderRadius.circular(15.0),),
+                  ).toList()
+              ),
+          ),
           Visibility(
               visible: !diagnosisListIsHidden,
               child: Expanded(
