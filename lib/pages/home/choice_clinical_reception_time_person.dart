@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:doctor_project/common/style/gsy_style.dart';
 import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:doctor_project/utils/svg_util.dart';
@@ -12,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'dart:math';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import '../../http/http_request.dart';
 import '../../http/api.dart';
 import '../../utils/toast_util.dart';
@@ -159,22 +162,6 @@ class _ChoiceClinicReceptTimePersonState
   }
 
   Future updateTime(String id,String patientCount,String startTime,String endTime) async {
-
-    String start=startTime.replaceAll(':', '');
-    String end=endTime.replaceAll(':', '');
-    print("======startM"+start+'\n end \n\n'+end);
-
-    if(int.parse(end)-int.parse(start)<0){
-      ToastUtil.showToast(msg: '结束时间不能早于开始时间！');
-      return;
-    }
-//    else if(int.parse(end)==int.parse(start)){
-//      if(int.parse(endM)-int.parse(startM)<0){
-//        ToastUtil.showToast(msg: '结束时间不能早于开始时间！');
-//        return;
-//      }
-//    }
-
     var request = HttpRequest.getInstance();
     var res =
     await request.post(Api.checkUpdateDetail, {
@@ -183,7 +170,6 @@ class _ChoiceClinicReceptTimePersonState
       'startTime':startTime,
       'endTime':endTime
     });
-    print("updateTime+++++++++++++"+res.toString());
     if (res['code'] == 200) {
       setState(() {});
     }else{
@@ -253,6 +239,33 @@ class _ChoiceClinicReceptTimePersonState
             child: child,
           ),
         ));
+  }
+
+  bool _checkTime(String startTime,String endTime) {
+    String startInput=startTime.replaceAll(':', '');
+    String endInput=endTime.replaceAll(':', '');
+
+    if(int.parse(endInput)-int.parse(startInput)<0){
+      ToastUtil.showToast(msg: '结束时间不能早于开始时间！');
+      return false;
+    }
+//    for(int i = 0;i < list[chooseDay]['timeList'].length;i++){
+//      String startT = list[chooseDay]['timeList'][i]['startTime'].replaceAll(':', '');
+//      print('startT ====='+startT);
+//
+//      String endT = list[chooseDay]['timeList'][i]['endTime'].replaceAll(':', '');
+//      print('endT ====='+endT);
+//
+//      if(int.parse(startInput)>int.parse(startT) && int.parse(startInput)<int.parse(endT)){
+//        ToastUtil.showToast(msg: '当前时间段已存在，请勿重复添加');
+//        return false;
+//      }
+//      else if(int.parse(startInput)<int.parse(startT) && int.parse(endInput)<int.parse(endT)){
+//        ToastUtil.showToast(msg: '当前时间段已存在，请勿重复添加');
+//        return false;
+//      }
+//    }
+    return true;
   }
 
   @override
@@ -495,8 +508,11 @@ class _ChoiceClinicReceptTimePersonState
                                                     String timeStr = newTime.toString();
                                                     timeStr = timeStr.substring(10);
                                                     timeStr = timeStr.substring(0, 6);
-                                                    setState(() => list[chooseDay]['timeList'][index]['startTime'] = timeStr);
-                                                    updateTime(list[chooseDay]['timeList'][index]['id'].toString(), list[chooseDay]['timeList'][index]['patientCount'].toString(),list[chooseDay]['timeList'][index]['startTime'],list[chooseDay]['timeList'][index]['endTime']);
+
+                                                    if(_checkTime(timeStr, list[chooseDay]['timeList'][index]['endTime'])){
+                                                      setState(() => list[chooseDay]['timeList'][index]['startTime'] = timeStr);
+                                                      updateTime(list[chooseDay]['timeList'][index]['id'].toString(), list[chooseDay]['timeList'][index]['patientCount'].toString(),list[chooseDay]['timeList'][index]['startTime'],list[chooseDay]['timeList'][index]['endTime']);
+                                                    }
                                                   },
                                                 ),
                                               );
@@ -538,6 +554,7 @@ class _ChoiceClinicReceptTimePersonState
                                                     String timeStr = newTime.toString();
                                                     timeStr = timeStr.substring(10);
                                                     timeStr = timeStr.substring(0, 6);
+                                                    if(_checkTime(list[chooseDay]['timeList'][index]['startTime'], timeStr))
                                                     setState(() => list[chooseDay]['timeList'][index]['endTime'] = timeStr);
                                                     updateTime(list[chooseDay]['timeList'][index]['id'], list[chooseDay]['timeList'][index]['patientCount'].toString(),list[chooseDay]['timeList'][index]['startTime'],list[chooseDay]['timeList'][index]['endTime']);
                                                   },

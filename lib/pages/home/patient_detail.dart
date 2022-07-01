@@ -98,9 +98,11 @@ class _PatientDetailState extends State<PatientDetail> {
 
   Widget _renderRow(BuildContext context, int index) {
     var item = list[index];
+    double height = 65;
     String dictText = item['type_dictText'];
     if(item['type_dictText']==''){
       dictText = '无';
+      height = 46;
     }
     print('recipeId ====='+item['recipeId']);
     _dataMap['id']=item['recipeId'];
@@ -115,20 +117,31 @@ class _PatientDetailState extends State<PatientDetail> {
         child: Column(
           children: <Widget>[
             Container(
-              height: 46,
+              height: height,
               width: double.infinity,
-              padding: const EdgeInsets.only(top: 5.0,left: 10),
+              padding: const EdgeInsets.only(top: 0.0,left: 10),
               alignment: Alignment.centerLeft,
               color: Colors.white,
-              child: Row(
-                children: [
-                  Expanded(child: Text('问诊类型:  '+dictText,style: GSYConstant.textStyle(color: '#666666'))),
-                ],
+              child: ListTile(
+                title: Row(
+                  children: [
+                    Text('问诊类型:  ',style: GSYConstant.textStyle(color: '#666666')),
+                    Text(dictText,style: GSYConstant.textStyle(color: '#333333'),)
+                  ],
+                ),
+                contentPadding: height==60?EdgeInsets.all(5):EdgeInsets.all(0),
+                subtitle:
+                  Row(
+                    children: [
+                      height==65?Text('诊断:  ',style: GSYConstant.textStyle(color: '#666666')):Text(''),
+                      height==65?Text(item['diagnosis'],style: GSYConstant.textStyle(color: '#333333')):Text(''),
+                    ],
+                  ),
               ),
             ),
-            const SizedBox(
-              height: 9.0,
-            ),
+//            const SizedBox(
+//              height: 9.0,
+//            ),
             Divider(
               height: 1,
               color: ColorsUtil.hexStringColor('#cccccc', alpha: 0.3),
@@ -334,11 +347,32 @@ class _PatientDetailState extends State<PatientDetail> {
               height:35 ,
               margin: const EdgeInsets.only(top: 15.0,left: 21.0),
               child:
-                Column(
-                  children: <Widget>[
-                    Text("就诊记录  共 "+consultSum+' 条',style: GSYConstant.textStyle(color: '#333333',fontSize: 16.0)),
-                  ]
-            )
+//                Column(
+//                  children: <Widget>[
+//                    Text("就诊记录  共 "+consultSum+' 条',style: GSYConstant.textStyle(color: '#333333',fontSize: 16.0)),
+//                  ]
+//            )
+              RichText(
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text: "就诊记录 ",
+                      style: TextStyle(fontSize: 16.0, color: Color.fromRGBO(51, 51, 51, 1),),
+                    ),
+                    TextSpan(
+                      text: "  共 ",
+                      style: TextStyle(fontSize: 16.0, color: Color.fromRGBO(102, 102, 102, 1),),
+                    ),
+                    TextSpan(
+                      text: consultSum,
+                      style: TextStyle(color: Color.fromRGBO(245, 64, 51, 1),),
+                    ),
+                    TextSpan(
+                      text: " 条",
+                      style: TextStyle(color: Color.fromRGBO(102, 102, 102, 1),),
+                    ),
+                  ],
+                ),),
 
                 ),
             Expanded(

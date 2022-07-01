@@ -76,9 +76,39 @@ class _DiagnosisState extends State<Diagnosis> {
     var response = await HttpRequest.getInstance()
         .get(Api.getCommonDiagnosisTemplateApi+'?doctorId=$docId', {});
     var res = CommonDiagnosisModal.fromJson(response);
-    if(res.code==200){
-       commonList= res.data!;
+    if(res.code==200) {
+      commonList = res.data!;
     }
+
+    dataMap = response.data["data"];
+    print(dataMap);
+    int total = dataMap["total"];
+    int size = dataMap["size"];
+    int totalPage = (total ~/ size) +1 ;
+    print(totalPage);
+
+    setState(() {
+
+      // commonlyUsedIsHidden = true;
+      diagnosisListIsHidden = false ;
+      checkedDiagnosisIsHidden = true;
+      detailDataList.addAll(dataMap["records"]);
+    });
+
+
+    if(dataMap["records"].length <10 || _page ==totalPage){
+
+      loadText = "没有更多数据";
+      isLoading = false ;
+    }else{
+      loadText = "上拉加载更多";
+      isLoading = false;
+    }
+
+//    print("data= " + response.data.toString() + "url= " + response.realUri.toString());
+//  }else{
+//
+    Fluttertoast.showToast(msg: response.data['msg'], gravity: ToastGravity.CENTER);
 
   }
 
