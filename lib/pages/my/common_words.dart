@@ -1,5 +1,4 @@
 import 'package:doctor_project/http/http_request.dart';
-import 'package:doctor_project/model/common_words_model.dart';
 import 'package:doctor_project/pages/my/add_common_words.dart';
 import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:doctor_project/utils/svg_util.dart';
@@ -11,6 +10,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 
 import '../../common/style/gsy_style.dart';
 import '../../http/api.dart';
+import '../../model/common_words_modal.dart';
 import '../../widget/custom_safeArea_button.dart';
 
 class CommonWords extends StatefulWidget {
@@ -39,7 +39,7 @@ class _CommonWordsState extends State<CommonWords> {
   getCommonWordsList() async {
     var response = await HttpRequest.getInstance()
         .get(Api.getCommonWordsTemplateApi + '?doctorId=${doctorId}', {});
-    var res = CommonWordsModel.fromJson(response);
+    var res = CommonWordsModal.fromJson(response);
     if (res.code == 200) {
       commonWordsList = res.data!;
       setState(() {});
@@ -65,7 +65,7 @@ class _CommonWordsState extends State<CommonWords> {
             },
             backgroundColor: const Color(0xFFFE4A49),
             foregroundColor: Colors.white,
-            icon: Icons.delete,
+            icon:Icons.delete,
             label: '删除',
           ),
         ],

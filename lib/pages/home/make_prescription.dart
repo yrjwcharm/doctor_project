@@ -713,7 +713,6 @@ class _MakePrescriptionState extends State<MakePrescription> {
                                   checkedDataList: checkDataList,
                                 ))).then((value) {
                       checkDataList = value;
-                      print(value);
                       String str = "";
 
                       for (int i = 0; i < value.length; i++) {

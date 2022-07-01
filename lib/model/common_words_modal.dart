@@ -1,12 +1,12 @@
 import 'dart:convert';
 /// code : 200
-/// data : [{"type_dictText":"系统","remark":"系统常用语1","id":1,"type":0},{"type_dictText":"系统","remark":"系统常用语2","id":2,"type":0}]
+/// data : [{"type_dictText":"系统","remark":"系统常用语1","id":"1","type":0},{"type_dictText":"系统","remark":"系统常用语2","id":"2","type":0}]
 /// msg : "成功"
 
-CommonWordsModel commonWordsModelFromJson(String str) => CommonWordsModel.fromJson(json.decode(str));
-String commonWordsModelToJson(CommonWordsModel data) => json.encode(data.toJson());
-class CommonWordsModel {
-  CommonWordsModel({
+CommonWordsModal commonWordsModalFromJson(String str) => CommonWordsModal.fromJson(json.decode(str));
+String commonWordsModalToJson(CommonWordsModal data) => json.encode(data.toJson());
+class CommonWordsModal {
+  CommonWordsModal({
       int? code, 
       List<Data>? data, 
       String? msg,}){
@@ -15,7 +15,7 @@ class CommonWordsModel {
     _msg = msg;
 }
 
-  CommonWordsModel.fromJson(dynamic json) {
+  CommonWordsModal.fromJson(dynamic json) {
     _code = json['code'];
     if (json['data'] != null) {
       _data = [];
@@ -28,10 +28,10 @@ class CommonWordsModel {
   int? _code;
   List<Data>? _data;
   String? _msg;
-CommonWordsModel copyWith({  int? code,
+CommonWordsModal copyWith({  int? code,
   List<Data>? data,
   String? msg,
-}) => CommonWordsModel(  code: code ?? _code,
+}) => CommonWordsModal(  code: code ?? _code,
   data: data ?? _data,
   msg: msg ?? _msg,
 );
@@ -53,7 +53,7 @@ CommonWordsModel copyWith({  int? code,
 
 /// type_dictText : "系统"
 /// remark : "系统常用语1"
-/// id : 1
+/// id : "1"
 /// type : 0
 
 Data dataFromJson(String str) => Data.fromJson(json.decode(str));
@@ -62,7 +62,7 @@ class Data {
   Data({
       String? typeDictText, 
       String? remark, 
-      int? id, 
+      String? id, 
       int? type,}){
     _typeDictText = typeDictText;
     _remark = remark;
@@ -78,11 +78,11 @@ class Data {
   }
   String? _typeDictText;
   String? _remark;
-  int? _id;
+  String? _id;
   int? _type;
 Data copyWith({  String? typeDictText,
   String? remark,
-  int? id,
+  String? id,
   int? type,
 }) => Data(  typeDictText: typeDictText ?? _typeDictText,
   remark: remark ?? _remark,
@@ -91,7 +91,7 @@ Data copyWith({  String? typeDictText,
 );
   String? get typeDictText => _typeDictText;
   String? get remark => _remark;
-  int? get id => _id;
+  String? get id => _id;
   int? get type => _type;
 
   Map<String, dynamic> toJson() {

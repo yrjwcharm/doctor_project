@@ -2,6 +2,8 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:creator/creator.dart';
+import 'package:doctor_project/common/creator/logic.dart';
 import 'package:doctor_project/common/local/local_storage.dart';
 import 'package:doctor_project/pages/home/chat_room.dart';
 import 'package:doctor_project/pages/home/make_prescription.dart';
@@ -67,10 +69,13 @@ class HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    getNoticeByPlatform();
-    getNet_doctorInfo();
-    getData();
-    getCount();
+    Future.delayed(Duration.zero,(){
+      getNoticeByPlatform();
+      getNet_doctorInfo();
+      getData();
+      getCount();
+    });
+
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
@@ -105,6 +110,7 @@ class HomeState extends State<Home> {
     print("getNet_doctorInfo------" + res.toString());
 
     if (res['code'] == 200) {
+      context.ref.set(docIdCreator, res['data']['userId'].toString());
       // receiveNum: 1, userId: 10017, orgId: 1, waitReceiveNum: 0, videoRegisterNum: 0
       doctorInfoMap = res['data'];
       drPhotoUrl = res['data']['photoUrl'];

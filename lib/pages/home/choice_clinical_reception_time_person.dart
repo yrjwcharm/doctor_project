@@ -1,7 +1,6 @@
 import 'dart:ffi';
 
 import 'package:doctor_project/common/style/gsy_style.dart';
-import 'package:doctor_project/model/common_diagnosis_model.dart';
 import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:doctor_project/utils/svg_util.dart';
 import 'package:doctor_project/utils/text_util.dart';
