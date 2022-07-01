@@ -873,7 +873,7 @@ class _MakePrescriptionState extends State<AddCommonDrug> {
                                                 height: 4.0,
                                               ),
                                               Text(
-                                                "用量：${drugList[index]['specification']}${drugList[index]['decocting_method']==null?'':','+drugList[index]['decocting_method']}",
+                                                "用量：${drugList[index]['specification']}${drugList[index]['decocting_method']==null?'':';'+drugList[index]['decocting_method']}",
                                                 style:
                                                 GSYConstant.textStyle(
                                                     fontSize: 13.0,

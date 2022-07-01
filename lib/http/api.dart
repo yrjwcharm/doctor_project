@@ -24,6 +24,7 @@ class Api {
   static const getDoctorCode = "/doctor/dr-service/ba-doctor-user/getQrCode"; //获取医生名片
   static const getMessageListApi = "/doctor/dr-service/push/getList"; //获取医生信息
   static const getMyPatientListApi = "/doctor/dr-service/patient/getList"; //获取患者列表
+  static const getPatientDetailApi = "/doctor/dr-service/patient/getDetail";//获取患者详情
   static const finishTopicApi = "/doctor/dr-service/register/finish";
   static const cnDrugInventoryApi = "/doctor/dr-service/herbalMedicine/getStock";
   static const westernDrugInventoryApi = "/doctor/dr-service/medicine/getStock";

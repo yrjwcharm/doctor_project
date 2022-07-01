@@ -159,11 +159,27 @@ class _ChoiceClinicReceptTimePersonState
     }
   }
 
-  Future updateTime(int id,String patientCount,String startTime,String endTime) async {
+  Future updateTime(String id,String patientCount,String startTime,String endTime) async {
+
+    String start=startTime.replaceAll(':', '');
+    String end=endTime.replaceAll(':', '');
+    print("======startM"+start+'\n end \n\n'+end);
+
+    if(int.parse(end)-int.parse(start)<0){
+      ToastUtil.showToast(msg: '结束时间不能早于开始时间！');
+      return;
+    }
+//    else if(int.parse(end)==int.parse(start)){
+//      if(int.parse(endM)-int.parse(startM)<0){
+//        ToastUtil.showToast(msg: '结束时间不能早于开始时间！');
+//        return;
+//      }
+//    }
+
     var request = HttpRequest.getInstance();
     var res =
     await request.post(Api.checkUpdateDetail, {
-      'id':id,
+      'id':int.parse(id),
       'patientCount':patientCount,
       'startTime':startTime,
       'endTime':endTime
@@ -358,25 +374,6 @@ class _ChoiceClinicReceptTimePersonState
                         }else {
                           insertTime('09:00', chooseDay+1, '10:00', '20');
                         }
-
-//                        if(list[chooseDay]['timeList'].length == 0){
-//                          insertTime('09:00', chooseDay+1, '10:00', '20');
-//                        }else if(list[chooseDay]['timeList'].length == 1){
-//                          insertTime('10:00', chooseDay+1, '11:00', '20');
-//                        }else if(list[chooseDay]['timeList'].length == 2){
-//                          insertTime('11:00', chooseDay+1, '12:00', '20');
-//                        }else if(list[chooseDay]['timeList'].length == 3){
-//                          insertTime('12:00', chooseDay+1, '13:00', '20');
-//                        }else if(list[chooseDay]['timeList'].length == 4){
-//                          insertTime('13:00', chooseDay+1, '14:00', '20');
-//                        }else if(list[chooseDay]['timeList'].length == 5){
-//                          insertTime('14:00', chooseDay+1, '15:00', '20');
-//                        }else if(list[chooseDay]['timeList'].length == 6){
-//                          insertTime('15:00', chooseDay+1, '16:00', '20');
-//                        }else if(list[chooseDay]['timeList'].length == 7){
-//                          insertTime('16:00', chooseDay+1, '17:00', '20');
-//                        }
-
                         },
                         child:
                         Padding(
@@ -500,7 +497,7 @@ class _ChoiceClinicReceptTimePersonState
                                                     timeStr = timeStr.substring(10);
                                                     timeStr = timeStr.substring(0, 6);
                                                     setState(() => list[chooseDay]['timeList'][index]['startTime'] = timeStr);
-                                                    updateTime(list[chooseDay]['timeList'][index]['id'], list[chooseDay]['timeList'][index]['patientCount'].toString(),list[chooseDay]['timeList'][index]['startTime'],list[chooseDay]['timeList'][index]['endTime']);
+                                                    updateTime(list[chooseDay]['timeList'][index]['id'].toString(), list[chooseDay]['timeList'][index]['patientCount'].toString(),list[chooseDay]['timeList'][index]['startTime'],list[chooseDay]['timeList'][index]['endTime']);
                                                   },
                                                 ),
                                               );
@@ -638,9 +635,20 @@ class _ChoiceClinicReceptTimePersonState
                     ),
                   ],
                 ),
+                Container(
+                    height:35 ,
+                    margin: const EdgeInsets.only(left:10.0,top: 30.0,right: 10.0),
+                    child:
+                    Column(
+                        children: <Widget>[
+                          Text('温馨提示：\n 1、视频问诊时间段设置是按周设置，新增、修改、删除操作是指对未生成的号源做调整，操作执行后实时提交；\n 2、若需要修改已添加的号源，需到管理后台将号源停诊后，再重新设置。',style: GSYConstant.textStyle(color: '#333333',fontSize: 14.0)),
+                        ]
+                    )
+                ),
               ],
             ),
           )),
+
           CustomSafeAreaButton(
             margin: const EdgeInsets.only(bottom: 16.0),
             onPressed: () {
