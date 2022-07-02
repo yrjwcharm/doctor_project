@@ -277,7 +277,6 @@ class _OrderDetailState extends State<OrderDetail> {
                         ToastUtil.showToast(msg: '暂不支持查看360视图');
                       }
                     }
-
                   },
                   child: Container(
                     height: 40.0,
