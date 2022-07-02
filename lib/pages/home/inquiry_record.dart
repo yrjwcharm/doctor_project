@@ -7,6 +7,7 @@ import 'package:doctor_project/widget/custom_app_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:doctor_project/pages/home/inquiry_detail.dart';
 import 'package:doctor_project/pages/my/write_case_detail.dart';
 import '../../http/api.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -150,14 +151,13 @@ class _InquiryRecordState extends State<InquiryRecord> {
                       //   }else {
                       //     str = "$str"",""$f";
                       //   }
-                      // });
+                      // });i
         
                       return GestureDetector(
-//                         onTap: (){
-//                           Navigator.push(context, MaterialPageRoute(builder: (context)=>  RecipeDetail(rpDetailItem: {...item},diagnosis:str))).then((value) => {
-//                             getData()
-//                           });
-//                         },
+                         onTap: (){
+                           Navigator.push(context, MaterialPageRoute(builder: (context)=>  InquiryDetail(dataMap: item))
+                           );
+                         },
                           child: Column(
                             children: [
                               Container(

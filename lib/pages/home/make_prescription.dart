@@ -332,7 +332,8 @@ class _MakePrescriptionState extends State<MakePrescription> {
   //计算价格
   void calculateThePrice() {
     totalPrice = 0;
-
+    oneCountPrice = 0;
+    priceList.clear();
     for (Map item in drugList) {
       String unitprice = item['unitprice'].toString();
       String count = item['count'].toString();
@@ -341,9 +342,11 @@ class _MakePrescriptionState extends State<MakePrescription> {
       priceMap = {
         "price": price.toString(),
       };
+      print("priceMap====="+priceMap.toString());
       priceList.add(priceMap);
       oneCountPrice += price;
     }
+    print("priceList====="+priceList.toString());
     totalPrice = oneCountPrice *
         (tab1Active ? 1 : int.parse(chineseMedicineTypeList[0]['value']));
   }

@@ -49,17 +49,17 @@ PODS:
     - Mantle
     - SDWebImage
     - SDWebImageWebPCoder
-  - flutter_sound (9.2.12):
+  - flutter_sound (9.2.13):
     - Flutter
-    - flutter_sound_core (= 9.2.12)
-  - flutter_sound_core (9.2.12)
+    - flutter_sound_core (= 9.2.13)
+  - flutter_sound_core (9.2.13)
   - fluttertoast (0.0.2):
     - Flutter
     - Toast
   - FMDB (2.7.5):
     - FMDB/standard (= 2.7.5)
   - FMDB/standard (2.7.5)
-  - image_picker (0.0.1):
+  - image_picker_ios (0.0.1):
     - Flutter
   - JCore (3.1.0)
   - JPush (4.4.0):
@@ -121,12 +121,12 @@ PODS:
     - libwebp
   - webview_flutter_wkwebview (0.0.1):
     - Flutter
-  - zego_express_engine (2.18.1):
+  - zego_express_engine (2.20.2):
     - Flutter
-    - ZegoExpressEngine (= 2.18.1)
-  - ZegoExpressEngine (2.18.1):
-    - ZegoExpressEngine/Video (= 2.18.1)
-  - ZegoExpressEngine/Video (2.18.1)
+    - ZegoExpressEngine (= 2.20.2)
+  - ZegoExpressEngine (2.20.2):
+    - ZegoExpressEngine/Video (= 2.20.2)
+  - ZegoExpressEngine/Video (2.20.2)
 
 DEPENDENCIES:
   - audioplayers (from `.symlinks/plugins/audioplayers/ios`)
@@ -139,7 +139,7 @@ DEPENDENCIES:
   - flutter_image_compress (from `.symlinks/plugins/flutter_image_compress/ios`)
   - flutter_sound (from `.symlinks/plugins/flutter_sound/ios`)
   - fluttertoast (from `.symlinks/plugins/fluttertoast/ios`)
-  - image_picker (from `.symlinks/plugins/image_picker/ios`)
+  - image_picker_ios (from `.symlinks/plugins/image_picker_ios/ios`)
   - jpush_flutter (from `.symlinks/plugins/jpush_flutter/ios`)
   - M80AttributedLabel (~> 1.9.9)
   - open_file (from `.symlinks/plugins/open_file/ios`)
@@ -200,8 +200,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_sound/ios"
   fluttertoast:
     :path: ".symlinks/plugins/fluttertoast/ios"
-  image_picker:
-    :path: ".symlinks/plugins/image_picker/ios"
+  image_picker_ios:
+    :path: ".symlinks/plugins/image_picker_ios/ios"
   jpush_flutter:
     :path: ".symlinks/plugins/jpush_flutter/ios"
   open_file:
@@ -240,15 +240,15 @@ SPEC CHECKSUMS:
   DKImagePickerController: 72fd378f244cef3d27288e0aebf217a4467e4012
   DKPhotoGallery: fdfad5125a9fdda9cc57df834d49df790dbb4179
   emoji_picker_flutter: df19dac03a2b39ac667dc8d1da939ef3a9e21347
-  file_picker: 3e6c3790de664ccf9b882732d9db5eaf6b8d4eb1
+  file_picker: 817ab1d8cd2da9d2da412a417162deee3500fc95
   FLAnimatedImage: 8f3e854ebf9680b71f0b6e700939687fc4d82b4b
   Flutter: 50d75fe2f02b26cc09d224853bb45737f8b3214a
   flutter_image_compress: fd2b476345226e1a10ea352fa306af95704642c1
-  flutter_sound: 58d5e56135ff121717463bfd0b469878365b7cf3
-  flutter_sound_core: bbc8900fedc608a8d79b6f47a4caef8d986f410d
+  flutter_sound: c60effa2a350fb977885f0db2fbc4c1ad5160900
+  flutter_sound_core: 26c10e5832e76aaacfae252d8925232281c486ae
   fluttertoast: 16fbe6039d06a763f3533670197d01fc73459037
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
-  image_picker: 541dcbb3b9cf32d87eacbd957845d8651d6c62c3
+  image_picker_ios: b786a5dcf033a8336a657191401bfdf12017dabb
   JCore: 4029befb2497adc36b2496e2cfd6b24d9f671784
   JPush: b7d00f2cc78766e76c8abb30a5741fe94d21e5bc
   jpush_flutter: bc88cfa9a4ff4481031564b641c3fe24024bb2cb
@@ -274,9 +274,9 @@ SPEC CHECKSUMS:
   url_launcher_ios: 839c58cdb4279282219f5e248c3321761ff3c4de
   video_player_avfoundation: e489aac24ef5cf7af82702979ed16f2a5ef84cff
   video_thumbnail: c4e2a3c539e247d4de13cd545344fd2d26ffafd1
-  webview_flutter_wkwebview: 005fbd90c888a42c5690919a1527ecc6649e1162
-  zego_express_engine: c7988a2f4789f14b991dc8ab1741c8193575a05f
-  ZegoExpressEngine: 55dd43c5b4c088f68fd159a44588ccd488db70e5
+  webview_flutter_wkwebview: b7e70ef1ddded7e69c796c7390ee74180182971f
+  zego_express_engine: 20542039f06ff2fa6dcd696a5faa677d0409c0f0
+  ZegoExpressEngine: 7993bd3b1c1a6a0d84eaff8134931266b5564776
 
 PODFILE CHECKSUM: 940c76724ca56095bc16816fe13f226226523183
 
