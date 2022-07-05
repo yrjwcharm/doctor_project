@@ -11,22 +11,24 @@ import '../../http/api.dart';
 
 class AddCommonWords extends StatefulWidget {
   String doctorId;
-  AddCommonWords({Key? key,required this.doctorId}) : super(key: key);
+  String id;
+  AddCommonWords({Key? key,required this.doctorId, required this.id}) : super(key: key);
 
   @override
-  _AddCommonWordsState createState() => _AddCommonWordsState(this.doctorId);
+  _AddCommonWordsState createState() => _AddCommonWordsState(this.doctorId,this.id);
 }
 
 class _AddCommonWordsState extends State<AddCommonWords> {
   String doctorId;
   String remark='';
-  _AddCommonWordsState(this.doctorId);
+  String id;
+  _AddCommonWordsState(this.doctorId,this.id);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-        '添加常用语',
+        id.isEmpty?'添加常用语':'修改常用语',
         // onBackPressed: () {
         //   Navigator.pop(context);
         // },
@@ -63,13 +65,28 @@ class _AddCommonWordsState extends State<AddCommonWords> {
                  ToastUtil.showToast(msg: '请输入常用语回复');
                  return;
                }
-               var res =await HttpRequest.getInstance().post(Api.addCommonWordsListApi,
-                   {
-                     "doctorId": doctorId, //测试使用
-                     "remark": "常用语061101" //常用语
-                   });
-               if(res['code']==200){
-                 Navigator.pop(context);
+               if(id.isEmpty) {
+                 var res = await HttpRequest.getInstance().post(
+                     Api.addCommonWordsListApi,
+                     {
+                       "doctorId": doctorId, //测试使用
+                       "remark":remark //常用语
+                     });
+                 if (res['code'] == 200) {
+                   Navigator.pop(context);
+                 }
+               }else{
+                 var res = await HttpRequest.getInstance().post(Api.updateCommonWordsApi,
+                     {
+                       "id": id, //模版id
+                       "doctorId": doctorId, //测试使用
+                       "remark": remark //常用语
+                     });
+                 if(res['code']==200){
+                   Navigator.of(context).pop();
+                 }else{
+                   ToastUtil.showToast(msg: res['msg']);
+                 }
                }
            },title: '保存',)
         ],

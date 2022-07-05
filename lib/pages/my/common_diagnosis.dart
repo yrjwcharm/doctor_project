@@ -83,7 +83,7 @@ class _CommonDiagnosisState extends State<CommonDiagnosis> {
         ],
       ),
       child: Container(
-        height: 40.0,
+        height: 44.0,
         width: double.infinity,
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         decoration: BoxDecoration(
@@ -192,7 +192,7 @@ class _CommonDiagnosisState extends State<CommonDiagnosis> {
                               fontSize: 13.0, color: '#FE5A6B'),
                         ),
                         Text(
-                          '操作提示：左滑常用诊断',
+                          '操作提示：左滑删除常用诊断',
                           style: GSYConstant.textStyle(
                               fontSize: 13.0, color: '#666666'),
                         )

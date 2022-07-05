@@ -49,56 +49,63 @@ class _CommonWordsState extends State<CommonWords> {
   Widget _renderRow(BuildContext context, int index) {
     var item = commonWordsList[index];
     return Slidable(
-      endActionPane: ActionPane(
-        motion: const ScrollMotion(),
-        children: [
-          CustomSlidableAction(
-            // An action can be bigger than the others.
-            // flex: 2,
-            onPressed: (BuildContext context) async {
-              var res = await HttpRequest.getInstance().post(Api.delTemplateApi, {'id':item.id});
-              if(res['code']==200){
-                 getCommonWordsList();
-              }else{
-                ToastUtil.showToast(msg: res['msg']);
-              }
-            },
-            backgroundColor: const Color(0xFFFE4A49),
-            foregroundColor: Colors.white,
-            // icon:Icons.delete,
-            // label: '删除',
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children:  [
-                const Icon(Icons.delete),
-                Text('删除', style: TextStyle(fontSize:ScreenUtil().setSp(13.0))),
+        endActionPane: ActionPane(
+          motion: const ScrollMotion(),
+          children: [
+            CustomSlidableAction(
+              // An action can be bigger than the others.
+              // flex: 2,
+              onPressed: (BuildContext context) async {
+                var res = await HttpRequest.getInstance()
+                    .post(Api.delTemplateApi, {'id': item.id});
+                if (res['code'] == 200) {
+                  getCommonWordsList();
+                } else {
+                  ToastUtil.showToast(msg: res['msg']);
+                }
+              },
+              backgroundColor: const Color(0xFFFE4A49),
+              foregroundColor: Colors.white,
+              // icon:Icons.delete,
+              // label: '删除',
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(Icons.delete),
+                  Text('删除',
+                      style: TextStyle(fontSize: ScreenUtil().setSp(13.0))),
+                ],
+              ),
+            ),
+          ],
+        ),
+        child: GestureDetector(
+          onTap: () {
+           Navigator.push(context, MaterialPageRoute(builder: (context)=>AddCommonWords(doctorId: doctorId,id:item.id!))).then((value) => getCommonWordsList());
+          },
+          child: Container(
+            height: 44.0,
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border(
+                    bottom: BorderSide(
+                        color: ColorsUtil.hexStringColor('#cccccc', alpha: 0.3),
+                        width: 1.0))),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text(
+                  item.remark!,
+                  style:
+                      GSYConstant.textStyle(fontSize: 14.0, color: '#333333'),
+                ),
+                SvgUtil.svg('forward_arrow.svg')
               ],
             ),
           ),
-        ],
-      ),
-      child: Container(
-        height: 44.0,
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        decoration: BoxDecoration(
-            color: Colors.white,
-            border: Border(
-                bottom: BorderSide(
-                    color: ColorsUtil.hexStringColor('#cccccc', alpha: 0.3),
-                    width: 1.0))),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Text(
-              item.remark!,
-              style: GSYConstant.textStyle(fontSize: 14.0, color: '#333333'),
-            ),
-            SvgUtil.svg('forward_arrow.svg')
-          ],
-        ),
-      ),
-    );
+        ));
   }
 
   @override
@@ -114,33 +121,36 @@ class _CommonWordsState extends State<CommonWords> {
               child: SingleChildScrollView(
             child: Column(
               children: <Widget>[
-              Visibility(visible:commonWordsList.isEmpty,child:   Container(
-                  height: 43.0,
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Row(
-                    children: <Widget>[
-                      Text(
-                        '共',
-                        style: GSYConstant.textStyle(
-                            fontSize: 15.0, color: '#666666'),
-                      ),
-                      const SizedBox(
-                        width: 3.0,
-                      ),
-                      Text(
-                        commonWordsList.length.toString(),
-                        style: GSYConstant.textStyle(
-                            fontSize: 15.0, color: '#f34c35'),
-                      ),
-                      const SizedBox(
-                        width: 3.0,
-                      ),
-                      Text('条常用语',
+                Visibility(
+                  visible: commonWordsList.isEmpty,
+                  child: Container(
+                    height: 43.0,
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Row(
+                      children: <Widget>[
+                        Text(
+                          '共',
                           style: GSYConstant.textStyle(
-                              fontSize: 15.0, color: '#666666')),
-                    ],
+                              fontSize: 15.0, color: '#666666'),
+                        ),
+                        const SizedBox(
+                          width: 3.0,
+                        ),
+                        Text(
+                          commonWordsList.length.toString(),
+                          style: GSYConstant.textStyle(
+                              fontSize: 15.0, color: '#f34c35'),
+                        ),
+                        const SizedBox(
+                          width: 3.0,
+                        ),
+                        Text('条常用语',
+                            style: GSYConstant.textStyle(
+                                fontSize: 15.0, color: '#666666')),
+                      ],
+                    ),
                   ),
-                ),),
+                ),
                 ListView.builder(
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
@@ -194,6 +204,7 @@ class _CommonWordsState extends State<CommonWords> {
                     MaterialPageRoute(
                         builder: (context) => AddCommonWords(
                               doctorId: doctorId,
+                               id:'',
                             ))).then((value) => getCommonWordsList());
               })
         ],
