@@ -57,7 +57,7 @@ class _CommonDiagnosisState extends State<CommonDiagnosis> {
       endActionPane: ActionPane(
         motion: const ScrollMotion(),
         children: [
-          SlidableAction(
+          CustomSlidableAction(
             // An action can be bigger than the others.
             // flex: 2,
             onPressed: (BuildContext context) async {
@@ -71,8 +71,14 @@ class _CommonDiagnosisState extends State<CommonDiagnosis> {
             },
             backgroundColor: const Color(0xFFFE4A49),
             foregroundColor: Colors.white,
-            icon: Icons.delete,
-            label: '删除',
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children:  [
+                const Icon(Icons.delete),
+                Text('删除', style: TextStyle(fontSize:ScreenUtil().setSp(13.0))),
+              ],
+            ),
           ),
         ],
       ),

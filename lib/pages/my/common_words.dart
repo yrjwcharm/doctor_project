@@ -6,6 +6,7 @@ import 'package:doctor_project/utils/toast_util.dart';
 import 'package:doctor_project/widget/custom_app_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 import '../../common/style/gsy_style.dart';
@@ -31,14 +32,13 @@ class _CommonWordsState extends State<CommonWords> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getCommonWordsList();
   }
 
   getCommonWordsList() async {
     var response = await HttpRequest.getInstance()
-        .get(Api.getCommonWordsTemplateApi + '?doctorId=${doctorId}', {});
+        .get(Api.getCommonWordsTemplateApi + '?doctorId=$doctorId', {});
     var res = CommonWordsModal.fromJson(response);
     if (res.code == 200) {
       commonWordsList = res.data!;
@@ -52,7 +52,7 @@ class _CommonWordsState extends State<CommonWords> {
       endActionPane: ActionPane(
         motion: const ScrollMotion(),
         children: [
-          SlidableAction(
+          CustomSlidableAction(
             // An action can be bigger than the others.
             // flex: 2,
             onPressed: (BuildContext context) async {
@@ -65,8 +65,16 @@ class _CommonWordsState extends State<CommonWords> {
             },
             backgroundColor: const Color(0xFFFE4A49),
             foregroundColor: Colors.white,
-            icon:Icons.delete,
-            label: '删除',
+            // icon:Icons.delete,
+            // label: '删除',
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children:  [
+                const Icon(Icons.delete),
+                Text('删除', style: TextStyle(fontSize:ScreenUtil().setSp(13.0))),
+              ],
+            ),
           ),
         ],
       ),
