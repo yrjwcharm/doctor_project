@@ -201,25 +201,25 @@ class _CommonDiagnosisState extends State<CommonDiagnosis> {
                   )),
             ]),
           )),
-          CustomSafeAreaButton(
-              margin: const EdgeInsets.only(bottom: 16.0),
-              custom: true,
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  SvgUtil.svg('increment.svg'),
-                  const SizedBox(
-                    width: 9.0,
-                  ),
-                  Text(
-                    '添加常用诊断',
-                    style: GSYConstant.textStyle(fontSize: 16.0),
-                  )
-                ],
-              ),
-              onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (contenxt)=>AddCommonDiagnosis()));
-              })
+          // CustomSafeAreaButton(
+          //     margin: const EdgeInsets.only(bottom: 16.0),
+          //     custom: true,
+          //     child: Row(
+          //       mainAxisSize: MainAxisSize.min,
+          //       children: <Widget>[
+          //         SvgUtil.svg('increment.svg'),
+          //         const SizedBox(
+          //           width: 9.0,
+          //         ),
+          //         Text(
+          //           '添加常用诊断',
+          //           style: GSYConstant.textStyle(fontSize: 16.0),
+          //         )
+          //       ],
+          //     ),
+          //     onPressed: () {
+          //       Navigator.push(context, MaterialPageRoute(builder: (contenxt)=>AddCommonDiagnosis()));
+          //     })
         ]));
   }
 }
