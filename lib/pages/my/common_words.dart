@@ -154,7 +154,7 @@ class _CommonWordsState extends State<CommonWords> {
                                 fontSize: 13.0, color: '#FE5A6B'),
                           ),
                           Text(
-                            '操作提示：左滑常用语',
+                            '操作提示：左滑删除常用语',
                             style: GSYConstant.textStyle(
                                 fontSize: 13.0, color: '#666666'),
                           )

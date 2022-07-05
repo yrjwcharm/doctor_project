@@ -3,6 +3,7 @@ import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:doctor_project/utils/status_bar_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   CustomAppBar(this.title,
@@ -12,12 +13,11 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       this.isBack = true,
       this.isForward = false,
       this.rightIcon = '',
-      this.borderBottomWidth = 1.0,
       this.leftIcon = 'assets/images/back.png',
       this.titleColor = '#333333',
       this.startColor = Colors.white,
       this.endColor = Colors.white,
-      this.child})
+      this.child,  this.isRequired=true,})
       : super(key: key);
   final bool isBack;
   final String title;
@@ -27,9 +27,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String rightIcon;
   final Color startColor;
   final Color endColor;
+  final bool isRequired;
   VoidCallback? onBackPressed;
   VoidCallback? onForwardPressed;
-  final double borderBottomWidth;
   final Widget? child;
 
   @override
@@ -40,10 +40,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               begin: Alignment.topLeft,
               end: Alignment.topRight,
               colors: [startColor, endColor]),
-          border: Border(
+          border:isRequired? Border(
               bottom: BorderSide(
-                  width: borderBottomWidth,
-                  color: ColorsUtil.hexStringColor('#cccccc', alpha: 0.3)))),
+                  width: 1.0,
+                  color: ColorsUtil.hexStringColor('#cccccc', alpha: 0.3))):const Border.fromBorderSide(BorderSide.none)),
       padding: EdgeInsets.only(top: StatusBarUtil.get(context)),
       child: SizedBox(
         height: 44,
@@ -57,7 +57,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                     ? IconButton(
                         padding: EdgeInsets.zero,
                         onPressed: () {
-                          Navigator.pop(context);
+                          Navigator.of(context).pop();
+                          // });
                         },
                         icon: Image.asset(leftIcon))
                     : const SizedBox.shrink(),

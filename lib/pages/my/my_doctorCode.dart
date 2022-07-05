@@ -52,7 +52,6 @@ class _MyDoctorCodeState extends State<MyDoctorCode> {
   String codeData = '';
   String expertIn  = '';
 //   String user_Id = '';
-
   //获取医生信息
   getNet_doctorCode() async {
     HttpRequest? request = HttpRequest.getInstance();
@@ -96,6 +95,7 @@ class _MyDoctorCodeState extends State<MyDoctorCode> {
     getNet_doctorCode();
     getNet_doctorInfo();
   }
+
 
 
   @override

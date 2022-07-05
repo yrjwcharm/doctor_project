@@ -20,12 +20,12 @@ class _MyIncomeState extends State<MyIncome> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorsUtil.bgColor,
+      appBar: CustomAppBar(
+        '我的收入',
+
+      ),
       body: Column(
         children: [
-          CustomAppBar(
-            '我的收入',
-            
-          ),
           Container(
             height: 72,
             decoration: const BoxDecoration(color: Colors.white),

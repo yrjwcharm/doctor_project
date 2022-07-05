@@ -51,10 +51,10 @@ dependencies:
   equatable: ^2.0.3
   flutter_chat_types: ^3.3.4
   simple_logger: ^1.9.0
-  flutter_link_previewer: ^2.6.6
+  flutter_link_previewer: ^3.0.1
   flutter_screenutil: ^5.5.3+2
   meta: ^1.7.0
-  visibility_detector: ^0.2.2
+  visibility_detector: ^0.3.3
   path_provider: ^2.0.10
   webview_flutter: 3.0.4
   provider: 6.0.2
@@ -72,7 +72,7 @@ dependencies:
   image_picker: ^0.8.4
   video_thumbnail: ^0.5.0
   record: ^4.1.1
-  flutter_easyloading: ^3.0.3
+  flutter_easyloading: 3.0.3
   open_file: ^3.2.1
 #  flutter_datetime_picker: ^1.5.1
   # tpns_flutter_plugin:
@@ -84,7 +84,7 @@ dependencies:
   #  cached_network_image: 2.0.0 #1.22.5版本Flutter用这个
   cached_network_image: ^3.2.1
   #图片显示
-  photo_view: ^0.13.0
+  photo_view: ^0.14.0
   flutter_sound: ^9.2.12
   #权限处理
   #  audioplayers: 0.13.3 #1.22.5版本Flutter用这个
