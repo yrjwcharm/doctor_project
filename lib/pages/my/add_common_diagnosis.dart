@@ -1,4 +1,5 @@
 import 'package:doctor_project/common/style/gsy_style.dart';
+import 'package:doctor_project/pages/my/choose_diagnosis.dart';
 import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:doctor_project/utils/svg_util.dart';
 import 'package:doctor_project/widget/custom_app_bar.dart';
@@ -18,7 +19,7 @@ class _AddCommonDiagnosisState extends State<AddCommonDiagnosis> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar('诊断',child: SvgUtil.svg('add_diagnosis.svg'),isForward: true, onForwardPressed: (){
-
+          Navigator.push(context, MaterialPageRoute(builder: (context)=>const ChooseDiagnosis()));
       },),
       backgroundColor: ColorsUtil.bgColor,
       body: Column(
