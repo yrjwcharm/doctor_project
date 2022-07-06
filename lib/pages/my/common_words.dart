@@ -122,7 +122,7 @@ class _CommonWordsState extends State<CommonWords> {
             child: Column(
               children: <Widget>[
                 Visibility(
-                  visible: commonWordsList.isEmpty,
+                  visible: commonWordsList.isNotEmpty,
                   child: Container(
                     height: 43.0,
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),

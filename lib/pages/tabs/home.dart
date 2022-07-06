@@ -687,7 +687,6 @@ class HomeState extends State<Home> {
                                           textStyle: GSYConstant.textStyle(
                                               fontSize: 13.0, color: '#06B48D'),
                                           title: protitle,
-                                          onPressed: () {},
                                           borderRadius:
                                               BorderRadius.circular(9.0),
                                           borderColor:

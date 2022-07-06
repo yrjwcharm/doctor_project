@@ -88,31 +88,40 @@ class _CommonDiagnosisState extends State<CommonDiagnosis> {
 
         },
         child:Container(
-        height: 44.0,
-        width: double.infinity,
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        decoration: BoxDecoration(
-            color: Colors.white,
-            border: Border(
-                bottom: BorderSide(
-                    color: ColorsUtil.hexStringColor('#cccccc', alpha: 0.3)))),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            Text(
-              details[0].diagnosisCode!,
-              style: GSYConstant.textStyle(color: '#333333'),
-            ),
-            const SizedBox(
-              width: 8.0,
-            ),
-            Text(
-              details[0].diagnosisName!,
-              style: GSYConstant.textStyle(color: '#333333'),
-            )
-          ],
-        ),
-      ),)
+          height: 80.0,
+          alignment: Alignment.center,
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          color: Colors.white,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Row(
+                    children: <Widget>[
+                      Text('风寒感冒',style: GSYConstant.textStyle(fontSize: 14.0,color: '#333333',fontFamily: 'Medium'),) ,
+                      Container(
+                        margin: const EdgeInsets.only(left: 8.0),
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10.0),
+                          border: Border.all(color:ColorsUtil.primaryColor),
+                        ),
+                        child: Text('内科',style: GSYConstant.textStyle(fontSize: 12.0,color:'#06b48d'),),
+                      )
+                    ],
+                  ),
+                  const SizedBox(height: 10.0,),
+                  Flexible(child: Text('风寒感冒（主诊断）、幼儿疱疹 、腰肌劳损',style: GSYConstant.textStyle(color: '#666666'),))
+                ],
+              ),
+              SvgUtil.svg('detail_arrow.svg')
+            ],
+          ),
+        ))
     );
   }
 
@@ -126,7 +135,7 @@ class _CommonDiagnosisState extends State<CommonDiagnosis> {
               child: SingleChildScrollView(
             child: Column(children: <Widget>[
               Visibility(
-                visible: commonDiagnosisList.isEmpty,
+                visible: commonDiagnosisList.isNotEmpty,
                 child: Container(
                   height: 43.0,
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
