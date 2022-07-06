@@ -17,7 +17,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       this.titleColor = '#333333',
       this.startColor = Colors.white,
       this.endColor = Colors.white,
-      this.child, this.border= const Border(bottom:BorderSide(width: 1.0,color: Color.fromRGBO(204, 204, 204,0.3))) })
+      this.child=const SizedBox.shrink(), this.border= const Border(bottom:BorderSide(width: 1.0,color: Color.fromRGBO(204, 204, 204,0.3))), this.padding =const EdgeInsets.only(right: 16.0)})
       : super(key: key);
   final bool isBack;
   final String title;
@@ -30,7 +30,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final VoidCallback? onBackPressed;
   final VoidCallback? onForwardPressed;
   final BoxBorder? border;
-  final Widget? child;
+  final Widget child;
+   final EdgeInsetsGeometry? padding;
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +43,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               colors: [startColor, endColor]),
           border:border),
       padding: EdgeInsets.only(top: StatusBarUtil.get(context)),
-      child: SizedBox(
+      child: Container(
+        padding:const EdgeInsets.symmetric(horizontal: 16.0),
         height: 44,
         child: Row(
           children: [
@@ -52,6 +54,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               children: [
                 isBack
                     ? IconButton(
+                        constraints: const BoxConstraints(
+                          maxWidth: 9.0,
+                          minHeight: 17.0
+                        ),
                         padding: EdgeInsets.zero,
                         onPressed: () {
                           Navigator.of(context).pop();
@@ -69,13 +75,14 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 child: isForward
                     ? Container(
                         alignment: Alignment.centerRight,
-                        padding: const EdgeInsets.only(right: 16.0),
                         child: TextButton(
                             style: TextButton.styleFrom(
+                              minimumSize:Size.zero,
+                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                               padding: EdgeInsets.zero,
                             ),
                             onPressed: onForwardPressed,
-                            child: child!))
+                            child: child))
                     : const SizedBox.shrink())
           ],
         ),

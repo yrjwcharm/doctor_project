@@ -94,6 +94,7 @@ class Assets {
   static const String resourceIndex = 'assets/resource/index.html';
   static const String svgActiveRadio = 'assets/images/svg/active_radio.svg';
   static const String svgAdd = 'assets/images/svg/add.svg';
+  static const String svgAddDiagnosis = 'assets/images/svg/add_diagnosis.svg';
   static const String svgAddDrug = 'assets/images/svg/add_drug.svg';
   static const String svgAddGraydrug = 'assets/images/svg/add_graydrug.svg';
   static const String svgAddTime = 'assets/images/svg/add_time.svg';

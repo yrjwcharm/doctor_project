@@ -2,6 +2,7 @@ import 'package:doctor_project/common/style/gsy_style.dart';
 import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:doctor_project/utils/svg_util.dart';
 import 'package:doctor_project/widget/custom_app_bar.dart';
+import 'package:doctor_project/widget/custom_textField_input.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -12,18 +13,26 @@ class AddCommonDiagnosis extends StatefulWidget {
 }
 
 class _AddCommonDiagnosisState extends State<AddCommonDiagnosis> {
+  String templateName='';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar('诊断'),
+      appBar: CustomAppBar('诊断',child: SvgUtil.svg('add_diagnosis.svg'),isForward: true, onForwardPressed: (){
+
+      },),
       backgroundColor: ColorsUtil.bgColor,
       body: Column(
         children: <Widget>[
           Expanded(child: SingleChildScrollView(
             child: Column(
               children: <Widget>[
+                CustomTextFieldInput(label: '模板名称', hintText: '请输入模板名称', onChanged: (value){
+                    setState(() {
+                      templateName = value;
+                    });
+                }),
                 Container(
-                  height: 44.0,
+                  height: 43.0,
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   decoration: const BoxDecoration(
                     color: Colors.white

@@ -691,7 +691,7 @@ class HomeState extends State<Home> {
                                               BorderRadius.circular(9.0),
                                           borderColor:
                                               ColorsUtil.hexStringColor(
-                                                  '#06B48D')))
+                                                  '#06B48D'), onPressed: null,))
                                 ],
                               ),
                               const SizedBox(height: 6.0,),
