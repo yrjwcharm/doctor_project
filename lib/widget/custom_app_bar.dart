@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
-  CustomAppBar(this.title,
+   CustomAppBar(this.title,
       {Key? key,
       this.onBackPressed,
       this.onForwardPressed,
@@ -17,7 +17,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       this.titleColor = '#333333',
       this.startColor = Colors.white,
       this.endColor = Colors.white,
-      this.child,  this.isRequired=true,})
+      this.child, this.border= const Border(bottom:BorderSide(width: 1.0,color: Color.fromRGBO(204, 204, 204,0.3))) })
       : super(key: key);
   final bool isBack;
   final String title;
@@ -27,9 +27,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String rightIcon;
   final Color startColor;
   final Color endColor;
-  final bool isRequired;
-  VoidCallback? onBackPressed;
-  VoidCallback? onForwardPressed;
+  final VoidCallback? onBackPressed;
+  final VoidCallback? onForwardPressed;
+  final BoxBorder? border;
   final Widget? child;
 
   @override
@@ -40,10 +40,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               begin: Alignment.topLeft,
               end: Alignment.topRight,
               colors: [startColor, endColor]),
-          border:isRequired? Border(
-              bottom: BorderSide(
-                  width: 1.0,
-                  color: ColorsUtil.hexStringColor('#cccccc', alpha: 0.3))):const Border.fromBorderSide(BorderSide.none)),
+          border:border),
       padding: EdgeInsets.only(top: StatusBarUtil.get(context)),
       child: SizedBox(
         height: 44,

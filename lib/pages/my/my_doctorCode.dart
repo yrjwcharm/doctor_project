@@ -215,7 +215,6 @@ class _MyDoctorCodeState extends State<MyDoctorCode> {
       backgroundColor: ColorsUtil.bgColor,
       appBar: CustomAppBar(
         '我的名片',
-        isBack: true,
       ),
       body: Column(
         children: [

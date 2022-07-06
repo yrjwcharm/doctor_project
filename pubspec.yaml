@@ -44,6 +44,7 @@ dependencies:
   dio: ^4.0.6
   intl: ^0.17.0
   mime: ^1.0.1
+  get: ^4.6.5
   uuid: ^3.0.5
   diffutil_dart: ^3.0.0
   decimal: ^2.2.0

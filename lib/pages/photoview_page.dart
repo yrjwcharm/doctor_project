@@ -46,7 +46,7 @@ class _PhotoViewPageState extends State<PhotoViewPage> {
       //     // });
       //   },
       // ),
-        appBar:CustomAppBar('图片预览',isRequired: false, leftIcon:'assets/images/icon_back.png',titleColor: '#ffffff', startColor: Colors.black,endColor: Colors.black,),
+        appBar:CustomAppBar('图片预览',border: const Border(bottom: BorderSide.none), leftIcon:'assets/images/icon_back.png',titleColor: '#ffffff', startColor: Colors.black,endColor: Colors.black,),
         body:  Container(
           color: Colors.black,
           child:  PhotoView(

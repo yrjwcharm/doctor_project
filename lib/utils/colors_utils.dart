@@ -21,7 +21,7 @@ class ColorsUtil {
   /// 十六进制颜色
   /// colorString，字符串，例如：'0x000000'  '0xff000000' '#000000' '#000000'，
   /// alpha，透明度[0.0, 1.0]
-  static Color hexStringColor(String colorString, {double alpha = 1}) {
+  static  Color hexStringColor(String colorString, {double alpha = 1}) {
     if (alpha < 0) {
       alpha = 0;
     } else if (alpha > 1) {

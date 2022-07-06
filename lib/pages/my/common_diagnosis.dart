@@ -82,7 +82,12 @@ class _CommonDiagnosisState extends State<CommonDiagnosis> {
           ),
         ],
       ),
-      child: Container(
+      child: GestureDetector(
+        onTap: (){
+          Navigator.push(context, MaterialPageRoute(builder: (contenxt)=>AddCommonDiagnosis()));
+
+        },
+        child:Container(
         height: 44.0,
         width: double.infinity,
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -107,7 +112,7 @@ class _CommonDiagnosisState extends State<CommonDiagnosis> {
             )
           ],
         ),
-      ),
+      ),)
     );
   }
 

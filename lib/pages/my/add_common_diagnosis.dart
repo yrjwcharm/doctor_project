@@ -15,7 +15,7 @@ class _AddCommonDiagnosisState extends State<AddCommonDiagnosis> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar('添加诊断'),
+      appBar: CustomAppBar('诊断'),
       backgroundColor: ColorsUtil.bgColor,
       body: Column(
         children: <Widget>[
