@@ -8,7 +8,7 @@ class CustomOutlineButton extends StatelessWidget {
     this.height = 40.0,
     required this.title,
     this.textStyle,
-    required this.onPressed,
+     required this.onPressed,
     this.primary = '#06B48D',
     required this.borderRadius,
     required this.borderColor, this.padding=EdgeInsets.zero, this.width,
@@ -18,7 +18,7 @@ class CustomOutlineButton extends StatelessWidget {
   final double? width;
   final String title;
   final TextStyle? textStyle;
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
   final BorderRadiusGeometry borderRadius;
   final Color borderColor;
   final EdgeInsetsGeometry? padding;

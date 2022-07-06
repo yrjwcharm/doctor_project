@@ -3,21 +3,21 @@ import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:doctor_project/utils/status_bar_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
-  CustomAppBar(this.title,
+   CustomAppBar(this.title,
       {Key? key,
       this.onBackPressed,
       this.onForwardPressed,
       this.isBack = true,
       this.isForward = false,
       this.rightIcon = '',
-      this.borderBottomWidth = 1.0,
       this.leftIcon = 'assets/images/back.png',
       this.titleColor = '#333333',
       this.startColor = Colors.white,
       this.endColor = Colors.white,
-      this.child})
+      this.child=const SizedBox.shrink(), this.border= const Border(bottom:BorderSide(width: 1.0,color: Color.fromRGBO(204, 204, 204,0.3))), this.padding =const EdgeInsets.only(right: 16.0)})
       : super(key: key);
   final bool isBack;
   final String title;
@@ -27,10 +27,11 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String rightIcon;
   final Color startColor;
   final Color endColor;
-  VoidCallback? onBackPressed;
-  VoidCallback? onForwardPressed;
-  final double borderBottomWidth;
-  final Widget? child;
+  final VoidCallback? onBackPressed;
+  final VoidCallback? onForwardPressed;
+  final BoxBorder? border;
+  final Widget child;
+   final EdgeInsetsGeometry? padding;
 
   @override
   Widget build(BuildContext context) {
@@ -40,12 +41,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               begin: Alignment.topLeft,
               end: Alignment.topRight,
               colors: [startColor, endColor]),
-          border: Border(
-              bottom: BorderSide(
-                  width: borderBottomWidth,
-                  color: ColorsUtil.hexStringColor('#cccccc', alpha: 0.3)))),
+          border:border),
       padding: EdgeInsets.only(top: StatusBarUtil.get(context)),
-      child: SizedBox(
+      child: Container(
+        padding:const EdgeInsets.symmetric(horizontal: 16.0),
         height: 44,
         child: Row(
           children: [
@@ -55,9 +54,14 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               children: [
                 isBack
                     ? IconButton(
+                        constraints: const BoxConstraints(
+                          maxWidth: 9.0,
+                          minHeight: 17.0
+                        ),
                         padding: EdgeInsets.zero,
                         onPressed: () {
-                          Navigator.pop(context);
+                          Navigator.of(context).pop();
+                          // });
                         },
                         icon: Image.asset(leftIcon))
                     : const SizedBox.shrink(),
@@ -71,13 +75,14 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 child: isForward
                     ? Container(
                         alignment: Alignment.centerRight,
-                        padding: const EdgeInsets.only(right: 16.0),
                         child: TextButton(
                             style: TextButton.styleFrom(
+                              minimumSize:Size.zero,
+                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                               padding: EdgeInsets.zero,
                             ),
                             onPressed: onForwardPressed,
-                            child: child!))
+                            child: child))
                     : const SizedBox.shrink())
           ],
         ),

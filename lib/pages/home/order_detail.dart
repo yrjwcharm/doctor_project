@@ -245,7 +245,7 @@ class _OrderDetailState extends State<OrderDetail> {
                                               context,
                                               MaterialPageRoute(
                                                   builder: (context) =>
-                                                      PhotoViewPage(item)));
+                                                      PhotoViewPage(url: item,)));
                                         },
                                         child: Image.network(
                                           item,

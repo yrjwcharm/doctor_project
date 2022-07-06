@@ -57,7 +57,7 @@ class _CommonDiagnosisState extends State<CommonDiagnosis> {
       endActionPane: ActionPane(
         motion: const ScrollMotion(),
         children: [
-          SlidableAction(
+          CustomSlidableAction(
             // An action can be bigger than the others.
             // flex: 2,
             onPressed: (BuildContext context) async {
@@ -71,37 +71,57 @@ class _CommonDiagnosisState extends State<CommonDiagnosis> {
             },
             backgroundColor: const Color(0xFFFE4A49),
             foregroundColor: Colors.white,
-            icon: Icons.delete,
-            label: '删除',
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children:  [
+                const Icon(Icons.delete),
+                Text('删除', style: TextStyle(fontSize:ScreenUtil().setSp(13.0))),
+              ],
+            ),
           ),
         ],
       ),
-      child: Container(
-        height: 40.0,
-        width: double.infinity,
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        decoration: BoxDecoration(
-            color: Colors.white,
-            border: Border(
-                bottom: BorderSide(
-                    color: ColorsUtil.hexStringColor('#cccccc', alpha: 0.3)))),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            Text(
-              details[0].diagnosisCode!,
-              style: GSYConstant.textStyle(color: '#333333'),
-            ),
-            const SizedBox(
-              width: 8.0,
-            ),
-            Text(
-              details[0].diagnosisName!,
-              style: GSYConstant.textStyle(color: '#333333'),
-            )
-          ],
-        ),
-      ),
+      child: GestureDetector(
+        onTap: (){
+          Navigator.push(context, MaterialPageRoute(builder: (context)=>AddCommonDiagnosis()));
+
+        },
+        child:Container(
+          height: 80.0,
+          alignment: Alignment.center,
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          color: Colors.white,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Row(
+                    children: <Widget>[
+                      Text('风寒感冒',style: GSYConstant.textStyle(fontSize: 14.0,color: '#333333',fontFamily: 'Medium'),) ,
+                      Container(
+                        margin: const EdgeInsets.only(left: 8.0),
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10.0),
+                          border: Border.all(color:ColorsUtil.primaryColor),
+                        ),
+                        child: Text('内科',style: GSYConstant.textStyle(fontSize: 12.0,color:'#06b48d'),),
+                      )
+                    ],
+                  ),
+                  const SizedBox(height: 10.0,),
+                  Flexible(child: Text('风寒感冒（主诊断）、幼儿疱疹 、腰肌劳损',style: GSYConstant.textStyle(color: '#666666'),))
+                ],
+              ),
+              SvgUtil.svg('detail_arrow.svg')
+            ],
+          ),
+        ))
     );
   }
 
@@ -115,7 +135,7 @@ class _CommonDiagnosisState extends State<CommonDiagnosis> {
               child: SingleChildScrollView(
             child: Column(children: <Widget>[
               Visibility(
-                visible: commonDiagnosisList.isEmpty,
+                visible: commonDiagnosisList.isNotEmpty,
                 child: Container(
                   height: 43.0,
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -186,7 +206,7 @@ class _CommonDiagnosisState extends State<CommonDiagnosis> {
                               fontSize: 13.0, color: '#FE5A6B'),
                         ),
                         Text(
-                          '操作提示：左滑常用诊断',
+                          '操作提示：左滑删除常用诊断',
                           style: GSYConstant.textStyle(
                               fontSize: 13.0, color: '#666666'),
                         )
@@ -195,25 +215,25 @@ class _CommonDiagnosisState extends State<CommonDiagnosis> {
                   )),
             ]),
           )),
-          CustomSafeAreaButton(
-              margin: const EdgeInsets.only(bottom: 16.0),
-              custom: true,
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  SvgUtil.svg('increment.svg'),
-                  const SizedBox(
-                    width: 9.0,
-                  ),
-                  Text(
-                    '添加常用诊断',
-                    style: GSYConstant.textStyle(fontSize: 16.0),
-                  )
-                ],
-              ),
-              onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (contenxt)=>AddCommonDiagnosis()));
-              })
+          // CustomSafeAreaButton(
+          //     margin: const EdgeInsets.only(bottom: 16.0),
+          //     custom: true,
+          //     child: Row(
+          //       mainAxisSize: MainAxisSize.min,
+          //       children: <Widget>[
+          //         SvgUtil.svg('increment.svg'),
+          //         const SizedBox(
+          //           width: 9.0,
+          //         ),
+          //         Text(
+          //           '添加常用诊断',
+          //           style: GSYConstant.textStyle(fontSize: 16.0),
+          //         )
+          //       ],
+          //     ),
+          //     onPressed: () {
+          //       Navigator.push(context, MaterialPageRoute(builder: (contenxt)=>AddCommonDiagnosis()));
+          //     })
         ]));
   }
 }

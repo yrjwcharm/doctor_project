@@ -50,6 +50,7 @@ class Api {
   static const getCommonWordsTemplateApi ='/doctor/dr-service/template/getCommonWords';
   static const getCommonDiagnosisTemplateApi ='/doctor/dr-service/template/getDiagnoses';
   static const  addCommonWordsListApi='/doctor/dr-service/template/addCommonWord';
+  static const updateCommonWordsApi='/doctor/dr-service/template/editCommonWord';
   static const delTemplateApi = '/doctor/dr-service/template/delete';
   static const insertDoctorTimeService = '/doctor/dr-service/baDoctorTime/insertDoctorTimeService';
   static const serviceByDocIdAndState = '/doctor/dr-service/baDoctorTime/selectDoctorTimeServiceByDocIdAndState';
