@@ -301,7 +301,7 @@ class _InquiryDetailState extends State<InquiryDetail> {
                   context,
                   MaterialPageRoute(
                       builder: (context) =>
-                          PhotoViewPage(_dataMap['diseaseData'].toString()))
+                          PhotoViewPage(url: _dataMap['diseaseData'].toString(),))
               );
             },
             child: Container(
