@@ -296,7 +296,6 @@ class _ChoiceClinicReceptTimePersonState
                       GestureDetector(
                         behavior: HitTestBehavior.opaque,
                         onTap: () {
-
 //                          setState(() {});
                           startTimeList.clear();
                         for(int i = 0;i < list[chooseDay]['timeList'].length;i++){

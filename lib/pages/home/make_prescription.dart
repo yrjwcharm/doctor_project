@@ -580,9 +580,13 @@ class _MakePrescriptionState extends State<MakePrescription> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: CustomAppBar(
-        '开处方',isForward:true,onForwardPressed: (){
+        '开处方',
+          isForward:true,
+          onForwardPressed: (){
           Navigator.push(context,MaterialPageRoute(builder: (context)=>const AddCommonTemplate()));
-      }, child:Text('另存为',style: GSYConstant.textStyle(fontSize: 16.0,color: '#00b78b'),)),
+      },
+          child:
+      Text('另存为',style: GSYConstant.textStyle(fontSize: 16.0,color: '#00b78b'),)),
       backgroundColor: ColorsUtil.bgColor,
       body: Column(children: <Widget>[
         Expanded(
@@ -1567,7 +1571,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
                                                   children: <Widget>[
                                                     Text(
                                                       drugList[index]
-                                                          ['medicinename']+drugList[index]['count'].toString()+'g',
+                                                          ['medicinename']+' '+drugList[index]['count'].toString()+'g',
                                                       style:
                                                           GSYConstant.textStyle(
                                                               color: '#333333'),

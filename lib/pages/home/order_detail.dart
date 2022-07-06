@@ -252,7 +252,9 @@ class _OrderDetailState extends State<OrderDetail> {
                                           fit: BoxFit.cover,
                                           width: 50,
                                           height: 50,
-                                        )))
+                                        )
+                                )
+                                )
                                     .toList()),
                           )
                         ],

@@ -1,6 +1,7 @@
 import 'package:doctor_project/common/style/gsy_style.dart';
 import 'package:doctor_project/pages/home/video_topic.dart';
 import 'package:doctor_project/pages/home/webviewVC.dart';
+import 'package:doctor_project/pages/home/prescription_list.dart';
 import 'package:doctor_project/pages/photoview_page.dart';
 import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:doctor_project/utils/desensitization_utils.dart';
@@ -17,6 +18,7 @@ import 'package:doctor_project/widget/custom_webview.dart';
 import '../../utils/desensitization_utils.dart';
 import 'package:doctor_project/pages/my/write_case.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
 import 'package:doctor_project/pages/my/rp_detail.dart';
 import 'package:flutter/material.dart';
 import '../../http/http_request.dart';
@@ -37,11 +39,21 @@ class InquiryDetail extends StatefulWidget {
 
 class _InquiryDetailState extends State<InquiryDetail> {
   Map _dataMap ;
+  var item;
   String refuseReason='';
   String mobileStr='';
   String cardnoStr='';
-  int patientId=0;
   String consultSum='';
+  List diagnosisList = [];
+  String diagnosis = '';
+  String districtName = '';//区
+  String cityName = '';//市
+  String provinceName = '';//省
+  String createTime = '';
+  String payTime = '';
+  String orderFee = '';
+  String orderStatus = '';
+  String orderId = '';
   int _page = 1; //加载的页数
   bool isMore = true; //是否正在加载数
   final ScrollController _scrollController = ScrollController(); //listview的控制器
@@ -54,48 +66,49 @@ class _InquiryDetailState extends State<InquiryDetail> {
   void initState() {
     // TODO: implement initState
     super.initState();
-//    print("--------mobile"+_dataMap['mobile'].toString());
-    print("--------cardNo"+_dataMap['cardNo'].toString());
     mobileStr = "13313131313";
-//    mobileStr = DesensitizationUtil.desensitizationMobile(_dataMap['mobile']);
+    mobileStr = DesensitizationUtil.desensitizationMobile(_dataMap['phone']);
     cardnoStr = DesensitizationUtil.desensitizationMobile(_dataMap['cardNo']);
-    patientId = int.parse(_dataMap['patientId']);
-//    getData();
-//    _scrollController.addListener(() {
-//      if (_scrollController.position.pixels ==
-//          _scrollController.position.maxScrollExtent) {
-//        print('滑动到了最底部');
-//        _getMore();
-//      }
-//    });
-//    setState(() {});
+    orderId = _dataMap['orderId'];
+    getData();
+
   }
 
-//  Future getData() async {
-//    var request = HttpRequest.getInstance();
-//    String url = Api.getPatientDetailApi + '?&patientId=$patientId';
-//    var res = await request.get(Api.getPatientDetailApi + '?&patientId=$patientId', {});
-//    if (res['code'] == 200) {
-//      setState(() {
-//        list = res['data']['consultList'];
-//        consultSum = res['data']['consultSum'].toString();
-//
-//        print("List======="+list.toString());
-//      });
-//    } else {
-//      ToastUtil.showToast(msg: res['msg']);
-//    }
-//  }
+  Future getData() async {
+    var request = HttpRequest.getInstance();
+    print("--------orderId"+_dataMap['orderId']);
+    var res = await request.get(Api.getRegisterOrderInfoDetail +'?orderId=$orderId',{});
 
-//  /**
-//   * 下拉刷新方法,为list重新赋值
-//   */
-//  Future<void> _onRefresh() async {
-//    setState(() {
-//      _page = 1;
-//    });
-//    getData();
-//  }
+    print("res ====="+res.toString());
+    if (res['code'] == 200) {
+      setState(() {});
+      item = res['data'];
+      cityName = res['data']['cityName']??'';
+      districtName = res['data']['districtName']??'';
+      provinceName = res['data']['provinceName']??'';
+
+      List<String>  diagnosisList = [];
+      (_dataMap['diagnoses']??[]).forEach((element) {
+          diagnosisList.add(element['diagnosisName']);
+      });
+      diagnosisList.forEach((f){
+        if(diagnosis == ''){
+          diagnosis = "$f";
+        }else {
+          diagnosis = "$diagnosis"",""$f";
+        }
+      });
+      createTime = res['data']['createTime'].toString();
+      payTime = res['data']['payTime'].toString();
+      orderFee = res['data']['orderFee'].toString();
+      orderStatus = res['data']['orderStatus']==0?"待支付":"已支付";
+
+    } else {
+      ToastUtil.showToast(msg: res['msg']);
+    }
+
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -177,7 +190,7 @@ class _InquiryDetailState extends State<InquiryDetail> {
                 Expanded(
                   child:
                   Text(
-                    '诊断        '+_dataMap['diseaseDesc'],
+                    '诊断             '+diagnosis,
                     style: GSYConstant.textStyle(color: '#666666'),
                   ),
                 ),
@@ -201,8 +214,7 @@ class _InquiryDetailState extends State<InquiryDetail> {
                 Expanded(
                   child:
                   Text(
-//                    '所属地区   '+_dataMap['province']+_dataMap['city']+_dataMap['district'],
-                  '所属地区   云南省玉溪市通海县备份',
+                    '所属地区       '+provinceName+cityName+districtName,
                     style: GSYConstant.textStyle(color: '#666666'),
                   ),
                 ),
@@ -223,7 +235,7 @@ class _InquiryDetailState extends State<InquiryDetail> {
               text: TextSpan(
                 children: [
                   const TextSpan(
-                    text: "问诊状态    ",
+                    text: "问诊状态         ",
                     style: TextStyle(fontSize: 14.0, color: Color.fromRGBO(102, 102, 102, 1),),
                   ),
                   TextSpan(
@@ -245,7 +257,7 @@ class _InquiryDetailState extends State<InquiryDetail> {
               text: TextSpan(
                 children: [
                   const TextSpan(
-                    text: "问诊类型    ",
+                    text: "问诊类型         ",
                     style: TextStyle(fontSize: 14.0, color: Color.fromRGBO(102, 102, 102, 1),),
                   ),
                   TextSpan(
@@ -267,7 +279,7 @@ class _InquiryDetailState extends State<InquiryDetail> {
               text: TextSpan(
                 children: [
                   const TextSpan(
-                    text: "病情描述    ",
+                    text: "病情描述         ",
                     style: TextStyle(fontSize: 14.0, color: Color.fromRGBO(102, 102, 102, 1),),
                   ),
                   TextSpan(
@@ -284,7 +296,13 @@ class _InquiryDetailState extends State<InquiryDetail> {
           ),
           GestureDetector(
             onTap: () async{
-              ToastUtil.showToast(msg: '点击了上传图片');
+//              ToastUtil.showToast(msg: '点击了上传图片');
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          PhotoViewPage(_dataMap['diseaseData'].toString()))
+              );
             },
             child: Container(
               height: 40.0,
@@ -297,7 +315,7 @@ class _InquiryDetailState extends State<InquiryDetail> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Text(
-                    '上传图片',
+                    '查看图片',
                     style: GSYConstant.textStyle(color: '#666666'),
                   ),
                   SvgUtil.svg('arrow_right.svg')
@@ -315,14 +333,14 @@ class _InquiryDetailState extends State<InquiryDetail> {
             alignment: Alignment.centerLeft,
             color: Colors.white,
             child: RichText(
-              text: const TextSpan(
+              text: TextSpan(
                 children: [
-                  TextSpan(
-                    text: "订单状态    ",
+                  const TextSpan(
+                    text: "订单状态         ",
                     style: TextStyle(fontSize: 14.0, color: Color.fromRGBO(102, 102, 102, 1),),
                   ),
                   TextSpan(
-                    text: "已完成",
+                    text: orderStatus,
                     style: TextStyle(fontSize: 14.0, color: Color.fromRGBO(51, 51, 51, 1),),
                   ),
                 ],
@@ -339,11 +357,11 @@ class _InquiryDetailState extends State<InquiryDetail> {
               text: TextSpan(
                 children: [
                   const TextSpan(
-                    text: "实际支付    ",
+                    text: "实际支付         ",
                     style: TextStyle(fontSize: 14.0, color: Color.fromRGBO(102, 102, 102, 1),),
                   ),
                   TextSpan(
-                    text: _dataMap['cost'],
+                    text: orderFee.toString(),
                     style: TextStyle(fontSize: 14.0, color: Color.fromRGBO(51, 51, 51, 1),),
                   ),
                 ],
@@ -361,10 +379,30 @@ class _InquiryDetailState extends State<InquiryDetail> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text(
-                  '订单编号    3556432456112',
+                  '订单编号        '+_dataMap['orderId'].toString(),
                   style: GSYConstant.textStyle(color: '#666666'),
                 ),
-                Text("复制",style: GSYConstant.textStyle(color: '#FF3131'),),
+                GestureDetector(
+                  onTap: () async{
+                    Clipboard.setData(ClipboardData(text:_dataMap['orderId'].toString()));
+                    ToastUtil.showToast(msg: '已复制到剪贴板');
+                  },
+                  child: Container(
+                    height: 40.0,
+                    padding: const EdgeInsets.only(
+                      right: 16.0,
+                    ),
+                    decoration: const BoxDecoration(color: Colors.white),
+                    child: Row(
+                      children: <Widget>[
+                        Text(
+                          '复制',
+                          style: GSYConstant.textStyle(color: '#FF3131'),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
@@ -376,14 +414,14 @@ class _InquiryDetailState extends State<InquiryDetail> {
             alignment: Alignment.centerLeft,
             color: Colors.white,
             child: RichText(
-              text: const TextSpan(
+              text: TextSpan(
                 children: [
-                  TextSpan(
-                    text: "创建时间    ",
+                  const TextSpan(
+                    text: "创建时间         ",
                     style: TextStyle(fontSize: 14.0, color: Color.fromRGBO(102, 102, 102, 1),),
                   ),
                   TextSpan(
-                    text: "2022-03-23 20:00",
+                    text: createTime,
                     style: TextStyle(fontSize: 14.0, color: Color.fromRGBO(51, 51, 51, 1),),
                   ),
                 ],
@@ -398,14 +436,14 @@ class _InquiryDetailState extends State<InquiryDetail> {
             alignment: Alignment.centerLeft,
             color: Colors.white,
             child: RichText(
-              text: const TextSpan(
+              text:TextSpan(
                 children: [
-                  TextSpan(
-                    text: "支付时间    ",
+                  const TextSpan(
+                    text: "支付时间         ",
                     style: TextStyle(fontSize: 14.0, color: Color.fromRGBO(102, 102, 102, 1),),
                   ),
                   TextSpan(
-                    text: "2022-03-23 20:00",
+                    text: payTime,
                     style: TextStyle(fontSize: 14.0, color: Color.fromRGBO(51, 51, 51, 1),),
                   ),
                 ],
@@ -417,7 +455,7 @@ class _InquiryDetailState extends State<InquiryDetail> {
             margin: const EdgeInsets.symmetric(horizontal: 10.0),
             width: double.infinity,
             alignment: Alignment.bottomCenter,
-            padding: const EdgeInsets.only(bottom: 0.0),
+            padding: const EdgeInsets.only(bottom: 0.0,right: 0.0,left: 0.0),
             color: Colors.white,
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -429,7 +467,7 @@ class _InquiryDetailState extends State<InquiryDetail> {
                       style: GSYConstant.textStyle(color: '#666666'),
                     ),
                   ),
-                  CustomOutlineButton(
+                  _dataMap['status_dictText']=='已接诊'?CustomOutlineButton(
                     title: '处方查看',
                     textStyle: GSYConstant.textStyle(
                         fontSize: 13.0, color: '#666666'),
@@ -440,28 +478,28 @@ class _InquiryDetailState extends State<InquiryDetail> {
                     borderRadius: BorderRadius.circular(14.0),
                     borderColor: ColorsUtil.hexStringColor('#09BB8F'),
                     onPressed: () async {
-                      ToastUtil.showToast(msg: '点击了处方查看');
-//                      Navigator.push(context, MaterialPageRoute(builder: (context)=> RecipeDetail(rpDetailItem: {..._dataMap,}, diagnosis: item['diagnosis'],prescriptionId:item['recipeId'],registeredId:item['registerId'])));
+//                      ToastUtil.showToast(msg: '点击了处方查看');
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=> PrescriptionList(dataMap: item,prescriptionItem: _dataMap)));
                     },
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  CustomOutlineButton(
-                    title: '查看聊天记录',
-                    textStyle: GSYConstant.textStyle(
-                        fontSize: 13.0, color: '#666666'),
-                    padding:(
-                        const EdgeInsets.symmetric(horizontal: 13.0)
-                    ),
-                    height: 30.0,
-                    borderRadius: BorderRadius.circular(14.0),
-                    borderColor: ColorsUtil.hexStringColor('#09BB8F'),
-                    onPressed: () async {
-                      ToastUtil.showToast(msg: '点击了查看聊天记录');
-//                      Navigator.push(context,MaterialPageRoute(builder: (context) => WriteCase(registeredId:item['registerId'],userInfoMap: _dataMap,)));
-                    },
-                  ),
+                  ):Container(),
+//                  SizedBox(
+//                    width: 10,
+//                  ),
+//                  CustomOutlineButton(
+//                    title: '查看聊天记录',
+//                    textStyle: GSYConstant.textStyle(
+//                        fontSize: 13.0, color: '#666666'),
+//                    padding:(
+//                        const EdgeInsets.symmetric(horizontal: 13.0)
+//                    ),
+//                    height: 30.0,
+//                    borderRadius: BorderRadius.circular(14.0),
+//                    borderColor: ColorsUtil.hexStringColor('#09BB8F'),
+//                    onPressed: () async {
+//                      ToastUtil.showToast(msg: '点击了查看聊天记录');
+////                      Navigator.push(context,MaterialPageRoute(builder: (context) => WriteCase(registeredId:item['registerId'],userInfoMap: _dataMap,)));
+//                    },
+//                  ),
                 ]
             ),
           ),

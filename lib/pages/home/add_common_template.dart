@@ -6,6 +6,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../utils/svg_util.dart';
+
 class AddCommonTemplate extends StatefulWidget {
   const AddCommonTemplate({Key? key}) : super(key: key);
 
@@ -48,7 +50,7 @@ class _AddCommonTemplateState extends State<AddCommonTemplate> {
                     border: InputBorder.none,
                     hintStyle: GSYConstant.textStyle(color: '#666666')
                   ),
-                ),)
+                ),),
               ]
             ),
           )

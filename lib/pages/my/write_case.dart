@@ -130,7 +130,7 @@ class _WriteCaseState extends State<WriteCase> {
         children: <Widget>[
           Expanded(
               child: SingleChildScrollView(
-            child: Column(
+              child: Column(
               children: <Widget>[
                 ListView(
                   shrinkWrap: true,

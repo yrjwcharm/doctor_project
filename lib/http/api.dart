@@ -35,6 +35,7 @@ class Api {
   static const getRecordListApi = "/doctor/dr-service/order-room/record/list";
   static const getRpListApi = "/doctor/dr-service/recipe/getList";
   static const getDictListApi = "/doctor/dr-service/register/getList";//接诊列表
+  static const getRegisterOrderInfoDetail = "/doctor/dr-service/register/getRegisterOrderInfoDetail";//问诊订单详情
   static const getRpDetailApi = "/doctor/dr-service/recipe/queryRecipe";
   static const  revokeRpApi = '/doctor/dr-service/recipe/cancel';
   static const  view360Api =Api.BASE_URL+'/360view/#/';
@@ -57,6 +58,8 @@ class Api {
   static const checkUpdateDetail= '/doctor/dr-service/baDoctorTime/updateDetail';
   static const checkInsertDetail= '/doctor/dr-service/baDoctorTime/insertDetail';
   static const getNoticeByPlatform = '/patient/pt-service/baNotice/getNoticeByPlatform';
-
+  static const getRecipes = '/doctor/dr-service/template/getRecipes';//查询处方模版
+  static const deleteTemplate = '/doctor/dr-service/template/delete';//删除模板
+  static const getAllDepartment = '/doctor/dr-service/baDepartment/getAllDepartment';//显示医院所有科室基本信息
 
 }

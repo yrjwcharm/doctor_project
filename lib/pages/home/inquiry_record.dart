@@ -16,7 +16,6 @@ import 'package:dio/dio.dart';
 import 'package:doctor_project/widget/custom_outline_button.dart';
 import 'package:doctor_project/widget/custom_elevated_button.dart';
 import 'package:doctor_project/pages/my/write_case.dart';
-
 import '../../utils/toast_util.dart';
 
 class InquiryRecord extends StatefulWidget {
@@ -31,6 +30,7 @@ class InquiryRecord extends StatefulWidget {
 class _InquiryRecordState extends State<InquiryRecord> {
   final ScrollController _scrollController = ScrollController(); //listview的控制器
   List list = [];
+  String tapIndex ='';
   String status = '';
   List tabList = [
     {'label': '全部', 'checked': true, 'value':''},
@@ -63,7 +63,7 @@ class _InquiryRecordState extends State<InquiryRecord> {
     var request = HttpRequest.getInstance();
     var res = await request.get(
         Api.getDictListApi +
-            '?status=&page=$_page&size=10',
+            '?status=$tapIndex&page=$_page&size=10',
         {});
     if (res['code'] == 200) {
       setState(() {
@@ -128,6 +128,75 @@ class _InquiryRecordState extends State<InquiryRecord> {
       ),
       body: Column(
         children: <Widget>[
+          Container(
+            height: 44.0,
+            margin:const EdgeInsets.only(bottom: 8.0),
+            decoration: const BoxDecoration(color: Colors.white),
+            child: Row(
+              children: <Widget>[
+                Expanded(
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          tapIndex = '';
+                          list = [];
+                        });
+                        getData();
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text(
+                            '全部',
+                            style: GSYConstant.textStyle(
+                                color: tapIndex=='' ? '#06B48D' : '#666666'),
+                          ),
+                        ],
+                      ),
+                    )),
+                Expanded(
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          tapIndex = '2';
+                          list = [];
+                        });
+                        getData();
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text(
+                            '已完成',
+                            style: GSYConstant.textStyle(
+                                color: tapIndex=='2' ? '#06B48D' : '#666666'),
+                          ),
+                        ],
+                      ),
+                    )),
+                Expanded(
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          tapIndex = '8';
+                          list = [];
+                        });
+                        getData();
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text(
+                            '已取消',
+                            style: GSYConstant.textStyle(
+                                color: tapIndex=='8' ? '#06B48D' : '#666666'),
+                          ),
+                        ],
+                      ),
+                    ))
+              ],
+            ),
+          ),
           Expanded(
             child: RefreshIndicator(
                 displacement: 10.0,
@@ -139,19 +208,18 @@ class _InquiryRecordState extends State<InquiryRecord> {
                     itemBuilder: (BuildContext context, int index) {
                       var item = list[index];
                       bool state = item['status_dictText']=='已取消'?false:true;
-                      // List<String>  diagnosis = [];
-                      // (item['diagnosisVOS']??[]).forEach((element) {
-                      //     diagnosis.add(element['diagnosisName']);
-                      // });
-                      // print('111111111$diagnosis');
-                      // String str = '';
-                      // diagnosis.forEach((f){
-                      //   if(str == ''){
-                      //     str = "$f";
-                      //   }else {
-                      //     str = "$str"",""$f";
-                      //   }
-                      // });i
+                       List<String>  diagnosis = [];
+                       (item['diagnoses']??[]).forEach((element) {
+                           diagnosis.add(element['diagnosisName']);
+                       });
+                       String str = '';
+                       diagnosis.forEach((f){
+                         if(str == ''){
+                           str = "$f";
+                         }else {
+                           str = "$str"",""$f";
+                         }
+                       });
         
                       return GestureDetector(
                          onTap: (){
@@ -208,56 +276,81 @@ class _InquiryRecordState extends State<InquiryRecord> {
                                         style: GSYConstant.textStyle(
                                             color: '#333333'),
                                       ),
-                                      const SizedBox(
-                                        height: 4.0,
-                                      ),
-                                      Text(
-                                        '诊断：${item['diseaseDesc']}',
-                                        style: GSYConstant.textStyle(
-                                            color: '#333333'),
-                                      ),
+//                                      const SizedBox(
+//                                        height: 4.0,
+//                                      ),
                                     ],
                                   ),
                                 ),
-                                const SizedBox(
-                                  width: 10.0,
-                                ),
-                                Text(
-                                    '${item['status_dictText']=='已接诊'?'已完成':item['status_dictText']}',
-                                    style:
-                                        GSYConstant.textStyle(color: '#333333'),
-                                ),
-                                const SizedBox(
-                                  width: 16.0,
-                                ),
-                                Text(
-                                    '¥${item['cost']}',
-                                    style:GSYConstant.textStyle(color: '#FF0020'),
+                                    const SizedBox(
+                                      width: 10.0,
                                     ),
-                                const SizedBox(
-                                  width: 16.0,
-                                ),
+                                    Text(
+                                        '${item['status_dictText']=='已接诊'?'已完成':item['status_dictText']}',
+                                        style:
+                                            GSYConstant.textStyle(color: '#333333'),
+                                    ),
+                                    const SizedBox(
+                                      width: 16.0,
+                                    ),
+                                    Text(
+                                        '¥${item['cost']}',
+                                        style:GSYConstant.textStyle(color: '#FF0020'),
+                                    ),
+                                    const SizedBox(
+                                      width: 16.0,
+                                    ),
                               ],
                             ),
-                            decoration: BoxDecoration(
+                                decoration: BoxDecoration(
                                 color: Colors.white,
-                                border: Border(
-                                    bottom: BorderSide(
-                                        width: 1.0,
-                                        color: ColorsUtil.hexStringColor(
-                                            '#cccccc',
-                                            alpha: 0.3)))),
-                          ),
-                          Container(
-                            height: 42.0,
-                            width: double.infinity,
-                            padding: const EdgeInsets.only(left: 16.0,right: 16.0),
-                            alignment: Alignment.centerLeft,
-                            color: Colors.white,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Expanded(
+//
+                                ),
+                              ),
+                              Container(
+                                padding:
+                                const EdgeInsets.only(left: 16.0,bottom: 10.0),
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    border: Border(
+                                        bottom: BorderSide(
+                                            width: 1.0,
+                                            color: ColorsUtil.hexStringColor(
+                                                '#cccccc',
+                                                alpha: 0.3)))),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child:Row(
+                                        children: [
+                                          Text(
+                                            '诊断：${str}',
+                                            style: GSYConstant.textStyle(
+                                                color: '#333333'),
+                                          ),],
+                                      ))],
+                                ),
+                              ),
+                              Container(
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    border: Border(
+                                        bottom: BorderSide(
+                                            width: 1.0,
+                                            color: ColorsUtil.hexStringColor(
+                                                '#cccccc',
+                                                alpha: 0.3)))),
+                              ),
+                              Container(
+                              height: 42.0,
+                              width: double.infinity,
+                              padding: const EdgeInsets.only(left: 16.0,right: 16.0),
+                              alignment: Alignment.centerLeft,
+                              color: Colors.white,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Expanded(
                                     child:
                                       Text(
                                         item['lastTime'],
