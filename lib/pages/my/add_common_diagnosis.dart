@@ -7,6 +7,8 @@ import 'package:doctor_project/widget/custom_textField_input.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'choose_diagnosis.dart';
+
 class AddCommonDiagnosis extends StatefulWidget {
   const AddCommonDiagnosis({Key? key}) : super(key: key);
   @override
