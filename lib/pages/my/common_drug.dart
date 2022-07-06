@@ -73,7 +73,7 @@ class _CommonDrugState extends State<CommonDrug> {
             child: Column(
               children: <Widget>[
                 Visibility(
-                  visible: commonDrugList.isEmpty,
+                  visible: commonDrugList.isNotEmpty,
                   child: Container(
                     height: 43.0,
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -123,11 +123,11 @@ class _CommonDrugState extends State<CommonDrug> {
                         ],
                       ),
                     )),
-                ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: 5,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemBuilder: _renderRow),
+                // ListView.builder(
+                //     shrinkWrap: true,
+                //     itemCount: 5,
+                //     physics: const NeverScrollableScrollPhysics(),
+                //     itemBuilder: _renderRow),
                 Visibility(
                     visible: commonDrugList.isNotEmpty,
                     child: Container(
