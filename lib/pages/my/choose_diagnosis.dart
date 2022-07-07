@@ -42,7 +42,6 @@ class _ChooseDiagnosisState extends State<ChooseDiagnosis> {
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
-        print('滑动到了最底部');
         _getMore();
       }
     });
@@ -184,7 +183,9 @@ class _ChooseDiagnosisState extends State<ChooseDiagnosis> {
                         setState(() {
                           keywords = value;
                         }),
-                        getData()
+                        Future.delayed(Duration.zero,(){
+                          getData();
+                        })
                       },
                       onEditingComplete: () {},
                       style: GSYConstant.textStyle(color: '#666666'),
@@ -265,6 +266,15 @@ class _ChooseDiagnosisState extends State<ChooseDiagnosis> {
               List contactArr =[...prevList,...result];
               final ids = contactArr .map((e) => e['id']).toSet();
               contactArr .retainWhere((x) => ids.remove(x['id']));
+              List arrayList =[];
+              contactArr.forEach((item) {
+                 if(item['isMaster']==1){
+                   arrayList.add(item);
+                 }
+              });
+              if(arrayList.isEmpty){
+                contactArr[0]['isMaster']=1;
+              }
               Navigator.pop(context,contactArr);
             },
             title: '添加',
