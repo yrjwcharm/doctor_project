@@ -74,6 +74,7 @@ dependencies:
   video_thumbnail: ^0.5.0
   record: ^4.1.1
   flutter_easyloading: 3.0.3
+  flutter_pickers: ^2.1.9
   open_file: ^3.2.1
 #  flutter_datetime_picker: ^1.5.1
   # tpns_flutter_plugin:

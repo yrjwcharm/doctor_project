@@ -262,7 +262,7 @@ class _InquiryDetailState extends State<InquiryDetail> {
                   ),
                   TextSpan(
                     text: _dataMap['type_dictText'],
-                    style: TextStyle(fontSize: 14.0, color: Color.fromRGBO(51, 51, 51, 1),),
+                    style: const TextStyle(fontSize: 14.0, color: Color.fromRGBO(51, 51, 51, 1),),
                   ),
                 ],
               ),

@@ -215,7 +215,7 @@ class _DiagnosisState extends State<Diagnosis> {
                 height: 20.0,
               ),
             ),
-            SizedBox(
+            const SizedBox(
               width: 15,
             ),
             Text(
@@ -288,7 +288,7 @@ class _DiagnosisState extends State<Diagnosis> {
                     alignment: Alignment.centerRight,
                     padding: EdgeInsets.zero,
                   ),
-                  child: SvgUtil.svg('add_drug.svg'),
+                  child: SvgUtil.svg('add_zhenduan.svg'),
                 )),
             Divider(
               height: 1.0,
@@ -315,8 +315,9 @@ class _DiagnosisState extends State<Diagnosis> {
         children: <Widget>[
           // const SizedBox(height: 10.0,),
           Container(
+            height: 43.0,
             decoration: const BoxDecoration(color: Colors.white),
-            padding: const EdgeInsets.only(top: 11.0, left: 17.0, right: 16.0),
+            padding: const EdgeInsets.symmetric( horizontal: 16.0),
             child: Row(
               children: <Widget>[
                 Expanded(
@@ -366,7 +367,8 @@ class _DiagnosisState extends State<Diagnosis> {
                 // const SizedBox(width: 16.0,),
                 // Text('取消',style: GSYConstant.textStyle(color: '#333333'),)
 
-                SizedBox(
+                Container(
+                  margin: const EdgeInsets.only(left: 16.0),
                   child: TextButton(
                     onPressed: () {
                       _editingController.clear();
@@ -379,14 +381,13 @@ class _DiagnosisState extends State<Diagnosis> {
                       });
                     },
                     style: TextButton.styleFrom(
-                      alignment: Alignment.center,
+                      minimumSize: Size.zero,
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                       padding: EdgeInsets.zero,
-                      // backgroundColor: Colors.red,
                     ),
                     child: Text('取消',
                         style: GSYConstant.textStyle(color: '#333333')),
                   ),
-                  width: 45,
                 ),
               ],
             ),
