@@ -60,6 +60,7 @@ class Api {
   static const checkInsertDetail= '/doctor/dr-service/baDoctorTime/insertDetail';
   static const getNoticeByPlatform = '/patient/pt-service/baNotice/getNoticeByPlatform';
   static const getRecipes = '/doctor/dr-service/template/getRecipes';//查询处方模版
+  static const addOrEditRecipe ='/dr-service/template/addOrEditRecipe';//新增修改处方模版
   static const deleteTemplate = '/doctor/dr-service/template/delete';//删除模板
   static const getAllDepartment = '/doctor/dr-service/baDepartment/getAll?orgId=1';//显示医院所有科室基本信息
   static const getDiagnosisList = '/doctor/dr-service/diagnosis/getList';
