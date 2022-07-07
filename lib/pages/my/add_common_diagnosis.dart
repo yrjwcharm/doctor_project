@@ -45,7 +45,7 @@ class _AddCommonDiagnosisState extends State<AddCommonDiagnosis> {
             // An action can be bigger than the others.
             // flex: 2,
             onPressed: (BuildContext context) async {
-              if(diagnosisList.isNotEmpty) {
+              if (diagnosisList.isNotEmpty) {
                 setState(() {
                   diagnosisList.removeAt(index);
                 });
@@ -125,15 +125,19 @@ class _AddCommonDiagnosisState extends State<AddCommonDiagnosis> {
         isForward: true,
         onForwardPressed: () {
           Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>  ChooseDiagnosis(prevList: diagnosisList,)))
-              .then((value) => {
-                   diagnosisList.addAll(value),
+              context,
+              MaterialPageRoute(
+                  builder: (context) => ChooseDiagnosis(
+                        prevList: diagnosisList,
+                      ))).then((value) => {
+                if (value != null)
+                  {
+                    diagnosisList.addAll(value),
                     setState(() {
                       diagnosisList = value;
                     })
-                  });
+                  }
+              });
         },
       ),
       backgroundColor: ColorsUtil.bgColor,

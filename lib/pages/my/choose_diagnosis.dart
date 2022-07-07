@@ -257,12 +257,15 @@ class _ChooseDiagnosisState extends State<ChooseDiagnosis> {
                 return;
               }
 
-              final jsonList = [...filterList,...prevList].map((item) => jsonEncode(item)).toList();
+              final jsonList = filterList.map((item) => jsonEncode(item)).toList();
               // using toSet - toList strategy
               final uniqueJsonList = jsonList.toSet().toList();
               //去除重复元素
               final List result = uniqueJsonList.map((item) => jsonDecode(item)).toList();
-              Navigator.pop(context,result);
+              List contactArr =[...prevList,...result];
+              final ids = contactArr .map((e) => e['id']).toSet();
+              contactArr .retainWhere((x) => ids.remove(x['id']));
+              Navigator.pop(context,contactArr);
             },
             title: '添加',
           ):const SizedBox.shrink()
