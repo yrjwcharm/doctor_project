@@ -75,40 +75,42 @@ class _ChoiceDepartmentState extends State<ChoiceDepartment> {
                                   alignment: Alignment.centerLeft,
                                   children: [
                                     GestureDetector(
-                                      onTap: (){
+                                      onTap: () {
                                         setState(() {
                                           list.forEach((_item) {
-                                            _item.checked  = false;
-                                            if(item.deptId==_item.deptId){
+                                            _item.checked = false;
+                                            if (item.deptId == _item.deptId) {
                                               _item.checked = true;
                                             }
                                           });
                                           getSecondDepartmentList(item.deptId!);
                                         });
                                       },
-                                      child:Container(
-                                      height: 44.0,
-                                      padding: EdgeInsets.only(
-                                          left: ScreenUtil().setWidth(20.0)),
-                                      color: item.checked!
-                                          ? Colors.white
-                                          : ColorsUtil.bgColor,
-                                      alignment: Alignment.centerLeft,
-                                      child: Text(
-                                        item.deptName!,
-                                        style: GSYConstant.textStyle(
-                                            fontSize: ScreenUtil().setSp(14.0),
-                                            color: item.checked!
-                                                ? '#06B48D'
-                                                : '#333333',
-                                            fontFamily: item.checked!
-                                                ? 'Medium'
-                                                : 'Regular',
-                                            fontWeight: item.checked!
-                                                ? FontWeight.w500
-                                                : FontWeight.w400),
+                                      child: Container(
+                                        height: 44.0,
+                                        padding: EdgeInsets.only(
+                                            left: ScreenUtil().setWidth(20.0)),
+                                        color: item.checked!
+                                            ? Colors.white
+                                            : ColorsUtil.bgColor,
+                                        alignment: Alignment.centerLeft,
+                                        child: Text(
+                                          item.deptName!,
+                                          style: GSYConstant.textStyle(
+                                              fontSize:
+                                                  ScreenUtil().setSp(14.0),
+                                              color: item.checked!
+                                                  ? '#06B48D'
+                                                  : '#333333',
+                                              fontFamily: item.checked!
+                                                  ? 'Medium'
+                                                  : 'Regular',
+                                              fontWeight: item.checked!
+                                                  ? FontWeight.w500
+                                                  : FontWeight.w400),
+                                        ),
                                       ),
-                                    ),),
+                                    ),
                                     Positioned(
                                         child: Container(
                                       width: item.checked! ? 3.0 : 0.0,
@@ -131,7 +133,11 @@ class _ChoiceDepartmentState extends State<ChoiceDepartment> {
                         color: Colors.white,
                         child: Column(
                             children: subList
-                                .map<Widget>((item) => Container(
+                                .map<Widget>((item) => GestureDetector(
+                                    onTap: () {
+                                      Navigator.pop(context,item);
+                                    },
+                                    child: Container(
                                       height: 43.0,
                                       width: double.infinity,
                                       alignment: Alignment.center,
@@ -147,7 +153,7 @@ class _ChoiceDepartmentState extends State<ChoiceDepartment> {
                                         style: GSYConstant.textStyle(
                                             color: '#333333'),
                                       ),
-                                    ))
+                                    )))
                                 .toList()),
                       )
                     ],

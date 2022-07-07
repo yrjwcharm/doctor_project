@@ -1,10 +1,3 @@
-import 'dart:convert';
-/// code : 200
-/// data : [{"name":"跖趾关节结核","type_dictText":"系统","details":[{"diagnosisName":"跖趾关节结核","seqNo":1,"diagnosisId":"1","diagnosisCode":"A18.012+","id":"1","templateId":"4"}],"id":"4","type":0}]
-/// msg : "成功"
-
-CommonDiagnosisModal commonDiagnosisModalFromJson(String str) => CommonDiagnosisModal.fromJson(json.decode(str));
-String commonDiagnosisModalToJson(CommonDiagnosisModal data) => json.encode(data.toJson());
 class CommonDiagnosisModal {
   CommonDiagnosisModal({
       int? code, 
@@ -28,13 +21,7 @@ class CommonDiagnosisModal {
   int? _code;
   List<Data>? _data;
   String? _msg;
-CommonDiagnosisModal copyWith({  int? code,
-  List<Data>? data,
-  String? msg,
-}) => CommonDiagnosisModal(  code: code ?? _code,
-  data: data ?? _data,
-  msg: msg ?? _msg,
-);
+
   int? get code => _code;
   List<Data>? get data => _data;
   String? get msg => _msg;
@@ -51,14 +38,6 @@ CommonDiagnosisModal copyWith({  int? code,
 
 }
 
-/// name : "跖趾关节结核"
-/// type_dictText : "系统"
-/// details : [{"diagnosisName":"跖趾关节结核","seqNo":1,"diagnosisId":"1","diagnosisCode":"A18.012+","id":"1","templateId":"4"}]
-/// id : "4"
-/// type : 0
-
-Data dataFromJson(String str) => Data.fromJson(json.decode(str));
-String dataToJson(Data data) => json.encode(data.toJson());
 class Data {
   Data({
       String? name, 
@@ -90,17 +69,7 @@ class Data {
   List<Details>? _details;
   String? _id;
   int? _type;
-Data copyWith({  String? name,
-  String? typeDictText,
-  List<Details>? details,
-  String? id,
-  int? type,
-}) => Data(  name: name ?? _name,
-  typeDictText: typeDictText ?? _typeDictText,
-  details: details ?? _details,
-  id: id ?? _id,
-  type: type ?? _type,
-);
+
   String? get name => _name;
   String? get typeDictText => _typeDictText;
   List<Details>? get details => _details;
@@ -121,73 +90,64 @@ Data copyWith({  String? name,
 
 }
 
-/// diagnosisName : "跖趾关节结核"
-/// seqNo : 1
-/// diagnosisId : "1"
-/// diagnosisCode : "A18.012+"
-/// id : "1"
-/// templateId : "4"
-
-Details detailsFromJson(String str) => Details.fromJson(json.decode(str));
-String detailsToJson(Details data) => json.encode(data.toJson());
 class Details {
   Details({
       String? diagnosisName, 
-      int? seqNo, 
+      String? seqNo, 
       String? diagnosisId, 
+      int? isMaster, 
       String? diagnosisCode, 
       String? id, 
-      String? templateId,}){
+      String? templateId, 
+      String? isMasterDictText,}){
     _diagnosisName = diagnosisName;
     _seqNo = seqNo;
     _diagnosisId = diagnosisId;
+    _isMaster = isMaster;
     _diagnosisCode = diagnosisCode;
     _id = id;
     _templateId = templateId;
+    _isMasterDictText = isMasterDictText;
 }
 
   Details.fromJson(dynamic json) {
     _diagnosisName = json['diagnosisName'];
-    _seqNo = json['seqNo'];
+    _seqNo = json['seqNo'].toString();
     _diagnosisId = json['diagnosisId'];
+    _isMaster = json['isMaster'];
     _diagnosisCode = json['diagnosisCode'];
     _id = json['id'];
     _templateId = json['templateId'];
+    _isMasterDictText = json['isMaster_dictText'];
   }
   String? _diagnosisName;
-  int? _seqNo;
+  String? _seqNo;
   String? _diagnosisId;
+  int? _isMaster;
   String? _diagnosisCode;
   String? _id;
   String? _templateId;
-Details copyWith({  String? diagnosisName,
-  int? seqNo,
-  String? diagnosisId,
-  String? diagnosisCode,
-  String? id,
-  String? templateId,
-}) => Details(  diagnosisName: diagnosisName ?? _diagnosisName,
-  seqNo: seqNo ?? _seqNo,
-  diagnosisId: diagnosisId ?? _diagnosisId,
-  diagnosisCode: diagnosisCode ?? _diagnosisCode,
-  id: id ?? _id,
-  templateId: templateId ?? _templateId,
-);
+  String? _isMasterDictText;
+
   String? get diagnosisName => _diagnosisName;
-  int? get seqNo => _seqNo;
+  String? get seqNo => _seqNo;
   String? get diagnosisId => _diagnosisId;
+  int? get isMaster => _isMaster;
   String? get diagnosisCode => _diagnosisCode;
   String? get id => _id;
   String? get templateId => _templateId;
+  String? get isMasterDictText => _isMasterDictText;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['diagnosisName'] = _diagnosisName;
     map['seqNo'] = _seqNo;
     map['diagnosisId'] = _diagnosisId;
+    map['isMaster'] = _isMaster;
     map['diagnosisCode'] = _diagnosisCode;
     map['id'] = _id;
     map['templateId'] = _templateId;
+    map['isMaster_dictText'] = _isMasterDictText;
     return map;
   }
 

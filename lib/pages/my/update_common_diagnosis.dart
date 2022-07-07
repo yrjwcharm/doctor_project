@@ -1,6 +1,7 @@
 import 'package:doctor_project/common/style/gsy_style.dart';
 import 'package:doctor_project/http/api.dart';
 import 'package:doctor_project/http/http_request.dart';
+import 'package:doctor_project/model/common_diagnosis_modal.dart';
 import 'package:doctor_project/pages/my/choice_department.dart';
 import 'package:doctor_project/pages/my/choose_diagnosis.dart';
 import 'package:doctor_project/utils/colors_utils.dart';
@@ -17,22 +18,42 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 
 import '../../model/department_modal.dart';
 
-class AddCommonDiagnosis extends StatefulWidget {
-  const AddCommonDiagnosis({Key? key}) : super(key: key);
+class UpdateCommonDiagnosis extends StatefulWidget {
+  final String doctorId;
+  final String id;
+  final String name;
+  final List<Details> diagnosis;
+  final String deptId;
+  final String deptName;
+  const UpdateCommonDiagnosis({Key? key,required this.doctorId, required this.id, required this.name, required this.diagnosis, required this.deptId, required this.deptName}) : super(key: key);
 
   @override
-  _AddCommonDiagnosisState createState() => _AddCommonDiagnosisState();
+  _AddCommonDiagnosisState createState() => _AddCommonDiagnosisState(this.doctorId,this.id,this.name,this.diagnosis,this.deptId,this.deptName);
 }
 
-class _AddCommonDiagnosisState extends State<AddCommonDiagnosis> {
+class _AddCommonDiagnosisState extends State<UpdateCommonDiagnosis> {
   String templateName = '';
   String departmentId = '';
   String department = '';
   List<dynamic> diagnosisList = [];
+  String doctorId;
+  String name;
+  String id;
+  String deptId;
+  String deptName;
+  List<Details> diagnosis;
+  _AddCommonDiagnosisState(this.doctorId,this.id,this.name,this.diagnosis,this.deptId,this.deptName);
 
   @override
   void initState() {
     super.initState();
+    templateName= name;
+    departmentId=deptId;
+    department =deptName;
+    diagnosis.forEach((item) {
+       Map map ={'id':item.diagnosisId,'isMaster':item.isMaster,'dianame':item.diagnosisName,'diacode':item.diagnosisCode,};
+       diagnosisList.add(map);
+    });
   }
 
   Widget _renderRow(BuildContext context, int index) {
@@ -149,7 +170,7 @@ class _AddCommonDiagnosisState extends State<AddCommonDiagnosis> {
               children: <Widget>[
                 CustomTextFieldInput(
                     label: '模板名称',
-                    hintText: '请输入模板名称',
+                    hintText:templateName.isNotEmpty?templateName:'请输入模板名称',
                     onChanged: (value) {
                       setState(() {
                         templateName = value;
@@ -160,7 +181,12 @@ class _AddCommonDiagnosisState extends State<AddCommonDiagnosis> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const ChoiceDepartment()));
+                            builder: (context) => const ChoiceDepartment())).then((item) => {
+                              setState((){
+                                department = item.deptName;
+                                departmentId = item.deptId;
+                              })
+                    });
                   },
                   child: Container(
                     height: 43.0,
@@ -178,7 +204,7 @@ class _AddCommonDiagnosisState extends State<AddCommonDiagnosis> {
                           mainAxisSize: MainAxisSize.min,
                           children: <Widget>[
                             Text(
-                              '请选择科室',
+                              department.isEmpty?'请选择科室':department,
                               style: GSYConstant.textStyle(color: '#999999'),
                             ),
                             const SizedBox(
@@ -202,7 +228,7 @@ class _AddCommonDiagnosisState extends State<AddCommonDiagnosis> {
           )),
           CustomSafeAreaButton(
             margin: const EdgeInsets.only(bottom: 16.0),
-            onPressed: () {
+            onPressed: () async{
               if (templateName.isEmpty) {
                 ToastUtil.showToast(msg: '请输入模板名称');
                 return;
@@ -210,11 +236,32 @@ class _AddCommonDiagnosisState extends State<AddCommonDiagnosis> {
               if (department.isEmpty) {
                 ToastUtil.showToast(msg: '请选择科室');
                 return;
-                return;
               }
               if (diagnosisList.isEmpty) {
                 ToastUtil.showToast(msg: '请添加诊断');
                 return;
+              }
+              List list =[];
+              diagnosisList.forEach((item) {
+                 Map map ={
+                   "id":item['id'],
+                   "name":item['dianame'],
+                   "isMaster":item['isMaster']
+                 };
+                 list.add(map);
+              });
+              print('111111,${diagnosisList.toString()}');
+              var res = await HttpRequest.getInstance().post(Api.updateDiagnosisTemplate,{
+                "doctorId": doctorId, //测试使用
+                "id": id, //模版id
+                "deptId": departmentId, //科室id
+                "name": templateName, //模版名称
+                "diagnosisTemplateDetails": list,
+              });
+              if(res['code']==200){
+                Navigator.pop(context);
+              }else{
+                ToastUtil.showToast(msg: res['msg']);
               }
             },
             title: '保存',

@@ -1,6 +1,6 @@
 import 'package:doctor_project/common/style/gsy_style.dart';
 import 'package:doctor_project/http/http_request.dart';
-import 'package:doctor_project/pages/my/add_common_diagnosis.dart';
+import 'package:doctor_project/pages/my/update_common_diagnosis.dart';
 import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:doctor_project/utils/svg_util.dart';
 import 'package:doctor_project/widget/custom_safeArea_button.dart';
@@ -53,6 +53,15 @@ class _CommonDiagnosisState extends State<CommonDiagnosis> {
     // "seqNo": 1,
     // "diagnosisId": 1,
     // "diagnosisCode": "A18.012+",
+    List<String> list =[];
+    details.forEach((item) {
+        if(item.isMaster==1){
+         list.add('${item.diagnosisName}(主诊断)');
+        }else{
+          list.add('${item.diagnosisName}');
+        }
+    });
+    String diagnosis=list.join('、');
     return Slidable(
       endActionPane: ActionPane(
         motion: const ScrollMotion(),
@@ -84,25 +93,28 @@ class _CommonDiagnosisState extends State<CommonDiagnosis> {
       ),
       child: GestureDetector(
         onTap: (){
-          Navigator.push(context, MaterialPageRoute(builder: (context)=>const AddCommonDiagnosis()));
+          Navigator.push(context, MaterialPageRoute(builder: (context)=> UpdateCommonDiagnosis(doctorId: doctorId,id:item.id!,name:item.name!,diagnosis:item.details!, deptName: '', deptId: '',))).then((value) => getCommonDiagnosisList());
 
         },
         child:Container(
-          height: 80.0,
           alignment: Alignment.center,
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          color: Colors.white,
+          padding: const EdgeInsets.all(16.0),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            border: Border(bottom: BorderSide(color: ColorsUtil.hexStringColor('#cccccc',alpha: 0.3)))
+          ),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
+              Expanded(child:
               Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Row(
                     children: <Widget>[
-                      Text('风寒感冒',style: GSYConstant.textStyle(fontSize: 14.0,color: '#333333',fontFamily: 'Medium'),) ,
+                      Text(item.name!,style: GSYConstant.textStyle(fontSize: 14.0,color: '#333333',fontFamily: 'Medium'),) ,
                       Container(
                         margin: const EdgeInsets.only(left: 8.0),
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -115,9 +127,9 @@ class _CommonDiagnosisState extends State<CommonDiagnosis> {
                     ],
                   ),
                   const SizedBox(height: 10.0,),
-                  Flexible(child: Text('风寒感冒（主诊断）、幼儿疱疹 、腰肌劳损',style: GSYConstant.textStyle(color: '#666666'),))
+                  Flexible(child: Text(diagnosis,style: GSYConstant.textStyle(color: '#666666'),))
                 ],
-              ),
+              ),),
               SvgUtil.svg('detail_arrow.svg')
             ],
           ),
