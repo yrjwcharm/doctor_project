@@ -366,7 +366,8 @@ class _DiagnosisState extends State<Diagnosis> {
                 // const SizedBox(width: 16.0,),
                 // Text('取消',style: GSYConstant.textStyle(color: '#333333'),)
 
-                SizedBox(
+                Container(
+                  margin: const EdgeInsets.only(left: 16.0),
                   child: TextButton(
                     onPressed: () {
                       _editingController.clear();
@@ -379,14 +380,13 @@ class _DiagnosisState extends State<Diagnosis> {
                       });
                     },
                     style: TextButton.styleFrom(
-                      alignment: Alignment.center,
+                      minimumSize: Size.zero,
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                       padding: EdgeInsets.zero,
-                      // backgroundColor: Colors.red,
                     ),
                     child: Text('取消',
                         style: GSYConstant.textStyle(color: '#333333')),
                   ),
-                  width: 45,
                 ),
               ],
             ),

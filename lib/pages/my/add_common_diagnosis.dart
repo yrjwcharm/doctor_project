@@ -1,4 +1,6 @@
 import 'package:doctor_project/common/style/gsy_style.dart';
+import 'package:doctor_project/http/api.dart';
+import 'package:doctor_project/http/http_request.dart';
 import 'package:doctor_project/pages/my/choose_diagnosis.dart';
 import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:doctor_project/utils/svg_util.dart';
@@ -6,7 +8,9 @@ import 'package:doctor_project/widget/custom_app_bar.dart';
 import 'package:doctor_project/widget/custom_textField_input.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_pickers/pickers.dart';
 
+import '../../model/department_modal.dart';
 class AddCommonDiagnosis extends StatefulWidget {
   const AddCommonDiagnosis({Key? key}) : super(key: key);
   @override
@@ -15,6 +19,35 @@ class AddCommonDiagnosis extends StatefulWidget {
 
 class _AddCommonDiagnosisState extends State<AddCommonDiagnosis> {
   String templateName='';
+  @override
+  void initState() {
+    super.initState();
+    getDepartmentList();
+  }
+  getDepartmentList() async{
+    var response = await HttpRequest.getInstance().get(Api.getAllDepartment, {});
+    // if(res['code']==200){
+    //
+    // }
+    var res = DepartmentModal.fromJson(response);
+    if(res.code==200){
+      //
+      // Pickers.showMultiLinkPicker(
+      // context,
+      // data: res.data,
+      // // 注意数据类型要对应 比如 44442 写成字符串类型'44442'，则找不到
+      // // selectData: ['c', 'cc', 'cccc33', 'ccc4-2', 44442],
+      // // selectData: ['c', 'cc3'],
+      // columeNum: 5,
+      // suffix: ['', '', '', '', ''],
+      // onConfirm: (List p, List<int> position) {
+      // print('longer >>> 返回数据：${p.join('、')}');
+      // print('longer >>> 返回数据下标：${position.join('、')}');
+      // print('longer >>> 返回数据类型：${p.map((x) => x.runtimeType).toList()}');
+      // },
+      // );
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
