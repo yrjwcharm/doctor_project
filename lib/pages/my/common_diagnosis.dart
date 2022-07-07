@@ -84,7 +84,7 @@ class _CommonDiagnosisState extends State<CommonDiagnosis> {
       ),
       child: GestureDetector(
         onTap: (){
-          Navigator.push(context, MaterialPageRoute(builder: (context)=>AddCommonDiagnosis()));
+          Navigator.push(context, MaterialPageRoute(builder: (context)=>const AddCommonDiagnosis()));
 
         },
         child:Container(

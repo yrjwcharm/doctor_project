@@ -1,94 +1,220 @@
 import 'package:doctor_project/common/style/gsy_style.dart';
 import 'package:doctor_project/http/api.dart';
 import 'package:doctor_project/http/http_request.dart';
+import 'package:doctor_project/pages/my/choice_department.dart';
 import 'package:doctor_project/pages/my/choose_diagnosis.dart';
 import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:doctor_project/utils/svg_util.dart';
+import 'package:doctor_project/utils/toast_util.dart';
 import 'package:doctor_project/widget/custom_app_bar.dart';
+import 'package:doctor_project/widget/custom_safeArea_button.dart';
 import 'package:doctor_project/widget/custom_textField_input.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pickers/pickers.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 
 import '../../model/department_modal.dart';
+
 class AddCommonDiagnosis extends StatefulWidget {
   const AddCommonDiagnosis({Key? key}) : super(key: key);
+
   @override
   _AddCommonDiagnosisState createState() => _AddCommonDiagnosisState();
 }
 
 class _AddCommonDiagnosisState extends State<AddCommonDiagnosis> {
-  String templateName='';
+  String templateName = '';
+  String departmentId = '';
+  String department = '';
+  List<dynamic> diagnosisList = [];
+
   @override
   void initState() {
     super.initState();
-    getDepartmentList();
   }
-  getDepartmentList() async{
-    var response = await HttpRequest.getInstance().get(Api.getAllDepartment, {});
-    // if(res['code']==200){
-    //
-    // }
-    var res = DepartmentModal.fromJson(response);
-    if(res.code==200){
-      //
-      // Pickers.showMultiLinkPicker(
-      // context,
-      // data: res.data,
-      // // 注意数据类型要对应 比如 44442 写成字符串类型'44442'，则找不到
-      // // selectData: ['c', 'cc', 'cccc33', 'ccc4-2', 44442],
-      // // selectData: ['c', 'cc3'],
-      // columeNum: 5,
-      // suffix: ['', '', '', '', ''],
-      // onConfirm: (List p, List<int> position) {
-      // print('longer >>> 返回数据：${p.join('、')}');
-      // print('longer >>> 返回数据下标：${position.join('、')}');
-      // print('longer >>> 返回数据类型：${p.map((x) => x.runtimeType).toList()}');
-      // },
-      // );
-    }
+
+  Widget _renderRow(BuildContext context, int index) {
+    var _item = diagnosisList[index];
+    return Slidable(
+      endActionPane: ActionPane(
+        motion: const ScrollMotion(),
+        children: [
+          CustomSlidableAction(
+            // An action can be bigger than the others.
+            // flex: 2,
+            onPressed: (BuildContext context) async {
+              if(diagnosisList.isNotEmpty) {
+                setState(() {
+                  diagnosisList.removeAt(index);
+                });
+              }
+            },
+            backgroundColor: const Color(0xFFFE4A49),
+            foregroundColor: Colors.white,
+            // icon:Icons.delete,
+            // label: '删除',
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(Icons.delete),
+                Text('删除',
+                    style: TextStyle(fontSize: ScreenUtil().setSp(13.0))),
+              ],
+            ),
+          ),
+        ],
+      ),
+      child: GestureDetector(
+        onTap: () {
+          diagnosisList.forEach((item) => {
+                item['isMaster'] = 0,
+                if (item['id'] == _item['id']) {item['isMaster'] = 1}
+              });
+          setState(() {
+            diagnosisList = diagnosisList;
+          });
+        },
+        child: Container(
+          height: 43.0,
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border(
+                  bottom: BorderSide(
+                      color:
+                          ColorsUtil.hexStringColor('#cccccc', alpha: 0.3)))),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Expanded(
+                child: Text(
+                  '${_item['diacode']}  ${_item['dianame']}',
+                  style:
+                      GSYConstant.textStyle(fontSize: 14.0, color: '#333333'),
+                ),
+              ),
+              _item['isMaster'] == 1
+                  ? Text(
+                      '主诊断',
+                      style: GSYConstant.textStyle(
+                          fontSize: 13.0, color: '#666666'),
+                    )
+                  : const SizedBox.shrink(),
+              const SizedBox(
+                width: 8.0,
+              ),
+              SvgUtil.svg(
+                  _item['isMaster'] == 1 ? 'active_radio.svg' : 'radio.svg')
+              // : SvgUtil.svg('radio.svg')
+            ],
+          ),
+        ),
+      ),
+    );
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar('诊断',child: SvgUtil.svg('add_diagnosis.svg'),isForward: true, onForwardPressed: (){
-          Navigator.push(context, MaterialPageRoute(builder: (context)=>const ChooseDiagnosis()));
-      },),
+      appBar: CustomAppBar(
+        '诊断',
+        child: SvgUtil.svg('add_diagnosis.svg'),
+        isForward: true,
+        onForwardPressed: () {
+          Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>  ChooseDiagnosis(prevList: diagnosisList,)))
+              .then((value) => {
+                   diagnosisList.addAll(value),
+                    setState(() {
+                      diagnosisList = value;
+                    })
+                  });
+        },
+      ),
       backgroundColor: ColorsUtil.bgColor,
       body: Column(
         children: <Widget>[
-          Expanded(child: SingleChildScrollView(
+          Expanded(
+              child: SingleChildScrollView(
             child: Column(
               children: <Widget>[
-                CustomTextFieldInput(label: '模板名称', hintText: '请输入模板名称', onChanged: (value){
-                    setState(() {
-                      templateName = value;
-                    });
-                }),
-                Container(
-                  height: 43.0,
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  decoration: const BoxDecoration(
-                    color: Colors.white
+                CustomTextFieldInput(
+                    label: '模板名称',
+                    hintText: '请输入模板名称',
+                    onChanged: (value) {
+                      setState(() {
+                        templateName = value;
+                      });
+                    }),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const ChoiceDepartment()));
+                  },
+                  child: Container(
+                    height: 43.0,
+                    margin: const EdgeInsets.only(bottom: 8.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    decoration: const BoxDecoration(color: Colors.white),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text(
+                          '科室选择',
+                          style: GSYConstant.textStyle(color: '#333333'),
+                        ),
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            Text(
+                              '请选择科室',
+                              style: GSYConstant.textStyle(color: '#999999'),
+                            ),
+                            const SizedBox(
+                              width: 8.0,
+                            ),
+                            SvgUtil.svg('forward_arrow.svg')
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Text('科室选择',style: GSYConstant.textStyle(color: '#333333'),),
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                           Text('请选择科室',style: GSYConstant.textStyle(color: '#999999'),),
-                          const SizedBox(width: 8.0,),
-                          SvgUtil.svg('forward_arrow.svg')
-                        ],
-                      ),
-                    ],
-                  ),
-                )
+                ),
+                ListView.builder(
+                    padding: EdgeInsets.zero,
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: diagnosisList.length,
+                    itemBuilder: _renderRow)
               ],
             ),
-          ))
+          )),
+          CustomSafeAreaButton(
+            margin: const EdgeInsets.only(bottom: 16.0),
+            onPressed: () {
+              if (templateName.isEmpty) {
+                ToastUtil.showToast(msg: '请输入模板名称');
+                return;
+              }
+              if (department.isEmpty) {
+                ToastUtil.showToast(msg: '请选择科室');
+                return;
+                return;
+              }
+              if (diagnosisList.isEmpty) {
+                ToastUtil.showToast(msg: '请添加诊断');
+                return;
+              }
+            },
+            title: '保存',
+          )
         ],
       ),
     );

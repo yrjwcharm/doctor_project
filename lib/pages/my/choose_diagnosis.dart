@@ -18,10 +18,10 @@ import '../../utils/svg_util.dart';
 import '../../widget/custom_safeArea_button.dart';
 
 class ChooseDiagnosis extends StatefulWidget {
-  const ChooseDiagnosis({Key? key}) : super(key: key);
-
+   ChooseDiagnosis({Key? key,required this.prevList}) : super(key: key);
+   List prevList =[];
   @override
-  _ChooseDiagnosisState createState() => _ChooseDiagnosisState();
+  _ChooseDiagnosisState createState() => _ChooseDiagnosisState(this.prevList);
 }
 
 class _ChooseDiagnosisState extends State<ChooseDiagnosis> {
@@ -32,6 +32,9 @@ class _ChooseDiagnosisState extends State<ChooseDiagnosis> {
   final ScrollController _scrollController = ScrollController(); //listview的控制器
   List<Records> list = [];
   List<Records> filterList = [];
+  List prevList =[];
+
+  _ChooseDiagnosisState(this.prevList);
 
   @override
   void initState() {
@@ -108,6 +111,7 @@ class _ChooseDiagnosisState extends State<ChooseDiagnosis> {
 
   Widget _renderRow(BuildContext context, int index) {
     String dianame = list[index].dianame!;
+    String diacode    =list[index].diacode!;
     bool isSelected = list[index].isSelected!;
     return Container(
       decoration: BoxDecoration(
@@ -122,7 +126,7 @@ class _ChooseDiagnosisState extends State<ChooseDiagnosis> {
         children: <Widget>[
           Flexible(
             child: Text(
-              dianame,
+              '$diacode $dianame',
               style: GSYConstant.textStyle(fontSize: 14.0, color: '#333333'),
             ),
           ),
@@ -252,14 +256,13 @@ class _ChooseDiagnosisState extends State<ChooseDiagnosis> {
                 ToastUtil.showToast(msg: '请选择诊断');
                 return;
               }
-              final jsonList = filterList.map((item) => jsonEncode(item)).toList();
+
+              final jsonList = [...filterList,...prevList].map((item) => jsonEncode(item)).toList();
               // using toSet - toList strategy
               final uniqueJsonList = jsonList.toSet().toList();
               //去除重复元素
-              print('33333,${uniqueJsonList.toString()}');
-              Records records=uniqueJsonList[0] as Records;
-              records.isMaster = 1;
-              Navigator.pop(context,uniqueJsonList);
+              final List result = uniqueJsonList.map((item) => jsonDecode(item)).toList();
+              Navigator.pop(context,result);
             },
             title: '添加',
           ):const SizedBox.shrink()
