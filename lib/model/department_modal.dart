@@ -40,79 +40,34 @@ class DepartmentModal {
 
 class Data {
   Data({
-      String? deptName, 
       String? deptId, 
-      List<Child>? child,}){
-    _deptName = deptName;
+      bool? checked, 
+      String? deptName,}){
     _deptId = deptId;
-    _child = child;
+    _checked = checked;
+    _deptName = deptName;
 }
 
   Data.fromJson(dynamic json) {
-    _deptName = json['deptName'];
-    _deptId = json['deptId'];
-    if (json['child'] != null) {
-      _child = [];
-      json['child'].forEach((v) {
-        _child?.add(Child.fromJson(v));
-      });
-    }
+    _deptId = json['dept_id'];
+    _checked =false;
+    _deptName = json['dept_name'];
   }
-  String? _deptName;
   String? _deptId;
-  List<Child>? _child;
-
-  String? get deptName => _deptName;
+  bool? _checked;
+  String? _deptName;
+  set checked(bool? checked){
+    _checked = checked;
+  }
   String? get deptId => _deptId;
-  List<Child>? get child => _child;
+  bool? get checked => _checked;
+  String? get deptName => _deptName;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
-    map['deptName'] = _deptName;
-    map['deptId'] = _deptId;
-    if (_child != null) {
-      map['child'] = _child?.map((v) => v.toJson()).toList();
-    }
-    return map;
-  }
-
-}
-
-class Child {
-  Child({
-      String? deptName, 
-      String? deptId, 
-      List<dynamic>? child,}){
-    _deptName = deptName;
-    _deptId = deptId;
-    _child = child;
-}
-
-  Child.fromJson(dynamic json) {
-    _deptName = json['deptName'];
-    _deptId = json['deptId'];
-    if (json['child'] != null) {
-      _child = [];
-      json['child'].forEach((v) {
-        _child?.add(json.fromJson(v));
-      });
-    }
-  }
-  String? _deptName;
-  String? _deptId;
-  List<dynamic>? _child;
-
-  String? get deptName => _deptName;
-  String? get deptId => _deptId;
-  List<dynamic>? get child => _child;
-
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['deptName'] = _deptName;
-    map['deptId'] = _deptId;
-    if (_child != null) {
-      map['child'] = _child?.map((v) => v.toJson()).toList();
-    }
+    map['dept_id'] = _deptId;
+    map['checked'] = _checked;
+    map['dept_name'] = _deptName;
     return map;
   }
 
