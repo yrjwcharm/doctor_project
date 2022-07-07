@@ -76,9 +76,9 @@ class _BasicInfoState extends State<BasicInfo> {
     list.add({'label':'所属医院','placeholder':orgName,'enabled':false});
     list.add({'label':'所在科室','placeholder':deptName,'enabled':false});
     list.add({'label':'职称','placeholder':protitle,'enabled':false});
-    list.add({'label':'擅长','placeholder':expertIn,'enabled':false});
-    list.add({'label':'医生简介','placeholder':drInfo,'enabled':false});
-    list.add({'label':'所在城市','placeholder':address,'enabled':false});
+    list.add({'label':'擅长','placeholder':expertIn,'enabled':true});
+    list.add({'label':'医生简介','placeholder':drInfo,'enabled':true});
+    list.add({'label':'所在城市','placeholder':address,'enabled':true});
     setState(() {});
 
   }
@@ -120,8 +120,7 @@ class _BasicInfoState extends State<BasicInfo> {
           ),
           Column(
             children: list.map((item) => GestureDetector(
-              onTap:item['enabled']?null:(){
-//                 ToastUtil.showToast(msg: '点击了');
+              onTap:item['enabled']==false?null:(){
                  contentMap["name"] = '编辑'+item['label'];
                  contentMap["detail"] = item['placeholder'];
                  Navigator.push(
@@ -147,69 +146,25 @@ class _BasicInfoState extends State<BasicInfo> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          Container(
-                            alignment: Alignment.centerLeft,
-                            width: 56,
-                            child: Text(
+                            Text(
                               item['label'],
                               style: GSYConstant.textStyle(color: '#333333'),
                             ),
+                          Row(
+                            children: <Widget>[
+                              Text(item['placeholder'],
+                                style: GSYConstant.textStyle(color: '#666666'),
+                                softWrap: true,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                                textAlign:TextAlign.right,
+                              ),
+                              const SizedBox(
+                                width: 10.0,
+                              ),
+                              item['enabled']==true?SvgUtil.svg('arrow_rp.svg'):Container()
+                            ],
                           ),
-                          Container(
-                            alignment: Alignment.centerRight,
-                            width: 200,
-                            child: Text(
-                              item['placeholder'],
-                              textAlign: TextAlign.right,
-                              style: GSYConstant.textStyle(
-                                  color: '#666666'),
-                              softWrap: true,
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 1,
-                            ),
-
-                          ),
-//                          Expanded(
-//                            child: Row(
-//                            children: <Widget>[
-//                              Container(
-//                                alignment: Alignment.centerRight,
-//                                width: 50,
-//                                child: Text(
-//                                  item['placeholder'],
-//                                  textAlign: TextAlign.right,
-//                                  style: GSYConstant.textStyle(
-//                                      color: '#666666'),
-//                                  softWrap: true,
-//                                  overflow: TextOverflow.ellipsis,
-//                                  maxLines: 1,
-//                                ),
-//                              ),
-//                              const SizedBox(
-//                                width: 10.0,
-//                              ),
-//                              // SvgUtil.svg('arrow_rp.svg')
-//                            ],
-//                          ),
-                            // child: TextField(
-                            //   onChanged: (name) {
-                            //     setState(() {
-                            //       name = name;
-                            //     });
-                            //   },
-                            //   cursorColor: ColorsUtil.hexStringColor('#666666'),
-                            //   decoration: InputDecoration(
-                            //     // filled: true,
-                            //     enabled: item['enabled'],
-                            //     contentPadding: const EdgeInsets.only(right:8.0),// fillColor: Colors.red,
-                            //     border: InputBorder.none,
-                            //     hintStyle: GSYConstant.textStyle(color: '#999999'),
-                            //     hintText: item['placeholder'],
-                            //   ),
-                            //   style: GSYConstant.textStyle(color: '#666666'),
-                            // ),
-//                          ),
-                          // !item['enabled']?Icon(Icons.keyboard_arrow_right,color:ColorsUtil.hexStringColor('#999999'),):const SizedBox(width: 0,height: 0,)
                         ],
                       ),
                     ),

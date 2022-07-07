@@ -1,6 +1,7 @@
 import 'package:doctor_project/common/style/gsy_style.dart';
 import 'package:doctor_project/pages/home/video_topic.dart';
 import 'package:doctor_project/pages/home/webviewVC.dart';
+import 'package:doctor_project/pages/my/save_template.dart';
 import 'package:doctor_project/pages/photoview_page.dart';
 import 'package:doctor_project/utils/colors_utils.dart';
 import 'package:doctor_project/utils/desensitization_utils.dart';
@@ -79,9 +80,10 @@ class _RecipesTemplateState extends State<RecipesTemplate> {
         ? Api.getRecipes + '?type=1'
         : Api.getRecipes + '?type=2';
     var res = await request.get(url, {});
-    print("------res"+res.toString());
+    list= [];
     if (res['code'] == 200) {
       list = res['data'];
+      print('template===='+list.toString());
       setState(() {
 
       });
@@ -125,8 +127,14 @@ class _RecipesTemplateState extends State<RecipesTemplate> {
           child: Column(children: [
           ListTile(
             onTap:(){
-            },
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => SavePrescription(dataMap: item,))).then((value) {
+                        getData();
+              });
 
+            },
             contentPadding: const EdgeInsets.only(left: 16.0, right: 16.0),
             trailing: SvgUtil.svg('keyboard_arrow_right.svg'),
             tileColor: Colors.white,
@@ -254,7 +262,7 @@ class _RecipesTemplateState extends State<RecipesTemplate> {
               children: <Widget>[
                 Text("*",style:GSYConstant.textStyle(
                   color:'#FE5A6B' ,)),
-                Text("*操作提示：左滑删除常用处方",style:GSYConstant.textStyle(color:'#666666')),
+                Text("操作提示：左滑删除常用处方",style:GSYConstant.textStyle(color:'#666666')),
               ],
         ))
       ],
