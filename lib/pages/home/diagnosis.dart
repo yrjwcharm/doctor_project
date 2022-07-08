@@ -20,6 +20,8 @@ import 'package:doctor_project/widget/custom_safeArea_button.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import "package:collection/collection.dart";
+
+import 'add_common_diagnosis.dart';
 class Diagnosis extends StatefulWidget {
   List checkedDataList; //选中的诊断 数组
   int type; //诊断类型（0-中医，1-西医）
@@ -273,8 +275,10 @@ class _DiagnosisState extends State<Diagnosis> {
       backgroundColor: ColorsUtil.bgColor,
       appBar: CustomAppBar(
         '诊断',
-        onBackPressed: () {
-          Navigator.of(context).pop(this);
+        isForward: true,
+        child:Text('另存为',style: GSYConstant.textStyle(fontSize: 16.0,color: '#00b78b'),),
+        onForwardPressed: () async{
+          Navigator.push(context, MaterialPageRoute(builder: (context)=> AddCommonDiagnosis(diagnosisList: detailDataList,))).then((value) =>getCommonDiagnosisList());
         },
       ),
       body: Column(
@@ -341,7 +345,7 @@ class _DiagnosisState extends State<Diagnosis> {
                       _editingController.clear();
                       _contentFocusNode.unfocus();
                       setState(() {
-                        commonlyUsedIsHidden = false;
+                        commonlyUsedIsHidden = true;
                         diagnosisListIsHidden = true;
                         checkedDiagnosisIsHidden =
                         checkedDataList.length > 0 ? false : true;
