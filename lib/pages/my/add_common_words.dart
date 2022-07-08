@@ -70,7 +70,7 @@ class _AddCommonWordsState extends State<AddCommonWords> {
             ),),
            CustomSafeAreaButton(
              margin: const EdgeInsets.only(bottom: 16.0),
-             onPressed: ()async{
+             onPressed: () async{
                if(remark.isEmpty){
                  ToastUtil.showToast(msg: '请输入常用语回复');
                  return;
