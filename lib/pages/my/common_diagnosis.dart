@@ -95,7 +95,7 @@ class _CommonDiagnosisState extends State<CommonDiagnosis> {
       ),
       child: GestureDetector(
         onTap: (){
-          Navigator.push(context, MaterialPageRoute(builder: (context)=> UpdateCommonDiagnosis(doctorId: doctorId,id:item.id!,name:item.name!,diagnosis:item.details!, deptName: '', deptId: '',))).then((value) => getCommonDiagnosisList());
+          Navigator.push(context, MaterialPageRoute(builder: (context)=> UpdateCommonDiagnosis(doctorId: doctorId,id:item.id!,name:item.name!,diagnosis:item.details!, deptName: item.deptIdDictText!, deptId: item.deptId!,))).then((value) => getCommonDiagnosisList());
 
         },
         child:Container(
@@ -117,15 +117,15 @@ class _CommonDiagnosisState extends State<CommonDiagnosis> {
                   Row(
                     children: <Widget>[
                       Text(item.name!,style: GSYConstant.textStyle(fontSize: 14.0,color: '#333333',fontFamily: 'Medium'),) ,
-                      Container(
+                      (item.deptIdDictText?.isNotEmpty)!?Container(
                         margin: const EdgeInsets.only(left: 8.0),
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10.0),
                           border: Border.all(color:ColorsUtil.primaryColor),
                         ),
-                        child: Text('内科',style: GSYConstant.textStyle(fontSize: 12.0,color:'#06b48d'),),
-                      )
+                        child: Text(item.deptIdDictText!,style: GSYConstant.textStyle(fontSize: 12.0,color:'#06b48d'),),
+                      ):const SizedBox.shrink()
                     ],
                   ),
                   const SizedBox(height: 10.0,),
