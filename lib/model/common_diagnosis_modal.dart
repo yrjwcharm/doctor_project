@@ -40,11 +40,15 @@ class CommonDiagnosisModal {
 
 class Data {
   Data({
+      String? deptIdDictText, 
+      String? deptId, 
       String? name, 
       String? typeDictText, 
       List<Details>? details, 
       String? id, 
       int? type,}){
+    _deptIdDictText = deptIdDictText;
+    _deptId = deptId;
     _name = name;
     _typeDictText = typeDictText;
     _details = details;
@@ -53,6 +57,8 @@ class Data {
 }
 
   Data.fromJson(dynamic json) {
+    _deptIdDictText = json['deptId_dictText'];
+    _deptId = json['deptId'];
     _name = json['name'];
     _typeDictText = json['type_dictText'];
     if (json['details'] != null) {
@@ -64,12 +70,16 @@ class Data {
     _id = json['id'];
     _type = json['type'];
   }
+  String? _deptIdDictText;
+  String? _deptId;
   String? _name;
   String? _typeDictText;
   List<Details>? _details;
   String? _id;
   int? _type;
 
+  String? get deptIdDictText => _deptIdDictText;
+  String? get deptId => _deptId;
   String? get name => _name;
   String? get typeDictText => _typeDictText;
   List<Details>? get details => _details;
@@ -78,6 +88,8 @@ class Data {
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
+    map['deptId_dictText'] = _deptIdDictText;
+    map['deptId'] = _deptId;
     map['name'] = _name;
     map['type_dictText'] = _typeDictText;
     if (_details != null) {
@@ -128,7 +140,9 @@ class Details {
   String? _id;
   String? _templateId;
   String? _isMasterDictText;
-
+  set isMaster(int? isMaster){
+    _isMaster = isMaster;
+  }
   String? get diagnosisName => _diagnosisName;
   String? get seqNo => _seqNo;
   String? get diagnosisId => _diagnosisId;

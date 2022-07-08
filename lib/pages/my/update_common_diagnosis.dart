@@ -41,6 +41,7 @@ class _AddCommonDiagnosisState extends State<UpdateCommonDiagnosis> {
   String deptId;
   String deptName;
   List<Details> diagnosis;
+  final TextEditingController _editingController = TextEditingController();
   _AddCommonDiagnosisState(this.doctorId,this.id,this.name,this.diagnosis,this.deptId,this.deptName);
 
   @override
@@ -138,6 +139,12 @@ class _AddCommonDiagnosisState extends State<UpdateCommonDiagnosis> {
 
   @override
   Widget build(BuildContext context) {
+    _editingController.value = TextEditingValue(
+        text: templateName,
+        selection: TextSelection.fromPosition(
+            TextPosition(
+                affinity: TextAffinity.downstream,
+                offset: templateName.length)));
     return Scaffold(
       appBar: CustomAppBar(
         '诊断',
@@ -168,8 +175,9 @@ class _AddCommonDiagnosisState extends State<UpdateCommonDiagnosis> {
             child: Column(
               children: <Widget>[
                 CustomTextFieldInput(
+                    controller: _editingController,
                     label: '模板名称',
-                    hintText:templateName.isNotEmpty?templateName:'请输入模板名称',
+                    hintText:'请输入模板名称',
                     onChanged: (value) {
                       setState(() {
                         templateName = value;
@@ -249,7 +257,11 @@ class _AddCommonDiagnosisState extends State<UpdateCommonDiagnosis> {
                  };
                  list.add(map);
               });
-              print('111111,${diagnosisList.toString()}');
+              List filterList=list.where((item) =>item['isMaster']==1).toList();
+              if(filterList.isEmpty){
+                ToastUtil.showToast(msg: '请选择一个主诊断');
+                return;
+              }
               var res = await HttpRequest.getInstance().post(Api.updateDiagnosisTemplate,{
                 "doctorId": doctorId, //测试使用
                 "id": id, //模版id

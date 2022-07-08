@@ -5,12 +5,13 @@ import '../common/style/gsy_style.dart';
 import '../utils/colors_utils.dart';
 
 class CustomTextFieldInput extends StatelessWidget {
-  const CustomTextFieldInput({Key? key, required this.label, required this.hintText, this.keyboardType=TextInputType.text, required this.onChanged,  this.height=43.0}) : super(key: key);
+  const CustomTextFieldInput({Key? key, required this.label, required this.hintText, this.keyboardType=TextInputType.text, required this.onChanged,  this.height=43.0, this.controller}) : super(key: key);
   final String label;
   final String hintText;
   final TextInputType? keyboardType;
   final ValueChanged<String>? onChanged;
   final double height;
+  final TextEditingController? controller;
   @override
   Widget build(BuildContext context) {
     return  Container(
@@ -25,6 +26,8 @@ class CustomTextFieldInput extends StatelessWidget {
           Text(label,style: GSYConstant.textStyle(fontSize: 14.0,color: '#333333'),),
           Expanded(child:
           TextField(
+            controller: controller,
+            enableInteractiveSelection: false,
             keyboardType:keyboardType ,
             textAlign: TextAlign.end,
             onChanged: onChanged,
