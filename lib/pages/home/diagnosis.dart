@@ -15,6 +15,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../common/creator/sample.dart';
+import '../../utils/toast_util.dart';
 import '../../widget/custom_elevated_button.dart';
 import 'package:doctor_project/widget/custom_safeArea_button.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -278,7 +279,23 @@ class _DiagnosisState extends State<Diagnosis> {
         isForward: true,
         child:Text('另存为',style: GSYConstant.textStyle(fontSize: 16.0,color: '#00b78b'),),
         onForwardPressed: () async{
-          Navigator.push(context, MaterialPageRoute(builder: (context)=> AddCommonDiagnosis(diagnosisList: detailDataList,))).then((value) =>getCommonDiagnosisList());
+          if (detailDataList.isEmpty) {
+            ToastUtil.showToast(msg: '请添加诊断');
+            return;
+          }
+          List list =[];
+          checkedDataList.forEach((item) {
+            Map map ={
+              "isMaster":item['isMain']
+            };
+            list.add(map);
+          });
+          List filterList=list.where((item) =>item['isMaster']).toList();
+          if(filterList.isEmpty){
+            ToastUtil.showToast(msg: '请选择一个主诊断');
+            return;
+          }
+          Navigator.push(context, MaterialPageRoute(builder: (context)=> AddCommonDiagnosis(diagnosisList: checkedDataList,))).then((value) =>getCommonDiagnosisList());
         },
       ),
       body: Column(

@@ -33,19 +33,23 @@ import 'package:flutter/services.dart';
 import '../../model/western_rp_template.dart';
 import '../../utils/common_utils.dart';
 import '../../utils/event_bus_util.dart';
+
 class MakePrescription extends StatefulWidget {
   String registeredId; //挂号Id
   WesternRpTemplate? westernRp;
-  MakePrescription({Key? key, required this.registeredId,this.westernRp}) : super(key: key);
+
+  MakePrescription({Key? key, required this.registeredId, this.westernRp})
+      : super(key: key);
 
   _MakePrescriptionState createState() =>
-      _MakePrescriptionState(this.westernRp,registeredId: this.registeredId);
+      _MakePrescriptionState(this.westernRp, registeredId: this.registeredId);
 }
 
 class _MakePrescriptionState extends State<MakePrescription> {
   String registeredId; //挂号Id
   WesternRpTemplate? westernRp;
-  _MakePrescriptionState(this.westernRp,{required this.registeredId});
+
+  _MakePrescriptionState(this.westernRp, {required this.registeredId});
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final TextEditingController _editingController1 = TextEditingController();
@@ -86,13 +90,13 @@ class _MakePrescriptionState extends State<MakePrescription> {
   String pharmacyName = ''; //药房类型
   String pharmacyId = ''; //药房id
   List<String> rpArray = ['西药/中成药处方', '中药处方'];
-  bool tab1Active = true;//西药
-  bool tab2Active = false;//中药
+  bool tab1Active = true; //西药
+  bool tab2Active = false; //中药
   String rpName = '西药/中成药处方';
   double totalPrice = 0; //药品总价格
-  double oneCountPrice = 0;//一剂药总价格
+  double oneCountPrice = 0; //一剂药总价格
   String prescriptionId = ""; //处方id
-  List priceList = [];//每种中药的总价
+  List priceList = []; //每种中药的总价
 
   List<String> useTypeList = [];
   List _freqTypeList = [];
@@ -103,70 +107,70 @@ class _MakePrescriptionState extends State<MakePrescription> {
   List<String> baseUnitList = [];
   StreamSubscription? stream;
   String onceDosageDesc = '';
-  List<MedicineVos> medicineVosList =[] ;
+  List<MedicineVos> medicineVosList = [];
+
   @override
   void initState() {
     super.initState();
-      if(westernRp != null) {
-        List<String> diagnosis = [];
-        WesternRpTemplate? item = westernRp;
-        (item?.diagnosisVOS ?? []).forEach((element) {
-          diagnosis.add(element.diagnosisName!);
-        });
-        String str = '';
-        diagnosis.forEach((f) {
-          if (str == '') {
-            str = "$f";
-          } else {
-            str = "$str"",""$f";
-          }
-        });
-        print('11111111,${item?.medicineVOS}');
-        List list = [],
-            listData = [];
-        item?.medicineVOS?.forEach((item) {
-          Map map = {
-            "medicineid": 74516,
-            "specification": item.specification,
-            "baseUnitid": item.baseUnitid,
-            "dosage": item.wmOnceDosage,
-            "_frequency": item.freq,
-            "packageUnitid": item.packageUnitid,
-            "unitprice": item.amt,
-            "specification": item.specification,
-            "_usage": "01",
-            "baseUnit": item.baseUnitidDictText,
-            "medicinename": item.medicineName,
-            "packageUnit": item.packageUnitidDictText,
-            "num": item.medicineNum,
-            "count": item.medicineNum,
-            "frequency": item.freqDictText,
-            "manuname": item.manuname,
-            "medicationDays": item.dayNum,
-            "usage": item.useTypeDictText,
-            "id": item.id,
-            "remark": item.remarks
-          };
-          list.add(map);
-        });
-        item?.diagnosisVOS?.forEach((item) {
-          Map map = {
-            "diagnosisName": "诊断会谈和评价  ＮＯＳ",
-            "isMain": item.isMaster == 1 ? true : false,
-            "id": 34022,
-            "isMaster_dictText": "是"
-          };
-          listData.add(map);
-        });
-        setState(() {
-          diagnosisName = str;
-          pharmacyName = (item?.drugRoom)!;
-          pharmacyId = '2';
-          checkDataList = listData;
-          drugList = list;
-          calculateThePrice();
-        });
-      }
+    if (westernRp != null) {
+      List<String> diagnosis = [];
+      WesternRpTemplate? item = westernRp;
+      (item?.diagnosisVOS ?? []).forEach((element) {
+        diagnosis.add(element.diagnosisName!);
+      });
+      String str = '';
+      diagnosis.forEach((f) {
+        if (str == '') {
+          str = "$f";
+        } else {
+          str = "$str" "," "$f";
+        }
+      });
+      print('11111111,${item?.medicineVOS}');
+      List list = [], listData = [];
+      item?.medicineVOS?.forEach((item) {
+        Map map = {
+          "medicineid": 74516,
+          "specification": item.specification,
+          "baseUnitid": item.baseUnitid,
+          "dosage": item.wmOnceDosage,
+          "_frequency": item.freq,
+          "packageUnitid": item.packageUnitid,
+          "unitprice": item.amt,
+          "specification": item.specification,
+          "_usage": "01",
+          "baseUnit": item.baseUnitidDictText,
+          "medicinename": item.medicineName,
+          "packageUnit": item.packageUnitidDictText,
+          "num": item.medicineNum,
+          "count": item.medicineNum,
+          "frequency": item.freqDictText,
+          "manuname": item.manuname,
+          "medicationDays": item.dayNum,
+          "usage": item.useTypeDictText,
+          "id": item.id,
+          "remark": item.remarks
+        };
+        list.add(map);
+      });
+      item?.diagnosisVOS?.forEach((item) {
+        Map map = {
+          "diagnosisName": "诊断会谈和评价  ＮＯＳ",
+          "isMain": item.isMaster == 1 ? true : false,
+          "id": 34022,
+          "isMaster_dictText": "是"
+        };
+        listData.add(map);
+      });
+      setState(() {
+        diagnosisName = str;
+        pharmacyName = (item?.drugRoom)!;
+        pharmacyId = '2';
+        checkDataList = listData;
+        drugList = list;
+        calculateThePrice();
+      });
+    }
 
     loadtDataForRP();
     loadtDataForTCM();
@@ -200,7 +204,6 @@ class _MakePrescriptionState extends State<MakePrescription> {
         calculateThePrice();
       });
     });
-
   }
 
   //新建处方接口
@@ -338,20 +341,20 @@ class _MakePrescriptionState extends State<MakePrescription> {
       String unitprice = item['unitprice'].toString();
       String count = item['count'].toString();
       double price = double.parse(unitprice) * double.parse(count);
-      Map <String, dynamic>priceMap;
+      Map<String, dynamic> priceMap;
       priceMap = {
         "price": price.toString(),
       };
-      print("priceMap====="+priceMap.toString());
+      print("priceMap=====" + priceMap.toString());
       priceList.add(priceMap);
       oneCountPrice += price;
     }
-    print("priceList====="+priceList.toString());
+    print("priceList=====" + priceList.toString());
     totalPrice = oneCountPrice *
         (tab1Active ? 1 : int.parse(chineseMedicineTypeList[0]['value']));
   }
 
-  double calculateUnitprice(Map item){
+  double calculateUnitprice(Map item) {
     String unitprice = item['unitprice'].toString();
     String count = item['count'].toString();
     double price = double.parse(unitprice) * double.parse(count);
@@ -452,7 +455,8 @@ class _MakePrescriptionState extends State<MakePrescription> {
   //初始化药品用法列表
   loadDataForUseType() async {
     HttpRequest? request = HttpRequest.getInstance();
-    var res = await request.get(Api.dataDicUrl + '?dictId=${tab1Active ? 23 : 15}', {});
+    var res = await request
+        .get(Api.dataDicUrl + '?dictId=${tab1Active ? 23 : 15}', {});
     print("loadDataForUseType------" + res.toString());
 
     if (res['code'] == 200) {
@@ -475,7 +479,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
         .get(Api.dataDicUrl + '?dictId=${tab1Active ? 16 : 21}', {});
     if (res['code'] == 200) {
       List data = res['data'];
-       print("loadDataForFreqTYpe------" + data.toString());
+      print("loadDataForFreqTYpe------" + data.toString());
       List<String> pickerData = [];
       for (var item in data) {
         pickerData.add(item['detailName']);
@@ -579,14 +583,14 @@ class _MakePrescriptionState extends State<MakePrescription> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      appBar: CustomAppBar(
-        '开处方',
-          isForward:true,
-          onForwardPressed: (){
-          Navigator.push(context,MaterialPageRoute(builder: (context)=>const AddCommonTemplate()));
+      appBar: CustomAppBar('开处方', isForward: true, onForwardPressed: () {
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const AddCommonTemplate()));
       },
-          child:
-      Text('另存为',style: GSYConstant.textStyle(fontSize: 16.0,color: '#00b78b'),)),
+          child: Text(
+            '另存为',
+            style: GSYConstant.textStyle(fontSize: 16.0, color: '#00b78b'),
+          )),
       backgroundColor: ColorsUtil.bgColor,
       body: Column(children: <Widget>[
         Expanded(
@@ -660,7 +664,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
                           confirmCallback: (Picker picker, List<int> selected) {
                         setState(() {
                           rpTypeId =
-                          tcmList[selected[0]]['detailValue'].toString();
+                              tcmList[selected[0]]['detailValue'].toString();
                           rpTypeName = tcmList[selected[0]]['detailName'];
                         });
                       });
@@ -670,7 +674,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
                           confirmCallback: (Picker picker, List<int> selected) {
                         setState(() {
                           rpTypeId =
-                          rpList[selected[0]]['detailValue'].toString();
+                              rpList[selected[0]]['detailValue'].toString();
                           rpTypeName = rpList[selected[0]]['detailName'];
                         });
                       });
@@ -719,18 +723,20 @@ class _MakePrescriptionState extends State<MakePrescription> {
                                   type: tab1Active ? 1 : 0,
                                   checkedDataList: checkDataList,
                                 ))).then((value) {
-                      checkDataList = value;
-                      String str = "";
+                      if (value != null) {
+                        checkDataList = value;
+                        String str = "";
 
-                      for (int i = 0; i < value.length; i++) {
-                        String str1 = str.isEmpty
-                            ? value[i]["diadesc"]
-                            : "," + value[i]["diadesc"];
-                        str += str1;
+                        for (int i = 0; i < value.length; i++) {
+                          String str1 = str.isEmpty
+                              ? value[i]["diadesc"]
+                              : "," + value[i]["diadesc"];
+                          str += str1;
+                        }
+                        setState(() {
+                          diagnosisName = str;
+                        });
                       }
-                      setState(() {
-                        diagnosisName = str;
-                      });
                     }); //type 诊断类（0-中医，1-西医）
                   },
                   child: Container(
@@ -1342,7 +1348,9 @@ class _MakePrescriptionState extends State<MakePrescription> {
                                         : AddChineseMedicineList(
                                             pharmacyId: pharmacyId,
                                             selectedDrugList: [],
-                                            isYinpian: rpTypeName=='饮片'?true:false,
+                                            isYinpian: rpTypeName == '饮片'
+                                                ? true
+                                                : false,
                                           ))).then((value) {
                               print(value);
                               if (tab2Active) {
@@ -1380,7 +1388,6 @@ class _MakePrescriptionState extends State<MakePrescription> {
                                             drugList.removeAt(index);
                                             calculateThePrice();
                                           });
-                                          
                                         },
                                         backgroundColor:
                                             const Color(0xFFFE4A49),
@@ -1445,7 +1452,8 @@ class _MakePrescriptionState extends State<MakePrescription> {
                                                                 ['frequency'] +
                                                             "," +
                                                             drugList[index]
-                                                                ['dosage'].toString() +
+                                                                    ['dosage']
+                                                                .toString() +
                                                             drugList[index]
                                                                 ['baseUnit'],
                                                         style: GSYConstant
@@ -1571,7 +1579,12 @@ class _MakePrescriptionState extends State<MakePrescription> {
                                                   children: <Widget>[
                                                     Text(
                                                       drugList[index]
-                                                          ['medicinename']+' '+drugList[index]['count'].toString()+'g',
+                                                              ['medicinename'] +
+                                                          ' ' +
+                                                          drugList[index]
+                                                                  ['count']
+                                                              .toString() +
+                                                          'g',
                                                       style:
                                                           GSYConstant.textStyle(
                                                               color: '#333333'),
@@ -1580,7 +1593,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
                                                       height: 4.0,
                                                     ),
                                                     Text(
-                                                      "规格：${drugList[index]['specification']}${drugList[index]['decocting_method']==null?'':';'+drugList[index]['decocting_method']}",
+                                                      "规格：${drugList[index]['specification']}${drugList[index]['decocting_method'] == null ? '' : ';' + drugList[index]['decocting_method']}",
                                                       style:
                                                           GSYConstant.textStyle(
                                                               fontSize: 13.0,
@@ -1662,95 +1675,89 @@ class _MakePrescriptionState extends State<MakePrescription> {
                     ),
                   ),
                 ),
-                drugList.isNotEmpty ? Divider(
-                  height: 0,
-                  color: ColorsUtil.hexStringColor('#cccccc', alpha: 0.3),
-                ): Container(),
+                drugList.isNotEmpty
+                    ? Divider(
+                        height: 0,
+                        color: ColorsUtil.hexStringColor('#cccccc', alpha: 0.3),
+                      )
+                    : Container(),
                 Offstage(
                   offstage: !drugList.isNotEmpty,
                   child: tab2Active
-                      ?Container(
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border(
-                              bottom: BorderSide(
+                      ? Container(
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border(
+                                  bottom: BorderSide(
                                 width: 1.0,
-                                color: ColorsUtil.hexStringColor(
-                                    '#cccccc',
+                                color: ColorsUtil.hexStringColor('#cccccc',
                                     alpha: 0.3),
                               ))),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 16.0),
-                      child: Column(
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                top: 11.0, bottom: 14.0),
-                            child: Row(
-                              mainAxisAlignment:
-                              MainAxisAlignment
-                                  .spaceBetween,
-                              crossAxisAlignment:
-                              CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Column(
-                                  crossAxisAlignment:
-                                  CrossAxisAlignment.start,
+                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                          child: Column(
+                            children: <Widget>[
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    top: 11.0, bottom: 14.0),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
-                                    Text('单剂共计',
-                                      style:
-                                      GSYConstant.textStyle(
-                                          color: '#333333'),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Text(
+                                          '单剂共计',
+                                          style: GSYConstant.textStyle(
+                                              color: '#333333'),
+                                        ),
+                                        const SizedBox(
+                                          height: 4.0,
+                                        ),
+                                        Text(
+                                          "数量",
+                                          style: GSYConstant.textStyle(
+                                              fontSize: 14.0, color: '#333333'),
+                                        ),
+                                      ],
                                     ),
-                                    const SizedBox(
-                                      height: 4.0,
-                                    ),
-                                    Text(
-                                      "数量",
-                                      style:
-                                      GSYConstant.textStyle(
-                                          fontSize: 14.0,
-                                          color: '#333333'),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Text(
+                                          oneCountPrice.toStringAsFixed(2),
+                                          style: GSYConstant.textStyle(
+                                              fontSize: 13.0, color: '#333333'),
+                                        ),
+                                        const SizedBox(
+                                          height: 5.0,
+                                        ),
+                                        Text(
+                                          'x ${chineseMedicineTypeList[0]["value"].toString()}',
+                                          style: GSYConstant.textStyle(
+                                              fontSize: 12.0, color: '#888888'),
+                                        )
+                                      ],
                                     ),
                                   ],
                                 ),
-                                Column(
-                                  crossAxisAlignment:
-                                  CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Text(
-                                      oneCountPrice.toStringAsFixed(2),
-                                      style:
-                                      GSYConstant.textStyle(
-                                          fontSize: 13.0,
-                                          color: '#333333'),
-                                    ),
-                                    const SizedBox(
-                                      height: 5.0,
-                                    ),
-                                    Text(
-                                      'x ${chineseMedicineTypeList[0]["value"].toString()}',
-                                      style:
-                                      GSYConstant.textStyle(
-                                          fontSize: 12.0,
-                                          color: '#888888'),
-                                    )
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-
-                        ],
-                      )):Container(),
+                              ),
+                            ],
+                          ))
+                      : Container(),
                 ),
                 Offstage(
                   offstage: !drugList.isNotEmpty,
                   child: tab1Active
-                      ?Divider(
-                    height: 0,
-                    color: ColorsUtil.hexStringColor('#cccccc', alpha: 0.3),
-                  ): Container(),
+                      ? Divider(
+                          height: 0,
+                          color:
+                              ColorsUtil.hexStringColor('#cccccc', alpha: 0.3),
+                        )
+                      : Container(),
                 ),
                 drugList.isNotEmpty
                     ? Container(
@@ -1761,19 +1768,25 @@ class _MakePrescriptionState extends State<MakePrescription> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             tab1Active
-                                ?Text(
-                              '共${drugList.length}件',
-                              style: GSYConstant.textStyle(
-                                  fontSize: 13.0, color: '#999999'),
-                            ):Text("合计：",style: GSYConstant.textStyle(fontSize: 14.0, color: '#333333',)),
+                                ? Text(
+                                    '共${drugList.length}件',
+                                    style: GSYConstant.textStyle(
+                                        fontSize: 13.0, color: '#999999'),
+                                  )
+                                : Text("合计：",
+                                    style: GSYConstant.textStyle(
+                                      fontSize: 14.0,
+                                      color: '#333333',
+                                    )),
                             Row(
                               children: <Widget>[
                                 tab1Active
-                                    ?Text(
-                                  '合计:',
-                                  style: GSYConstant.textStyle(
-                                      fontSize: 13.0, color: '#333333'),
-                                ):Text(""),
+                                    ? Text(
+                                        '合计:',
+                                        style: GSYConstant.textStyle(
+                                            fontSize: 13.0, color: '#333333'),
+                                      )
+                                    : Text(""),
                                 Text(
                                   '¥ ' + totalPrice.toStringAsFixed(2),
                                   style: GSYConstant.textStyle(

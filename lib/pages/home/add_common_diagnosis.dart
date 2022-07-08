@@ -101,30 +101,21 @@ class _AddCommonDiagnosisState extends State<AddCommonDiagnosis> {
                 ToastUtil.showToast(msg: '请选择科室');
                 return;
               }
-              if (diagnosisList.isEmpty) {
-                ToastUtil.showToast(msg: '请添加诊断');
-                return;
-              }
               List list =[];
               diagnosisList.forEach((item) {
                 Map map ={
                   "id":item['id'],
                   "name":item['dianame'],
-                  "isMaster":item['isMaster']
+                  "isMaster":item['isMain']
                 };
                 list.add(map);
               });
-              List filterList=list.where((item) =>item['isMaster']==1).toList();
-              if(filterList.isEmpty){
-                ToastUtil.showToast(msg: '请选择一个主诊断');
-                return;
-              }
               var res = await HttpRequest.getInstance().post(Api.addDiagnosisTemplate,{
                 "doctorId": doctorId, //测试使用
                 // "id": id, //模版id
                 "deptId": departmentId, //科室id
                 "name": templateName, //模版名称
-                "diagnosisTemplateDetails": [],
+                "diagnosisTemplateDetails": list,
               });
               if(res['code']==200){
                 Navigator.pop(context);
