@@ -250,7 +250,11 @@ class _AddCommonDiagnosisState extends State<UpdateCommonDiagnosis> {
                  };
                  list.add(map);
               });
-              print('111111,${diagnosisList.toString()}');
+              List filterList=list.where((item) =>item['isMaster']==1).toList();
+              if(filterList.isEmpty){
+                ToastUtil.showToast(msg: '请选择主诊断');
+                return;
+              }
               var res = await HttpRequest.getInstance().post(Api.updateDiagnosisTemplate,{
                 "doctorId": doctorId, //测试使用
                 "id": id, //模版id
