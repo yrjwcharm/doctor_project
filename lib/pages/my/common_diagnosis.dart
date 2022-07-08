@@ -53,6 +53,8 @@ class _CommonDiagnosisState extends State<CommonDiagnosis> {
     // "seqNo": 1,
     // "diagnosisId": 1,
     // "diagnosisCode": "A18.012+",
+    details.sort((a,b)=>b.isMaster!-a.isMaster!);
+
     List<String> list =[];
     details.forEach((item) {
         if(item.isMaster==1){
