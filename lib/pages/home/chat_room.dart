@@ -77,7 +77,7 @@ class _ChatPageState extends State<ChatPage> {
   double keyboardHeight = 270.0;
   bool _emojiState = false;
   bool _common_word_state = false;
-  FocusNode _focusNode = new FocusNode();
+  FocusNode _focusNode =  FocusNode();
   final String _roomID = ZegoConfig.instance.roomID;
   final request = HttpRequest.getInstance();
   String _messagesBuffer = '';
@@ -87,15 +87,15 @@ class _ChatPageState extends State<ChatPage> {
 
   List<ZegoUser> _allUsers = [];
   List<ZegoUser> _customCommandSelectedUsers = [];
-  TextEditingController _editingController = new TextEditingController();
+  final TextEditingController _editingController =  TextEditingController();
   final TextEditingController _broadcastMessageController =
-      new TextEditingController();
-  TextEditingController _customCommandController = new TextEditingController();
-  TextEditingController _barrageMessageController = new TextEditingController();
-  TextEditingController _roomExtraInfoKeyController =
-      new TextEditingController();
-  TextEditingController _roomExtraInfoValueController =
-      new TextEditingController();
+       TextEditingController();
+  final TextEditingController _customCommandController =  TextEditingController();
+  final TextEditingController _barrageMessageController =  TextEditingController();
+  final TextEditingController _roomExtraInfoKeyController =
+       TextEditingController();
+  final TextEditingController _roomExtraInfoValueController =
+       TextEditingController();
   String msg = '';
 
   // Map res['data'] =Map();
@@ -156,6 +156,7 @@ class _ChatPageState extends State<ChatPage> {
         Api.getRecordListApi + '?roomId=${ZegoConfig.instance.roomID}', {});
     if (res['code'] == 200) {
       List<dynamic> list = res['data']['record'];
+      print('333333,$list');
       // list.sort((a, b) =>
       //     b['sendTime'].toString().compareTo(a['sendTime'].toString()));
       list.forEach((item) {
@@ -170,7 +171,7 @@ class _ChatPageState extends State<ChatPage> {
             },
             "createdAt":
                 DateTime.parse(item['sendTime']).millisecondsSinceEpoch,
-            "id": const Uuid().v4(),
+            "id":item['id'],
             "status": item['roleCode'] == '2' ? "seen" : "sent",
             "text": item['info'],
             "type": 'text'
@@ -188,7 +189,7 @@ class _ChatPageState extends State<ChatPage> {
             "createdAt":
                 DateTime.parse(item['sendTime']).millisecondsSinceEpoch,
             "height": 12,
-            "id": const Uuid().v4(),
+            "id": item['id'],
             "name": "image",
             "size": 0,
             'width': 12,
@@ -200,7 +201,7 @@ class _ChatPageState extends State<ChatPage> {
           messageList.add(_message);
         }
       });
-
+      messageList.sort((a,b)=>int.parse(b.id)-int.parse(a.id));
       setState(() {
         _messages = messageList;
       });
@@ -627,7 +628,7 @@ class _ChatPageState extends State<ChatPage> {
       timeFormat: DateFormat('HH:mm'),
       isLastPage: true,
       customBottomWidget: SingleChildScrollView(
-        physics: new NeverScrollableScrollPhysics(),
+        physics:  NeverScrollableScrollPhysics(),
         child: Column(
           children: <Widget>[
             Container(
