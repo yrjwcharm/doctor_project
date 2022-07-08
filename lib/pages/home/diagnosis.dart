@@ -87,7 +87,6 @@ class _DiagnosisState extends State<Diagnosis> {
       // "token": "dfb33604-4686-4e55-abea-76571674c40a",
       "token": tokenValueStr,
     };
-
     String urlStr = Api.BASE_URL +
         "/doctor/dr-service/diagnosis/getList?keyword=" +
         _editingController.text +
