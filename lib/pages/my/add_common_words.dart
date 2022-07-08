@@ -10,22 +10,30 @@ import 'package:flutter/material.dart';
 import '../../http/api.dart';
 
 class AddCommonWords extends StatefulWidget {
-  String doctorId;
-  String id;
-  AddCommonWords({Key? key,required this.doctorId, required this.id}) : super(key: key);
+   String doctorId;
+   String id;
+   String remark='';
+  AddCommonWords({Key? key,required this.doctorId, required this.id, this.remark=''}) : super(key: key);
 
   @override
-  _AddCommonWordsState createState() => _AddCommonWordsState(this.doctorId,this.id);
+  _AddCommonWordsState createState() => _AddCommonWordsState(this.doctorId,this.id,this.remark);
 }
 
 class _AddCommonWordsState extends State<AddCommonWords> {
   String doctorId;
   String remark='';
   String id;
-  _AddCommonWordsState(this.doctorId,this.id);
+  final TextEditingController _editingController = TextEditingController();
+  _AddCommonWordsState(this.doctorId,this.id,this.remark);
 
   @override
   Widget build(BuildContext context) {
+    _editingController.value = TextEditingValue(
+        text: remark,
+        selection: TextSelection.fromPosition(
+            TextPosition(
+                affinity: TextAffinity.downstream,
+                offset: remark.length)));
     return Scaffold(
       appBar: CustomAppBar(
         id.isEmpty?'添加常用语':'修改常用语',
@@ -39,6 +47,7 @@ class _AddCommonWordsState extends State<AddCommonWords> {
             Expanded(child:
              TextField(
               maxLines: 5,
+              controller:_editingController ,
               inputFormatters: [],
               onChanged: (value){
                 remark = value;

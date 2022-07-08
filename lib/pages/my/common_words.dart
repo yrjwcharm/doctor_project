@@ -82,7 +82,7 @@ class _CommonWordsState extends State<CommonWords> {
         ),
         child: GestureDetector(
           onTap: () {
-           Navigator.push(context, MaterialPageRoute(builder: (context)=>AddCommonWords(doctorId: doctorId,id:item.id!))).then((value) => getCommonWordsList());
+           Navigator.push(context, MaterialPageRoute(builder: (context)=>AddCommonWords(doctorId: doctorId,id:item.id!,remark: item.remark!,))).then((value) => getCommonWordsList());
           },
           child: Container(
             height: 44.0,
@@ -154,6 +154,7 @@ class _CommonWordsState extends State<CommonWords> {
                 ListView.builder(
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
+                    padding:EdgeInsets.zero,
                     itemCount: commonWordsList.length,
                     itemBuilder: _renderRow),
                 Visibility(
