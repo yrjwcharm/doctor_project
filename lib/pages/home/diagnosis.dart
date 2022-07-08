@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:creator/creator.dart';
 import 'package:dio/dio.dart';
 import 'package:doctor_project/common/creator/logic.dart';
@@ -18,7 +19,7 @@ import '../../widget/custom_elevated_button.dart';
 import 'package:doctor_project/widget/custom_safeArea_button.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-
+import "package:collection/collection.dart";
 class Diagnosis extends StatefulWidget {
   List checkedDataList; //选中的诊断 数组
   int type; //诊断类型（0-中医，1-西医）
@@ -39,19 +40,14 @@ class _DiagnosisState extends State<Diagnosis> {
 
   Map dataMap = {}; //诊断列表数据
   List detailDataList = []; //诊断列表数据
-  List<Data> commonList = [
-    // {'title': '风寒感冒'},
-    // {'title': '糖尿病'},
-    // {'title': '腰肌劳损'},
-    // {'title': '痛风'}
-  ];
+  List commonList = [];
   final ScrollController _scrollController = ScrollController(); //listview的控制器
   int _page = 1; //加载的页数
   bool isLoading = false; //判断 loading框是否隐藏
   String loadText = ""; //加载时显示的文字
-  bool commonlyUsedIsHidden = true; //常用诊断是否隐藏
+  bool commonlyUsedIsHidden = false; //常用诊断是否隐藏
   bool diagnosisListIsHidden = true; //诊断列表是否隐藏
-  bool checkedDiagnosisIsHidden = false; //选中列表是否隐藏
+  bool checkedDiagnosisIsHidden = true; //选中列表是否隐藏
 
   final TextEditingController _editingController = TextEditingController();
   final FocusNode _contentFocusNode = FocusNode();
@@ -59,13 +55,12 @@ class _DiagnosisState extends State<Diagnosis> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration.zero,(){
+    Future.delayed(Duration.zero, () {
       getCommonDiagnosisList();
     });
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
-        print('滑动到了最底部');
         _getMore();
       }
     });
@@ -73,43 +68,15 @@ class _DiagnosisState extends State<Diagnosis> {
 
   getCommonDiagnosisList() async {
     String docId = context.ref.read(docIdCreator);
-    var response = await HttpRequest.getInstance()
-        .get(Api.getCommonDiagnosisTemplateApi+'?doctorId=$docId', {});
-    var res = CommonDiagnosisModal.fromJson(response);
-    if(res.code==200) {
-      commonList = res.data!;
+    var res = await HttpRequest.getInstance()
+        .get(Api.getCommonDiagnosisTemplateApi + '?doctorId=$docId', {});
+
+    if (res['code'] == 200) {
+       setState(() {
+        commonList = res['data'];
+      });
+
     }
-
-    dataMap = response.data["data"];
-    print(dataMap);
-    int total = dataMap["total"];
-    int size = dataMap["size"];
-    int totalPage = (total ~/ size) +1 ;
-    print(totalPage);
-
-    setState(() {
-
-      // commonlyUsedIsHidden = true;
-      diagnosisListIsHidden = false ;
-      checkedDiagnosisIsHidden = true;
-      detailDataList.addAll(dataMap["records"]);
-    });
-
-
-    if(dataMap["records"].length <10 || _page ==totalPage){
-
-      loadText = "没有更多数据";
-      isLoading = false ;
-    }else{
-      loadText = "上拉加载更多";
-      isLoading = false;
-    }
-
-//    print("data= " + response.data.toString() + "url= " + response.realUri.toString());
-//  }else{
-//
-    Fluttertoast.showToast(msg: response.data['msg'], gravity: ToastGravity.CENTER);
-
   }
 
   void getNet_diagnosisList() async {
@@ -207,7 +174,7 @@ class _DiagnosisState extends State<Diagnosis> {
           children: <Widget>[
             Visibility(
               visible: isLoading, //子组件是否可见，默认true（可见）
-              child: SizedBox(
+              child: const SizedBox(
                 child: CircularProgressIndicator(
                   valueColor: AlwaysStoppedAnimation(Colors.blue),
                 ),
@@ -317,7 +284,7 @@ class _DiagnosisState extends State<Diagnosis> {
           Container(
             height: 43.0,
             decoration: const BoxDecoration(color: Colors.white),
-            padding: const EdgeInsets.symmetric( horizontal: 16.0),
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Row(
               children: <Widget>[
                 Expanded(
@@ -335,14 +302,15 @@ class _DiagnosisState extends State<Diagnosis> {
                       inputFormatters: <TextInputFormatter>[
                         LengthLimitingTextInputFormatter(20) //限制长度
                       ],
-                      onChanged: (value) => {
-                        print(_editingController.text.isNotEmpty),
+                      onChanged: (value) =>
+                      {
+                        _page = 1,
+                        getNet_diagnosisList()
                       },
-                      onEditingComplete: () {
-                        _contentFocusNode.unfocus();
-                        _page = 1;
-                        getNet_diagnosisList();
-                      },
+                      // onEditingComplete: () {
+                      //   _contentFocusNode.unfocus();
+                      //
+                      // },
                       style: GSYConstant.textStyle(color: '#666666'),
                       cursorColor: ColorsUtil.hexStringColor('#666666'),
                       textInputAction: TextInputAction.search,
@@ -350,7 +318,7 @@ class _DiagnosisState extends State<Diagnosis> {
                         border: InputBorder.none,
                         suffixIconConstraints: const BoxConstraints(),
                         prefixIconConstraints:
-                            const BoxConstraints(minWidth: 31.0),
+                        const BoxConstraints(minWidth: 31.0),
                         // isDense: true,
                         isCollapsed: true,
                         prefixIcon: SvgUtil.svg('search.svg'),
@@ -377,7 +345,7 @@ class _DiagnosisState extends State<Diagnosis> {
                         commonlyUsedIsHidden = false;
                         diagnosisListIsHidden = true;
                         checkedDiagnosisIsHidden =
-                            checkedDataList.length > 0 ? false : true;
+                        checkedDataList.length > 0 ? false : true;
                       });
                     },
                     style: TextButton.styleFrom(
@@ -393,24 +361,44 @@ class _DiagnosisState extends State<Diagnosis> {
             ),
           ),
           Visibility(
-            visible: !commonlyUsedIsHidden,
-              child: Container(
-                alignment: Alignment.centerLeft,
-                margin: const EdgeInsets.only(left:16.0,top: 24.0,bottom: 16.0),
-                child: Text('常用诊断',style: GSYConstant.textStyle(fontSize: 15.0,fontWeight: FontWeight.w500,color: '#333333'),),
-              ),
-          ),
-          Visibility(
-            visible: !commonlyUsedIsHidden,
-              child: Wrap(
-                  runSpacing: 8.0,
-                  spacing: 8.0,
-                  children:commonList.map((item) =>CustomElevatedButton(elevation:0,title: item.name!,
-                    onPressed: (){
-
-                    },height: 29.0,primary: '#F7F7F7',textStyle: GSYConstant.textStyle(color: '#666666'), borderRadius: BorderRadius.circular(15.0),),
-                  ).toList()
-              ),
+              visible: !commonlyUsedIsHidden,
+              child: Expanded(child:ListView.builder(
+                   // shrinkWrap: true,
+                  padding: EdgeInsets.zero,
+                  itemCount: commonList.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    var item = commonList[index];
+                    return Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Container(
+                          padding: const EdgeInsets.only(left: 16.0,right: 16.0,top: 18.0),
+                          alignment: Alignment.centerLeft,
+                          color: Colors.white,
+                          child: Text(item['name'],
+                            style: GSYConstant.textStyle(fontSize: 15.0,
+                                fontWeight: FontWeight.w500,
+                                color: '#333333'),),
+                        ),
+                        // Wrap(
+                        //     runSpacing: 8.0,
+                        //     spacing: 8.0,
+                        //     children: item['details'].map<Widget>((item) =>
+                        //         CustomElevatedButton(elevation: 0,
+                        //           title: item['name'],
+                        //           onPressed: () {
+                        //
+                        //           },
+                        //           height: 29.0,
+                        //           primary: '#F7F7F7',
+                        //           textStyle: GSYConstant.textStyle(
+                        //               color: '#666666'),
+                        //           borderRadius: BorderRadius.circular(15.0),),
+                        //     ).toList()
+                        // ),
+                      ],
+                    );
+                  })),
           ),
           Visibility(
               visible: !diagnosisListIsHidden,
@@ -471,7 +459,7 @@ class _DiagnosisState extends State<Diagnosis> {
                                 child: Text(
                                   checkedDataList[index]["diacode"],
                                   style:
-                                      GSYConstant.textStyle(color: '#333333'),
+                                  GSYConstant.textStyle(color: '#333333'),
                                 ),
                               ),
                               const SizedBox(
@@ -482,7 +470,7 @@ class _DiagnosisState extends State<Diagnosis> {
                                 child: Text(
                                   checkedDataList[index]["diadesc"],
                                   style:
-                                      GSYConstant.textStyle(color: '#333330'),
+                                  GSYConstant.textStyle(color: '#333330'),
                                 ),
                               )
                             ],
@@ -492,10 +480,10 @@ class _DiagnosisState extends State<Diagnosis> {
                             children: <Widget>[
                               checkedDataList[index]['isMain']
                                   ? Text(
-                                      '主诊断',
-                                      style: GSYConstant.textStyle(
-                                          color: '#666666', fontSize: 13.0),
-                                    )
+                                '主诊断',
+                                style: GSYConstant.textStyle(
+                                    color: '#666666', fontSize: 13.0),
+                              )
                                   : Container(),
                               const SizedBox(
                                 width: 8.0,
@@ -517,7 +505,7 @@ class _DiagnosisState extends State<Diagnosis> {
                         Divider(
                           height: 1.0,
                           color:
-                              ColorsUtil.hexStringColor('#cccccc', alpha: 0.3),
+                          ColorsUtil.hexStringColor('#cccccc', alpha: 0.3),
                         )
                       ],
                     ),
