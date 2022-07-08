@@ -55,13 +55,14 @@ class _AddCommonWordsState extends State<AddCommonWords> {
 
                 });
               },
+               maxLength: 200,
               cursorColor: ColorsUtil.hexStringColor('#666666'),
               style: GSYConstant.textStyle(fontSize: 14.0, color: '#666666'),
               decoration: InputDecoration(
-
                   hintText: '请输入您的常用回复，请不要填写QQ、微信等联系方式或广告信息，否则系统将封禁您的账号',
                   // fillColor: Colors.transparent,
                   // filled: true,
+                  counterText: remark.length.toString()+'/'+'200',
                   contentPadding: const EdgeInsets.only(left: 16.0,top: 16.0,right: 16.0),
                   border: InputBorder.none,
                   hintStyle:
