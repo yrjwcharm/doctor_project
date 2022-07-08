@@ -260,7 +260,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
       item["medicineId"] = drugList[j]["medicineid"];
       item["num"] = drugList[j]["count"];
       item["wmOnceDosage"] = drugList[j]['dosage'];
-
+      item['makeWay']=drugList[j]['decocting_method'];
       //中药无这几项值
       if (tab1Active) {
         item["useType"] = drugList[j]["_usage"];
@@ -1625,7 +1625,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
                                                       CrossAxisAlignment.start,
                                                   children: <Widget>[
                                                     Text(
-                                                      '¥${priceList[index]['price']}',
+                                                      '¥${priceList[index]['price'].toStringAsFixed(2)}',
                                                       style:
                                                           GSYConstant.textStyle(
                                                               fontSize: 13.0,
@@ -1635,7 +1635,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
                                                       height: 5.0,
                                                     ),
                                                     Text(
-                                                      '${drugList[index]['unitprice']} x ${drugList[index]['count'].toString()}',
+                                                      '${drugList[index]['unitprice'].toStringAsFixed(2)} x ${drugList[index]['count'].toString()}',
                                                       style:
                                                           GSYConstant.textStyle(
                                                               fontSize: 12.0,
