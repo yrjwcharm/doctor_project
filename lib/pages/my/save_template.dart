@@ -20,6 +20,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../../http/http_request.dart';
 import '../../http/api.dart';
+import 'package:doctor_project/pages/my/choice_department.dart';
 import 'dart:ui';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -54,11 +55,13 @@ class _SavePrescriptionState extends State<SavePrescription> {
   List checkDataList = []; //选中的诊断数组
   List chineseMedicineTypeList = [];
   List drugList = []; //选中的药品数组
+  List drugListParams = [];//药品传参数数组
   List<String> rpData = <String>[];
   List rpList = [];
   String rpTypeId = ''; //处方类型id
   String rpTypeName = ''; //处方分类
-
+  String departmentId = '';//科室id
+  String department = '';//科室名称
 
   List<String> tcmData = <String>[];
   List tcmList = [];
@@ -79,11 +82,14 @@ class _SavePrescriptionState extends State<SavePrescription> {
   double oneCountPrice = 0;//一剂药总价格
   String prescriptionId = ""; //处方id
 
+
   List priceList = [];//每种中药的总价
 
   List<String> useTypeList = [];
   List _freqTypeList = [];
+  String freq = "";
   List _useTypeList = [];
+  String useType = "";
   List _baseUnitList = [];
 
   List<String> freqTypeList = [];
@@ -95,33 +101,51 @@ class _SavePrescriptionState extends State<SavePrescription> {
   void initState() {
     super.initState();
 
-
-    loadtDataForPharmacy();
-    loadDataForBaseUnit();
-
     print('-------save----'+dataMap.toString());
     print('\n\n\n\n\n\n');
     if(dataMap['categoryCode']==1){
       tab1Active = true;
       tab2Active = false;
+      loadtDataForRP();
     }else {
       tab1Active = false;
       tab2Active = true;
       loadtDataForRP();
-
     }
+    loadtDataForPharmacy();
+    loadDataForBaseUnit();
+    loadDataForFreqTYpe();
+    loadDataForUseType();
 
-    rpName = dataMap['category'];
-    pharmacyName = dataMap['room'];
-    pharmacyId = dataMap['roomId'];
+    rpTypeName = dataMap["trType"];
+    rpName = dataMap['category'];//处方类型
+    pharmacyName = dataMap['room'];//药房
+    pharmacyId = dataMap['roomId'];//药房id
+    deptName = dataMap['deptName'];//科室名称
+    departmentId = dataMap['deptId'];//科室id
+    useType = dataMap['useType'];//使用方法
+    freq = dataMap['freq']; //频次
+    _editingController2.text = dataMap['remarks']; //备注
+    onceDosageDesc = dataMap['onceDosageDes'];//中药药方单次计量
 
-    if(null!=dataMap['cost']){
-      totalPrice = double.parse(dataMap['cost']);
-    }
-    drugList = dataMap['medicines'];
+    //处方金额（元）
+//    if(null!=dataMap['cost']){
+//      totalPrice = double.parse(dataMap['cost']);
+//    }
+    drugList = dataMap['medicines'];//药品列表
+    calculateThePrice();//计算总金额
 
+    (dataMap['diagnoses'] ?? []).forEach((item) {
+      Map map = {
+        "diagnosisName": item['diagnosisName'],
+        "isMain": item['isMaster'] == 1 ? true : false,
+        "id": item['id'],
+        "diagnosisId":item['diagnosisId']
+      };
+      checkDataList.add(map);
+    });
     (dataMap['diagnoses'] ?? []).forEach((element) {
-      diagnosisName.add(element['diagnosisName']!);
+      diagnosisName.add(element['diagnosisName']!);//诊断
     });
 
     chineseMedicineTypeList = [
@@ -135,16 +159,45 @@ class _SavePrescriptionState extends State<SavePrescription> {
       {
         'title': '单次剂量',
         'subTitle': 'ml',
-        'detail': dataMap['onceDosage'],
+        'detail': dataMap['onceDosageDes'],
         'isArrow': true,
         'value': ''
       },
-      {'title': '用法', 'detail':dataMap['useType'], 'isArrow': true, 'value': ''},
-      {'title': '频次', 'detail': dataMap['freq'], 'isArrow': true, 'value': ''}
+      {'title': '用法', 'detail':useType, 'isArrow': true, 'value': ''},
+      {'title': '频次', 'detail': freq, 'isArrow': true, 'value': ''}
     ];
+    chineseMedicineTypeList[0]["value"] = dataMap['countNum'];
+    chineseMedicineTypeList[1]["value"] = dataMap['onceDosage'];
+    print('drugList111111======'+drugList.toString());
+    drugListParams = drugList;
     stream = EventBusUtil.getInstance().on<Map>().listen((event) {
+      print('stream======'+event.toString());
+        Map item = new Map();
+        item['unitPrice']=event['unitprice'];
+        item['wmOnceDosage']=event['dosage'];
+        item['recipeTemplateId']='';
+        item['medicineNum']=event['count'];
+
+        item['totalPrice']=calculateUnitprice(event);
+        item['medicineId']=event['medicineid'];
+        item['packageUnit']=event['packageUnit'];
+        item['freq']=event['frequency'];
+        item['useTypeCode']=event['usagecode'];
+        item['specification']=event['specification'];
+        item['useType']=event['usage'];
+        item['dayNum']=event['medicationDays'];
+        item['medicineName']=event['medicinename'];
+
+        item['freqCode']=event['freqcode'];
+        item['id']='';
+        item['remarks']=event['remark'];
+        drugList.add(item);
+      print('drugList2222222======'+drugList.toString());
+      drugListParams.add(item);
+      print('drugListParams======'+drugListParams.toString());
+
+
       setState(() {
-        drugList.add(event);
         calculateThePrice();
       });
     });
@@ -158,33 +211,54 @@ class _SavePrescriptionState extends State<SavePrescription> {
     Map<String, dynamic> recipeTemplate;
     recipeTemplate = {
       'type': rpTypeId,
-      'category':dataMap['category'],
-      'roomId':dataMap['roomId'],
-      'useType':dataMap['useType'],
-      'freq':dataMap['freq'],
-      'countNum':dataMap['countNum'],
-      'onceDosage':dataMap['onceDosage'],
-      'onceDosageDes':dataMap['onceDosageDes'],
-      'remarks':dataMap['remarks'],
-      'cost':dataMap['cost']
+      'category':dataMap['categoryCode'],
+      'roomId':pharmacyId,
+      'useType':useType,
+      'freq':freq,
+      'countNum':chineseMedicineTypeList[0]["value"],
+      'onceDosage':chineseMedicineTypeList[1]["value"],
+      'onceDosageDes':onceDosageDesc,
+      'remarks':_editingController2.text.isEmpty
+          ? ""
+          : _editingController2.text,
+      'cost':totalPrice
     };
+
+    List diagnosisParams = []; //诊断传参数组
+    for (int i = 0; i < checkDataList.length; i++) {
+      Map item = new Map();
+      item["diagnosisId"] = checkDataList[i]["diagnosisId"];
+      item["isMaster"] = checkDataList[i]["isMain"] ? "1" : "0";
+      if(checkDataList.length<dataMap['diagnoses'].length){
+        item["deleteFlag"] = 0;
+      }else {
+        item["deleteFlag"] = 1;
+      }
+      item["id"]= checkDataList[i]['id'];
+      diagnosisParams.add(item);
+    }
+
     map = {
       'id':dataMap['id'],
-      'deptId':dataMap['deptId'],
+      'deptId':departmentId,
       'businessType':dataMap['businessType'],
       'name':dataMap['name'],
       'recipeTemplate':recipeTemplate,
-      'diagnoses':dataMap['diagnoses'],
-      'medicines':drugList
+      'diagnoses':diagnosisParams,
+      'medicines':drugListParams
     };
+
       var res =
       await HttpRequest.getInstance().post(Api.addOrEditRecipe, map);
+      print('map===='+map.toString());
+      print('res===='+res.toString());
       if (res['code'] == 200) {
         //请求成功
         Fluttertoast.showToast(msg: "保存成功", gravity: ToastGravity.CENTER);
         setState(() {
           prescriptionId = res['data'].toString();
         });
+        Navigator.pop(context);
       } else {
         Fluttertoast.showToast(msg: res['msg'], gravity: ToastGravity.CENTER);
       }
@@ -204,9 +278,10 @@ class _SavePrescriptionState extends State<SavePrescription> {
     totalPrice = 0;
     oneCountPrice = 0;
     priceList.clear();
+    print("drugList============="+drugList.toString());
     for (Map item in drugList) {
-      String unitprice = item['unitprice'].toString();
-      String count = item['count'].toString();
+      String unitprice = item['unitPrice'].toString();
+      String count = item['medicineNum'].toString();
       double price = double.parse(unitprice) * double.parse(count);
       Map <String, dynamic>priceMap;
       priceMap = {
@@ -234,7 +309,6 @@ class _SavePrescriptionState extends State<SavePrescription> {
     HttpRequest? request = HttpRequest.getInstance();
     var res = await request.get(Api.detailChildDicUrl + '?parentId=141', {});
     if (res['code'] == 200) {
-      print('------res'+res.toString());
       List data = res['data'];
       List<String> pickerData = [];
       for (var item in data) {
@@ -255,7 +329,6 @@ class _SavePrescriptionState extends State<SavePrescription> {
     var res = await request.get(Api.detailChildDicUrl + '?parentId=142', {});
     if (res['code'] == 200) {
       List data = res['data'];
-      print("loadtDataForTCM------" + data.toString());
       List<String> pickerData = [];
       for (var item in data) {
         pickerData.add(item['detailName']);
@@ -273,7 +346,6 @@ class _SavePrescriptionState extends State<SavePrescription> {
   loadtDataForPharmacy() async {
     HttpRequest? request = HttpRequest.getInstance();
     var res = await request.get(Api.pharmacyListUrl, {});
-    print("loadtDataForPharmacy------" + res.toString());
     if (res['code'] == 200) {
       List data = res['data'];
       List<String> pickerData = [];
@@ -291,7 +363,6 @@ class _SavePrescriptionState extends State<SavePrescription> {
   loadDataForUseType() async {
     HttpRequest? request = HttpRequest.getInstance();
     var res = await request.get(Api.dataDicUrl + '?dictId=${tab1Active ? 23 : 15}', {});
-    print("loadDataForUseType------" + res.toString());
 
     if (res['code'] == 200) {
       List data = res['data'];
@@ -313,7 +384,6 @@ class _SavePrescriptionState extends State<SavePrescription> {
         .get(Api.dataDicUrl + '?dictId=${tab1Active ? 16 : 21}', {});
     if (res['code'] == 200) {
       List data = res['data'];
-      print("loadDataForFreqTYpe------" + data.toString());
       List<String> pickerData = [];
       for (var item in data) {
         pickerData.add(item['detailName']);
@@ -331,7 +401,6 @@ class _SavePrescriptionState extends State<SavePrescription> {
     var res = await request.get(Api.dataDicUrl + '?dictId=19', {});
     if (res['code'] == 200) {
       List data = res['data'];
-      print("loadDataForBaseUnit------" + data.toString());
       List<String> pickerData = [];
       for (var item in data) {
         pickerData.add(item['detailName']);
@@ -364,6 +433,11 @@ class _SavePrescriptionState extends State<SavePrescription> {
         child: Text(data[i]),
         onPressed: () {
           Navigator.of(context).pop();
+          if(i == 2){
+            useType = _data[i];
+          }else if(i == 3){
+            freq = _data[i];
+          }
           item['detail'] = data[i];
           item['value'] = _data[i]['detailValue'];
           setState(() {
@@ -474,6 +548,15 @@ class _SavePrescriptionState extends State<SavePrescription> {
 
                 GestureDetector(
                   onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const ChoiceDepartment())).then((item) => {
+                      setState((){
+                        deptName = item.deptName;
+                        departmentId = item.deptId;
+                      })
+                    });
                   },
                   child: Container(
                     height: 44.0,
@@ -496,9 +579,7 @@ class _SavePrescriptionState extends State<SavePrescription> {
                         Row(
                           children: <Widget>[
                             Text(
-                              TextUtil.isEmpty(deptName)
-                                  ? dataMap['deptName']
-                                  : deptName,
+                              deptName,
                               style: GSYConstant.textStyle(
                                   color:'#666666'),
                             ),
@@ -613,7 +694,27 @@ class _SavePrescriptionState extends State<SavePrescription> {
                               type: tab1Active ? 1 : 0,
                               checkedDataList: checkDataList,
                             ))).then((value) {
+                              for(int i = 0;i<value.length;i++){
+                                for (int j = 0; j < checkDataList.length; j++) {
+                                  if(checkDataList[j]["diagnosisId"] == value[i]["id"]){
+                                     i++;
+                                     value.removeAt(i);
+                                     return;
+                                  }
+                                }
+                              }
+                              for(int i=0;i<value.length;i++){
+                                Map item = new Map();
+                                item['diagnosisId']=value[i]['id'];
+                                item['diagnosisName']= value[i]['dianame'];
+                                item['']= value[i]['diadesc'];
+                                item['']= value[i]['diacode'];
+                                item['isMaster']= value[i]['isMain'];
+                                item['id'] = '';
+                              }
+
                       checkDataList = value;
+                      print("checkDataList === "+checkDataList.toString());
                       List<String> str = [];
 
                       for (int i = 0; i < value.length; i++) {
@@ -700,9 +801,7 @@ class _SavePrescriptionState extends State<SavePrescription> {
                             Text(
                               pharmacyName,
                               style: GSYConstant.textStyle(
-                                  color: TextUtil.isEmpty(pharmacyId)
-                                      ? '#999999'
-                                      : '#666666'),
+                                  color: '#666666'),
                             ),
                             const SizedBox(
                               width: 10.0,
@@ -763,7 +862,6 @@ class _SavePrescriptionState extends State<SavePrescription> {
                                                     groupValue: _radioGroup,
                                                     onChanged:
                                                         (int? value) {
-                                                      print('1111111');
                                                       _radioGroup = value!;
                                                       if (value == 0) {
                                                         onceDosageDesc = '';
@@ -796,7 +894,6 @@ class _SavePrescriptionState extends State<SavePrescription> {
                                                     onChanged:
                                                         (int? value) {
                                                       _radioGroup = value!;
-                                                      print('ssss');
                                                       if (value == 0) {
                                                         onceDosageDesc = '';
                                                       }
@@ -1231,7 +1328,6 @@ class _SavePrescriptionState extends State<SavePrescription> {
                                       selectedDrugList: [],
                                       isYinpian: rpTypeName=='饮片'?true:false,
                                     ))).then((value) {
-                              print(value);
                               if (tab2Active) {
                                 //中药处方
                                 drugList.addAll(value);
@@ -1264,6 +1360,9 @@ class _SavePrescriptionState extends State<SavePrescription> {
                                 // flex: 2,
                                 onPressed: (BuildContext context) {
                                   setState(() {
+                                    drugList[index]['deleteFlag']=1;
+                                    drugListParams = drugList;
+                                    //此处需要请求一下修改接口
                                     drugList.removeAt(index);
                                     calculateThePrice();
                                   });
@@ -1707,6 +1806,7 @@ class _SavePrescriptionState extends State<SavePrescription> {
           child: CustomSafeAreaButton(
               title: '保存',
               onPressed: () {
+                getNet_createPrescription();
 
               }),
         )

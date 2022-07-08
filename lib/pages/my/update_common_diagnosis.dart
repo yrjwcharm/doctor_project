@@ -12,7 +12,6 @@ import 'package:doctor_project/widget/custom_safeArea_button.dart';
 import 'package:doctor_project/widget/custom_textField_input.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_pickers/pickers.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 

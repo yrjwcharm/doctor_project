@@ -323,7 +323,7 @@ class _AddDrugListState extends State<AddDrugList> {
                                   title: Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: <Widget>[
-                                      Text(detailDataList[index]["medicinename"] +" " +detailDataList[index]["specification"] +"  ", style: GSYConstant.textStyle(fontSize: 14.0,color:int.parse(detailDataList[index]['stockNum'])==0?'#999999': '#333333'),),
+                                      Text(detailDataList[index]["medicinename"] +" " +detailDataList[index]["specification"] +"  ", style: GSYConstant.textStyle(fontSize: 14.0,color:int.parse(detailDataList[index]['stockNum'])==0?'#999999': '#333333'),overflow: TextOverflow.ellipsis,maxLines: 1,),
                                       Expanded(child: Text(detailDataList[index]["manuname"],style: GSYConstant.textStyle(fontSize: 14.0,color: '#999999'),overflow: TextOverflow.ellipsis,maxLines: 1,),),
                                     ],
                                   ),
