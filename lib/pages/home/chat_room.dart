@@ -140,7 +140,6 @@ class _ChatPageState extends State<ChatPage> {
       setState(() {});
     }
   }
-
   @override
   void dispose() {
     destroyEngine();
