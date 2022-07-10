@@ -23,7 +23,7 @@ listRow({required String title, required String detail, GestureTapCallback? onTa
             border: Border(
                 bottom: BorderSide(
                     color: ColorsUtil.hexStringColor('#cccccc', alpha: 0.3),
-                    width: 1.0))),
+                    width: 0.5))),
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         height: 43.0,
         child: Row(
@@ -69,7 +69,7 @@ class _CreateTemplateState extends State<CreateTemplate> {
                           bottom: BorderSide(
                               color: ColorsUtil.hexStringColor('#cccccc',
                                   alpha: 0.3),
-                              width: 1.0))),
+                              width: 0.5))),
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   height: 43.0,
                   child: Row(

@@ -663,7 +663,7 @@ class _RecipeDetailState extends State<RecipeDetail> {
                                 color: Colors.white,
                                 border: Border(
                                     bottom: BorderSide(
-                                  width: 1.0,
+                                  width: 0.5,
                                   color: ColorsUtil.hexStringColor('#cccccc',
                                       alpha: 0.3),
                                 ))),
@@ -679,7 +679,7 @@ class _RecipeDetailState extends State<RecipeDetail> {
                               decoration: BoxDecoration(
                                 border: Border(
                                     bottom: BorderSide(
-                                        width: 1.0,
+                                        width: 0.5,
                                         color: ColorsUtil.hexStringColor(
                                             '#cccccc',
                                             alpha: 0.3))),
@@ -713,7 +713,7 @@ class _RecipeDetailState extends State<RecipeDetail> {
                               decoration: BoxDecoration(
                                 border: Border(
                                     bottom: BorderSide(
-                                        width: 1.0,
+                                        width: 0.5,
                                         color: ColorsUtil.hexStringColor(
                                             '#cccccc',
                                             alpha: 0.3))),
@@ -749,7 +749,7 @@ class _RecipeDetailState extends State<RecipeDetail> {
                                   decoration: BoxDecoration(
                                     border: Border(
                                         bottom: BorderSide(
-                                            width: 1.0,
+                                            width: 0.5,
                                             color: ColorsUtil.hexStringColor(
                                                 '#cccccc',
                                                 alpha: 0.3))),
@@ -1334,7 +1334,7 @@ class _RecipeDetailState extends State<RecipeDetail> {
                                                                         alignment:
                                                                             Alignment.center,
                                                                         decoration:
-                                                                            BoxDecoration(border: Border(right: BorderSide(width: 0.5, color: ColorsUtil.hexStringColor('#cccccc', alpha: 0.4)), top: BorderSide(width: 1.0, color: ColorsUtil.hexStringColor('#cccccc', alpha: 0.4)))),
+                                                                            BoxDecoration(border: Border(right: BorderSide(width: 0.5, color: ColorsUtil.hexStringColor('#cccccc', alpha: 0.4)), top: BorderSide(width: 0.5, color: ColorsUtil.hexStringColor('#cccccc', alpha: 0.4)))),
                                                                         child:
                                                                             Text(
                                                                           '取消',

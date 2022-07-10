@@ -17,7 +17,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       this.titleColor = '#333333',
       this.startColor = Colors.white,
       this.endColor = Colors.white,
-      this.child=const SizedBox.shrink(), this.border= const Border(bottom:BorderSide(width: 1.0,color: Color.fromRGBO(204, 204, 204,0.3))), this.padding =const EdgeInsets.only(right: 16.0)})
+      this.child=const SizedBox.shrink(), this.border= const Border(bottom:BorderSide(width: 0.5,color: Color.fromRGBO(204, 204, 204,0.3))), this.padding =const EdgeInsets.only(right: 16.0)})
       : super(key: key);
   final bool isBack;
   final String title;

@@ -103,7 +103,7 @@ class _CommonDiagnosisState extends State<CommonDiagnosis> {
           padding: const EdgeInsets.all(16.0),
           decoration: BoxDecoration(
             color: Colors.white,
-            border: Border(bottom: BorderSide(color: ColorsUtil.hexStringColor('#cccccc',alpha: 0.3)))
+            border: Border(bottom: BorderSide(width: 0.5, color: ColorsUtil.hexStringColor('#cccccc',alpha: 0.3)))
           ),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,

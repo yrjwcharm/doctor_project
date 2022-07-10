@@ -180,7 +180,7 @@ class _CommonRpState extends State<CommonRp> {
                                         borderRadius:
                                         BorderRadius.circular(10.0),
                                         border: Border.all(
-                                            width: 1.0,
+                                            width: 0.5,
                                             color: ColorsUtil.hexStringColor(
                                                 '#06b48d'))),
                                     padding: const EdgeInsets.symmetric(

@@ -92,7 +92,7 @@ class _CommonWordsState extends State<CommonWords> {
                 border: Border(
                     bottom: BorderSide(
                         color: ColorsUtil.hexStringColor('#cccccc', alpha: 0.3),
-                        width: 1.0))),
+                        width: 0.5))),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[

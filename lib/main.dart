@@ -49,19 +49,8 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration.zero,(){
-      ToastUtil.showToast(msg: '测试热修复');
-    });
     initJpush();
   }
-
-  // getLoginState() async{
-  //   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-  //   String isLogin = sharedPreferences.getString('tokenValue');
-  // }
-
-  //  监听极光推送 (自定义的方法)
-  //  https://github.com/jpush/jpush-flutter-plugin/blob/master/documents/APIs.md
   initJpush() async {
     // 初始化
     JPush jpush = JPush();

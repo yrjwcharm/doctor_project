@@ -46,6 +46,7 @@ class _TemplateCreateState extends State<TemplateCreate> {
             children: ListTile.divideTiles(
                 color: ColorsUtil.hexStringColor('#cccccc', alpha: 0.3),
                 tiles: list.asMap().keys.map((index) => ListTile(
+
                       onTap: (){
                         switch(index){
                           case 0:

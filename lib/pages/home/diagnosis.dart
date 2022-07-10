@@ -260,7 +260,7 @@ class _DiagnosisState extends State<Diagnosis> {
                   child: SvgUtil.svg('add_zhenduan.svg'),
                 )),
             Divider(
-              height: 1.0,
+              height: 0.5,
               color: ColorsUtil.hexStringColor('#cccccc', alpha: 0.3),
             )
           ],
@@ -523,7 +523,7 @@ class _DiagnosisState extends State<Diagnosis> {
                           },
                         ),
                         Divider(
-                          height: 1.0,
+                          height: 0.5,
                           color:
                           ColorsUtil.hexStringColor('#cccccc', alpha: 0.3),
                         )

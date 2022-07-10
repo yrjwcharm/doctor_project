@@ -47,7 +47,7 @@ class _VerifyMobileState extends State<VerifyMobile>  {
              margin: const EdgeInsets.only(top: 33.0,left: 16.0,right: 16.0),
              padding: const EdgeInsets.symmetric(vertical: 12.0),
              decoration: BoxDecoration(
-               border: Border(bottom: BorderSide(width: 1.0,color: ColorsUtil.hexStringColor('#cccccc')))
+               border: Border(bottom: BorderSide(width: 0.5,color: ColorsUtil.hexStringColor('#cccccc')))
              ),
              child: Row(
                children: <Widget>[

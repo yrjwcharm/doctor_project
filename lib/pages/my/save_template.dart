@@ -511,7 +511,7 @@ class _SavePrescriptionState extends State<SavePrescription> {
                       color: Colors.white,
                       border: Border(
                           bottom: BorderSide(
-                            width: 1.0,
+                            width: 0.5,
                             color:
                             ColorsUtil.hexStringColor('#cccccc', alpha: 0.3),
                           ))),
@@ -565,7 +565,7 @@ class _SavePrescriptionState extends State<SavePrescription> {
                         color: Colors.white,
                         border: Border(
                             bottom: BorderSide(
-                              width: 1.0,
+                              width: 0.5,
                               color:
                               ColorsUtil.hexStringColor('#cccccc', alpha: 0.3),
                             ))),
@@ -603,7 +603,7 @@ class _SavePrescriptionState extends State<SavePrescription> {
                       color: Colors.white,
                       border: Border(
                           bottom: BorderSide(
-                            width: 1.0,
+                            width: 0.5,
                             color:
                             ColorsUtil.hexStringColor('#cccccc', alpha: 0.3),
                           ))),
@@ -659,7 +659,7 @@ class _SavePrescriptionState extends State<SavePrescription> {
                         color: Colors.white,
                         border: Border(
                             bottom: BorderSide(
-                              width: 1.0,
+                              width: 0.5,
                               color:
                               ColorsUtil.hexStringColor('#cccccc', alpha: 0.3),
                             ))),
@@ -735,7 +735,7 @@ class _SavePrescriptionState extends State<SavePrescription> {
                         color: Colors.white,
                         border: Border(
                             bottom: BorderSide(
-                              width: 1.0,
+                              width: 0.5,
                               color:
                               ColorsUtil.hexStringColor('#cccccc', alpha: 0.3),
                             ))),
@@ -785,7 +785,7 @@ class _SavePrescriptionState extends State<SavePrescription> {
                         color: Colors.white,
                         border: Border(
                             bottom: BorderSide(
-                              width: 1.0,
+                              width: 0.5,
                               color:
                               ColorsUtil.hexStringColor('#cccccc', alpha: 0.3),
                             ))),
@@ -925,7 +925,7 @@ class _SavePrescriptionState extends State<SavePrescription> {
                                                       // margin: const EdgeInsets.symmetric(horizontal: 16.0),
                                                       decoration: BoxDecoration(
                                                           border: Border.all(
-                                                              width: 1.0,
+                                                              width: 0.5,
                                                               color: ColorsUtil
                                                                   .hexStringColor(
                                                                   '#cccccc',
@@ -1013,7 +1013,7 @@ class _SavePrescriptionState extends State<SavePrescription> {
                                                         horizontal: 16.0),
                                                     decoration: BoxDecoration(
                                                         border: Border.all(
-                                                            width: 1.0,
+                                                            width: 0.5,
                                                             color: ColorsUtil
                                                                 .hexStringColor(
                                                                 '#cccccc',
@@ -1162,7 +1162,7 @@ class _SavePrescriptionState extends State<SavePrescription> {
                                   color: Colors.white,
                                   border: Border(
                                       bottom: BorderSide(
-                                        width: 1.0,
+                                        width: 0.5,
                                         color: ColorsUtil.hexStringColor(
                                             '#cccccc',
                                             alpha: 0.3),
@@ -1381,7 +1381,7 @@ class _SavePrescriptionState extends State<SavePrescription> {
                                   color: Colors.white,
                                   border: Border(
                                       bottom: BorderSide(
-                                        width: 1.0,
+                                        width: 0.5,
                                         color: ColorsUtil.hexStringColor(
                                             '#cccccc',
                                             alpha: 0.3),
@@ -1531,7 +1531,7 @@ class _SavePrescriptionState extends State<SavePrescription> {
                                   color: Colors.white,
                                   border: Border(
                                       bottom: BorderSide(
-                                        width: 1.0,
+                                        width: 0.5,
                                         color: ColorsUtil.hexStringColor(
                                             '#cccccc',
                                             alpha: 0.3),
@@ -1659,7 +1659,7 @@ class _SavePrescriptionState extends State<SavePrescription> {
                           color: Colors.white,
                           border: Border(
                               bottom: BorderSide(
-                                width: 1.0,
+                                width: 0.5,
                                 color: ColorsUtil.hexStringColor(
                                     '#cccccc',
                                     alpha: 0.3),

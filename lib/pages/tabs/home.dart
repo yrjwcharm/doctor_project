@@ -437,7 +437,7 @@ class HomeState extends State<Home> {
                                                                           alpha:
                                                                               0.4)),
                                                               top: BorderSide(
-                                                                  width: 1.0,
+                                                                  width: 0.5,
                                                                   color: ColorsUtil
                                                                       .hexStringColor(
                                                                           '#cccccc',

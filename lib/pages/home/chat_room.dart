@@ -803,7 +803,7 @@ class _ChatPageState extends State<ChatPage> {
                                           decoration: BoxDecoration(
                                               border: Border(
                                                   top: BorderSide(
-                                                      width: 1.0,
+                                                      width: 0.5,
                                                       color: ColorsUtil
                                                           .hexStringColor(
                                                               '#cccccc',

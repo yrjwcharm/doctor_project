@@ -113,7 +113,7 @@ class _VideoTopicState extends State<VideoTopic> {
                     decoration: BoxDecoration(
                         border: Border(
                             top: BorderSide(
-                                width: 1.0,
+                                width: 0.5,
                                 color: ColorsUtil.hexStringColor('#cccccc',
                                     alpha: 0.4)))),
                     child: CustomElevatedButton(

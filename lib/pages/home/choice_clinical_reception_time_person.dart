@@ -489,7 +489,7 @@ class _ChoiceClinicReceptTimePersonState
                                           borderRadius:
                                               BorderRadius.circular(5.0),
                                           border: Border.all(
-                                              width: 1.0,
+                                              width: 0.5,
                                               color: ColorsUtil.hexStringColor(
                                                   '#cccccc',
                                                   alpha: 0.3))),
@@ -588,7 +588,7 @@ class _ChoiceClinicReceptTimePersonState
                                           borderRadius:
                                               BorderRadius.circular(5.0),
                                           border: Border.all(
-                                              width: 1.0,
+                                              width: 0.5,
                                               color: ColorsUtil.hexStringColor(
                                                   '#cccccc',
                                                   alpha: 0.3))),

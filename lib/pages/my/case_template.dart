@@ -189,11 +189,11 @@ class _CaseTemplateState extends State<CaseTemplate> {
                         ),
                       ),
                       Container(
-                        width: 1.0,
+                        width: 0.5,
                         height: 25.0,
                         decoration: BoxDecoration(
                           border: Border.all(
-                              width: 1.0,
+                              width: 0.5,
                               color: ColorsUtil.hexStringColor('#cccccc',
                                   alpha: 0.4)),
                         ),
@@ -207,11 +207,11 @@ class _CaseTemplateState extends State<CaseTemplate> {
                         ),
                       ),
                       Container(
-                        width: 1.0,
+                        width: 0.5,
                         height: 25.0,
                         decoration: BoxDecoration(
                           border: Border.all(
-                              width: 1.0,
+                              width: 0.5,
                               color: ColorsUtil.hexStringColor('#cccccc',
                                   alpha: 0.4)),
                         ),

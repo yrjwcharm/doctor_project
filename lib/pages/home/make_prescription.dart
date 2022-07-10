@@ -629,7 +629,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
                         color: Colors.white,
                         border: Border(
                             bottom: BorderSide(
-                          width: 1.0,
+                          width: 0.5,
                           color:
                               ColorsUtil.hexStringColor('#cccccc', alpha: 0.3),
                         ))),
@@ -687,7 +687,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
                         color: Colors.white,
                         border: Border(
                             bottom: BorderSide(
-                          width: 1.0,
+                          width: 0.5,
                           color:
                               ColorsUtil.hexStringColor('#cccccc', alpha: 0.3),
                         ))),
@@ -746,7 +746,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
                         color: Colors.white,
                         border: Border(
                             bottom: BorderSide(
-                          width: 1.0,
+                          width: 0.5,
                           color:
                               ColorsUtil.hexStringColor('#cccccc', alpha: 0.3),
                         ))),
@@ -801,7 +801,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
                         color: Colors.white,
                         border: Border(
                             bottom: BorderSide(
-                          width: 1.0,
+                          width: 0.5,
                           color:
                               ColorsUtil.hexStringColor('#cccccc', alpha: 0.3),
                         ))),
@@ -947,7 +947,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
                                                           // margin: const EdgeInsets.symmetric(horizontal: 16.0),
                                                           decoration: BoxDecoration(
                                                               border: Border.all(
-                                                                  width: 1.0,
+                                                                  width: 0.5,
                                                                   color: ColorsUtil
                                                                       .hexStringColor(
                                                                           '#cccccc',
@@ -1035,7 +1035,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
                                                             horizontal: 16.0),
                                                         decoration: BoxDecoration(
                                                             border: Border.all(
-                                                                width: 1.0,
+                                                                width: 0.5,
                                                                 color: ColorsUtil
                                                                     .hexStringColor(
                                                                         '#cccccc',
@@ -1184,7 +1184,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
                                       color: Colors.white,
                                       border: Border(
                                           bottom: BorderSide(
-                                        width: 1.0,
+                                        width: 0.5,
                                         color: ColorsUtil.hexStringColor(
                                             '#cccccc',
                                             alpha: 0.3),
@@ -1402,7 +1402,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
                                           color: Colors.white,
                                           border: Border(
                                               bottom: BorderSide(
-                                            width: 1.0,
+                                            width: 0.5,
                                             color: ColorsUtil.hexStringColor(
                                                 '#cccccc',
                                                 alpha: 0.3),
@@ -1554,7 +1554,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
                                           color: Colors.white,
                                           border: Border(
                                               bottom: BorderSide(
-                                            width: 1.0,
+                                            width: 0.5,
                                             color: ColorsUtil.hexStringColor(
                                                 '#cccccc',
                                                 alpha: 0.3),
@@ -1689,7 +1689,7 @@ class _MakePrescriptionState extends State<MakePrescription> {
                               color: Colors.white,
                               border: Border(
                                   bottom: BorderSide(
-                                width: 1.0,
+                                width: 0.5,
                                 color: ColorsUtil.hexStringColor('#cccccc',
                                     alpha: 0.3),
                               ))),

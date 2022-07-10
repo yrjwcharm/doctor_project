@@ -283,7 +283,7 @@ class _MyPrescriptionState extends State<MyPrescription> {
                                 color: Colors.white,
                                 border: Border(
                                     bottom: BorderSide(
-                                        width: 1.0,
+                                        width: 0.5,
                                         color: ColorsUtil.hexStringColor(
                                             '#cccccc',
                                             alpha: 0.3)))),

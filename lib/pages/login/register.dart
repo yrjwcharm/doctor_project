@@ -174,7 +174,7 @@ class RegisterContentStates extends State<RegisterContent> {
                 ),
                 Container(
                   child: Divider(
-                    height: 1.0,
+                    height: 0.5,
                     indent: 0.0,
                     color: Color.fromARGB(255, 239, 239, 239),
                   ),
@@ -229,7 +229,7 @@ class RegisterContentStates extends State<RegisterContent> {
                 ),
                 Container(
                   child: Divider(
-                    height: 1.0,
+                    height: 0.5,
                     indent: 0.0,
                     color: Color.fromARGB(255, 239, 239, 239),
                   ),
@@ -288,7 +288,7 @@ class RegisterContentStates extends State<RegisterContent> {
                 ),
                 Container(
                   child: Divider(
-                    height: 1.0,
+                    height: 0.5,
                     indent: 0.0,
                     color: Color.fromARGB(255, 239, 239, 239),
                   ),

@@ -152,7 +152,7 @@ class PatientState extends State<Patient> {
             ),
           ),
           Divider(
-              height: 1,
+              height: 0.5,
               color: ColorsUtil.hexStringColor('#cccccc', alpha: 0.3)),
           Container(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),

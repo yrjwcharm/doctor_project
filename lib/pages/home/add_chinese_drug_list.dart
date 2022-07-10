@@ -210,7 +210,7 @@ class _AddChineseMedicineListState extends State<AddChineseMedicineList> {
                     decoration: BoxDecoration(
                       color: Colors.transparent,
                       border: Border.all(
-                          width: 1.0,
+                          width: 0.5,
                           color: ColorsUtil.hexStringColor(
                             '#999999',
                           )),
@@ -329,7 +329,7 @@ class _AddChineseMedicineListState extends State<AddChineseMedicineList> {
                               ),
                               decoration: BoxDecoration(
                                   color:Colors.white,
-                                  border: Border(bottom: BorderSide(width: 1.0,color: ColorsUtil.hexStringColor('#cccccc',alpha: 0.3)))
+                                  border: Border(bottom: BorderSide(width: 0.5,color: ColorsUtil.hexStringColor('#cccccc',alpha: 0.3)))
                               ),
                             ),
                           );

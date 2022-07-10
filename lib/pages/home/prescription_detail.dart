@@ -583,7 +583,7 @@ class _PrescriptDetailState extends State<PrescriptDetail> {
               //                       constraints: const BoxConstraints(maxHeight: 104.0,minHeight: 104.0),
               //                       decoration: BoxDecoration(
               //                         borderRadius: BorderRadius.circular(5.0),
-              //                         border:Border.all(width: 1.0,color: ColorsUtil.hexStringColor('#cccccc',alpha: 0.3))
+              //                         border:Border.all(width: 0.5,color: ColorsUtil.hexStringColor('#cccccc',alpha: 0.3))
               //                       ),
               //                       child:TextField(
               //                         cursorColor: ColorsUtil.hexStringColor('#666666'),
