@@ -4,6 +4,7 @@ import 'package:doctor_project/pages/home/make_prescription.dart';
 import 'package:doctor_project/pages/login/login.dart';
 import 'package:doctor_project/pages/login/register.dart';
 import 'package:doctor_project/pages/tabs/main.dart';
+import 'package:doctor_project/utils/toast_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -48,6 +49,9 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
+    Future.delayed(Duration.zero,(){
+      ToastUtil.showToast(msg: '测试热修复');
+    });
     initJpush();
   }
 

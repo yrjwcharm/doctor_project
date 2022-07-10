@@ -22,6 +22,8 @@ if (flutterVersionName == null) {
 }
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+apply plugin: 'hannibal'
+
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 def keystorePropertiesFile = rootProject.file("key.properties")
 
@@ -32,7 +34,7 @@ def releaseTime() {
     return new Date().format("yyyy_MM_dd", TimeZone.getTimeZone("UTC"))
 }
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -51,7 +53,7 @@ android {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.sinosoft.doctor_project"
         minSdkVersion 21
-        targetSdkVersion 30
+        targetSdkVersion 31
         multiDexEnabled true
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
@@ -93,15 +95,19 @@ flutter {
 }
 
 dependencies {
+    implementation 'com.tencent.tinker:tinker-android-lib:1.9.14.6'
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation files('libs/flutterpatch.aar')
     implementation 'com.jakewharton:process-phoenix:2.1.2'
+    implementation 'com.aliyun.ams:alicloud-android-hotfix:3.3.5'
     implementation 'com.tencent.bugly:crashreport:latest.release' //其中latest.release指代最新Bugly SDK版本号，也可以指定明确的版本号，例如4.0.3
     implementation 'com.android.support:multidex:1.0.3'
 //    implementation 'com.qcloud.cos:cos-android:5.7.+'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
-configurations.all {
-    resolutionStrategy {
-        force 'androidx.core:core:1.6.0'
-        force 'androidx.core:core-ktx:1.6.0'
-    }
-}
+//configurations.all {
+//    resolutionStrategy {
+//        force 'androidx.core:core:1.6.0'
+//        force 'androidx.core:core-ktx:1.6.0'
+//    }
+//}

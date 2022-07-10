@@ -2,11 +2,18 @@ buildscript {
     ext.kotlin_version = '1.6.0'
     repositories {
         google()
+        maven { url 'https://jitpack.io' }
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+        maven { url 'https://maven.aliyun.com/repository/google/' }
+        maven { url 'https://maven.aliyun.com/repository/jcenter/' }
+        maven { url 'http://download.flutter.io' }
         mavenCentral()
+
     }
 
     dependencies {
         classpath 'com.android.tools.build:gradle:3.6.4'
+        classpath 'com.github.magicbaby810:hannibal:1.0.9'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
@@ -15,6 +22,12 @@ allprojects {
     repositories {
         google()
         mavenCentral()
+
+        maven { url 'https://jitpack.io' }
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+        maven { url 'https://maven.aliyun.com/repository/google/' }
+        maven { url 'https://maven.aliyun.com/repository/jcenter/' }
+        maven { url 'http://download.flutter.io' }
         maven {
             url 'http://maven.aliyun.com/nexus/content/repositories/releases/'
         }
